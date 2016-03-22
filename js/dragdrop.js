@@ -56,7 +56,7 @@ interact('.drag-element')
 			clone.className = clone.className.replace(/\bdrag-element-source\b/,''); // Remove CSS class - http://stackoverflow.com/a/2155786/4972844
 			
 			//TODO: move the clone to the mouse, or the location of the source
-			// insert the clone to the page			
+			// insert the clone to the page		
 			document.getElementById('form-container').appendChild(clone); 
 			
 			// start a drag interaction targeting the clone

@@ -34,6 +34,7 @@ div {
     left: 0px;
     background-color: #fff; 
     border: 1px solid #ff0000;
+	width:200px;
 }
 
 .drag-element.can-drop {
@@ -46,9 +47,8 @@ div {
 }
 
 .drag-element-source {
-    position: relative;
+    position: absolute;
     float: left;
-    display: block;
     margin-right: 6px;
 }
 

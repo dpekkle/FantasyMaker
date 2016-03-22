@@ -2,14 +2,11 @@ goog.provide('clickBehaviour')
 
 
 
-function collapseFunc(element){
-	
-	var parent = element.parentNode.parentNode;
-	console.log("Parent: ", parent.className)
-	
-	for (var i = 0; i < parent.childNodes.length; i++)
+function collapse(element)
+{
+	for (var i = 0; i < element.childNodes.length; i++)
 	{
-		var child = parent.childNodes[i];
+		var child = element.childNodes[i];
 		if (child.className == "content") //we're looking for the content we want to minimise
 		{
 			if (child.style.display == "none")
@@ -18,6 +15,14 @@ function collapseFunc(element){
 				child.style.display = "none";
 		}
 	}
+}
+
+function collapseFromChild(element){
+	
+	var parent = element.parentNode.parentNode;
+	console.log("Parent: ", parent.className)
+	
+	collapse(parent);
 
 }
 

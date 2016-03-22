@@ -1,3 +1,29 @@
+
+
+.header{
+    background-color:#d3d3d3;
+    padding: 2px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.pagetext{
+	resize: none;
+	width:100%;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+}
+
+/*
+#page-elem {
+    background-color:#d3d3d3;
+    padding: 2px;
+    cursor: pointer;
+    font-weight: bold;
+}*/
+/*
 .container {
     width:100%;
     border:1px solid #d3d3d3;
@@ -5,13 +31,8 @@
 .container div {
     width:100%;
 }
-.container .header {
-    background-color:#d3d3d3;
-    padding: 2px;
-    cursor: pointer;
-    font-weight: bold;
 }
-.container .content {
+.content {
     display: none;
     padding : 5px;
-}
+}*/

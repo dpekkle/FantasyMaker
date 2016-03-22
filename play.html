@@ -5,8 +5,8 @@
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="description" content="Fantasymaker : ">
 		
-		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/framework.css">	
 		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/interact.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/page-element.css">
 		
 		<title>Fantasymaker</title>
 	</head>
@@ -17,26 +17,27 @@
 		<div id="drag-container" draggable="false">
 			<!-- Holds all the elements we can clone -->
 			<div id="form-container" draggable="false">
-				<!-- Page element -->
+				<!-- Page element template -->
 				<div id = "page-elem" class="drag-element-source drag-element">	
+				
 					<!-- Content of page element -->
 					<div class="header">
-						<span ondblclick ="collapseFunc(this)">Page</span>
+						<p ondblclick ="collapseFromChild(this)" style="text-align:center;">Page</p>
 					</div>
 					<div class="content">
-						<textarea rows="4" cols="30" style="resize: none;">
+						<textarea rows="10" cols="50" class = "pagetext">
 							"Lorem Ipsum yada Quintuis"
 						</textarea>
 					</div>
 				</div>	
-				
-				<div id = "link-elem" class="drag-element-source drag-element">	
+				<!-- Some other element template -->
+				<div id = "link-elem" class="drag-element-source drag-element" style="margin-left:200px;">	
 					<!-- Content of page element -->
 					<div class="header">
-						<img src = "images/lock-icon.png"></img>
+						<img src = "images/lock-icon.png" ondblclick ="collapseFromChild(this)"></img>
 					</div>
 					<div class="content">
-						<textarea rows="4" cols="30" style="resize: none;">
+						<textarea rows="4" cols="30" class = "pagetext">
 							"Different!"
 						</textarea>
 					</div>
@@ -48,9 +49,7 @@
 		</div>
 
 	</body>
-	<script src="js/lib/interact.js"></script>
-	<script src="js/lib/jquery-2.2.2.min.js"></script>
-	
+	<script src="js/lib/interact.js"></script>	
 	<script src="js/dev.min.js">	
 	</script>
   
