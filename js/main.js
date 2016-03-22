@@ -1,6 +1,4 @@
-goog.require('extra')
-goog.require('extra2')
+goog.require('dragdrog')
+goog.require('clickBehaviour')
 
-var x = "User who is named something!";
-hello(x);
-changeButton(document.getElementById("button1"), "Test text");
+console.log("Hello World");

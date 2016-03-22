@@ -4,20 +4,53 @@
 		<meta charset='utf-8'>
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="description" content="Fantasymaker : ">
-
+		
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/framework.css">	
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/interact.css">
+		
 		<title>Fantasymaker</title>
 	</head>
 
-	<body>
-		<!-- MAIN CONTENT -->
-		<div>
-			Test: <input type = "text" value = hi></input>
-			<br><br>
-			Button: <button id = "button1" onclick = "testclick">Hello</button>
+	<body draggable="false"> <!-- all this does is prevent you from dragging the page and other elements using browser native techniques-->
+	
+		<!-- Area where drags are permissable, blue dotted border -->
+		<div id="drag-container" draggable="false">
+			<!-- Holds all the elements we can clone -->
+			<div id="form-container" draggable="false">
+				<!-- Page element -->
+				<div id = "page-elem" class="drag-element-source drag-element">	
+					<!-- Content of page element -->
+					<div class="header">
+						<span ondblclick ="collapseFunc(this)">Page</span>
+					</div>
+					<div class="content">
+						<textarea rows="4" cols="30" style="resize: none;">
+							"Lorem Ipsum yada Quintuis"
+						</textarea>
+					</div>
+				</div>	
+				
+				<div id = "link-elem" class="drag-element-source drag-element">	
+					<!-- Content of page element -->
+					<div class="header">
+						<img src = "images/lock-icon.png"></img>
+					</div>
+					<div class="content">
+						<textarea rows="4" cols="30" style="resize: none;">
+							"Different!"
+						</textarea>
+					</div>
+				</div>					
+			</div>	
+			<!-- Area where we can place and move around elements -->
+			<div id="drop-container" >
+			</div>
 		</div>
 
-
 	</body>
+	<script src="js/lib/interact.js"></script>
+	<script src="js/lib/jquery-2.2.2.min.js"></script>
+	
 	<script src="js/dev.min.js">	
 	</script>
   
