@@ -20,7 +20,6 @@ var cy = cytoscape({
 				'text-opacity': 1,
 				'text-valign': 'center',
 				'text-halign': 'center',
-				'background-color': '#777777',
 				'border-width': 5,
 				'border-opacity': 0,
 			}
@@ -48,14 +47,17 @@ var cy = cytoscape({
 		{
 			selector: '.page',
 			style:{
-				'shape': 'roundrectangle'
+				'shape': 'roundrectangle',
+				'background-color': 'light-gray',
+
 			}
 			
 		},
 		{
 			selector: '.decision',
 			style:{
-				'shape': 'ellipse'
+				'shape': 'ellipse',
+				'background-color': 'red',
 			}
 			
 		},

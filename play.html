@@ -9,18 +9,21 @@
 
   <body>
 	<h1> Demo </h1>
+	
   	<div id="cy"></div> <!--cytoscape canvas -->
+	<div id="sidebar">
+		<button class="pagemode button" onclick=changeState(this)>Create Page</button>
+		<button class="decisionmode button" onclick=changeState(this)>Create Decision</button>
+		<button class="connectionmode button" onclick=changeState(this)>New Connection</button>
+	</div>
 	
 	<div id="editelement">
 		<div id="editpage">
 			<p id="pagename"></p>
-			<button class="linkbutton" onclick=newConnection(this)>New link</button>
 			<textarea id="pagetext"></textarea>
 		</div>
 		<div id="editdecision">
 			<p id="decisionname"></p>
-			<button class="linkbutton" onclick=newConnection(this)>New link</button>
-
 		</div>
 	</div>
 	

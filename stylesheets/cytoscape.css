@@ -24,6 +24,14 @@ body {
 	display: none;
 }
 
-#linkbutton{
-	background-color = #dddddd;
+.button{
+	background-color: #dddddd;
+}
+
+.activebutton{
+	background-color: green;
+}
+
+.connectionmode{
+	display: none;
 }
