@@ -8,7 +8,7 @@ total_pages = 0;
 //little state enum for the current state the canvas is in
 states = {
 	DEFAULT: 0,
-	CONNECTING: 1, //i.e. connecting two pages
+	CONNECTING: 1, //i.e. connecting two nodes with an edge
 };
 
 current_state = states.DEFAULT;
@@ -27,7 +27,7 @@ cy.on('tap', function(event){
 	}
 	else
 	{
-
+		//we clicked an element
 	}
 })
 
@@ -54,7 +54,14 @@ cy.on('select', function(event){
 
 	}
 	
-	if (element.hasClass('page'))
+	if (element.hasClass('decision'))
+	{
+		$("#editdecision").show();
+		
+		$("#decisionname").text("Decision " + element.data('id'));
+	}
+	
+	else if (element.hasClass('page'))
 	{
 		$("#editpage").show();		
 		
@@ -62,11 +69,7 @@ cy.on('select', function(event){
 		document.getElementById("pagetext").value = element.data('text'); //jquery dodgey with textarea
 		
 	}
-	else if (element.hasClass('decision'))
-	{
-		$("#editdecision").show();
-		$("#decisionname").text("Decision " + element.data('id'));
-	}
+
 })
 
 cy.on('unselect', function(event)
