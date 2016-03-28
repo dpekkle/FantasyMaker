@@ -1,5 +1,7 @@
 goog.provide('dragdrog')
+
 goog.require('clickBehaviour')
+goog.require('saveload')
 
 //defines the behaviour of all elements with the CSS class type "drag-element"
 interact('.drag-element')
@@ -55,9 +57,11 @@ interact('.drag-element')
 					
 			clone.className = clone.className.replace(/\bdrag-element-source\b/,''); // Remove CSS class - http://stackoverflow.com/a/2155786/4972844
 			
-			//TODO: move the clone to the mouse, or the location of the source
-			// insert the clone to the page		
+			//TODO: make this append to a table rather than using hardcoding margins?
 			document.getElementById('form-container').appendChild(clone); 
+			
+			//save the clone
+			addToSave(clone);
 			
 			// start a drag interaction targeting the clone
 			interaction.start({ name: 'drag' }, event.interactable, clone);	

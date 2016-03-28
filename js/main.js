@@ -1,7 +1,5 @@
-goog.require('dragdrog')
-goog.require('clickBehaviour')
+goog.require('initCanvas')
+goog.require('interactCanvas')
+goog.require('ui')
 
-console.log("Hello World");
-
-collapse(document.getElementById("page-elem"));
-collapse(document.getElementById("link-elem"));
+console.log("Enter main.js")

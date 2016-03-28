@@ -1,56 +1,33 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset='utf-8'>
-		<meta http-equiv="X-UA-Compatible" content="chrome=1">
-		<meta name="description" content="Fantasymaker : ">
-		
-		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/interact.css">
-		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/page-element.css">
-		
-		<title>Fantasymaker</title>
-	</head>
 
-	<body draggable="false"> <!-- all this does is prevent you from dragging the page and other elements using browser native techniques-->
+  <head>
+    <meta name="description" content="Fantasymaker : ">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/cytoscape.css">
+    <title>Fantasymaker</title>
+  </head>
+
+  <body>
+	<h1> Demo </h1>
+  	<div id="cy"></div> <!--cytoscape canvas -->
 	
-		<!-- Area where drags are permissable, blue dotted border -->
-		<div id="drag-container" draggable="false">
-			<!-- Holds all the elements we can clone -->
-			<div id="form-container" draggable="false">
-				<!-- Page element template -->
-				<div id = "page-elem" class="drag-element-source drag-element">	
-				
-					<!-- Content of page element -->
-					<div class="header">
-						<p ondblclick ="collapseFromChild(this)" style="text-align:center;">Page</p>
-					</div>
-					<div class="content">
-						<textarea rows="10" cols="50" class = "pagetext">
-							"Lorem Ipsum yada Quintuis"
-						</textarea>
-					</div>
-				</div>	
-				<!-- Some other element template -->
-				<div id = "link-elem" class="drag-element-source drag-element" style="margin-left:200px;">	
-					<!-- Content of page element -->
-					<div class="header">
-						<img src = "images/lock-icon.png" ondblclick ="collapseFromChild(this)"></img>
-					</div>
-					<div class="content">
-						<textarea rows="4" cols="30" class = "pagetext">
-							"Different!"
-						</textarea>
-					</div>
-				</div>					
-			</div>	
-			<!-- Area where we can place and move around elements -->
-			<div id="drop-container" >
-			</div>
+	<div id="editelement">
+		<div id="editpage">
+			<p id="pagename"></p>
+			<button class="linkbutton" onclick=newConnection(this)>New link</button>
+			<textarea id="pagetext"></textarea>
 		</div>
+		<div id="editdecision">
+			<p id="decisionname"></p>
+			<button class="linkbutton" onclick=newConnection(this)>New link</button>
 
-	</body>
-	<script src="js/lib/interact.js"></script>	
-	<script src="js/dev.min.js">	
-	</script>
-  
+		</div>
+	</div>
+	
+	
+  </body>
+  <script src="js/lib/cytoscape.min.js"></script>
+  <script src="js/lib/jquery-2.2.2.min.js"></script>
+  <script src="js/dev.min.js"></script>
+
 </html>

@@ -1,0 +1,29 @@
+#cy {
+  width: 1000px;
+  height: 600px;
+  display: block;
+  border: 1px solid black;
+}
+
+body {
+	font-family: helvetica;
+	font-size: 14px;
+}
+
+#pagetext {
+	width: 1000px;
+	height: 80px;
+	display: block;
+}
+
+#editpage{
+	display: none;
+}
+
+#editdecision{
+	display: none;
+}
+
+#linkbutton{
+	background-color = #dddddd;
+}
