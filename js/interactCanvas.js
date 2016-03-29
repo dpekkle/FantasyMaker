@@ -1,14 +1,17 @@
 goog.provide('interactCanvas')
 goog.require('initCanvas')
 goog.require('ui')
+goog.require('states')
 
 console.log("Enter interactCanvas.js")
 
 total_pages = 0;
 
-cy.on('tap', function(event){
+cy.on('tap', function(event)
+{
 	var evtTarget = event.cyTarget;
-
+	console.log("You tapped on: ", evtTarget);
+	console.log("Target is: ", cy.$(':selected'));
 	if (current_state === states.CONNECTING)
 	{
 		// if someone is trying to connect nodes but doesn't click on a node then we give them another shot
@@ -23,78 +26,67 @@ cy.on('tap', function(event){
 	{
 		if (evtTarget === cy) //tap on background
 		{		
-			cy.add({
-				data: { id: ++total_pages, text: "new element text"},
+			cy.add(
+			{
+				data: { 
+					id: ++total_pages, 
+					text: "page text"
+				},
+				classes: "page",
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
-				classes: "page"
 			})
 		}		
 	}
 	
-	else if (current_state === states.NEWDECISION)
+	else if (current_state === states.NEWCONTROL)
 	{
 		if (evtTarget === cy) //tap on background
 		{		
-			cy.add({
-				data: { id: ++total_pages},
+			cy.add(
+			{
+				data: { 
+					id: ++total_pages, 
+					text: "control node text"
+				},
+				classes: "control",
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
-				classes: "decision"
 			})
 		}		
 	}
 })
 
-cy.on('select', function(event){
-	
+cy.on('select', function(event)
+{
 	//update UI
 	var element = cy.$(':selected') //get the currently selected element
 	$(".connectionmode").show(); //we only want connectionmode to be visible if an element is selected
+	$(".deletebutton").show();
 	
 	console.log("Select: ", element.data('id'))
 	
-	//if adding a new link
-	if (current_state == states.CONNECTING)
-	{
-		console.log("Creating link from ", source_node.data('id'), " to ", element.data('id'))
+	//if adding a new connection
+	createConnection(element);
+	updateEditPane(element);
+})
 
-		if (source_node.data('id') != element.data('id'))
-		{
-			cy.add({
-				data: {	source: source_node.data('id'), target: element.data('id')},
-				group: "edges",
-			})	
-		
-			source_node = cy.$(':selected'); //set the newly selected page as the source node
-		}
-	}
-	
-	//display decision info on selection
-	if (element.hasClass('decision'))
+/* 	if someone clicks on an element already selected while trying to connect nodes the "select" event doesn't fire, 
+	but they clearly want the selected node as a target/source for a connection	*/
+cy.on('tap', ':selected', function(event)
+{
+	if (current_state === states.CONNECTING)
 	{
-		$("#editdecision").show();	
-		$("#decisionname").text("Decision " + element.data('id'));
-	}
-	
-	//display page info on selection	
-	else if (element.hasClass('page'))
-	{
-		$("#editpage").show();		
-		
-		$("#pagename").text("Page " + element.data('id'));
-		document.getElementById("pagetext").value = element.data('text'); //jquery dodgey with textarea
-		
-	}
+		console.log("Connection node registered as currently selected node")
+		createConnection(cy.$(':selected')) 
+	}	
 })
 
 cy.on('unselect', function(event)
 {
 	if (cy.$(':selected').empty())
 	{
-		console.log("No element selected");
-		$("#editpage").hide();
-		$("#editdecision").hide();		
-		$(".connectionmode").hide();
+		//hide pane
+		hideEditPanes();
 	}
 })

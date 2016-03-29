@@ -10,20 +10,6 @@ body {
 	font-size: 14px;
 }
 
-#pagetext {
-	width: 1000px;
-	height: 80px;
-	display: block;
-}
-
-#editpage{
-	display: none;
-}
-
-#editdecision{
-	display: none;
-}
-
 .button{
 	background-color: #dddddd;
 }
@@ -34,4 +20,18 @@ body {
 
 .connectionmode{
 	display: none;
+}
+
+.deletebutton{
+	display: none;
+}
+
+.editpane{
+	display: none;
+}
+
+.textarea{
+	width: 1000px;
+	height: 80px;
+	display: block;
 }

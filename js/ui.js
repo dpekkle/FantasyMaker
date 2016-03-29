@@ -1,50 +1,43 @@
 goog.provide('ui')
 goog.require('initCanvas')
+goog.require('states')
 
-//little state enum for the current state the UI is in
-states = {
-	DEFAULT: 0,
-	CONNECTING: 1, //i.e. connecting two nodes with an edge
-	NEWPAGE: 2, // adding a new page node
-	NEWDECISION: 3, // adding a new decision node
-};
-
-current_state = states.DEFAULT;
-
-/*
-//this function shows us which button is currently active
-$("#sidebar .button").click( function(event){
-	$('.button').removeClass('activebutton')
-	$(event.target).addClass('activebutton')
-})*/
-
-function changeState(caller)
+function updateEditPane(element)
 {
-	$("#sidebar .button").removeClass('activebutton')
-	$(caller).addClass('activebutton')
-	
-	if ($(caller).hasClass('connectionmode') && current_state != states.CONNECTING)
+	//display control info on selection
+	if (element.hasClass('control'))
 	{
-		current_state = states.CONNECTING;	
-		source_node = cy.$(':selected');
+		$("#editcontrol").show();	
+		$("#controlname").text("control " + element.data('id'));
+		document.getElementById("controltext").value = element.data('text'); //jquery dodgey with textarea	
 	}
-	else if ($(caller).hasClass('pagemode') && current_state != states.NEWPAGE)
+	//display page info on selection	
+	else if (element.hasClass('page'))
 	{
-		current_state = states.NEWPAGE;
+		$("#editpage").show();				
+		$("#pagename").text("Page " + element.data('id'));
+		document.getElementById("pagetext").value = element.data('text'); //jquery dodgey with textarea	
 	}
-	else if ($(caller).hasClass('decisionmode') && current_state != states.NEWDECISION)
+	else if (element.hasClass('connection'))
 	{
-		current_state = states.NEWDECISION;
-	}	
-	else
-	{
-		console.log("Deselect button");
-		current_state = states.DEFAULT;
-		$(caller).removeClass('activebutton');
+		$("#editconnection").show();
+		$("#connectionname").text("Connection");
+		document.getElementById("connectiontext").value = element.data('text'); //jquery dodgey with textarea			
 	}
 }
+function hideEditPanes()
+{
+	//hide all possible panes
+	$("#editpage").hide();
+	$("#editcontrol").hide();		
+	$("#editconnection").hide();
 
-$("#pagetext").on('input', function(event) //fires an event when the ui textarea is updated
+	//hide buttons that are only visible when something is selected
+	$(".connectionmode").hide();
+	$(".deletebutton").hide();
+}
+
+$(".textarea").on('input', function(event) //fires an event when the ui textarea is updated
 {
 	var text = this.value;
 	cy.$(':selected').data('text', text);
@@ -52,3 +45,45 @@ $("#pagetext").on('input', function(event) //fires an event when the ui textarea
 	console.log("For element ", cy.$(':selected').data('id'), "apply", this.value, " Now holds: ", cy.$(':selected').data('text'));
 	
 })
+
+function removeNode()
+{
+	node = cy.$(':selected')
+	if (!node.empty())
+	{
+		cy.remove(node);
+		hideEditPanes();
+	}
+}
+
+function createConnection(element)
+{
+	if (current_state == states.CONNECTING && element.isNode()) //don't want to make connections to edges
+	{
+		if (source_node == null) //on first selection store source node for connection
+		{
+			source_node = element;
+			console.log("Source node assigned as node", element.data('id'));
+		}
+		else 
+		{
+			console.log("Creating link from ", source_node.data('id'), " to ", element.data('id'))
+
+			if (source_node.data('id') != element.data('id'))
+			{
+				cy.add(
+				{
+					data: {	
+						source: source_node.data('id'), 
+						target: element.data('id'), 
+						text: '<Decision text to display)>',
+					},
+					classes: 'connection',
+					group: "edges",
+				})	
+			
+				source_node = null; //remove stored source node
+			}
+		}
+	}	
+}

@@ -12,19 +12,25 @@
 	
   	<div id="cy"></div> <!--cytoscape canvas -->
 	<div id="sidebar">
-		<button class="pagemode button" onclick=changeState(this)>Create Page</button>
-		<button class="decisionmode button" onclick=changeState(this)>Create Decision</button>
+		<button class="pagemode button" onclick=changeState(this)>Create Page Node</button>
+		<button class="controlmode button" onclick=changeState(this)>Create Control Node</button>
 		<button class="connectionmode button" onclick=changeState(this)>New Connection</button>
+		<button class="deletebutton button" onclick=changeState(this)>Delete</button>
 	</div>
 	
 	<div id="editelement">
-		<div id="editpage">
+		<div class = "editpane" id="editpage">
 			<p id="pagename"></p>
-			<textarea id="pagetext"></textarea>
+			<textarea class = "textarea" id="pagetext"></textarea>
 		</div>
-		<div id="editdecision">
-			<p id="decisionname"></p>
+		<div class = "editpane" id="editcontrol">
+			<p id="controlname"></p>
+			<textarea class = "textarea" id="controltext"></textarea>
 		</div>
+		<div class = "editpane" id="editconnection">
+			<p id="connectionname"></p>
+			<textarea class = "textarea" id="connectiontext"></textarea>
+		</div>	
 	</div>
 	
 	

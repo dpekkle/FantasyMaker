@@ -54,7 +54,7 @@ var cy = cytoscape({
 			
 		},
 		{
-			selector: '.decision',
+			selector: '.control',
 			style:{
 				'shape': 'ellipse',
 				'background-color': 'red',
@@ -67,16 +67,15 @@ var cy = cytoscape({
 	//define initial nodes and edges
 	elements: {
 		nodes: [
-			{ data: { id: 'a', text: 'sample text 1'}, classes: 'page' },
-			{ data: { id: 'b', text: 'sample text 2'}, classes: 'decision' },		
 		],
 		edges: [
-			{ data: { id: 'edge-ab', source: 'a', target: 'b'} }
 		],
 
 	},
 	
 	selectionType: 'single', //allows nodes to be selected
+	minZoom: 1e-10,
+	maxZoom: 1e10,
 	
   
 });
