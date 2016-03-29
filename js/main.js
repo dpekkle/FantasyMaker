@@ -1,5 +1,5 @@
 goog.require('initCanvas')
-goog.require('interactCanvas')
+goog.require('canvasEvents')
 goog.require('ui')
 
 console.log("Enter main.js")

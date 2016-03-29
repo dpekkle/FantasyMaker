@@ -1,9 +1,9 @@
-goog.provide('interactCanvas')
+goog.provide('canvasEvents')
 goog.require('initCanvas')
 goog.require('ui')
 goog.require('states')
 
-console.log("Enter interactCanvas.js")
+console.log("Enter canvasEvents.js")
 
 total_pages = 0;
 
