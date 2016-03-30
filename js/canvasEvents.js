@@ -10,8 +10,6 @@ total_pages = 0;
 cy.on('tap', function(event)
 {
 	var evtTarget = event.cyTarget;
-	console.log("You tapped on: ", evtTarget);
-	console.log("Target is: ", cy.$(':selected'));
 	if (current_state === states.CONNECTING)
 	{
 		// if someone is trying to connect nodes but doesn't click on a node then we give them another shot
@@ -75,7 +73,7 @@ cy.on('select', function(event)
 	but they clearly want the selected node as a target/source for a connection	*/
 cy.on('tap', ':selected', function(event)
 {
-	if (current_state === states.CONNECTING)
+	if (current_state === states.CONNECTING && source_node == null)
 	{
 		console.log("Connection node registered as currently selected node")
 		createConnection(cy.$(':selected')) 

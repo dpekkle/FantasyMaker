@@ -22,6 +22,10 @@ var cy = cytoscape({
 				'text-halign': 'center',
 				'border-width': 5,
 				'border-opacity': 0,
+				'border-color': 'black',
+				//makes changes to these properties an animation
+				'transition-property': 'border-width, border-opacity, border-color',
+				'transition-duration': '0.5s',
 			}
 		},
 
@@ -57,9 +61,26 @@ var cy = cytoscape({
 			selector: '.control',
 			style:{
 				'shape': 'ellipse',
-				'background-color': 'red',
+				'background-color': 'yellow',
 			}
 			
+		},
+		{
+			selector: '.source_node',
+			style:{
+				'border-width': 7,
+				'border-opacity': 1,
+				'border-color': '#9dbaea', //same as the edges!
+			}
+		},
+		{
+			selector: '.disconnected',
+			style:{
+				'border-width': 7,
+				'border-opacity': 1,
+				'border-color': 'red',
+
+			}
 		},
 	],
 

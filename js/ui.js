@@ -40,10 +40,7 @@ function hideEditPanes()
 $(".textarea").on('input', function(event) //fires an event when the ui textarea is updated
 {
 	var text = this.value;
-	cy.$(':selected').data('text', text);
-	
-	console.log("For element ", cy.$(':selected').data('id'), "apply", this.value, " Now holds: ", cy.$(':selected').data('text'));
-	
+	cy.$(':selected').data('text', text);	
 })
 
 function removeNode()
@@ -51,8 +48,11 @@ function removeNode()
 	node = cy.$(':selected')
 	if (!node.empty())
 	{
-		cy.remove(node);
-		hideEditPanes();
+		if (confirm("Are you sure you want to delete this element and all it's links?")) //we can make this prettier than default confirm
+		{
+			cy.remove(node);
+			hideEditPanes();
+		}
 	}
 }
 
@@ -63,6 +63,7 @@ function createConnection(element)
 		if (source_node == null) //on first selection store source node for connection
 		{
 			source_node = element;
+			source_node.addClass("source_node"); //lets style the source node a bit?
 			console.log("Source node assigned as node", element.data('id'));
 		}
 		else 
@@ -82,6 +83,7 @@ function createConnection(element)
 					group: "edges",
 				})	
 			
+				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node
 			}
 		}

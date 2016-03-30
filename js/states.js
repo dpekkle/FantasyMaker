@@ -29,7 +29,7 @@ function changeState(caller)
 	{
 		current_state = states.NEWCONTROL;
 	}	
-	else if ($(caller).hasClass('deletebutton') && current_state != states.DEFAULT)
+	else if ($(caller).hasClass('deletebutton'))
 	{
 		// even though there isn't a "deleting state" deletion should trigger a reversion to default state,
 		// things get weird if you delete a node then try to form an edge using it
