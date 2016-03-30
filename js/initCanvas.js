@@ -20,8 +20,8 @@ var cy = cytoscape({
 				'text-opacity': 1,
 				'text-valign': 'center',
 				'text-halign': 'center',
-				'border-width': 5,
-				'border-opacity': 0,
+				'border-width': 1,
+				'border-opacity': 1,
 				'border-color': 'black',
 				//makes changes to these properties an animation
 				'transition-property': 'border-width, border-opacity, border-color',
@@ -42,8 +42,7 @@ var cy = cytoscape({
 		{
 			selector: ':selected', //style for selected elements
 			style: {
-				'border-opacity': 1,
-
+				'border-width': 5,
 				'line-color': 'black',
 				'target-arrow-color': 'black',
 			}
@@ -61,7 +60,7 @@ var cy = cytoscape({
 			selector: '.control',
 			style:{
 				'shape': 'ellipse',
-				'background-color': 'yellow',
+				'background-color': '#72dadb',
 			}
 			
 		},
@@ -69,7 +68,6 @@ var cy = cytoscape({
 			selector: '.source_node',
 			style:{
 				'border-width': 7,
-				'border-opacity': 1,
 				'border-color': '#9dbaea', //same as the edges!
 			}
 		},
@@ -95,9 +93,11 @@ var cy = cytoscape({
 	},
 	
 	selectionType: 'single', //allows nodes to be selected
-	minZoom: 1e-10,
-	maxZoom: 1e10,
+	minZoom: 0.2,
+	maxZoom: 5,
 	
   
 });
+cy.panzoom();
+
 console.log("Canvas done")

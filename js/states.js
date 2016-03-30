@@ -10,9 +10,23 @@ states = {
 
 current_state = states.DEFAULT;
 
+//function to run when leaving a state
+function exitStates()
+{
+	if (current_state == states.CONNECTING)
+	{
+		if (source_node !== null)
+		{
+			source_node.removeClass("source_node"); //remove the style associated with source nodes	
+			source_node = null;		
+		}
+	}		
+}
+
 //triggered when a button to interact with the canvas is pressed
 function changeState(caller)
 {
+	exitStates();
 	$("#sidebar .button").removeClass('activebutton')
 	$(caller).addClass('activebutton')
 	
@@ -34,17 +48,14 @@ function changeState(caller)
 		// even though there isn't a "deleting state" deletion should trigger a reversion to default state,
 		// things get weird if you delete a node then try to form an edge using it
 		removeNode();
-		setDefaultState(caller);
+		current_state = states.DEFAULT;	
+		//delete is not a state, so button doesn't need to stay active
+		$(caller).removeClass('activebutton');
+
 	}
 	else
 	{
-		setDefaultState(caller);
+		current_state = states.DEFAULT;	
+		$(caller).removeClass('activebutton');
 	}
-}
-
-function setDefaultState(caller)
-{
-	source_node = null;		
-	current_state = states.DEFAULT;	
-	$(caller).removeClass('activebutton');
 }
