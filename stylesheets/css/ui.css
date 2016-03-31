@@ -1,13 +1,22 @@
 #cy {
-  width: 1000px;
-  height: 600px;
+  width: 74vw;
+  height: 100vh; 
   display: block;
-  border: 1px solid black;
+	padding:0px;
+	border-right: 3px solid grey;
+	
+}
+
+#sidebar{
+	height: 85vh;
+	padding-top: 10px;
+	
 }
 
 body {
 	font-family: helvetica;
 	font-size: 14px;
+	padding-top: 70px;
 }
 
 .button{
@@ -31,7 +40,7 @@ body {
 }
 
 .textarea{
-	width: 1000px;
-	height: 80px;
+	width: auto;
+	height: 23vw;
 	display: block;
 }

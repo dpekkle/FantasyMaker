@@ -2,46 +2,64 @@
 <html>
 
   <head>
-    <meta name="description" content="Fantasymaker : ">
+    <meta charset="utf-8" name="description" content="Fantasymaker : ">
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/ui.css">
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/cytoscape.js-panzoom.css">
-	<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
+		<link href="stylesheets/css/bootstrap.min.css" rel="stylesheet">
 
     <title>Fantasymaker</title>
   </head>
 
   <body>
-	<h1> Demo </h1>
+		<!-- HEADING -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div clas="row">
+					<div class="col-md-4">
+					<h1>FantasyMaker</h1>
+					</div>
+				</div>
+			</div>		
+		</nav>
 	
-  	<div id="cy"></div> <!--cytoscape canvas -->
-	<div id="sidebar">
-		<button class="pagemode button" onclick=changeState(this)>Create Page Node</button>
-		<button class="controlmode button" onclick=changeState(this)>Create Control Node</button>
-		<button class="connectivity button" onclick=testConnectivity()>Test connectivity</button>
-		<button class="connectionmode button" onclick=changeState(this)>New Connection</button>
-		<button class="deletebutton button" onclick=changeState(this)>Delete</button>
-	</div>
-	
-	<div id="editelement">
-		<div class = "editpane" id="editpage">
-			<p id="pagename"></p>
-			<textarea class = "textarea" id="pagetext"></textarea>
-		</div>
-		<div class = "editpane" id="editcontrol">
-			<p id="controlname"></p>
-			<textarea class = "textarea" id="controltext"></textarea>
-		</div>
-		<div class = "editpane" id="editconnection">
-			<p id="connectionname"></p>
-			<textarea class = "textarea" id="connectiontext"></textarea>
-		</div>	
+	<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-9" id="cy"> <!-- Grid "workspace" container -->
+					</div>
+				<div class="col-md-3" id="sidebar"> <!-- Sidebar -->
+					<button class="pagemode button" onclick=changeState(this)>Create Page Node</button> <br/>
+					<button class="controlmode button" onclick=changeState(this)>Create Control Node</button><br/>
+					<button class="connectivity button" onclick=testConnectivity()>Test connectivity</button> <br/>
+					<button class="connectionmode button" onclick=changeState(this)>New Connection</button><br/>
+					<button class="deletebutton button" onclick=changeState(this)>Delete</button><br/>
+				<br/>
+				<br/>
+						
+					<div id="editelement">
+						<div class = "editpane" id="editpage">
+							<p id="pagename"></p>
+							<textarea class = "textarea" id="pagetext"></textarea>
+						</div>
+						<div class = "editpane" id="editcontrol">
+							<p id="controlname"></p>
+							<textarea class = "textarea" id="controltext"></textarea>
+						</div>
+						<div class = "editpane" id="editconnection">
+							<p id="connectionname"></p>
+							<textarea class = "textarea" id="connectiontext"></textarea>
+						</div>	
+					</div>
+					
+					</div>
+			</div>
 	</div>
 	
   </body>
   <script src="js/lib/jquery-2.2.2.min.js"></script>
   <script defer src="js/lib/cytoscape.min.js"></script>
   <script defer src="js/lib/cytoscape-panzoom.js"></script>
-
   <script defer src="js/dev.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 
 </html>
