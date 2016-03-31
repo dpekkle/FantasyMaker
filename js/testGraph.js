@@ -12,7 +12,7 @@ function testConnectivity()
 	var arbitrary_node = cy.$('node').first(); //get the "first" node (doesn't matter which)  in the collection of all nodes
 	var all_nodes = cy.$('node');
 	
-	console.log(arbitrary_node.data('id'))
+	console.log("Root node: " + arbitrary_node.data('id'))
 	
 	var connected_nodes = cy.collection(); //empty collection
 	connected_nodes = connected_nodes.add(arbitrary_node)	//add the root node
@@ -30,7 +30,6 @@ function testConnectivity()
 	
 	console.log("Total nodes:" + all_nodes.size() + " Connected_nodes: " + connected_nodes.size())
 	
-	
 	if (all_nodes.size() == connected_nodes.size())
 	{
 		connected = true;
@@ -43,14 +42,19 @@ function testConnectivity()
 		
 		console.log("Disconnected:", disconnected_nodes.size())
 		var getNodeId = function( n ){ return n.id() };
-		console.log( 'left: ' + disconnected_nodes.map( getNodeId ).join(', ') );
+		console.log( 'left: ' + disconnected_nodes.map( getNodeId ).join(', ') ); //return the id's of disconnected nodes
 
-		var i = 1;
 		disconnected_nodes.addClass('disconnected');
-		setTimeout(function(){ disconnected_nodes.removeClass('disconnected');}, 3000);
+		//disconnected_nodes.delay(3000, disconnected_nodes.removeClass('disconnected'));
+		
+		//alternative in case delay "breaks" again (removenode was not firing for some reason occasionally)
+		setTimeout(function()
+		{ 
+			disconnected_nodes.removeClass('disconnected');
+		}, 3000);
+		
 
 	}
-	
-	
+
 	return connected;
 }

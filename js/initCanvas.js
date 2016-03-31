@@ -21,12 +21,11 @@ var cy = cytoscape({
 				'text-valign': 'center',
 				'text-halign': 'center',
 				'border-width': 1,
-				'border-opacity': 1,
 				'border-color': 'black',
 				//makes changes to these properties an animation
-				'transition-property': 'border-width, border-opacity, border-color',
-				'transition-duration': '0.5s',
-			}
+				'transition-property': 'border-width, border-color',
+				'transition-duration': '0.8s', //fadeout, essentially
+				}
 		},
 
 		{
@@ -45,6 +44,7 @@ var cy = cytoscape({
 				'border-width': 5,
 				'line-color': 'black',
 				'target-arrow-color': 'black',
+				'transition-duration': '0.1s',
 			}
 		},
 		{
@@ -69,15 +69,16 @@ var cy = cytoscape({
 			style:{
 				'border-width': 7,
 				'border-color': '#9dbaea', //same as the edges!
+				'transition-duration': '0.1s',
 			}
 		},
 		{
 			selector: '.disconnected',
 			style:{
 				'border-width': 7,
-				'border-opacity': 1,
 				'border-color': 'red',
-
+				'transition-property': 'border-width, border-color',
+				'transition-duration': '0.1s',
 			}
 		},
 	],

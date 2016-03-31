@@ -16,7 +16,8 @@ cy.on('tap', function(event)
 		if (cy.$(':selected').empty())
 		{
 			console.log("USER: please select a valid node to connect to")
-			source_node.select();
+			if (source_node !== null)
+				source_node.select();
 		}
 	}
 	
