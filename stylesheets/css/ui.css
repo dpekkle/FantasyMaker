@@ -1,22 +1,21 @@
 #cy {
-  width: 74vw;
-  height: 100vh; 
-  display: block;
+	width:200px;
+	height:200px;
+	display: block;
 	padding:0px;
-	border-right: 3px solid grey;
-	
+	border: 3px solid grey;
+	margin-top: 70px;
 }
 
 #sidebar{
 	height: 85vh;
-	padding-top: 10px;
+	padding-top: 70px;
 	
 }
 
 body {
 	font-family: helvetica;
 	font-size: 14px;
-	padding-top: 70px;
 }
 
 .button{

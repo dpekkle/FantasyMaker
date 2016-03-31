@@ -1,0 +1,8 @@
+
+C:\Users\powertower\Documents\GitHub\FantasyMaker\js>del ".\dev.min.js" 
+
+C:\Users\powertower\Documents\GitHub\FantasyMaker\js>java -jar compiler.jar --js *.js --jscomp_off=uselessCode --js_output_file dev.min.js 
+Picked up _JAVA_OPTIONS: -Djava.net.preferIPv4Stack=true
+
+C:\Users\powertower\Documents\GitHub\FantasyMaker\js>PAUSE
+Press any key to continue . . . 

@@ -89,3 +89,16 @@ function createConnection(element)
 		}
 	}	
 }
+
+function resizeCanvas()
+{
+	var x = $('#rowbg').width();
+	var y = $(window).height();
+	
+	$('#cy').css('width', x*9/12);
+	$('#cy').css('height', y-70);
+	console.log("We resized, width: " +	x + " height: " + y);	
+}
+
+$(window).load(resizeCanvas)
+$(window).resize(resizeCanvas)
