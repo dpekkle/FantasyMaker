@@ -89,16 +89,14 @@ function createConnection(element)
 		}
 	}	
 }
-
+//resize cytoscape canvas's div container (known as cy) based on container elements
 function resizeCanvas()
 {
-	var x = $('#rowbg').width();
-	var y = $(window).height();
+	var x = $('#rowbg').width(); 	//row is the screen width
+	var y = $(window).height();		//want total height of the page
 	
-	$('#cy').css('width', x*9/12);
-	$('#cy').css('height', y-70);
+	$('#cy').css('width', x*9/12);	//match the col-md-9 size, 9/12 of the row width
+	$('#cy').css('height', y-70);	//this div is offset by 70 pixels from the top, so the height is total screen height -70
 	console.log("We resized, width: " +	x + " height: " + y);	
 }
-
-$(window).load(resizeCanvas)
 $(window).resize(resizeCanvas)

@@ -79,6 +79,12 @@ cy.on('tap', ':selected', function(event)
 		console.log("Connection node registered as currently selected node")
 		createConnection(cy.$(':selected')) 
 	}	
+	else if(source_node !== null)
+	{
+		console.log("tapped the source_node");
+		source_node.removeClass("source_node");
+		source_node = null;	
+	}
 })
 
 cy.on('unselect', function(event)

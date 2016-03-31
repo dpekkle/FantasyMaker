@@ -100,5 +100,5 @@ var cy = cytoscape({
   
 });
 cy.panzoom();
-
+resizeCanvas();
 console.log("Canvas done")
