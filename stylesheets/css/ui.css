@@ -9,6 +9,7 @@
 #sidebar{
 	height: 85vh;
 	padding-top: 70px;
+	padding-right: 0px;
 	
 }
 
@@ -41,4 +42,11 @@ body {
 	width: auto;
 	height: 23vw;
 	display: block;
+}
+
+#editelement{
+	width: 15vw;
+	float:left;
+	
+	
 }
