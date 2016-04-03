@@ -1,6 +1,7 @@
 goog.provide('ui')
 goog.require('initCanvas')
 goog.require('states')
+goog.require('httpRequests')
 
 function updateEditPane(element)
 {
@@ -53,6 +54,17 @@ function removeElement()
 			cy.remove(element);
 			hideEditPanes();
 			cy.$('node').first().addClass('start');
+			
+			//remove elements from DB
+			//done in 2 requests due to something adding indexs as parents to json objects during concat and stringify
+			//need to fix at some point
+			http_delete(element.connectedEdges().jsons());//del edges (Danni note: removeElement will also delete edges, so this SHOULD return no edges in that case)
+			http_delete(element.jsons());//del nodes
+			
+			//remove nodes from graph
+			cy.remove(element);
+			hideEditPanes();
+			
 		}
 	}
 }
