@@ -43,15 +43,16 @@ $(".textarea").on('input', function(event) //fires an event when the ui textarea
 	cy.$(':selected').data('text', text);	
 })
 
-function removeNode()
+function removeElement()
 {
-	node = cy.$(':selected')
-	if (!node.empty())
+	element = cy.$(':selected')
+	if (!element.empty())
 	{
 		if (confirm("Are you sure you want to delete this element and all it's links?")) //we can make this prettier than default confirm
 		{
-			cy.remove(node);
+			cy.remove(element);
 			hideEditPanes();
+			cy.$('node').first().addClass('start');
 		}
 	}
 }
@@ -72,17 +73,46 @@ function createConnection(element)
 
 			if (source_node.data('id') != element.data('id'))
 			{
-				cy.add(
+				var style = '';
+				var makeedge = true;
+				if (source_node.hasClass('control')) //control nodes only have two edges, a success and a fail fallback
 				{
-					data: {	
-						source: source_node.data('id'), 
-						target: element.data('id'), 
-						text: '<Decision text to display)>',
-					},
-					classes: 'connection',
-					group: "edges",
-				})	
-			
+					var edge_list = source_node.edgesTo('*');
+					console.log("Size from control: ", edge_list.size());
+					if (edge_list.size() === 0) //add first success edge
+					{
+						style = 'success-edge';
+					}
+					else if (edge_list.size() === 1) //add second edge
+					{
+						if(edge_list.first().hasClass('success-edge'))
+						{
+							style = 'fail-edge';
+						}
+						else
+						{
+							style = 'success-edge'; //in case success edge was deleted and fail was not
+						}
+					}
+					else
+					{
+						makeedge = false;
+					}
+				}
+				
+				if (makeedge)
+				{
+					cy.add(
+					{
+						data: {	
+							source: source_node.data('id'), 
+							target: element.data('id'), 
+							text: '<Decision text to display)>',
+						},
+						classes: style,
+						group: "edges",
+					});			
+				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node
 			}

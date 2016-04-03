@@ -47,7 +47,7 @@ function changeState(caller)
 	{
 		// even though there isn't a "deleting state" deletion should trigger a reversion to default state,
 		// things get weird if you delete a node then try to form an edge using it
-		removeNode();
+		removeElement();
 		current_state = states.DEFAULT;	
 		//delete is not a state, so button doesn't need to stay active
 		$(caller).removeClass('activebutton');

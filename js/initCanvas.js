@@ -13,6 +13,7 @@ var cy = cytoscape({
 
 	// appearance for elements in canvas, similar to CSS
 	style: [
+		// NODES
 		{
 			selector: 'node',
 			style: {
@@ -27,34 +28,13 @@ var cy = cytoscape({
 				'transition-duration': '0.8s', //fadeout, essentially
 				}
 		},
-
-		{
-			selector: 'edge',
-			style: {
-				'width': 4,
-				'target-arrow-shape': 'triangle',
-				'line-color': '#9dbaea',
-				'target-arrow-color': '#9dbaea',
-				'curve-style': 'bezier'
-			}
-		},
-		{
-			selector: ':selected', //style for selected elements
-			style: {
-				'border-width': 5,
-				'line-color': 'black',
-				'target-arrow-color': 'black',
-				'transition-duration': '0.1s',
-			}
-		},
 		{
 			selector: '.page',
 			style:{
 				'shape': 'roundrectangle',
 				'background-color': 'light-gray',
 
-			}
-			
+			}		
 		},
 		{
 			selector: '.control',
@@ -78,6 +58,49 @@ var cy = cytoscape({
 				'border-width': 7,
 				'border-color': 'red',
 				'transition-property': 'border-width, border-color',
+				'transition-duration': '0.1s',
+			}
+		},
+		{
+			selector:'.start',
+			style:{
+				'content':'Start',
+			}
+		},
+		// EDGES
+		{
+			selector: 'edge',
+			style: {
+				'width': 4,
+				'target-arrow-shape': 'triangle',
+				'line-color': '#9dbaea',
+				'target-arrow-color': '#9dbaea',
+				'curve-style': 'bezier'
+			}
+		},
+		{
+			selector: '.success-edge',
+			style: {
+				'line-color': '#a1d490',
+				'target-arrow-color': '#a1d490',
+
+			}
+			
+		},
+		{
+			selector: '.fail-edge',
+			style: {
+				'line-color': '#c390d4',
+				'target-arrow-color': '#c390d4',
+			}
+			
+		},		
+		{
+			selector: ':selected', //style for selected elements
+			style: {
+				'border-width': 5,
+				'line-color': 'black',
+				'target-arrow-color': 'black',
 				'transition-duration': '0.1s',
 			}
 		},

@@ -54,6 +54,7 @@ cy.on('tap', function(event)
 			})
 		}		
 	}
+	cy.$('node').first().addClass('start');
 })
 
 cy.on('select', function(event)

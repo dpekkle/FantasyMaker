@@ -5,6 +5,28 @@ goog.require('initCanvas')
 //tests if the graph is connected
 //does a depth first search with an arbitrary node, then if it visits every node we know it is connected
 //https://en.wikipedia.org/wiki/Connectivity_(graph_theory)#Computational_aspects
+
+function checkValidGraph()
+{
+	var alertString = "";
+	
+	//check if starting node is a page
+	if (!cy.$('.start').hasClass('page'))
+	{
+		alertString = alertString.concat("Starting class must be a page node\n")
+	}
+	
+	if (!testConnectivity())
+	{
+		alertString = alertString.concat("Graph is NOT connected\n");
+	}
+		
+	if (alertString == "")
+		alert("All tests passed");
+	else
+		alert(alertString);
+}
+
 function testConnectivity()
 {
 	var connected = false;
@@ -36,8 +58,6 @@ function testConnectivity()
 	}
 	else //change appearance of not-connected nodes
 	{
-		alert("Graph is not connected");
-
 		var disconnected_nodes = all_nodes.diff(connected_nodes).left;
 		
 		console.log("Disconnected:", disconnected_nodes.size())
