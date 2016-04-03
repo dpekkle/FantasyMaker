@@ -2,6 +2,7 @@ goog.provide('initCanvas')
 
 console.log("Enter initCanvas.js")
 
+
 var cy = cytoscape({
 	container: document.getElementById('cy'), // container to render in
   
@@ -82,16 +83,6 @@ var cy = cytoscape({
 			}
 		},
 	],
-
-
-	//define initial nodes and edges
-	elements: {
-		nodes: [
-		],
-		edges: [
-		],
-
-	},
 	
 	selectionType: 'single', //allows nodes to be selected
 	minZoom: 0.2,
@@ -101,4 +92,5 @@ var cy = cytoscape({
 });
 cy.panzoom();
 resizeCanvas();
+
 console.log("Canvas done")

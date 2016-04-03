@@ -1,6 +1,7 @@
 goog.provide('ui')
 goog.require('initCanvas')
 goog.require('states')
+goog.require('httpRequests')
 
 function updateEditPane(element)
 {
@@ -50,8 +51,17 @@ function removeNode()
 	{
 		if (confirm("Are you sure you want to delete this element and all it's links?")) //we can make this prettier than default confirm
 		{
+			
+			//remove elements from DB
+			//done in 2 requests due to something adding indexs as parents to json objects during concat and stringify
+			//need to fix at some point
+			http_delete(node.connectedEdges().jsons());//del edges
+			http_delete(node.jsons());//del nodes
+			
+			//remove nodes from graph
 			cy.remove(node);
 			hideEditPanes();
+			
 		}
 	}
 }
