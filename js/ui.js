@@ -102,11 +102,37 @@ function createConnection(element)
 //resize cytoscape canvas's div container (known as cy) based on container elements
 function resizeCanvas()
 {
-	var x = $('#rowbg').width(); 	//row is the screen width
+	var x = $(window).width(); 	//row is the screen width
 	var y = $(window).height();		//want total height of the page
+	var buffer = $('#tabheadings').height();
 	
-	$('#cy').css('width', x*9/12);	//match the col-md-9 size, 9/12 of the row width
-	$('#cy').css('height', y-70);	//this div is offset by 70 pixels from the top, so the height is total screen height -70
+	$('#cy').css('width', x*9/12 - 30);	//match the col-md-9 size, 9/12 of the row width, -30 for col padding
+	$('#cy').css('height', y-buffer); //tabs at top are 42;
+	$('#sidebar').css('height', y-buffer);
+
 	console.log("We resized, width: " +	x + " height: " + y);	
+	cy.resize();
 }
 $(window).resize(resizeCanvas)
+
+//watch the tab changes in bootstrap, re-render canvas when we switch to it
+var observer = new MutationObserver(function(mutations) 
+{
+	mutations.forEach(function(mutation) 
+	{        
+		if(mutation.oldValue == "tab-pane fade" && mutation.target.className == "tab-pane fade active in") 
+		{
+			cy.resize();
+		}
+	});    
+});
+var cytabNode = $('#cyTab')[0];
+var observerConfig = 
+{  
+    attributes: true,
+    childList: false,
+    characterData: false,
+    attributeOldValue: true, 
+	'attributeFilter': ['class']
+};
+observer.observe(cytabNode, observerConfig);

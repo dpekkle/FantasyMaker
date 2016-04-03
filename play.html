@@ -3,6 +3,8 @@
 
 	<head>
 		<meta charset="utf-8" name="description" content="Fantasymaker : ">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/ui.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/cytoscape.js-panzoom.css">
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
@@ -11,45 +13,57 @@
 	</head>
 
 	<body>
-		<!-- HEADING -->
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4">
-					<h1>FantasyMaker</h1>
-				</div>
-			</div>
-		</div>		
-		</nav>
-	
 	<div class="container-fluid">
-		<div class="row" id = "rowbg">
-			<div class="col-xs-9" id="cy"> <!-- Grid "workspace" container -->
-				</div>
-			<div class="col-xs-3" id="sidebar"> <!-- Sidebar -->
-				<button class="pagemode button" onclick=changeState(this)>Create Page Node</button> <br/>
-				<button class="controlmode button" onclick=changeState(this)>Create Control Node</button><br/>
-				<button class="connectivity button" onclick=testConnectivity()>Test connectivity</button> <br/>
-				<button class="connectionmode button" onclick=changeState(this)>New Connection</button><br/>
-				<button class="deletebutton button" onclick=changeState(this)>Delete</button><br/>
-				<button class ="savebutton button" onclick=http_save()>Save</button><br/>
-				<button class ="loadbutton button" onclick=http_load()>Load</button><br/>
-				<br/>
-				<br/>		
-				<div id="editelement">
-					<div class = "editpane" id="editpage">
-						<p id="pagename"></p>
-						<textarea class = "textarea" id="pagetext"></textarea>
+		<div class="row">
+			<div class = "col-xs-12">
+				<ul class="nav nav-tabs nav-justified" id="tabheadings">
+					<li class="active"><a data-toggle="tab" href="#cyTab">Graph</a></li>
+					<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+					<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+					<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="cyTab" class="tab-pane fade in active">
+						<div class="col-xs-9" id="cy"> <!-- Grid "workspace" container -->
+							</div>
+						<div class="col-xs-3" id="sidebar"> <!-- Sidebar -->
+							<button class="pagemode button" onclick=changeState(this)>Create Page Node</button> <br/>
+							<button class="controlmode button" onclick=changeState(this)>Create Control Node</button><br/>
+							<button class="connectivity button" onclick=testConnectivity()>Test connectivity</button> <br/>
+							<button class="connectionmode button" onclick=changeState(this)>New Connection</button><br/>
+							<button class="deletebutton button" onclick=changeState(this)>Delete</button><br/>
+							<br/>
+							<br/>		
+							<div id="editelement">
+								<div class = "editpane" id="editpage">
+									<p id="pagename"></p>
+									<textarea class = "textarea" id="pagetext"></textarea>
+								</div>
+								<div class = "editpane" id="editcontrol">
+									<p id="controlname"></p>
+									<textarea class = "textarea" id="controltext"></textarea>
+								</div>
+								<div class = "editpane" id="editconnection">
+									<p id="connectionname"></p>
+									<textarea class = "textarea" id="connectiontext"></textarea>
+								</div>	
+							</div>
+						</div>
 					</div>
-					<div class = "editpane" id="editcontrol">
-						<p id="controlname"></p>
-						<textarea class = "textarea" id="controltext"></textarea>
+					<div id="menu1" class="tab-pane fade">
+						<h3>Menu 1</h3>
+						<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 					</div>
-					<div class = "editpane" id="editconnection">
-						<p id="connectionname"></p>
-						<textarea class = "textarea" id="connectiontext"></textarea>
-					</div>	
+					<div id="menu2" class="tab-pane fade">
+						<h3>Menu 2</h3>
+						<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+					</div>
+					<div id="menu3" class="tab-pane fade">
+						<h3>Menu 3</h3>
+						<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>

@@ -1,16 +1,13 @@
 #cy {
 	/* width and height defined by js */
 	display: block;
-	padding:0px;
 	border: 3px solid grey;
-	margin-top: 70px;
+	padding-left:0px;
 }
 
 #sidebar{
-	height: 85vh;
-	padding-top: 70px;
-	padding-right: 0px;
-	
+	height: 90vh;
+	padding-right: 0px;	
 }
 
 body {
@@ -47,6 +44,4 @@ body {
 #editelement{
 	width: 15vw;
 	float:left;
-	
-	
 }
