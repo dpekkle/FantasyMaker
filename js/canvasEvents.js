@@ -61,7 +61,6 @@ cy.on('select', function(event)
 {
 	//update UI
 	var element = cy.$(':selected') //get the currently selected element
-	$(".connectionmode").show(); //we only want connectionmode to be visible if an element is selected
 	$(".deletebutton").show();
 	
 	console.log("Select: ", element.data('id'))

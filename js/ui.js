@@ -26,6 +26,7 @@ function updateEditPane(element)
 		document.getElementById("connectiontext").value = element.data('text'); //jquery dodgey with textarea			
 	}
 }
+
 function hideEditPanes()
 {
 	//hide all possible panes
@@ -34,7 +35,6 @@ function hideEditPanes()
 	$("#editconnection").hide();
 
 	//hide buttons that are only visible when something is selected
-	$(".connectionmode").hide();
 	$(".deletebutton").hide();
 }
 
@@ -131,6 +131,7 @@ function createConnection(element)
 		}
 	}	
 }
+
 //resize cytoscape canvas's div container (known as cy) based on container elements
 function resizeCanvas()
 {
@@ -148,23 +149,26 @@ function resizeCanvas()
 $(window).resize(resizeCanvas)
 
 //watch the tab changes in bootstrap, re-render canvas when we switch to it
-var observer = new MutationObserver(function(mutations) 
 {
-	mutations.forEach(function(mutation) 
-	{        
-		if(mutation.oldValue == "tab-pane fade" && mutation.target.className == "tab-pane fade active in") 
-		{
-			cy.resize();
-		}
-	});    
-});
-var cytabNode = $('#cyTab')[0];
-var observerConfig = 
-{  
-    attributes: true,
-    childList: false,
-    characterData: false,
-    attributeOldValue: true, 
-	'attributeFilter': ['class']
-};
-observer.observe(cytabNode, observerConfig);
+	var observer = new MutationObserver(function(mutations) 
+	{
+		mutations.forEach(function(mutation) 
+		{        
+			if(mutation.oldValue == "tab-pane fade" && mutation.target.className == "tab-pane fade active in") 
+			{
+				cy.resize();
+			}
+		});    
+	});
+
+	var cytabNode = $('#cyTab')[0];
+	var observerConfig = 
+	{  
+		attributes: true,
+		childList: false,
+		characterData: false,
+		attributeOldValue: true, 
+		'attributeFilter': ['class']
+	};
+	observer.observe(cytabNode, observerConfig);
+}
