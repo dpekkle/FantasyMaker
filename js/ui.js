@@ -19,7 +19,7 @@ function updateEditPane(element)
 		$("#pagename").text("Page " + element.data('id'));
 		document.getElementById("pagetext").value = element.data('text'); //jquery dodgey with textarea	
 	}
-	else if (element.hasClass('connection'))
+	else if (element.isEdge()) //will probably need checks for each type of edge
 	{
 		$("#editconnection").show();
 		$("#connectionname").text("Connection");

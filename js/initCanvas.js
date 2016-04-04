@@ -14,7 +14,7 @@ var cy = cytoscape({
 
 	// appearance for elements in canvas, similar to CSS
 	style: [
-		// NODES
+		// broad types of elements
 		{
 			selector: 'node',
 			style: {
@@ -29,6 +29,18 @@ var cy = cytoscape({
 				'transition-duration': '0.8s', //fadeout, essentially
 				}
 		},
+		{
+			selector: 'edge',
+			style: {
+				'width': 4,
+				'target-arrow-shape': 'triangle',
+				'line-color': '#9dbaea',
+				'target-arrow-color': '#9dbaea',
+				'curve-style': 'bezier'
+			}
+		},
+		
+		// node classes
 		{
 			selector: '.page',
 			style:{
@@ -68,25 +80,16 @@ var cy = cytoscape({
 				'content':'Start',
 			}
 		},
-		// EDGES
-		{
-			selector: 'edge',
-			style: {
-				'width': 4,
-				'target-arrow-shape': 'triangle',
-				'line-color': '#9dbaea',
-				'target-arrow-color': '#9dbaea',
-				'curve-style': 'bezier'
-			}
-		},
+		
+		// edge classes
+		
+		//add in a default edge style for page to page
 		{
 			selector: '.success-edge',
 			style: {
 				'line-color': '#a1d490',
 				'target-arrow-color': '#a1d490',
-
-			}
-			
+			}			
 		},
 		{
 			selector: '.fail-edge',
@@ -107,7 +110,7 @@ var cy = cytoscape({
 		},
 	],
 	
-	selectionType: 'single', //allows nodes to be selected
+	selectionType: 'single', //allows only one element to be selected at a time
 	minZoom: 0.2,
 	maxZoom: 5,
 	
