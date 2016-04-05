@@ -1,0 +1,65 @@
+img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    width: 120px;
+    display: block;
+}
+
+div {
+    margin: 0px;
+}
+
+.handle{
+
+}
+
+#drag-container {
+    border: 2px dashed #0000ff; 
+    margin: 0 auto; 
+    padding: 50px;
+}
+
+#form-container {
+    position: relative; 
+    border: 1px solid #0000ff; 
+    height: 198px;
+}
+
+.drag-element {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #fff; 
+    border: 1px solid #ff0000;
+	width:200px;
+}
+
+.drag-element.can-drop {
+    border: 1px solid #00ff00;
+}
+
+
+.drag-element.dropped {
+    border: 1px solid #000000;
+}
+
+.drag-element-source {
+    position: absolute;
+    float: left;
+    margin-right: 6px;
+}
+
+#drop-container {
+    position: relative; 
+    border: 2px dashed #ff0000;
+    height: 500px;
+    margin-top: 1em;
+    pointer-events:none; /*removes the possibility on drop-container blocking an image*/
+}
+
+#drop-container.drop-target {
+    border: 2px dashed #00ff00;
+}
