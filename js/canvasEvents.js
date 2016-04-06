@@ -69,9 +69,13 @@ cy.on('select', function(event)
 		var oldselect = cy.$(':selected').diff(event.cyTarget);
 		oldselect.left.unselect();
 	}
+	
+	//if adding a new connection
+	createConnection(element);
 
 	hideEditPanes();
-	selectNodeUI(event.cyTarget);
+	updateEditPane(event.cyTarget);
+	$(".deletebutton").show();
 })
 
 /* 	if someone clicks on an element already selected while trying to connect nodes the "select" event doesn't fire, 
@@ -109,13 +113,3 @@ cy.on('unselect', function(event)
 		updateEditPane(cy.$(':selected'));
 	}
 })
-
-function selectNodeUI(element)
-{
-	console.log("Select: ", element.data('id'))
-	//if adding a new connection
-	createConnection(element);
-	updateEditPane(element);
-
-	$(".deletebutton").show();
-}
