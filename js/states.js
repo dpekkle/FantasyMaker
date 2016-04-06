@@ -15,6 +15,7 @@ function exitStates()
 {
 	if (current_state == states.CONNECTING)
 	{
+		cy.boxSelectionEnabled( true );
 		if (source_node !== null)
 		{
 			source_node.removeClass("source_node"); //remove the style associated with source nodes	
@@ -32,8 +33,10 @@ function changeState(caller)
 	
 	if ($(caller).hasClass('connectionmode') && current_state != states.CONNECTING)
 	{
-		current_state = states.CONNECTING;	
+		current_state = states.CONNECTING;
+		cy.boxSelectionEnabled( false ); //dont want to select multiple nodes when connecting	
 		source_node = null;
+		cy.$(':selected').unselect();
 	}
 	else if ($(caller).hasClass('pagemode') && current_state != states.NEWPAGE)
 	{

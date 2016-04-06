@@ -109,13 +109,12 @@ var cy = cytoscape({
 			}
 		},
 	],
-	
+	boxSelectionEnabled: true,
 	selectionType: 'single', //allows only one element to be selected at a time
 	minZoom: 0.2,
-	maxZoom: 5,
-	
-  
+	maxZoom: 5, 
 });
+
 cy.panzoom();
 resizeCanvas();
 
