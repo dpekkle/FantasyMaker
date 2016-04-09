@@ -2,6 +2,7 @@ goog.provide('ui')
 goog.require('initCanvas')
 goog.require('states')
 goog.require('httpRequests')
+goog.require("assetLoad")
 
 function updateEditPane(element)
 {
@@ -20,6 +21,8 @@ function updateEditPane(element)
 			$("#editpage").show();				
 			$("#pagename").text("Page " + element.data('id'));
 			document.getElementById("pagetext").value = element.data('text'); //jquery dodgey with textarea	
+			changeImage();
+			changeAudio();
 		}
 		else if (element.isEdge()) //will probably need checks for each type of edge
 		{

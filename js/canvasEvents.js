@@ -30,7 +30,9 @@ cy.on('tap', function(event)
 			{
 				data: { 
 					id: ++total_pages, 
-					text: "page text"
+					text: "page text",
+					img: "none",
+					audio: "none",
 				},
 				classes: "page",
 				group: "nodes",
@@ -71,7 +73,7 @@ cy.on('select', function(event)
 	}
 	
 	//if adding a new connection
-	createConnection(element);
+	createConnection(event.cyTarget);
 
 	hideEditPanes();
 	updateEditPane(event.cyTarget);
