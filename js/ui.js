@@ -21,7 +21,7 @@ function updateEditPane(element)
 			$("#editpage").show();				
 			$("#pagename").text("Page " + element.data('id'));
 			document.getElementById("pagetext").value = element.data('text'); //jquery dodgey with textarea	
-			changeImage();
+			changeImage(); //when this is called it attempts to load the file "none" for some reason
 			changeAudio();
 		}
 		else if (element.isEdge()) //will probably need checks for each type of edge
@@ -42,7 +42,9 @@ function hideEditPanes()
 
 	//hide deletion button unless some are still selected
 	if (cy.$(':selected').size() === 0)
-		$(".deletebutton").hide();
+	{
+		$(".selectionbutton").hide();
+	}
 }
 
 $(".textarea").on('input', function(event) //fires an event when the ui textarea is updated

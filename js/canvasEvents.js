@@ -77,7 +77,9 @@ cy.on('select', function(event)
 
 	hideEditPanes();
 	updateEditPane(event.cyTarget);
-	$(".deletebutton").show();
+
+	// Selected element functions
+	$(".selectionbutton").show();
 })
 
 /* 	if someone clicks on an element already selected while trying to connect nodes the "select" event doesn't fire, 
