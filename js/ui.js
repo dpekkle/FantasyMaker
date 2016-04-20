@@ -72,10 +72,10 @@ function removeElement()
 			
 			//remove nodes from graph
 			cy.remove(element);
-			hideEditPanes();
-			
+			hideEditPanes();		
 		}
 	}
+	cy.$('node').first().addClass('start');
 }
 
 function createConnection(element)
@@ -133,7 +133,7 @@ function createConnection(element)
 						},
 						classes: style,
 						group: "edges",
-					});			
+					});	
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node

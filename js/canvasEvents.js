@@ -9,13 +9,12 @@ total_pages = 0;
 source_node = null;
 
 //tap event has concurrency differences between touchscreen and mouse in chrome
-cy.on('tapend', function(event)
+cy.on('tap', function(event)
 {
 	var evtTarget = event.cyTarget;
+	
 	if (evtTarget === cy)
-	{
 		cy.$(':selected').unselect(); //touch screen doesn't seem to do this by default
-	}
 	
 	if (current_state === states.CONNECTING)
 	{
@@ -67,7 +66,6 @@ cy.on('tapend', function(event)
 		}		
 	}
 	//make the "first" node a start node, needn't run with every tap though
-	cy.$('node').first().addClass('start');
 })
 
 cy.on('select', function(event)
