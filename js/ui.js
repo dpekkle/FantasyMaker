@@ -90,10 +90,11 @@ function createConnection(element)
 		}
 		else 
 		{
-			console.log("Creating link from ", source_node.data('id'), " to ", element.data('id'))
 
 			if (source_node.data('id') != element.data('id'))
 			{
+				console.log("Creating link from ", source_node.data('id'), " to ", element.data('id'))
+
 				var style = '';
 				var makeedge = true;
 				if (source_node.hasClass('control')) //control nodes only have two edges, a success and a fail fallback
@@ -136,6 +137,7 @@ function createConnection(element)
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node
+				element.unselect();
 			}
 		}
 	}	
