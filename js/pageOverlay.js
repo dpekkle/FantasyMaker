@@ -35,6 +35,14 @@ function showPageOverlay(element)
 		}
 	}
 	
+	if (selected.isEdge())
+	{
+		$("#connectioncontainers").show();
+		//this is where we define all the connection stuff that shows up in the overlay
+		$('#connectioncontainers #decisiontext').html(escapeHtml(selected.data('text')));	
+		
+	}
+	
 	//now lets actually show the modal i.e. overlay
 	if (element === null)
 		document.getElementById("Modal").showModal();
