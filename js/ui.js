@@ -3,49 +3,7 @@ goog.require('initCanvas')
 goog.require('states')
 goog.require('httpRequests')
 goog.require("assetLoad")
-
-function updateEditPane(element)
-{
-	if (cy.$(':selected').size() === 1)
-	{
-		//display control info on selection
-		if (element.hasClass('control'))
-		{
-			$("#editcontrol").show();	
-			$("#controlname").text("control " + element.data('id'));
-			document.getElementById("controltext").value = element.data('text'); //jquery dodgey with textarea	
-		}
-		//display page info on selection	
-		else if (element.hasClass('page'))
-		{
-			$("#editpage").show();				
-			$("#pagename").text("Page " + element.data('id'));
-			document.getElementById("pagetext").value = element.data('text'); //jquery dodgey with textarea	
-			changeImage(); //when this is called it attempts to load the file "none" for some reason
-			changeAudio();
-		}
-		else if (element.isEdge()) //will probably need checks for each type of edge
-		{
-			$("#editconnection").show();
-			$("#connectionname").text("Connection");
-			document.getElementById("connectiontext").value = element.data('text'); //jquery dodgey with textarea			
-		}
-	}
-}
-
-function hideEditPanes()
-{
-	//hide all possible panes
-	$("#editpage").hide();
-	$("#editcontrol").hide();		
-	$("#editconnection").hide();
-
-	//hide deletion button unless some are still selected
-	if (cy.$(':selected').size() === 0)
-	{
-		$(".selectionbutton").hide();
-	}
-}
+goog.require("pageOverlay")
 
 $(".textarea").on('input', function(event) //fires an event when the ui textarea is updated
 {

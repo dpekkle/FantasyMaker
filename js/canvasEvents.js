@@ -41,12 +41,15 @@ cy.on('tap', function(event)
 					text: "page text",
 					img: "none",
 					audio: "none",
+					styleHTML: "none"
 				},
 				classes: "page",
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
 			})
-		}		
+		}
+		if (cy.elements().size() === 1)
+			cy.$('node').first().addClass('start');		
 	}
 	
 	else if (current_state === states.NEWCONTROL)
@@ -65,7 +68,6 @@ cy.on('tap', function(event)
 			})
 		}		
 	}
-	//make the "first" node a start node, needn't run with every tap though
 })
 
 cy.on('select', function(event)
@@ -82,10 +84,6 @@ cy.on('select', function(event)
 		createConnection(event.cyTarget);
 	}
 	
-	hideEditPanes();
-	updateEditPane(event.cyTarget);
-
-	// Selected element functions
 	$(".selectionbutton").show();
 })
 
@@ -93,16 +91,7 @@ cy.on('unselect', function(event)
 {
 	console.log("Unselect event fired ", event.cyTarget.data('id'));
 
-	//only want to display the edit pane when one node is selected
-	if (cy.$(':selected').size() !== 1)
-	{
-		//hide pane
-		hideEditPanes();
-	}
-	else
-	{
-		console.log("Only one selected")
-		hideEditPanes();
-		updateEditPane(cy.$(':selected'));
-	}
+	if (cy.$(':selected').size() === 0) //sometimes we had more than one selected
+		$(".selectionbutton").hide(); //delete and edit buttons
+
 })

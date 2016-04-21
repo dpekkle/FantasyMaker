@@ -18,26 +18,36 @@
 	<body>
 	<!-- Page Style Overlay -->
 	<dialog id="Modal" class="pageOverlay">
-		<button style="float:right;"class="button" onclick=closeOverlay()>X</button>
-		
-		<div style="float:right;" id="editelement">
-			<div class = "editpane" id="editpage">
+		<!-- Containers that the creator can edit, drag around etc... -->
+
+		<div id="modalcontainers">
+			<div id = "pagecontainers">
+				<img width="100" height="100" id = "pageimg" src="testassets/test.jpeg"> <br/>
+				<textarea class = "textarea" id="pagetext"></textarea>
+			</div>	
+			<div id = "controlcontainers">
+				<textarea class = "textarea" id="controltext"></textarea>
+			</div>
+			<div id = "connectioncontainers">
+				<textarea class = "textarea" id="connectiontext"></textarea>
+			</div>
+		</div>
+		<!-- Toolbars for the overlay -->
+		<div id="modaltoolbar">
+			<button style="float:right;"class="button" onclick=closeOverlay()>X</button>
+			<div class = "toolbar" id="pagetoolbar">
 				<p id="pagename"></p>
 				<button class = "button" onclick=loadAudio()>Load Audio</button> <br/>
 				<button class = "button" onclick=toggleAudio()>Play Audio</button> <br/>
 				<button class = "button" onclick=loadImage()>Load Image</button> <br/>
-				<img width="100" height="100" id = "pageimg" src="testassets/test.jpeg"> <br/>
-				<textarea class = "textarea" id="pagetext"></textarea>
 			</div>
-			<div class = "editpane" id="editcontrol">
+			<div class = "toolbar" id="controltoolbar">
 				<p id="controlname"></p>
-				<textarea class = "textarea" id="controltext"></textarea>
 			</div>
-			<div class = "editpane" id="editconnection">
+			<div class = "toolbar" id="connectiontoolbar">
 				<p id="connectionname"></p>
-				<textarea class = "textarea" id="connectiontext"></textarea>
 			</div>	
-		</div>
+		</div>		
 	</dialog>
 	
 	<div class="container-fluid">
@@ -70,9 +80,9 @@
 						</div>
 					</div>
 					<div id="Play" class="tab-pane fade">
-						<div class="col-xs-9" id="playwindow">	
-							<p id="PageText"></p><br/>
-							<p id="Decision"></p><br/>
+						<div class="col-xs-9" id="playwindow">
+							<div class = "playpage">							
+							</div>
 							<button class="progressbutton button" onclick=progressStory()>Continue</button>
 						</div>
 					</div>
