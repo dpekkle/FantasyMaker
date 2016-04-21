@@ -1,17 +1,32 @@
 goog.provide('pageOverlay')
 
-function showPageOverlay()
+function prepareForGame() //this updates the HTML for every page etc... into the appropriate cytoscape node
 {
-	var selected = cy.$(':selected')[0];	
+	var eles = cy.elements();
+	for (var i = 0; i < eles.length; i++)
+	{
+		showPageOverlay(eles[i]);
+		closeOverlay(eles[i]);
+	}
+}
+
+function showPageOverlay(element)
+{
+	var selected = element;
+	if (element === null)
+		var selected = cy.$(':selected')[0];	
 
 	$(".toolbar").hide(); //hide all toolbars
 	$("#modalcontainers").children().hide();
 	overlayToolbar(selected);
 	
-	//create the decision buttons dynamically
+	//update contents of page view
 	if (selected.hasClass('page'))
 	{
 		$("#pagecontainers").show();
+		$('#pagecontainers #pagetext').html(escapeHtml(selected.data('text')));	
+
+		//create the decision buttons dynamically
 		outgoingEdges = selected.outgoers().edges();
 		for (var i = 0; i < outgoingEdges.size(); i++)
 		{
@@ -21,45 +36,44 @@ function showPageOverlay()
 	}
 	
 	//now lets actually show the modal i.e. overlay
-	document.getElementById("Modal").showModal();
+	if (element === null)
+		document.getElementById("Modal").showModal();
 }
 
 function overlayToolbar(element)
 {
-	if (cy.$(':selected').size() === 1)
+	//display control info on selection
+	if (element.hasClass('control'))
 	{
-		//display control info on selection
-		if (element.hasClass('control'))
-		{
-			$("#controltoolbar").show();	
-			$("#controlname").text("control " + element.data('id'));
-			document.getElementById("controltext").value = element.data('text'); //jquery dodgey with textarea	
-		}
-		//display page info on selection	
-		else if (element.hasClass('page'))
-		{
-			$("#pagetoolbar").show();				
-			$("#pagename").text("Page " + element.data('id'));
-			document.getElementById("pagetext").value = element.data('text'); //jquery dodgey with textarea	
-					
-			changeImage(); //when this is called it attempts to load the file "none" for some reason
-			changeAudio();
-		}
-		else if (element.isEdge()) //will probably need checks for each type of edge
-		{
-			$("#connectiontoolbar").show();
-			$("#connectionname").text("Connection");
-			document.getElementById("connectiontext").value = element.data('text'); //jquery dodgey with textarea			
-		}
+		$("#controltoolbar").show();	
+		$("#controlname").text("control " + element.data('id'));
+		document.getElementById("controltext").value = element.data('text'); //jquery dodgey with textarea	
+	}
+	//display page info on selection	
+	else if (element.hasClass('page'))
+	{
+		$("#pagetoolbar").show();				
+		$("#pagename").text("Page " + element.data('id'));					
+		changeImage(element);
+		changeAudio(element);
+	}
+	else if (element.isEdge()) //will probably need checks for each type of edge
+	{
+		$("#connectiontoolbar").show();
+		$("#connectionname").text("Connection");
+		document.getElementById("connectiontext").value = element.data('text'); //jquery dodgey with textarea			
 	}
 }
 
-function closeOverlay()
+function closeOverlay(element)
 {
-	document.getElementById("Modal").close();
+	if (element === null)
+		document.getElementById("Modal").close();
 	
 	//save the contents of the page to the associated page
-	var selected = cy.$(':selected')[0];
+	var selected = element;
+	if (element === null)
+		var selected = cy.$(':selected')[0];
 	
 	if (selected.hasClass('page'))
 	{

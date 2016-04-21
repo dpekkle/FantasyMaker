@@ -19,20 +19,22 @@ function toggleAudio()
 		$('#audio')[0].play();
 }
 
-function changeAudio()
+function changeAudio(element)
 {
+	var selected = element;
+	if (element === null)
+		selected = cy.$(':selected')
 	$('#audio')[0].pause();
 	
-	if (cy.$(':selected').data('audio') == "none")
+	if (selected.data('audio') == "none")
 		console.log("no audio link");
 	else
-		$('#audio').attr("src", cy.$(':selected').data('audio')); //change the source of the audio	
+		$('#audio').attr("src", selected.data('audio')); //change the source of the audio	
 
 }
 
 function loadImage()
 {
-	
 	console.log("Image: ", cy.$(':selected').data('id'));
 	console.log(cy.$(':selected').data('img'));
 	
@@ -46,17 +48,20 @@ function loadImage()
 	}
 }
 
-function changeImage()
+function changeImage(element)
 {
+	var selected = element;
+	if (element === null)
+		selected = cy.$(':selected')
 	
-	if (cy.$(':selected').data('img') == "none")
+	if (selected.data('img') == "none")
 	{
 		resizeImage(0,0);
 		console.log("no image link found");
 	}
 	else
 	{
-		$('#pageimg').attr("src", 	cy.$(':selected').data('img'));	
+		$('#pageimg').attr("src", selected.data('img'));	
 		resizeImage(100,100);
 	}
 }

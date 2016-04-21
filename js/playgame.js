@@ -39,14 +39,22 @@ function stylePage()
 		$('.playpage #pagetext').html(escapeHtml(currentNode.data('text')));	
 		console.log(currentNode.data('text')); 	
 	}
-	if (styleHTML.includes('decisiontext'))
+	if (styleHTML.includes('decisionbutton'))
 	{
-		for (var i = 0; i < outgoingEdges.size(); i++)
+		console.log("Let's bind buttons")
+		var i = 0;
+		$('.playpage').children('button').each(function(index)
 		{
-			$('.playpage #decisiontext').html(escapeHtml(outgoingEdges.eq(i).data('text')));
-			console.log("Decision 1: ", outgoingEdges.eq(i).data('text'));
-			//bind that decision to a particular link, should probably be a button
-		}
+			console.log("Bound button, i = ", index);
+			//bind decision button to a particular page
+			$(this).click(function()
+			{
+				progressStory(index);
+			})
+			//this.html(escapeHtml(outgoingEdges.eq(i).data('text')));
+			i++;
+		});
+		console.log("Decisions total: ", i);
 	}
 }
 
@@ -55,7 +63,7 @@ function parseControl(outgoingEdges)
 	//handle control stuff
 }
 
-function progressStory()
+function progressStory(i)
 {
 	if (currentNode === null) //very first page
 	{
@@ -64,9 +72,15 @@ function progressStory()
 	}	
 	else if (currentNode.outgoers().size() > 0)
 	{
-		currentNode = outgoingEdges.eq(0).target(); //should pick the correct decision, this only works for one.
+		currentNode = outgoingEdges.eq(i).target(); //should pick the correct decision, this only works for one.
 		console.log("Now on node ", currentNode.data('id'));
 		parseNode();	
 	}
+	else 
+	{
+		currentNode = null;
+		$('.playpage').html("");
+	}
 }
+
 

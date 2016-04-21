@@ -34,7 +34,7 @@
 		</div>
 		<!-- Toolbars for the overlay -->
 		<div id="modaltoolbar">
-			<button style="float:right;"class="button" onclick=closeOverlay()>X</button>
+			<button style="float:right;"class="button" onclick=closeOverlay(null)>X</button>
 			<div class = "toolbar" id="pagetoolbar">
 				<p id="pagename"></p>
 				<button class = "button" onclick=loadAudio()>Load Audio</button> <br/>
@@ -55,7 +55,7 @@
 			<div class = "col-xs-12">
 				<ul class="nav nav-tabs nav-justified" id="tabheadings">
 					<li class="active"><a data-toggle="tab" href="#cyTab">Graph</a></li>
-					<li><a data-toggle="tab" href="#Play">Play</a></li>
+					<li><a data-toggle="tab" href="#Play" onclick=prepareForGame()>Play</a></li>
 					<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
 					<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
 				</ul>
@@ -73,7 +73,7 @@
 							<button class="loadbutton button" onclick=http_load()>Load</button><br/>
 							<br/>
 							<button class="deletebutton selectionbutton" onclick=changeState(this)>Delete</button><br/>
-							<button class="editbutton selectionbutton" onclick=showPageOverlay()>Edit node</button><br/>
+							<button class="editbutton selectionbutton" onclick=showPageOverlay(null)>Edit node</button><br/>
 							
 							<br/>
 							<br/>		
@@ -83,7 +83,7 @@
 						<div class="col-xs-9" id="playwindow">
 							<div class = "playpage">							
 							</div>
-							<button class="progressbutton button" onclick=progressStory()>Continue</button>
+							<button class="progressbutton button" onclick=progressStory(0)>Continue</button>
 						</div>
 					</div>
 					<div id="menu2" class="tab-pane fade">

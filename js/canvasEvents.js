@@ -47,6 +47,7 @@ cy.on('tap', function(event)
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
 			})
+			
 		}
 		if (cy.elements().size() === 1)
 			cy.$('node').first().addClass('start');		
