@@ -82,7 +82,7 @@ function createConnection(element)
 				
 				if (makeedge)
 				{
-					cy.add(
+					var newEdge = cy.add(
 					{
 						data: {	
 							source: source_node.data('id'), 
@@ -92,6 +92,8 @@ function createConnection(element)
 						classes: style,
 						group: "edges",
 					});	
+					//edge selection is a bit buggy in chrome, so this should ensure it isn't.
+					newEdge.on('tap', function(event){this.select();});		
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node

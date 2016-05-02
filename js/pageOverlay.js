@@ -12,8 +12,10 @@ function prepareForGame() //this updates the HTML for every page etc... into the
 
 function showPageOverlay(element)
 {
+	//element is null when we are simply opening a selected node in cy. 
+	//if we pass an element we are creating the HTML markup of the page
 	var selected = element;
-	if (element === null)
+	if (element === null) 
 		var selected = cy.$(':selected')[0];	
 
 	$(".toolbar").hide(); //hide all toolbars
@@ -24,7 +26,7 @@ function showPageOverlay(element)
 	if (selected.hasClass('page'))
 	{
 		$("#pagecontainers").show();
-		$('#pagecontainers #pagetext').html(escapeHtml(selected.data('text')));	
+		$('#pagecontainers #pagetext').val(escapeHtml(selected.data('text')));	
 
 		//create the decision buttons dynamically
 		outgoingEdges = selected.outgoers().edges();
@@ -39,9 +41,15 @@ function showPageOverlay(element)
 	{
 		$("#connectioncontainers").show();
 		//this is where we define all the connection stuff that shows up in the overlay
-		$('#connectioncontainers #decisiontext').html(escapeHtml(selected.data('text')));	
+		$('#connectioncontainers #decisiontext').val(escapeHtml(selected.data('text')));	
 		
 	}
+	if (selected.hasClass('control'))
+	{
+		$("#controlcontainers").show();
+		$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));		
+	}
+	
 	
 	//now lets actually show the modal i.e. overlay
 	if (element === null)
@@ -55,7 +63,6 @@ function overlayToolbar(element)
 	{
 		$("#controltoolbar").show();	
 		$("#controlname").text("control " + element.data('id'));
-		document.getElementById("controltext").value = element.data('text'); //jquery dodgey with textarea	
 	}
 	//display page info on selection	
 	else if (element.hasClass('page'))
@@ -69,7 +76,6 @@ function overlayToolbar(element)
 	{
 		$("#connectiontoolbar").show();
 		$("#connectionname").text("Connection");
-		document.getElementById("connectiontext").value = element.data('text'); //jquery dodgey with textarea			
 	}
 }
 

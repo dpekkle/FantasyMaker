@@ -42,7 +42,6 @@ function stylePage()
 	if (styleHTML.includes('decisionbutton'))
 	{
 		console.log("Let's bind buttons")
-		var i = 0;
 		$('.playpage').children('button').each(function(index)
 		{
 			console.log("Bound button, i = ", index);
@@ -50,9 +49,8 @@ function stylePage()
 			$(this).click(function()
 			{
 				progressStory(index);
+				//no need to update the decision button's text, as that's passed with currentNode.data('styleHTML');
 			})
-			//this.html(escapeHtml(outgoingEdges.eq(i).data('text')));
-			i++;
 		});
 		console.log("Decisions total: ", i);
 	}

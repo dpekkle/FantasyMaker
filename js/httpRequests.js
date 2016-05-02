@@ -30,6 +30,11 @@ function http_load(){
 		var json = JSON.parse(data); //convert response to JSON
 		cy.add(json); //add all elements to graph
 	});
+	
+	/*	I'm not sure if collection specific events are saved/loaded,
+		but this should ensure the chrome edge selection bug isn't present when loading from server	*/
+	cy.$('edge').on('tap', function(event){this.select();});		
+
 }
 
 function http_delete(elemList){
