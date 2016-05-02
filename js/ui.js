@@ -19,7 +19,6 @@ function removeElement()
 		if (confirm("Are you sure you want to delete this element and all it's links?")) //we can make this prettier than default confirm
 		{
 			cy.remove(element);
-			hideEditPanes();
 			cy.$('node').first().addClass('start');
 			
 			//remove elements from DB
@@ -30,7 +29,6 @@ function removeElement()
 			
 			//remove nodes from graph
 			cy.remove(element);
-			hideEditPanes();		
 		}
 	}
 	cy.$('node').first().addClass('start');
@@ -93,7 +91,7 @@ function createConnection(element)
 						group: "edges",
 					});	
 					//edge selection is a bit buggy in chrome, so this should ensure it isn't.
-					newEdge.on('tap', function(event){this.select();});		
+					//newEdge.on('tap', function(event){this.select();});		
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node
