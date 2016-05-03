@@ -1,20 +1,33 @@
 goog.provide('httpRequests')
 goog.require('initCanvas')
+goog.require('project')
 
 console.log("Enter httpRequests.js")
+
+//Array to hold elemets of graph to be deleted.
+//Elements get deleted via http_save().
+var http_modStack = [];
 
 function http_save(){
 	console.log("save");
 	
+	project_createNewProject();
+	project_updateProject();
 	
-	//jquery ajax post request
+	console.log(JSON.stringify(project_project));
+
+	//jquery ajax post request	
 	$.ajax({
 		type: 'POST',
-		url: 'php/save.php', //FantasyMaker/php/save.php
-		data: JSON.stringify(cy.elements().jsons()), //pass all elements of graph as string
+		url: '/saveProject', 
+		data: {
+			"save" : JSON.stringify(project_project),
+			"deletedObjects" : JSON.stringify(http_modStack)
+		},
 		success: function(data) { alert("Graph Saved"); },
-		contentType: "application/json"
+		contenttype: "application/json"
 	});
+	
 
 }
 
@@ -26,16 +39,20 @@ function http_load(){
 	cy.remove( col );
 	
 	//get graph data from server
-	$.get("php/load.php", function(data,status){
-		var json = JSON.parse(data); //convert response to JSON
-		cy.add(json); //add all elements to graph
+	$.ajax({
+		url: '/getProject', 
+		data: {
+			"projectOwner" : "Admin",
+			"projectName" : "newTest",
+		}, 
+		cache: false,
+		type: 'GET',
+		success: function(data) { 
+			console.log(JSON.stringify(data));
+			cy.add(data);
+		},
+		contenttype: "application/json"
 	});
-	
-	// Add events listeners to newly loaded tree elements
-	/*	I'm not sure if collection specific events are saved/loaded,
-		but this should ensure the chrome edge selection bug isn't present when loading from server	*/
-	//cy.$('edge').on('tap', function(event){this.select();});		
-
 }
 
 function http_delete(elemList){
@@ -51,5 +68,20 @@ function http_delete(elemList){
 		contentType: "application/json"
 	});
 	
+}
+
+//function to package a projects information into the correct JSON structure for database storage.
+function http_packageProject(uname,graph,statTypes){
+	
+	var jsonObj = {
+		"username" : uname,
+		"graph": [],
+		"statTypes" : []
+	}
+	
+	jsonObj.graph = graph;
+	jsonObj.statTypes = statTypes;
+	
+	return jsonObj;
 }
 
