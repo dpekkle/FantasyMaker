@@ -49,7 +49,22 @@ function http_load(){
 		type: 'GET',
 		success: function(data) { 
 			//console.log(JSON.stringify(data));
-			cy.add(data);
+			
+			//for all elements in data
+			for(var i = 0; i<data.length; i++){
+				//check if element is an edge
+				if(data[i].group == "edges"){
+					//add edge to graph
+					var newEdge = cy.add(data[i]);
+					//add event listener to edge
+					newEdge.on('tap', function(event){this.select();});	
+					
+				}
+				else{
+					cy.add(data[i]);
+				}
+			}
+			
 		},
 		contenttype: "application/json"
 	});
