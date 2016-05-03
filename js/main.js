@@ -2,7 +2,6 @@ goog.require('initCanvas')
 goog.require('canvasEvents')
 goog.require('ui')
 goog.require('pageOverlay')
-goog.require('playGame')
 
 console.log("Enter main.js version 0.5.0")
 

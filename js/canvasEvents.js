@@ -8,28 +8,17 @@ console.log("Enter canvasEvents.js")
 total_pages = 0;
 source_node = null;
 
-// Ensure edge detection is consistent
-cy.$('edge').on('tap', function(event){this.select();});		
-
-//tap event has concurrency differences between touchscreen and mouse in chrome
 cy.on('tap', function(event)
 {
 	var evtTarget = event.cyTarget;
-	
-	if (evtTarget === cy)
-		cy.$(':selected').unselect(); //touch screen doesn't seem to do this by default
-	
 	if (current_state === states.CONNECTING)
 	{
-		// method to "deselect" a source node for connections
-		if (evtTarget === source_node || evtTarget === cy)
+		// if someone is trying to connect nodes but doesn't click on a node then we give them another shot
+		if (cy.$(':selected').empty())
 		{
+			console.log("USER: please select a valid node to connect to")
 			if (source_node !== null)
-			{
-				//remove source node
-				source_node.removeClass("source_node"); //remove the style associated with source nodes
-				source_node = null; //remove stored source node
-			}
+				source_node.select();
 		}
 	}
 	
@@ -44,16 +33,12 @@ cy.on('tap', function(event)
 					text: "page text",
 					img: "none",
 					audio: "none",
-					styleHTML: "none"
 				},
 				classes: "page",
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
 			})
-			
-		}
-		if (cy.elements().size() === 1)
-			cy.$('node').first().addClass('start');		
+		}		
 	}
 	
 	else if (current_state === states.NEWCONTROL)
@@ -72,6 +57,8 @@ cy.on('tap', function(event)
 			})
 		}		
 	}
+	//make the "first" node a start node, needn't run with every tap though
+	cy.$('node').first().addClass('start');
 })
 
 cy.on('select', function(event)
@@ -83,19 +70,50 @@ cy.on('select', function(event)
 	{
 		var oldselect = cy.$(':selected').diff(event.cyTarget);
 		oldselect.left.unselect();
-		
-		//if adding a new connection
-		createConnection(event.cyTarget);
 	}
 	
+	//if adding a new connection
+	createConnection(event.cyTarget);
+
+	hideEditPanes();
+	updateEditPane(event.cyTarget);
+
+	// Selected element functions
 	$(".selectionbutton").show();
+})
+
+/* 	if someone clicks on an element already selected while trying to connect nodes the "select" event doesn't fire, 
+	but they clearly want the selected node as a target/source for a connection	*/
+cy.on('tap', ':selected', function(event)
+{
+	if (current_state === states.CONNECTING)
+	{
+		if (source_node == null)
+		{
+			console.log("Connection node registered as currently selected node")
+			createConnection(cy.$(':selected')) 
+		}	
+		else
+		{
+			console.log("tapped the source_node");
+			source_node.removeClass("source_node");
+			source_node = null;	
+		}
+	}
 })
 
 cy.on('unselect', function(event)
 {
-	console.log("Unselect event fired ", event.cyTarget.data('id'));
-
-	if (cy.$(':selected').size() === 0) //sometimes we had more than one selected
-		$(".selectionbutton").hide(); //delete and edit buttons
-
+	//only want to display the edit pane when one node is selected
+	if (cy.$(':selected').size() !== 1)
+	{
+		//hide pane
+		hideEditPanes();
+	}
+	else
+	{
+		console.log("Only one selected")
+		hideEditPanes();
+		updateEditPane(cy.$(':selected'));
+	}
 })
