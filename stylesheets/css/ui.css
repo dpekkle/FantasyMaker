@@ -44,8 +44,7 @@ body {
 	display: none;
 }
 
-.editpane{
-	display: none;
+.toolbar{
 }
 
 .textarea{
@@ -54,7 +53,22 @@ body {
 	display: block;
 }
 
-#editelement{
-	width: 15vw;
-	float:left;
+#modalcontainers{
+	border-style: solid;
+	border-width: 2px;
+	border-color: black;
+	
+	width: 74%;
+	height: 100%;
+	float: left;
+}
+
+#modaltoolbar{
+	border-style: solid;
+	border-width: 2px;
+	border-color: black;
+
+	width: 25%;
+	height:100%;
+	float: right;
 }

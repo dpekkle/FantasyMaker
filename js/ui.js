@@ -3,49 +3,7 @@ goog.require('initCanvas')
 goog.require('states')
 goog.require('httpRequests')
 goog.require("assetLoad")
-
-function updateEditPane(element)
-{
-	if (cy.$(':selected').size() === 1)
-	{
-		//display control info on selection
-		if (element.hasClass('control'))
-		{
-			$("#editcontrol").show();	
-			$("#controlname").text("control " + element.data('id'));
-			document.getElementById("controltext").value = element.data('text'); //jquery dodgey with textarea	
-		}
-		//display page info on selection	
-		else if (element.hasClass('page'))
-		{
-			$("#editpage").show();				
-			$("#pagename").text("Page " + element.data('id'));
-			document.getElementById("pagetext").value = element.data('text'); //jquery dodgey with textarea	
-			changeImage(); //when this is called it attempts to load the file "none" for some reason
-			changeAudio();
-		}
-		else if (element.isEdge()) //will probably need checks for each type of edge
-		{
-			$("#editconnection").show();
-			$("#connectionname").text("Connection");
-			document.getElementById("connectiontext").value = element.data('text'); //jquery dodgey with textarea			
-		}
-	}
-}
-
-function hideEditPanes()
-{
-	//hide all possible panes
-	$("#editpage").hide();
-	$("#editcontrol").hide();		
-	$("#editconnection").hide();
-
-	//hide deletion button unless some are still selected
-	if (cy.$(':selected').size() === 0)
-	{
-		$(".selectionbutton").hide();
-	}
-}
+goog.require("pageOverlay")
 
 $(".textarea").on('input', function(event) //fires an event when the ui textarea is updated
 {
@@ -60,25 +18,20 @@ function removeElement()
 	{
 		if (confirm("Are you sure you want to delete this element and all it's links?")) //we can make this prettier than default confirm
 		{
-			//cy.remove(element);
-			hideEditPanes();
+			cy.remove(element);
 			cy.$('node').first().addClass('start');
 			
-			//Add elements(edges) connected to node to http_modStack array for later deletion.
-			for(var i = 0; i<element.connectedEdges().jsons().length; i++){
-				http_modStack.push(element.connectedEdges().jsons()[i]);//del edges (Danni note: removeElement will also delete edges, so this SHOULD return no edges in that case)
-			}
-			//add nodes to http_modStack array for later deletion.
-			for(var i = 0; i<element.jsons().length; i++){
-				http_modStack.push(element.jsons()[i]);
-			}
+			//remove elements from DB
+			//done in 2 requests due to something adding indexs as parents to json objects during concat and stringify
+			//need to fix at some point
+			http_delete(element.connectedEdges().jsons());//del edges (Danni note: removeElement will also delete edges, so this SHOULD return no edges in that case)
+			http_delete(element.jsons());//del nodes
 			
-			//remove nodes from graph(client-side)
+			//remove nodes from graph
 			cy.remove(element);
-			hideEditPanes();
-			
 		}
 	}
+	cy.$('node').first().addClass('start');
 }
 
 function createConnection(element)
@@ -93,10 +46,11 @@ function createConnection(element)
 		}
 		else 
 		{
-			console.log("Creating link from ", source_node.data('id'), " to ", element.data('id'))
 
 			if (source_node.data('id') != element.data('id'))
 			{
+				console.log("Creating link from ", source_node.data('id'), " to ", element.data('id'))
+
 				var style = '';
 				var makeedge = true;
 				if (source_node.hasClass('control')) //control nodes only have two edges, a success and a fail fallback
@@ -126,7 +80,7 @@ function createConnection(element)
 				
 				if (makeedge)
 				{
-					cy.add(
+					var newEdge = cy.add(
 					{
 						data: {	
 							source: source_node.data('id'), 
@@ -135,10 +89,13 @@ function createConnection(element)
 						},
 						classes: style,
 						group: "edges",
-					});			
+					});	
+					//edge selection is a bit buggy in chrome, so this should ensure it isn't.
+					//newEdge.on('tap', function(event){this.select();});		
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node
+				element.unselect();
 			}
 		}
 	}	

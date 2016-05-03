@@ -3,29 +3,18 @@ goog.require('initCanvas')
 
 console.log("Enter httpRequests.js")
 
-//Array to hold elemets of graph to be deleted.
-//Elements get deleted via http_save().
-var http_modStack = [];
-
 function http_save(){
 	console.log("save");
-	//console.log("modstack")
-	//console.log(JSON.stringify(http_modStack));
-
-	//jquery ajax post request	
+	
+	
+	//jquery ajax post request
 	$.ajax({
 		type: 'POST',
-		url: '/saveProject', 
-		data: {
-			"save" : JSON.stringify(cy.elements().jsons()),
-			"deletedObjects" : JSON.stringify(http_modStack),
-			"projectOwner" : "Admin",
-			"projectName" : "Demo",
-		},
+		url: 'php/save.php', //FantasyMaker/php/save.php
+		data: JSON.stringify(cy.elements().jsons()), //pass all elements of graph as string
 		success: function(data) { alert("Graph Saved"); },
-		contenttype: "application/json"
+		contentType: "application/json"
 	});
-	
 
 }
 
@@ -37,20 +26,16 @@ function http_load(){
 	cy.remove( col );
 	
 	//get graph data from server
-	$.ajax({
-		url: '/getProject', 
-		data: {
-			"projectOwner" : "Admin",
-			"projectName" : "Demo",
-		}, 
-		cache: false,
-		type: 'GET',
-		success: function(data) { 
-			console.log(JSON.stringify(data));
-			cy.add(data);
-		},
-		contenttype: "application/json"
+	$.get("php/load.php", function(data,status){
+		var json = JSON.parse(data); //convert response to JSON
+		cy.add(json); //add all elements to graph
 	});
+	
+	// Add events listeners to newly loaded tree elements
+	/*	I'm not sure if collection specific events are saved/loaded,
+		but this should ensure the chrome edge selection bug isn't present when loading from server	*/
+	//cy.$('edge').on('tap', function(event){this.select();});		
+
 }
 
 function http_delete(elemList){

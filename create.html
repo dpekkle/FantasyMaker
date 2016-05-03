@@ -18,26 +18,36 @@
 	<body>
 	<!-- Page Style Overlay -->
 	<dialog id="Modal" class="pageOverlay">
-		<button style="float:right;"class="button" onclick=closeOverlay()>X</button>
-		
-		<div style="float:right;" id="editelement">
-			<div class = "editpane" id="editpage">
+		<!-- Containers that the creator can edit, drag around etc... -->
+
+		<div id="modalcontainers">
+			<div id = "pagecontainers">
+				<img width="100" height="100" id = "pageimg" src="testassets/test.jpeg"> <br/>
+				<textarea class = "textarea" id="pagetext"></textarea>
+			</div>	
+			<div id = "controlcontainers">
+				<textarea class = "textarea" id="controltext"></textarea>
+			</div>
+			<div id = "connectioncontainers">
+				<textarea class = "textarea" id="connectiontext"></textarea>
+			</div>
+		</div>
+		<!-- Toolbars for the overlay -->
+		<div id="modaltoolbar">
+			<button style="float:right;"class="button" onclick=closeOverlay(null)>X</button>
+			<div class = "toolbar" id="pagetoolbar">
 				<p id="pagename"></p>
 				<button class = "button" onclick=loadAudio()>Load Audio</button> <br/>
 				<button class = "button" onclick=toggleAudio()>Play Audio</button> <br/>
 				<button class = "button" onclick=loadImage()>Load Image</button> <br/>
-				<img width="100" height="100" id = "pageimg" src="testassets/test.jpeg"> <br/>
-				<textarea class = "textarea" id="pagetext"></textarea>
 			</div>
-			<div class = "editpane" id="editcontrol">
+			<div class = "toolbar" id="controltoolbar">
 				<p id="controlname"></p>
-				<textarea class = "textarea" id="controltext"></textarea>
 			</div>
-			<div class = "editpane" id="editconnection">
+			<div class = "toolbar" id="connectiontoolbar">
 				<p id="connectionname"></p>
-				<textarea class = "textarea" id="connectiontext"></textarea>
 			</div>	
-		</div>
+		</div>		
 	</dialog>
 	
 	<div class="container-fluid">
@@ -45,7 +55,7 @@
 			<div class = "col-xs-12">
 				<ul class="nav nav-tabs nav-justified" id="tabheadings">
 					<li class="active"><a data-toggle="tab" href="#cyTab">Graph</a></li>
-					<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+					<li><a data-toggle="tab" href="#Play" onclick=prepareForGame()>Play</a></li>
 					<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
 					<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
 				</ul>
@@ -63,15 +73,18 @@
 							<button class="loadbutton button" onclick=http_load()>Load</button><br/>
 							<br/>
 							<button class="deletebutton selectionbutton" onclick=changeState(this)>Delete</button><br/>
-							<button class="editbutton selectionbutton" onclick=showPageOverlay()>Edit node</button><br/>
+							<button class="editbutton selectionbutton" onclick=showPageOverlay(null)>Edit node</button><br/>
 							
 							<br/>
 							<br/>		
 						</div>
 					</div>
-					<div id="menu1" class="tab-pane fade">
-						<h3>Menu 1</h3>
-						<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+					<div id="Play" class="tab-pane fade">
+						<div class="col-xs-9" id="playwindow">
+							<div class = "playpage">							
+							</div>
+							<button class="progressbutton button" onclick=progressStory(0)>Continue</button>
+						</div>
 					</div>
 					<div id="menu2" class="tab-pane fade">
 						<h3>Menu 2</h3>
