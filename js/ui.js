@@ -91,7 +91,7 @@ function createConnection(element)
 						group: "edges",
 					});	
 					//edge selection is a bit buggy in chrome, so this should ensure it isn't.
-					//newEdge.on('tap', function(event){this.select();});		
+					newEdge.on('tap', function(event){this.select();});		
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node

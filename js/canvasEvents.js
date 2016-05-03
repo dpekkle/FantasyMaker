@@ -8,9 +8,6 @@ console.log("Enter canvasEvents.js")
 total_pages = 0;
 source_node = null;
 
-// Ensure edge detection is consistent
-cy.$('edge').on('tap', function(event){this.select();});		
-
 //tap event has concurrency differences between touchscreen and mouse in chrome
 cy.on('tap', function(event)
 {
