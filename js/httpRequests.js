@@ -48,7 +48,7 @@ function http_load(){
 		cache: false,
 		type: 'GET',
 		success: function(data) { 
-			console.log(JSON.stringify(data));
+			//console.log(JSON.stringify(data));
 			cy.add(data);
 		},
 		contenttype: "application/json"
