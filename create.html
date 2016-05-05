@@ -69,12 +69,18 @@
 							<button class="connectionmode button" onclick=changeState(this)>New Connection</button><br/>
 							<br/>
 							<button class="connectivity button" onclick=checkValidGraph()>Test Graph</button> <br/>
+							<select onchange="layout_driver(this); this.selectedIndex = 0;" onfocus="this.selectedIndex = 0;">
+								<option value="none">Style Graph</option>
+								<option value="Tree">Tree</option>
+								<option value="Grid">Grid</option>
+								<option value="Circle">Circle</option>
+								<option value="Spread">Spread</option>
+							</select> <br/>
 							<button class="savebutton button" onclick=http_save()>Save</button><br/>
 							<button class="loadbutton button" onclick=http_load()>Load</button><br/>
 							<br/>
 							<button class="deletebutton selectionbutton" onclick=changeState(this)>Delete</button><br/>
 							<button class="editbutton selectionbutton" onclick=showPageOverlay(null)>Edit node</button><br/>
-							
 							<br/>
 							<br/>		
 						</div>

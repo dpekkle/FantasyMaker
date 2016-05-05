@@ -2,8 +2,9 @@ goog.provide('ui')
 goog.require('initCanvas')
 goog.require('states')
 goog.require('httpRequests')
-goog.require("assetLoad")
-goog.require("pageOverlay")
+goog.require('assetLoad')
+goog.require('pageOverlay')
+goog.require('layouts')
 
 $(".textarea").on('input', function(event) //fires an event when the ui textarea is updated
 {
@@ -16,9 +17,7 @@ function removeElement()
 	element = cy.$(':selected')
 	if (!element.empty())
 	{
-		//cy.remove(element);
-			hideEditPanes();
-			cy.$('node').first().addClass('start');
+			//cy.remove(element);
 			
 			//Add elements(edges) connected to node to http_modStack array for later deletion(on save).
 			for(var i = 0; i<element.connectedEdges().jsons().length; i++){
@@ -31,9 +30,9 @@ function removeElement()
 			
 			//remove nodes from graph(client-side)
 			cy.remove(element);
-			hideEditPanes();
-	}
-	cy.$('node').first().addClass('start');
+			total_pages--;
+			cleanup_titles();
+	}	
 }
 
 function createConnection(element)
@@ -48,7 +47,6 @@ function createConnection(element)
 		}
 		else 
 		{
-
 			if (source_node.data('id') != element.data('id'))
 			{
 				console.log("Creating link from ", source_node.data('id'), " to ", element.data('id'))
