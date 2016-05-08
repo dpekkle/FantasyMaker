@@ -5,7 +5,6 @@ goog.require('states')
 
 console.log("Enter canvasEvents.js")
 
-total_pages = 0;
 source_node = null;
 
 //tap event has concurrency differences between touchscreen and mouse in chrome
@@ -32,12 +31,14 @@ cy.on('tap', function(event)
 	
 	if (current_state === states.NEWPAGE)
 	{
+		console.log("Add a node");
 		if (evtTarget === cy) //tap on background
-		{		
+		{					
+			console.log("Really Add a node");
 			cy.add(
 			{
 				data: { 
-					id: ++total_pages, 
+					name: ++total_pages,
 					text: "page text",
 					img: "none",
 					audio: "none",
@@ -47,7 +48,6 @@ cy.on('tap', function(event)
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
 			})
-			
 		}
 		if (cy.elements().size() === 1)
 			cy.$('node').first().addClass('start');		
@@ -60,7 +60,7 @@ cy.on('tap', function(event)
 			cy.add(
 			{
 				data: { 
-					id: ++total_pages, 
+					name: ++total_pages, 
 					text: "control node text"
 				},
 				classes: "control",
@@ -73,8 +73,14 @@ cy.on('tap', function(event)
 
 cy.on('select', function(event)
 {
-	console.log("Select event fired ", event.cyTarget.data('id'));
+	//some dynamic colouring of relevant edges/nodes to the selected node
+	if (event.cyTarget.isNode())
+	{
+		event.cyTarget.outgoers().addClass('parent-selected'); //distinguish edges coming from this node
+		event.cyTarget.successors().leaves().addClass('leaf'); //distinguish the end points reachable from this node
+	}
 	
+	console.log("Select event fired ", event.cyTarget.data('id'));
 	//disable the additive selection behaviour when holding ctrl, alt, shift when we are in connection mode
 	if (current_state === states.CONNECTING)
 	{
@@ -90,6 +96,12 @@ cy.on('select', function(event)
 
 cy.on('unselect', function(event)
 {
+	if (event.cyTarget.isNode())
+	{
+		event.cyTarget.outgoers().removeClass('parent-selected');
+		event.cyTarget.successors().leaves().removeClass('leaf');
+	}
+
 	console.log("Unselect event fired ", event.cyTarget.data('id'));
 
 	if (cy.$(':selected').size() === 0) //sometimes we had more than one selected

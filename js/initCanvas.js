@@ -2,14 +2,13 @@ goog.provide('initCanvas')
 
 console.log("Enter initCanvas.js")
 
+total_pages = 0;
 
 var cy = cytoscape({
 	container: document.getElementById('cy'), // container to render in
   
 	//predefined layout, mostly used for static graphs
 	layout: {
-				name: 'grid',
-				rows: 1
 			},
 
 	// appearance for elements in canvas, similar to CSS
@@ -18,7 +17,7 @@ var cy = cytoscape({
 		{
 			selector: 'node',
 			style: {
-				'content': 'data(id)',
+				'content': 'data(name)',
 				'text-opacity': 1,
 				'text-valign': 'center',
 				'text-halign': 'center',
@@ -36,7 +35,8 @@ var cy = cytoscape({
 				'target-arrow-shape': 'triangle',
 				'line-color': '#9dbaea',
 				'target-arrow-color': '#9dbaea',
-				'curve-style': 'bezier'
+				'curve-style': 'bezier',
+				'line-style': 'solid',
 			}
 		},
 		
@@ -45,7 +45,7 @@ var cy = cytoscape({
 			selector: '.page',
 			style:{
 				'shape': 'roundrectangle',
-				'background-color': 'light-gray',
+				'background-color': 'gray',
 
 			}		
 		},
@@ -75,15 +75,22 @@ var cy = cytoscape({
 			}
 		},
 		{
-			selector:'.start',
+			selector: '.start',
 			style:{
-				'content':'Start',
+				'content': 'Start',
+				'background-color': '#9deaa6',
+			}
+		},
+		{
+			selector: '.leaf',
+			style:{
+				'background-color': '#eacd9d',
+				'transition-property': 'background-color',
+				'transition-duration': '0.1s',
 			}
 		},
 		
 		// edge classes
-		
-		//add in a default edge style for page to page
 		{
 			selector: '.success-edge',
 			style: {
@@ -98,16 +105,25 @@ var cy = cytoscape({
 				'target-arrow-color': '#c390d4',
 			}
 			
-		},		
+		},	
 		{
-			selector: ':selected', //style for selected elements
+			selector: '.parent-selected',
 			style: {
-				'border-width': 5,
+				'line-style': 'dashed',
+			}
+		},	
+		
+		//style for selected elements		
+		{
+			selector: ':selected', 
+			style: {
+				'border-width':5,
 				'line-color': 'black',
 				'target-arrow-color': 'black',
 				'transition-duration': '0.1s',
 			}
 		},
+
 	],
 	boxSelectionEnabled: true,
 	selectionType: 'single', //allows only one element to be selected at a time
