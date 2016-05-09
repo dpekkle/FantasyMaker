@@ -1,24 +1,49 @@
 goog.provide('assetLoad')
 goog.require('initCanvas')
 
-
-function addTextContainer(){
+function addTextContainer()
+{
 	//Create a new draggable div to hold the text container
 	//These text containers dont bind to the Node data yet, and are just html elements
-	var mDiv = document.createElement('div');
-	mDiv.className = "drag-element";
-	//mDiv.setAttribute("width", "40");
-	mDiv.setAttribute("height", "40");
-	mDiv.setAttribute("width", "25%");
 	
-	var mTextContainer = document.createElement('textarea');
-	mTextContainer.setAttribute("rows", "4");
-	mTextContainer.setAttribute("cols", "30");
-	mTextContainer.setAttribute("class", "text-area");
+	var size = cy.$(':selected').data('textcontainers').length;
 	
-	mDiv.appendChild(mTextContainer);
-	document.getElementById("drag-container").appendChild(mDiv);	
+	//create the container and append it to the pageX
+	{
+		var mDiv = document.createElement('div');
+		mDiv.className = "drag-element";
+		mDiv.id = "text-container" + size;
+		//mDiv.setAttribute("width", "40");
+		mDiv.setAttribute("height", "40");
+		mDiv.setAttribute("width", "25%");
+		
+		var mTextContainer = document.createElement('textarea');
+		mTextContainer.setAttribute("id", "text-area" + size);
+		mTextContainer.setAttribute("rows", "4");
+		mTextContainer.setAttribute("cols", "30");
+		mTextContainer.setAttribute("class", "text-area");
+		
+		mDiv.appendChild(mTextContainer);
+		$("#pagecontainers").append(mDiv);	
+	}
+	
+	var container_array = cy.$(':selected').data('textcontainers');
+	var newcontainer = {
+		'id' : 'test', 
+		'contents' : 'none', 
+		'html': $("#text-container"+size)[0].outerHTML
+		};
+	container_array.push(newcontainer);
+	cy.$(':selected').data('textcontainers', container_array);
+	
+	$("#text-area"+size).on('input', function(event) //fires an event when the container's textarea has a value entered
+	{
+		var text = this.value;
+		console.log("Text: ", text);
+		cy.$(':selected').data('textcontainers')[size].contents = text;	
+	})
 }
+
 function loadAudio()
 {
 	var audiolink = prompt("Enter audio url", cy.$(':selected').data('audio'));

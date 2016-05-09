@@ -43,5 +43,5 @@ function dragMoveListener (event) {
 
 window.dragMoveListener = dragMoveListener;
 //workaround for display of drag-container being set automatically to 'none'
-document.getElementById('drag-container').style.display = 'block';
+//document.getElementById('drag-container').style.display = 'block';
 

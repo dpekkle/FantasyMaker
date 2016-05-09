@@ -26,17 +26,36 @@ function showPageOverlay(element)
 	if (selected.hasClass('page'))
 	{
 		$("#pagecontainers").show();
-		$('#pagecontainers #pagetext').val(escapeHtml(selected.data('text')));	
+		
+		//load any previously saved info
+		//var styleHTML = selected.data('styleHTML');
+		//$('#pagecontainers').html(styleHTML);
 
+		//clear page
+		$('#pagecontainers').html('');		
+		var text_cont = cy.$(':selected')[0].data('textcontainers');
+		for (var i = 0; i < text_cont.length; i++)
+		{
+			$("#pagecontainers").append(text_cont[i].html);
+			$("#text-area"+i).val(escapeHtml(text_cont[i].contents));
+			
+			$("#text-area"+i).on('input', function(event) //fires an event when the container's textarea has a value entered
+			{
+				var text = this.value;
+				console.log("Text: ", text);
+				cy.$(':selected').data('textcontainers')[i].contents = text;	
+			})
+			
+			console.log("Display:", escapeHtml(text_cont[i].contents));
+		}
+		
 		//create the decision buttons dynamically
 		outgoingEdges = selected.outgoers().edges();
 		for (var i = 0; i < outgoingEdges.size(); i++)
 		{
 			//one button per edge
-			//$("#drag-container").append("<button class = 'decisionbutton' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button>");
-			$("#drag-container").append("<button class = 'drag-element' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button>");
-			//CHANGED CLASS TO DRAG-ELEMENT
-		
+			$("#pagecontainers").append("<button class = 'decisionbutton drag-element' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button><br>");
+			//CHANGED CLASS TO DRAG-ELEMENT		
 		}
 	}
 	
@@ -52,7 +71,6 @@ function showPageOverlay(element)
 		$("#controlcontainers").show();
 		$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));		
 	}
-	
 	
 	//now lets actually show the modal i.e. overlay
 	if (element === null)
@@ -94,12 +112,12 @@ function closeOverlay(element)
 	
 	if (selected.hasClass('page'))
 	{
-		//store the innerHTML of the page overlay in the actual cytoscape page data
-		selected.data('styleHTML', $('#pagecontainers').html());
-		console.log(selected.data('styleHTML'));
-		
-		//remove the dynamic buttons created for each decision
-		$(".decisionbutton").remove();
+		$('#pagecontainers').children("div[id^='text-container']").each(function(index)
+		{
+			var html = this.outerHTML;
+			selected.data('textcontainers')[index].html = html;
+			console.log("Updating HTML for ", index);
+		});
 	}
 }
 

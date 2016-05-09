@@ -34,9 +34,9 @@ function stylePage()
 	$('.playpage').html(styleHTML);
 	
 	//fill the containers with appropriate data
-	if (styleHTML.includes('pagetext')) //do this for each potential type of element
+	if (styleHTML.includes('textarea')) //do this for each potential type of element
 	{
-		$('.playpage #pagetext').html(escapeHtml(currentNode.data('text')));	
+		$('.playpage .text-area').html(escapeHtml(currentNode.data('text')));	
 		console.log(currentNode.data('text')); 	
 	}
 	if (styleHTML.includes('decisionbutton'))
@@ -52,7 +52,6 @@ function stylePage()
 				//no need to update the decision button's text, as that's passed with currentNode.data('styleHTML');
 			})
 		});
-		console.log("Decisions total: ", i);
 	}
 }
 

@@ -42,7 +42,9 @@ cy.on('tap', function(event)
 					text: "page text",
 					img: "none",
 					audio: "none",
-					styleHTML: "none"
+					textcontainers: [],
+					decisioncontainers: [],
+					styleHTML: ""
 				},
 				classes: "page",
 				group: "nodes",
