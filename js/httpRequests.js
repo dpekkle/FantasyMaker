@@ -11,10 +11,10 @@ var http_modStack = [];
 function http_save(){
 	console.log("save");
 	
-	project_createNewProject();
+	//project_createNewProject();
 	project_updateProject();
 	
-	console.log(JSON.stringify(project_project));
+	//console.log(JSON.stringify(project_project));
 
 	//jquery ajax post request	
 	$.ajax({
@@ -43,25 +43,29 @@ function http_load(){
 		url: '/getProject', 
 		data: {
 			"projectOwner" : "Admin",
-			"projectName" : "newTest",
+			"projectName" : "newDemo",
 		}, 
 		cache: false,
 		type: 'GET',
 		success: function(data) { 
 			//console.log(JSON.stringify(data));
 			
+			delete data[0]._id; //remove mongos _id attribute
+			
+			project_project = data[0];
+			
 			//for all elements in data
-			for(var i = 0; i<data.length; i++){
+			for(var i = 0; i<data[0].graph.length; i++){
 				//check if element is an edge
-				if(data[i].group == "edges"){
+				if(data[0].graph[i].group == "edges"){
 					//add edge to graph
-					var newEdge = cy.add(data[i]);
+					var newEdge = cy.add(data[0].graph[i]);
 					//add event listener to edge
 					newEdge.on('tap', function(event){this.select();});	
 					
 				}
 				else{
-					cy.add(data[i]);
+					cy.add(data[0].graph[i]);
 				}
 			}
 			

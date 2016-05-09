@@ -84,6 +84,8 @@ function createConnection(element)
 							source: source_node.data('id'), 
 							target: element.data('id'), 
 							text: '<Decision text to display)>',
+							conditions: [],
+							outcomes: []
 						},
 						classes: style,
 						group: "edges",
