@@ -6,6 +6,24 @@ goog.provide('playGame')
 currentNode = null;
 outgoingEdges = null;
 
+function prepareForGame()
+{
+	currentNode = null;
+	outgoingEdges = null;
+	
+	//clear page
+	$('.playpage').html('');
+
+	/*
+	var eles = cy.elements();
+	for (var i = 0; i < eles.length; i++)
+	{
+		showPageOverlay(eles[i]);
+		closeOverlay(eles[i]);
+	}*/
+}
+
+
 function parseNode()
 {
 	console.log("Parse node ", currentNode.data('id'));
@@ -29,7 +47,6 @@ function parsePage(outgoingEdges)
 
 function stylePage()
 {
-	
 	//clear page
 	$('.playpage').html('');
 	

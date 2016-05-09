@@ -1,15 +1,5 @@
 goog.provide('pageOverlay')
 
-function prepareForGame() //this updates the HTML for every page etc... into the appropriate cytoscape node
-{
-	/*
-	var eles = cy.elements();
-	for (var i = 0; i < eles.length; i++)
-	{
-		showPageOverlay(eles[i]);
-		closeOverlay(eles[i]);
-	}*/
-}
 
 /*
 function addEdgeToPageOverlay(parent)
@@ -41,22 +31,27 @@ function showPageOverlay(element)
 		//$('#pagecontainers').html(styleHTML);
 
 		//clear page
-		$('#pagecontainers').html('');		
+		$('#pagecontainers').html('');
+		
+		//create textareas
 		var text_cont = cy.$(':selected')[0].data('textcontainers');
-		for (var i = 0; i < text_cont.length; i++)
+		for (var j = 0; j < text_cont.length; j++)
 		{
-			$("#pagecontainers").append(text_cont[i].html);
-			$("#text-area"+i).val(escapeHtml(text_cont[i].contents));
+			$("#pagecontainers").append(text_cont[j].html);
+			var x = $("#text-area"+j).val(escapeHtml(text_cont[j].contents));
 			
-			$("#text-area"+i).on('input', function(event) //fires an event when the container's textarea has a value entered
+			x.on('input', function(event)
 			{
 				var text = this.value;
-				console.log("Text: ", text);
-				cy.$(':selected').data('textcontainers')[i].contents = text;	
-			})
+				var index = this.id.replace("text-area", "");
+				console.log("Text: ", text, " for ", index);
+				cy.$(':selected').data('textcontainers')[index].contents = text;				
+			});
 			
-			console.log("Display:", escapeHtml(text_cont[i].contents));
+			console.log("Display:", escapeHtml(text_cont[j].contents));
 		}
+		
+
 		
 		//create the decision buttons dynamically
 		outgoingEdges = selected.outgoers().edges();
