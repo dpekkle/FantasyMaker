@@ -2,13 +2,22 @@ goog.provide('pageOverlay')
 
 function prepareForGame() //this updates the HTML for every page etc... into the appropriate cytoscape node
 {
+	/*
 	var eles = cy.elements();
 	for (var i = 0; i < eles.length; i++)
 	{
 		showPageOverlay(eles[i]);
 		closeOverlay(eles[i]);
-	}
+	}*/
 }
+
+/*
+function addEdgeToPageOverlay(parent)
+{
+	$("#pagecontainers").append("<button class = 'decisionbutton drag-element' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button><br>");
+
+	
+}*/
 
 function showPageOverlay(element)
 {
@@ -119,6 +128,9 @@ function closeOverlay(element)
 			console.log("Updating HTML for ", index);
 		});
 	}
+	
+	//var total_html =  stripDraggable($("#pagecontainers").html());
+	//selected.data('styleHTML', total_html);
 }
 
 //We don't want users entering HTML within their text.
