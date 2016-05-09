@@ -33,7 +33,10 @@ function showPageOverlay(element)
 		for (var i = 0; i < outgoingEdges.size(); i++)
 		{
 			//one button per edge
-			$("#pagecontainers").append("<button class = 'decisionbutton' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button>");
+			//$("#drag-container").append("<button class = 'decisionbutton' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button>");
+			$("#drag-container").append("<button class = 'drag-element' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button>");
+			//CHANGED CLASS TO DRAG-ELEMENT
+		
 		}
 	}
 	

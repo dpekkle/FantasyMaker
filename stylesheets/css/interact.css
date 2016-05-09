@@ -1,0 +1,57 @@
+
+div {
+    margin: 0px;
+}
+
+.handle{
+
+}
+
+#drag-container {
+		height: 100%;
+		width: 100%;
+		display: block;
+}
+
+#form-container {
+    position: relative; 
+    border: 1px solid #0000ff; 
+    height: 198px;
+}
+
+.drag-element{
+	display: inline-block;
+	
+}
+
+.drag-element.can-drop {
+    border: 1px solid #00ff00;
+}
+
+
+.drag-element.dropped{
+    border: 1px solid #000000;
+}
+
+#drop-container {
+    position: relative; 
+    border: 2px dashed #ff0000;
+    height: 500px;
+    margin-top: 1em;
+    pointer-events:none; /*removes the possibility on drop-container blocking an image*/
+}
+
+
+
+.text-area{
+	
+	width: auto;
+	height: auto;
+	display: block;
+	border-style: dashed;
+	border-color: white;
+	border-width: thin;
+	background-color: transparent;
+	
+}
+	

@@ -1,6 +1,24 @@
 goog.provide('assetLoad')
 goog.require('initCanvas')
 
+
+function addTextContainer(){
+	//Create a new draggable div to hold the text container
+	//These text containers dont bind to the Node data yet, and are just html elements
+	var mDiv = document.createElement('div');
+	mDiv.className = "drag-element";
+	//mDiv.setAttribute("width", "40");
+	mDiv.setAttribute("height", "40");
+	mDiv.setAttribute("width", "25%");
+	
+	var mTextContainer = document.createElement('textarea');
+	mTextContainer.setAttribute("rows", "4");
+	mTextContainer.setAttribute("cols", "30");
+	mTextContainer.setAttribute("class", "text-area");
+	
+	mDiv.appendChild(mTextContainer);
+	document.getElementById("drag-container").appendChild(mDiv);	
+}
 function loadAudio()
 {
 	var audiolink = prompt("Enter audio url", cy.$(':selected').data('audio'));
@@ -72,3 +90,4 @@ function resizeImage(width, height)
 	$('#pageimg').attr("height", height);	
 	resizeCanvas();	
 }
+

@@ -24,12 +24,13 @@
 
 		
 		<div id="modalcontainers">
+			<div id = "pagecontainers" style="height:100%;">
 			<!-- Container for Dragging & Dropping page elements --> 
 				<div id = "drag-container">
-							<!-- Example of a to-be draggable container --> 
-					<div id = "drag-1" class="drag-element"><p>Drag Me</p></div>
+							<!-- Draggrable page elements will be children of drag-container --> 
+				
 			</div>
-
+			</div>
 				
 			
 			
@@ -45,6 +46,7 @@
 			<button style="float:right;"class="button" onclick=closeOverlay(null)>X</button>
 			<div class = "toolbar" id="pagetoolbar">
 				<p id="pagename"></p>
+				<button class = "button" onCLick=addTextContainer()>Add A TextBox</button><br/>
 				<button class = "button" onclick=loadAudio()>Load Audio</button> <br/>
 				<button class = "button" onclick=toggleAudio()>Play Audio</button> <br/>
 				<button class = "button" onclick=loadImage()>Load Image</button> <br/>

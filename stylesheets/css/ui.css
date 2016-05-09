@@ -48,9 +48,14 @@ body {
 }
 
 .textarea{
+	
 	width: auto;
 	height: 23vw;
 	display: block;
+	border-style: dashed;
+	border-color: white;
+	border-width: thin;
+	background-color: transparent;
 }
 
 #modalcontainers{
