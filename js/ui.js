@@ -6,12 +6,6 @@ goog.require('assetLoad')
 goog.require('pageOverlay')
 goog.require('layouts')
 
-$(".textarea").on('input', function(event) //fires an event when the ui textarea is updated
-{
-	var text = this.value;
-	cy.$(':selected').data('text', text);	
-})
-
 function removeElement()
 {
 	element = cy.$(':selected')

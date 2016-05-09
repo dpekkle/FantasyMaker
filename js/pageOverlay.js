@@ -1,14 +1,13 @@
 goog.provide('pageOverlay')
 
-function prepareForGame() //this updates the HTML for every page etc... into the appropriate cytoscape node
+
+/*
+function addEdgeToPageOverlay(parent)
 {
-	var eles = cy.elements();
-	for (var i = 0; i < eles.length; i++)
-	{
-		showPageOverlay(eles[i]);
-		closeOverlay(eles[i]);
-	}
-}
+	$("#pagecontainers").append("<button class = 'decisionbutton drag-element' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button><br>");
+
+	
+}*/
 
 function showPageOverlay(element)
 {
@@ -26,17 +25,41 @@ function showPageOverlay(element)
 	if (selected.hasClass('page'))
 	{
 		$("#pagecontainers").show();
-		$('#pagecontainers #pagetext').val(escapeHtml(selected.data('text')));	
+		
+		//load any previously saved info
+		//var styleHTML = selected.data('styleHTML');
+		//$('#pagecontainers').html(styleHTML);
 
+		//clear page
+		$('#pagecontainers').html('');
+		
+		//create textareas
+		var text_cont = cy.$(':selected')[0].data('textcontainers');
+		for (var j = 0; j < text_cont.length; j++)
+		{
+			$("#pagecontainers").append(text_cont[j].html);
+			var x = $("#text-area"+j).val(escapeHtml(text_cont[j].contents));
+			
+			x.on('input', function(event)
+			{
+				var text = this.value;
+				var index = this.id.replace("text-area", "");
+				console.log("Text: ", text, " for ", index);
+				cy.$(':selected').data('textcontainers')[index].contents = text;				
+			});
+			
+			console.log("Display:", escapeHtml(text_cont[j].contents));
+		}
+		
+
+		
 		//create the decision buttons dynamically
 		outgoingEdges = selected.outgoers().edges();
 		for (var i = 0; i < outgoingEdges.size(); i++)
 		{
 			//one button per edge
-			//$("#drag-container").append("<button class = 'decisionbutton' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button>");
-			$("#drag-container").append("<button class = 'drag-element' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button>");
-			//CHANGED CLASS TO DRAG-ELEMENT
-		
+			$("#pagecontainers").append("<button class = 'decisionbutton drag-element' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button><br>");
+			//CHANGED CLASS TO DRAG-ELEMENT		
 		}
 	}
 	
@@ -52,7 +75,6 @@ function showPageOverlay(element)
 		$("#controlcontainers").show();
 		$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));		
 	}
-	
 	
 	//now lets actually show the modal i.e. overlay
 	if (element === null)
@@ -94,13 +116,16 @@ function closeOverlay(element)
 	
 	if (selected.hasClass('page'))
 	{
-		//store the innerHTML of the page overlay in the actual cytoscape page data
-		selected.data('styleHTML', $('#pagecontainers').html());
-		console.log(selected.data('styleHTML'));
-		
-		//remove the dynamic buttons created for each decision
-		$(".decisionbutton").remove();
+		$('#pagecontainers').children("div[id^='text-container']").each(function(index)
+		{
+			var html = this.outerHTML;
+			selected.data('textcontainers')[index].html = html;
+			console.log("Updating HTML for ", index);
+		});
 	}
+	
+	//var total_html =  stripDraggable($("#pagecontainers").html());
+	//selected.data('styleHTML', total_html);
 }
 
 //We don't want users entering HTML within their text.

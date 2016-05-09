@@ -6,6 +6,24 @@ goog.provide('playGame')
 currentNode = null;
 outgoingEdges = null;
 
+function prepareForGame()
+{
+	currentNode = null;
+	outgoingEdges = null;
+	
+	//clear page
+	$('.playpage').html('');
+
+	/*
+	var eles = cy.elements();
+	for (var i = 0; i < eles.length; i++)
+	{
+		showPageOverlay(eles[i]);
+		closeOverlay(eles[i]);
+	}*/
+}
+
+
 function parseNode()
 {
 	console.log("Parse node ", currentNode.data('id'));
@@ -29,16 +47,31 @@ function parsePage(outgoingEdges)
 
 function stylePage()
 {
-	//update the HTML to have the right containers to display everything
-	var styleHTML = currentNode.data('styleHTML');
-	$('.playpage').html(styleHTML);
+	//clear page
+	$('.playpage').html('');
 	
-	//fill the containers with appropriate data
-	if (styleHTML.includes('pagetext')) //do this for each potential type of element
+	//fill the text containers with appropriate data
+	var text_cont = currentNode.data('textcontainers');
+	
+	for (var i = 0; i < text_cont.length; i++)
 	{
-		$('.playpage #pagetext').html(escapeHtml(currentNode.data('text')));	
-		console.log(currentNode.data('text')); 	
+		console.log("Add text container with contents: ", escapeHtml(text_cont[i].contents))
+		$('.playpage').append(text_cont[i].html);
+		$(".playpage #text-area"+i).val(escapeHtml(text_cont[i].contents));		
+		
+		//make the text areas read only
+		$(".playpage #text-area"+i).prop("disabled", "true")
+		$(".playpage #text-area"+i).css("resize", "none")
+		
 	}
+	
+	//make the text containers non draggable
+	$('.playpage').children("div[id^='text-container']").each(function(index)
+	{
+		this.setAttribute('locked', '');
+	});
+
+	/*
 	if (styleHTML.includes('decisionbutton'))
 	{
 		console.log("Let's bind buttons")
@@ -52,8 +85,7 @@ function stylePage()
 				//no need to update the decision button's text, as that's passed with currentNode.data('styleHTML');
 			})
 		});
-		console.log("Decisions total: ", i);
-	}
+	}*/
 }
 
 function parseControl(outgoingEdges)
@@ -79,6 +111,12 @@ function progressStory(i)
 		currentNode = null;
 		$('.playpage').html("");
 	}
+}
+
+function stripDraggable(str)
+{
+	var newstr = str.replace(/drag-element/g, "");
+	return newstr;
 }
 
 
