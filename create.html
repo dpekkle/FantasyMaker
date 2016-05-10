@@ -35,6 +35,7 @@
 			</div>
 			<div id = "connectioncontainers">
 				 <!--<textarea class = "textarea" id="connectiontext"></textarea> -->
+				 <ul id = "constraintList" class="list-unstyled" ></ul>
 			</div>
 		</div>
 		<!-- Toolbars for the overlay -->
@@ -52,6 +53,8 @@
 			</div>
 			<div class = "toolbar" id="connectiontoolbar">
 				<p id="connectionname"></p>
+				<button type="button" class="btn btn-default" onClick=edgeOverlay_addConstraint()>Add Constraint</button><br/>
+				<button type="button" class="btn btn-default" onClick=edgeOverlay_addOutcome()>Add Outcome</button><br/>
 			</div>	
 		</div>		
 	</dialog>
