@@ -11,14 +11,7 @@ function removeElement()
 	element = cy.$(':selected')
 	if (!element.empty())
 	{			
-		//Add elements(edges) connected to node to http_modStack array for later deletion(on save).
-		for(var i = 0; i<element.connectedEdges().jsons().length; i++){
-			http_modStack.push(element.connectedEdges().jsons()[i]);//del edges (Danni note: removeElement will also delete edges, so this SHOULD return no edges in that case)
-		}
-		//add nodes to http_modStack array for later deletion(on save).
-		for(var i = 0; i<element.jsons().length; i++){
-			http_modStack.push(element.jsons()[i]);
-		}			
+
 		//remove nodes from graph(client-side)
 		cy.remove(element);
 		total_pages--;

@@ -34,8 +34,23 @@
 				<textarea class = "textarea" id="controltext"></textarea>
 			</div>
 			<div id = "connectioncontainers">
-				 <!--<textarea class = "textarea" id="connectiontext"></textarea> -->
-				 <ul id = "constraintList" class="list-unstyled" ></ul>
+
+				<!-- panel for condtions list--> 
+				<div class="panel panel-default">
+					  <div class="panel-heading">Conditions</div>
+					  <div class="panel-body" style="min-height: 330px; max-height: 330px; overflow-y: scroll;">
+						<ul id = "conditionsList" class="list-unstyled" ></ul>
+					  </div>
+				</div>
+				
+				<!-- panel for outcomes list--> 
+				<div class="panel panel-default">
+					  <div class="panel-heading">Outcomes</div>
+					  <div class="panel-body" style="min-height: 330px; max-height: 330px; overflow-y: scroll;">
+						<ul id = "outcomeList" class="list-unstyled" ></ul>
+					  </div>
+				</div>
+				 
 			</div>
 		</div>
 		<!-- Toolbars for the overlay -->
@@ -53,7 +68,7 @@
 			</div>
 			<div class = "toolbar" id="connectiontoolbar">
 				<p id="connectionname"></p>
-				<button type="button" class="btn btn-default" onClick=edgeOverlay_addConstraint()>Add Constraint</button><br/>
+				<button type="button" class="btn btn-default" onClick=edgeOverlay_addCondition()>Add Condition</button><br/>
 				<button type="button" class="btn btn-default" onClick=edgeOverlay_addOutcome()>Add Outcome</button><br/>
 			</div>	
 		</div>		

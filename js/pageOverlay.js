@@ -66,6 +66,7 @@ function showPageOverlay(element)
 	if (selected.isEdge())
 	{
 		$("#connectioncontainers").show();
+		populateEdgeOverlay(selected.json()); // pass edge as json obj to populate overlay
 		//this is where we define all the connection stuff that shows up in the overlay
 		$('#connectioncontainers #decisiontext').val(escapeHtml(selected.data('text')));	
 		
@@ -122,6 +123,14 @@ function closeOverlay(element)
 			selected.data('textcontainers')[index].html = html;
 			console.log("Updating HTML for ", index);
 		});
+	}
+	
+	if(selected.isEdge()){
+		saveEdge();
+		//remove html of condition/outcome lists
+		$('#conditionsList').children().remove(); 
+		$('#outcomeList').children().remove(); 
+		
 	}
 	
 	//var total_html =  stripDraggable($("#pagecontainers").html());

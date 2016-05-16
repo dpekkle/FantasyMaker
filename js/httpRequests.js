@@ -4,9 +4,6 @@ goog.require('project')
 
 console.log("Enter httpRequests.js")
 
-//Array to hold elemets of graph to be deleted.
-//Elements get deleted via http_save().
-var http_modStack = [];
 
 function http_save(){
 	console.log("save");
@@ -14,7 +11,6 @@ function http_save(){
 	//project_createNewProject();
 	project_updateProject();
 	
-	//console.log(JSON.stringify(project_project));
 
 	//jquery ajax post request	
 	$.ajax({
@@ -22,7 +18,6 @@ function http_save(){
 		url: '/saveProject', 
 		data: {
 			"save" : JSON.stringify(project_project),
-			"deletedObjects" : JSON.stringify(http_modStack)
 		},
 		success: function(data) { alert("Graph Saved"); },
 		contenttype: "application/json"

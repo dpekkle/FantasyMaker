@@ -1,13 +1,121 @@
 goog.provide('edgeOverlay')
 goog.require('project')
+goog.require('conditions')
 
-var edgeOverlay_constraintCount = 0; //used to identify each drop down list
+var edgeOverlay_conditionCount = 0; //used to identify how many conds user has added to ui
+var edgeOverlay_outcomeCount = 0; //used to identify how many outcomes user has added to ui
+var edgeOverlay_selectedEdge; // edge that the user is modifying
+
+
+function populateEdgeOverlay(edge){
+	
+	//reset for new page overlay
+	edgeOverlay_conditionCount = 0; 
+	edgeOverlay_outcomeCount = 0; 
+	edgeOverlay_selectedEdge = edge;
+
+	//for all condition in edge
+	for(var i = 0; i<edgeOverlay_selectedEdge.data.conditions.length; i++){
+		var curr = edgeOverlay_selectedEdge.data.conditions[i]; 
+		
+		//add condition to ui
+		edgeOverlay_addCondition(); // adds default condition html to ui
+		
+		//update condition to reflect curr
+		$('#condition_statTypeList' + i).val(curr.stat);
+		$('#condition_compList' + i).val(curr.comparison);
+		$('#condition_value' + i).val(curr.value);
+		
+	}
+		
+	
+	//for all outcomes in edge
+	for(var i = 0; i<edgeOverlay_selectedEdge.data.outcomes.length; i++){
+		var curr = edgeOverlay_selectedEdge.data.outcomes[i]; 
+		
+		//add condition to ui
+		edgeOverlay_addOutcome(); // adds default condition html to ui
+		
+		//update condition to reflect curr
+		$('#outcome_statTypeList' + i).val(curr.stat);
+		$('#outcome_modList' + i).val(curr.modifier);
+		$('#outcome_value' + i).val(curr.value);
+	}
+		
+}
+
+function saveEdge(){
+	
+	//for all condition in ui
+	for(var i = 0; i<edgeOverlay_conditionCount; i++){
+		
+		//get values of menus/text from ui
+		var stat = $('#condition_statTypeList' + i).val();
+		var comp = $('#condition_compList' + i).val();
+		var val = $('#condition_value' + i).val();
+		
+		
+		//convert ui condition row into json obj
+		var newConst = conditions_createCondition(stat,comp,val); 
+		
+		if(newConst != null){
+			//check if updating existing condition or creating new condition
+			if(i < edgeOverlay_selectedEdge.data.conditions.length){
+				//condition already exists, update
+				edgeOverlay_selectedEdge.data.conditions[i] = newConst;
+			}
+			else{
+				//new condition, add
+				edgeOverlay_selectedEdge.data.conditions.push(newConst);
+			}
+		}
+		
+	}
+	
+	//for all outcomes in ui
+	for(var i = 0; i<edgeOverlay_outcomeCount; i++){
+		
+		//get values of menus/text from ui
+		var stat = $('#outcome_statTypeList' + i).val();
+		var mod = $('#outcome_modList' + i).val();
+		var val = $('#outcome_value' + i).val();
+		
+		
+		//convert ui condition row into json obj
+		var newOut = conditions_createOutcome(stat,mod,val); 
+		
+		if(newOut != null){
+			//check if updating existing condition or creating new condition
+			if(i < edgeOverlay_selectedEdge.data.outcomes.length){
+				//condition already exists, update
+				edgeOverlay_selectedEdge.data.outcomes[i] = newOut;
+			}
+			else{
+				//new condition, add
+				edgeOverlay_selectedEdge.data.outcomes.push(newOut);
+			}
+		}
+	}
+}
+
+
 
 //populate statType drop down menus based on contents of project_project.statTypes array
-function populateStatsDropDownMenu(index){
-	var id = '#statTypeList' + index; //id of a single drop down menu
-	$(id).children().remove(); //reload list incase of changes between  overlay loads
-	 
+function populateStatsDropDownMenu(index, type){
+	
+	var id="";
+	//check whether drop down menu to be populated is for conditions or outcomes
+	if(type == "CONDITION"){
+		id = '#condition_statTypeList' + index; 
+	}
+	else if(type == "OUTCOME"){
+		id = '#outcome_statTypeList' + index; 
+	}
+	else{
+		console.log("edgeOverlay_populateStatsDropDownMenu(): error - invalid type");
+		return;
+	}
+	
 	 //for all defined stat types
 	for(var i = 0; i<project_project.statTypes.length; i++){
 		//append element to drop down menu
@@ -16,27 +124,27 @@ function populateStatsDropDownMenu(index){
 	
 } 
 
-function edgeOverlay_addConstraint(){
+function edgeOverlay_addCondition(){
 	
-	//html of constraint row
-	var constraintHtml = '<li><ul class="nav nav-pills" id="constraintsList"><li><select class="form-control" id="statTypeList' + edgeOverlay_constraintCount +'"><select></li><li><select class="form-control"><option value="=">=</option><option value=">">></option><option value="<"><</option><option value=">=">>=</option><option value="<="><=</option></select></li><li><input type="text" class="form-control" id="statsValInput" placeholder="Enter value"></li></ul><li>';
+	//html of condition row
+	var conditionHtml = '<li><ul class="nav nav-pills" id="conditionsList"><li><select class="form-control" id="condition_statTypeList' + edgeOverlay_conditionCount +'"><select></li><li><select class="form-control" id="condition_compList' + edgeOverlay_conditionCount +'"><option value="=">=</option><option value=">">></option><option value="<"><</option><option value=">=">>=</option><option value="<="><=</option></select></li><li><input type="number" class="form-control" id="condition_value' + edgeOverlay_conditionCount +'" placeholder="Enter value" ></li></ul><li>';
 	
-	//add html to constraintList html element
-	$('#constraintList').append(constraintHtml);
-	populateStatsDropDownMenu(edgeOverlay_constraintCount); //populate the statType menu
+	//add html to conditionList html element
+	$('#conditionsList').append(conditionHtml);
+	populateStatsDropDownMenu(edgeOverlay_conditionCount,"CONDITION"); //populate the statType menu
 
-	edgeOverlay_constraintCount++;
+	edgeOverlay_conditionCount++;
 }
 
 function edgeOverlay_addOutcome(){
 	
 	//html of outcome row
-	var outcomeHtml = '<li><ul class="nav nav-pills"><li><select class="form-control" id="statTypeList' + edgeOverlay_constraintCount + '"><select></li><li><select class="form-control"><option value="+">+</option><option value="-">-</option><option value="/">/</option><option value="*">*</option><option value="=">=</option></select></li><li><input type="text" class="form-control" id="statsValInput" placeholder="Enter value"></li></ul></li>';
+	var outcomeHtml = '<li><ul class="nav nav-pills"><li><select class="form-control" id="outcome_statTypeList' + edgeOverlay_outcomeCount + '"><select></li><li><select class="form-control" id="outcome_modList' + edgeOverlay_outcomeCount +'"><option value="+">+</option><option value="-">-</option><option value="/">/</option><option value="*">*</option><option value="=">=</option></select></li><li><input type="number" class="form-control" id="outcome_value' + edgeOverlay_outcomeCount +'" placeholder="Enter value"></li></ul></li>';
 	
-	//add html to constraintList
-	$('#constraintList').append(outcomeHtml);
-	populateStatsDropDownMenu(edgeOverlay_constraintCount); //populate the statType menu
-	edgeOverlay_constraintCount++;
+	//add html to outcomeList
+	$('#outcomeList').append(outcomeHtml);
+	populateStatsDropDownMenu(edgeOverlay_outcomeCount,"OUTCOME"); //populate the statType menu
+	edgeOverlay_outcomeCount++;
 }
 
 					

@@ -14,7 +14,6 @@ module.exports = function(app){
 	app.post('/saveProject',function(req,res){
 	
 		var project = JSON.parse(req.body.save); //parse saveFile
-		var deletedObjects = JSON.parse(req.body.deletedObjects); //parse list of elements to be deleted(if any)
 		
 		//add name of project to url for db connection
 		var url = serverPath + project.projectOwner;
