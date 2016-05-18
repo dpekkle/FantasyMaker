@@ -1,19 +1,126 @@
 <!DOCTYPE html>
 <html>
 
+
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Fantasymaker : ">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/frontpage.css">
-
-    <title>Fantasymaker</title>
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/frontpage.css">
+    <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+    <title>FantasyMaker</title>
   </head>
 
   <body>
-
-    <!-- HEADER -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Fantasy Maker</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#team">Team</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="create.html">Create</a></li>
+            <li><a href="#">Play (Coming Soon)</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+		<div class="jumbotron">
+      <div class="container">
+				<div class="main">
+        <h1>Introducing <span class="accent">FantasyMaker</span></h1>
+        <h2>Making interactive storytelling easier</h3>
+					<a class="btn" href="https://github.com/dpekkle/FantasyMaker/tree/gh-pages">View Project</a>
+				</div>
+			</div>
+    </div>
+		<div class="row row-centered" id="about">
+			<div class="col-md-3 col-centered">
+				<div class="card about_card">
+					<img src="http://placehold.it/150x150"/>
+					<h2>Create</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac iaculis purus, pretium sagittis tortor. In ultrices nisl non metus viverra, sed gravida nisl tristique. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed maximus, tortor vel interdum hendrerit, lectus odio consectetur velit, et consectetur tellus lacus vitae odio. </p>
+				</div>
+			</div>
+			<div class="col-md-3 col-centered">
+				<div class="card about_card"  id="middle-card" >
+					<img src="http://placehold.it/150x150"/>
+					<h2>Play</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac iaculis purus, pretium sagittis tortor. In ultrices nisl non metus viverra, sed gravida nisl tristique. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed maximus, tortor vel interdum hendrerit, lectus odio consectetur velit, et consectetur tellus lacus vitae odio. </p>
+				</div>
+			</div>
+			<div class="col-md-3 col-centered">
+				<div class="card about_card">
+					<img src="http://placehold.it/150x150"/>
+					<h2>Share</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac iaculis purus, pretium sagittis tortor. In ultrices nisl non metus viverra, sed gravida nisl tristique. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed maximus, tortor vel interdum hendrerit, lectus odio consectetur velit, et consectetur tellus lacus vitae odio. </p>					
+				</div>
+			</div>
+		</div>
+		
+		<div class="container" id="team">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-1">
+					</br>
+					<h1>Meet the Team</h1>
+				</div>
+				<div class="col-md-2 col-md-offset-2">
+					<a href="#" class="btn">Team Blog</a>
+				</div>
+				<div class="col-md-2">	
+					<a href="#" class="btn">Contact Us</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-2 card team_card">
+				<div class="col-md-4 col-xs-4">
+					<img src="http://placehold.it/175x175"/>
+				</div>
+				<div class="col-md-6 col-xs-6">
+					<h2>Name</h2></br>
+					<p>Roles/Bio?</p>
+				</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4 card team_card">
+				<div class="col-md-4 col-xs-4">
+					<img src="http://placehold.it/175x175"/>
+				</div>
+				<div class="col-md-6 col-xs-6">
+					<h2>Name</h2></br>
+					<p>Roles/Bio?</p>
+				</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-6 card team_card">
+				<div class="col-md-4 col-xs-4">
+					<img src="http://placehold.it/175x175"/>
+				</div>
+				<div class="col-md-6 col-xs-6">
+					<h2>Name</h2></br>
+					<p>Roles/Bio?</p>
+				</div>
+				</div>
+			</div>
+		</div>	
+		<div class="row" id="footer">
+			<div class="col-md-8 col-md-offset-2">
+				<p>&copy; footer</p>
+			</div>
+		</div>
+	
+		
+		
+    <!-- HEADER 
     <div id="header_wrap" class="outer">
         <header class="inner">
 		
@@ -25,7 +132,7 @@
         </header>
     </div>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN CONTENT 
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h3><a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.
@@ -35,12 +142,13 @@
       </section>
     </div>
 
-    <!-- FOOTER  -->
+    <!-- FOOTER  
     <div id="footer_wrap" class="outer">
       <footer class="inner">
         <p class="copyright">Fantasymaker maintained by <a href="https://github.com/dpekkle">dpekkle</a></p>
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
+-->
   </body>
-</html>
+</html> 
