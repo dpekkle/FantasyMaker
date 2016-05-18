@@ -32,7 +32,7 @@ h1, h2, p{
 }
 
 .jumbotron{
-	background: url(/images/IMG-002.jpg);
+	background: url(https://github.com/dpekkle/FantasyMaker/blob/gh-pages/images/IMG-002.jpg);
 	height: 600px;
 	background-size: cover;
 	margin-bottom: 0px;
@@ -142,7 +142,7 @@ color: white;
 #team{
 	height: 850px;
 	width: 100%;
-	background: url(/images/code_on_screen.jpg);
+	background: url(https://github.com/dpekkle/FantasyMaker/blob/gh-pages/images/code_on_screen.jpg);
 	background-size: cover;
 }
 
