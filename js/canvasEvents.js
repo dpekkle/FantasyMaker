@@ -39,7 +39,7 @@ cy.on('tap', function(event)
 			{
 				data: { 
 					name: ++total_pages,
-					text: "page text",
+					//text: "page text",
 					img: "none",
 					audio: "none",
 					textcontainers: [],

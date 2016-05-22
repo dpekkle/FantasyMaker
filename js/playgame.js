@@ -14,6 +14,8 @@ function prepareForGame()
 	//clear page
 	$('.playpage').html('');
 
+	//consider case where someone creates pages without opening the page style overlay, in which case no style is assigned
+	//will probably be an empty page i.e. no html
 	/*
 	var eles = cy.elements();
 	for (var i = 0; i < eles.length; i++)
@@ -50,42 +52,44 @@ function stylePage()
 	//clear page
 	$('.playpage').html('');
 	
-	//fill the text containers with appropriate data
+	//create text containers
 	var text_cont = currentNode.data('textcontainers');
+	var dec_cont = currentNode.data('decisioncontainers');
 	
 	for (var i = 0; i < text_cont.length; i++)
 	{
-		console.log("Add text container with contents: ", escapeHtml(text_cont[i].contents))
 		$('.playpage').append(text_cont[i].html);
-		$(".playpage #text-area"+i).val(escapeHtml(text_cont[i].contents));		
-		
-		//make the text areas read only
-		$(".playpage #text-area"+i).prop("disabled", "true")
-		$(".playpage #text-area"+i).css("resize", "none")
-		
 	}
 	
-	//make the text containers non draggable
+	for (var i = 0; i < dec_cont.length; i++)
+	{
+		// we will need to check visibility conditions when deciding to add a decision container to a page 
+		$('.playpage').append(dec_cont[i].html);
+	}
+
+	//give decisions on click behaviour
+	$('.playpage').children("div[id^='decision-container']").each(function(index)	
+	{
+		$(this).click(function()
+		{
+			progressStory(index);
+		})
+	});
+	
+	//make content read-only
+	$(".playpage .handle").hide(); //player can't drag, replaces lock function - can't drag without a handle
+	$(".playpage #editdiv").attr('contenteditable','false'); //player can't edit
+	$(".playpage #editdec").attr('contenteditable','false');
+
+	//redundant with handle hiding
+	/*
 	$('.playpage').children("div[id^='text-container']").each(function(index)
 	{
 		this.setAttribute('locked', '');
 	});
-
-	/*
-	if (styleHTML.includes('decisionbutton'))
-	{
-		console.log("Let's bind buttons")
-		$('.playpage').children('button').each(function(index)
-		{
-			console.log("Bound button, i = ", index);
-			//bind decision button to a particular page
-			$(this).click(function()
-			{
-				progressStory(index);
-				//no need to update the decision button's text, as that's passed with currentNode.data('styleHTML');
-			})
-		});
-	}*/
+	*/
+	
+	
 }
 
 function parseControl(outgoingEdges)
@@ -102,7 +106,8 @@ function progressStory(i)
 	}	
 	else if (currentNode.outgoers().size() > 0)
 	{
-		currentNode = outgoingEdges.eq(i).target(); //should pick the correct decision, this only works for one.
+		currentNode = outgoingEdges.eq(i).target(); 
+		//need to run edge outcomes here
 		console.log("Now on node ", currentNode.data('id'));
 		parseNode();	
 	}

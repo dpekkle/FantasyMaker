@@ -59,7 +59,7 @@ function saveEdge(){
 		var newConst = conditions_createCondition(stat,comp,val); 
 		
 		if(newConst != null){
-			//check if updating existing condition or creating new condition
+			//check if updating existing condition or creating new condition -- Danielle Note: This will need to be more robust if we add in deletion of conditions
 			if(i < edgeOverlay_selectedEdge.data.conditions.length){
 				//condition already exists, update
 				edgeOverlay_selectedEdge.data.conditions[i] = newConst;

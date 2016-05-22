@@ -6,7 +6,7 @@ interact('.drag-element:not([locked])')
     // keep the element within the area of it's parent
     restrict: {
       restriction: "parent",
-      endOnly: true,
+      endOnly: false,
       elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
     },
     // enable autoScroll
@@ -16,6 +16,7 @@ interact('.drag-element:not([locked])')
     onmove: dragMoveListener,
     // call this function on every dragend event
     onend: function (event) {
+	  console.log(event);
       var textEl = event.target.querySelector('p');
 
       textEl && (textEl.textContent =
@@ -23,7 +24,8 @@ interact('.drag-element:not([locked])')
         + (Math.sqrt(event.dx * event.dx +
                      event.dy * event.dy)|0) + 'px');
     }
-  });
+  })
+  .allowFrom('.handle');
 
 function dragMoveListener (event) {
     var target = event.target;
