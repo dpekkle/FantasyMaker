@@ -2,8 +2,6 @@ goog.provide('initCanvas')
 
 console.log("Enter initCanvas.js")
 
-total_pages = 0;
-
 var cy = cytoscape({
 	container: document.getElementById('cy'), // container to render in
   
