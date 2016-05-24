@@ -1,5 +1,6 @@
 goog.provide('layouts')
 goog.require('initCanvas')
+goog.require('pageOverlay') //for containers
 
 var cose_layout = {
   name: 'cose',
@@ -113,16 +114,57 @@ var breadth_first_layout = {
   stop: undefined // callback on layoutstop
 };
 
-function cleanup_titles()
+function cleanup_node_labels(element)
 {
-	//cleanup the titles for each node
+	//remove element from graph(client-side)
+	cy.remove(element);
+	
+	//cleanup the displayed name for each label
 	var i = 1;
 	for (i; i < cy.nodes().size(); i++)
 	{
 		cy.nodes()[i].style('content', i+1);
-		cy.nodes()[i].data('name', i+1);
+		cy.nodes()[i].data('name', i+1);		
 	}
 	cy.$('node').first().addClass('start');
+}
+
+function cleanup_edge_labels(element)
+{
+	
+	//get parent node
+	var parent = element.source();
+	
+	//find decision container of edge we are deleting
+	for (var i = 0; i < parent.data('decisioncontainers').length; i++)
+	{
+		if (parent.data('decisioncontainers')[i].name == element.data('name'))
+		{
+			//remove decision container of edge we are deleting
+			parent.data('decisioncontainers').splice(i, 1);
+			break;
+		}
+	}
+	
+	// delete edge
+	cy.remove(element);
+
+	//cleanup the displayed name for each edge from parent of this edge
+	var i = 0;
+	var edge_list = parent.edgesTo('*');
+	for (i; i < edge_list.size(); i++)
+	{
+		//update edges in cytoscape
+		
+		//update decision containers in the parent
+		updatePageStyle(parent);//make sure decision containers in the page have been created and are up to date (normally done when you open the overlay)
+
+		var edge_label = String.fromCharCode('A'.charCodeAt() + i);
+		edge_list[i].style('content', edge_label);
+		edge_list[i].data('name', edge_label);
+		parent.data('decisioncontainers')[i].name = edge_label;
+	}
+	
 }
 
 function layout_driver(sel)

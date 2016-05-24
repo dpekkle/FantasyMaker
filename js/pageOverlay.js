@@ -1,15 +1,7 @@
 goog.provide('pageOverlay')
 
-
-/*
-function addEdgeToPageOverlay(parent)
-{
-	$("#pagecontainers").append("<button class = 'decisionbutton drag-element' id='decision" + i + "'>" + escapeHtml(outgoingEdges.eq(i).data('text')) + "</button><br>");
-
-	
-}*/
-
 //used to create dynamic html elements - see http://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro
+
 function htmlToElements(html) {
     var template = document.createElement('template');
     template.innerHTML = html;
@@ -17,52 +9,59 @@ function htmlToElements(html) {
 }
 
 //containers
-function addDecisionContainer(i, text, id)
+function addDecisionContainer(selected, i, text, name)
 {	
-	var html_string  =  "<div id = 'decision-container" + i + "' class='drag-element' style='position:absolute;'>"
-	html_string 	+= 		"<div class = 'handle'>Link " + (i + 1) + "</div>"
+	var html_string  =  "<div id = 'decision-container' class='drag-element' style='position:absolute;'>"
 	html_string		+= 		"<div id = 'editdec' class = 'decisionbutton drag-element' contenteditable=true style='border:1px solid #F00;'>" + escapeHtml(text) + "</div>"
 	html_string 	+= 	"</div>"
 	
-	new_container = htmlToElements(html_string);
+	//new_container = htmlToElements(html_string);
 
 	//$("#pagecontainers").append(new_container);	
 	
-	var container_array = cy.$(':selected').data('decisioncontainers');
+	var container_array = selected.data('decisioncontainers');
 	var newcontainer = {
-		'edgeid' : id,
+		'name' : name,
 		'html' : html_string
 	};
 	container_array.push(newcontainer);
-	cy.$(':selected').data('decisioncontainers', container_array);
+	selected.data('decisioncontainers', container_array);
 }
 
 function addTextContainer()
 {
 	//Create a new draggable div to hold the text container
 	
-	var size = cy.$(':selected').data('textcontainers').length;
+	var size = cy.$(':selected')[0].data('textcontainers').length;
 	
 	//create the container and append it to the pageX
-	var html_string  =  "<div id = 'text-container" + size + "' class='drag-element' style='position:absolute;'>"
-	html_string 	+= 		"<div class = 'handle'>Text "+ (size + 1) + "</div>"
+	var html_string  =  "<div id = 'text-container' class='drag-element' style='position:absolute;'>"
 	html_string		+=		"<div id = 'editdiv' contenteditable=true style='border:1px solid #F00; width:200px; height:200px;position:relative; max-height: 200px; overflow-x:hidden; overflow-y:auto;'></div>"
 	html_string 	+= 	"</div>"
 	
 	new_container = htmlToElements(html_string);
 
 	$("#pagecontainers").append(new_container);		
+	$("#pagecontainers div#text-container:last").prepend("<div class='handle'>Text Container " + (size + 1) + "</div>");
+
 	$("#text-container" + size + " #editdiv").trigger('focus');
 	
-	var container_array = cy.$(':selected').data('textcontainers');
+	var container_array = cy.$(':selected')[0].data('textcontainers');
 	var newcontainer = {
-		'html': $("#text-container"+size)[0].outerHTML
+		'name' : size+1,
+		'html' : html_string
 		};
 	container_array.push(newcontainer);
-	cy.$(':selected').data('textcontainers', container_array);
+	cy.$(':selected')[0].data('textcontainers', container_array);
 }
 
 //general overlay
+
+function updatePageStyle(element)
+{
+	showPageOverlay(element);
+	closeOverlay(element);
+}
 
 function showPageOverlay(element)
 {
@@ -74,7 +73,9 @@ function showPageOverlay(element)
 
 	$(".toolbar").hide(); //hide all toolbars
 	$("#modalcontainers").children().hide();
-	overlayToolbar(selected);
+	
+	if (element === null)
+		overlayToolbar(selected);
 	
 	//update contents of page view
 	if (selected.hasClass('page'))
@@ -86,14 +87,15 @@ function showPageOverlay(element)
 		
 		//load any previously saved info
 		//create text containers
-		var text_cont = cy.$(':selected')[0].data('textcontainers');
+		var text_cont = selected.data('textcontainers');
 		for (var j = 0; j < text_cont.length; j++)
 		{
 			$("#pagecontainers").append(text_cont[j].html);		
+			$("#pagecontainers div#text-container:last").prepend("<div class='handle'>Text Container " + text_cont[j].name + "</div>");
 		}
 
 		outgoingEdges = selected.outgoers().edges();	
-		var dec_cont = cy.$(':selected')[0].data('decisioncontainers');
+		var dec_cont = selected.data('decisioncontainers');
 
 		//create decision buttons for the first time
 		for (var i = 0; i < outgoingEdges.size(); i++)
@@ -101,15 +103,15 @@ function showPageOverlay(element)
 			var found = false;
 			for (var j = 0; j < dec_cont.length; j++)
 			{
-				if (outgoingEdges[i].data('target') == dec_cont[j].edgeid)
+				if (outgoingEdges[i].data('name') == dec_cont[j].name)
 				{
 					found = true;
 					//one button per edge
 				}				
 			}
 			if (!found)
-				addDecisionContainer(i, outgoingEdges.eq(i).data('text'), outgoingEdges[i].data('target'));
-		}	//prob swap this order? Decision container has to append so we dont want to append a second time below ---------########
+				addDecisionContainer(selected, i, outgoingEdges.eq(i).data('text'), outgoingEdges[i].data('name'));
+		}
 
 		//load saved decision containers
 		for (var j = 0; j < dec_cont.length; j++)
@@ -117,9 +119,11 @@ function showPageOverlay(element)
 			var found = false;
 			for (var i = 0; i < outgoingEdges.size(); i++)
 			{
-				if (dec_cont[j].edgeid == outgoingEdges[i].data('target'))
+				if (dec_cont[j].name == outgoingEdges[i].data('name'))
 				{
 					$("#pagecontainers").append(dec_cont[j].html);
+					//handles added each time, as we want to draw on updated names
+					$("#pagecontainers div#decision-container:last").prepend("<div class='handle'>Link " + dec_cont[j].name + "</div>");
 					found = true;
 				}
 			}
@@ -128,7 +132,6 @@ function showPageOverlay(element)
 				dec_cont.splice(j, 1); //remove from stored decision in page
 			}
 		}
-		
 	}
 	
 	if (selected.isEdge())
@@ -162,14 +165,14 @@ function overlayToolbar(element)
 	else if (element.hasClass('page'))
 	{
 		$("#pagetoolbar").show();				
-		$("#pagename").text("Page " + element.data('id'));					
+		$("#pagename").text("Page " + element.data('name'));					
 		changeImage(element);
 		changeAudio(element);
 	}
 	else if (element.isEdge()) //will probably need checks for each type of edge
 	{
 		$("#connectiontoolbar").show();
-		$("#connectionname").text("Connection");
+		$("#connectionname").text("Connection " + element.data('name'));
 	}
 }
 
@@ -185,6 +188,8 @@ function closeOverlay(element)
 	
 	if (selected.hasClass('page'))
 	{
+		$('#pagecontainers .handle').remove();
+
 		//update containers
 		$('#pagecontainers').children("div[id^='text-container']").each(function(index)
 		{
@@ -201,9 +206,7 @@ function closeOverlay(element)
 			console.log("save html for decision ", index);
 			//outgoingEdges.eq(index).data('text', this.innerHTML);
 			//console.log("Set: ", outgoingEdges.eq(index).data('text'));
-		});
-
-		
+		});		
 	}
 	
 	if(selected.isEdge()){

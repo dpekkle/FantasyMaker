@@ -10,13 +10,17 @@ function removeElement()
 {
 	element = cy.$(':selected')
 	if (!element.empty())
-	{			
-
-		//remove nodes from graph(client-side)
-		cy.remove(element);
-		total_pages--;
-		cleanup_titles();
-		cy.$('node').first().addClass('start');
+	{	
+		if (element.isNode())
+		{
+			total_pages--;
+			cleanup_node_labels(element);
+		}
+		if (element.isEdge())
+		{
+			//if multiple edges should loop through them all
+			cleanup_edge_labels(element);
+		}
 	}	
 }
 
@@ -65,9 +69,13 @@ function createConnection(element)
 				
 				if (makeedge)
 				{
+					// First edge 'A', second 'B', third 'C' etc...
+					var edge_label = String.fromCharCode('A'.charCodeAt() + source_node.edgesTo('*').size());
+					
 					var newEdge = cy.add(
 					{
 						data: {	
+							name: edge_label,
 							source: source_node.data('id'), 
 							target: element.data('id'), 
 							text: '<Decision text to display)>',

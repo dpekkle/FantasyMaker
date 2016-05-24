@@ -16,13 +16,12 @@ function prepareForGame()
 
 	//consider case where someone creates pages without opening the page style overlay, in which case no style is assigned
 	//will probably be an empty page i.e. no html
-	/*
+	
 	var eles = cy.elements();
 	for (var i = 0; i < eles.length; i++)
 	{
-		showPageOverlay(eles[i]);
-		closeOverlay(eles[i]);
-	}*/
+		updatePageStyle(eles[i]);
+	}
 }
 
 
@@ -79,17 +78,7 @@ function stylePage()
 	//make content read-only
 	$(".playpage .handle").hide(); //player can't drag, replaces lock function - can't drag without a handle
 	$(".playpage #editdiv").attr('contenteditable','false'); //player can't edit
-	$(".playpage #editdec").attr('contenteditable','false');
-
-	//redundant with handle hiding
-	/*
-	$('.playpage').children("div[id^='text-container']").each(function(index)
-	{
-		this.setAttribute('locked', '');
-	});
-	*/
-	
-	
+	$(".playpage #editdec").attr('contenteditable','false');	
 }
 
 function parseControl(outgoingEdges)
