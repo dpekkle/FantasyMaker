@@ -13,7 +13,6 @@ function removeElement()
 	{	
 		if (element.isNode())
 		{
-			total_pages--;
 			cleanup_node_labels(element);
 		}
 		if (element.isEdge())

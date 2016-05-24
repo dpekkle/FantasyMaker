@@ -38,8 +38,7 @@ cy.on('tap', function(event)
 			cy.add(
 			{
 				data: { 
-					name: ++total_pages,
-					//text: "page text",
+					name: cy.nodes().size()+1, 
 					img: "none",
 					audio: "none",
 					textcontainers: [],
@@ -62,7 +61,7 @@ cy.on('tap', function(event)
 			cy.add(
 			{
 				data: { 
-					name: ++total_pages, 
+					name: cy.nodes().size()+1, 
 					text: "control node text"
 				},
 				classes: "control",
