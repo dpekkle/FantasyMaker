@@ -92,6 +92,23 @@ cy.on('select', function(event)
 		createConnection(event.cyTarget);
 	}
 	
+	if (event.cyTarget.hasClass('page'))
+	{
+		//show page edit button
+		$('a[href="#page-modal"]').show();
+	}
+	else if (event.cyTarget.hasClass('control'))
+	{
+		//show control eddit button
+		$('a[href="#control-modal"]').show();
+
+	}
+	else if (event.cyTarget.hasClass('pageedge'))
+	{
+		//show edge edit button
+		$('a[href="#connection-modal"]').show();
+	}
+	
 	$(".selectionbutton").show();
 })
 
@@ -106,6 +123,8 @@ cy.on('unselect', function(event)
 	console.log("Unselect event fired ", event.cyTarget.data('id'));
 
 	if (cy.$(':selected').size() === 0) //sometimes we had more than one selected
+	{
+		$(".editbutton").hide();
 		$(".selectionbutton").hide(); //delete and edit buttons
-
+	}
 })

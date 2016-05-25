@@ -91,6 +91,11 @@ var cy = cytoscape({
 		
 		// edge classes
 		{
+			selector: '.pageedge',
+			style: {
+			}			
+		},
+		{
 			selector: '.success-edge',
 			style: {
 				'line-color': '#a1d490',

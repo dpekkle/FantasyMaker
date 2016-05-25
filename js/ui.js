@@ -21,6 +21,8 @@ function removeElement()
 			cleanup_edge_labels(element);
 		}
 	}	
+	$(".editbutton").hide();
+	$(".selectionbutton").hide(); //delete button
 }
 
 function createConnection(element)
@@ -64,6 +66,11 @@ function createConnection(element)
 					{
 						makeedge = false;
 					}
+					style += ' controledge';
+				}
+				else if (source_node.hasClass('page'))
+				{
+					style += 'pageedge';
 				}
 				
 				if (makeedge)
@@ -109,7 +116,8 @@ function resizeCanvas()
 	console.log("We resized, width: " +	x + " height: " + y);	
 	cy.resize();
 }
-$(window).resize(resizeCanvas)
+
+$(window).resize(resizeCanvas);
 
 //watch the tab changes in bootstrap, re-render canvas when we switch to it
 {
@@ -117,10 +125,8 @@ $(window).resize(resizeCanvas)
 	{
 		mutations.forEach(function(mutation) 
 		{        
-			if(mutation.oldValue == "tab-pane fade" && mutation.target.className == "tab-pane fade active in") 
-			{
+			if (mutation.oldvalue = "display: none;" && mutation.target.style.display == "block")
 				cy.resize();
-			}
 		});    
 	});
 
@@ -131,7 +137,7 @@ $(window).resize(resizeCanvas)
 		childList: false,
 		characterData: false,
 		attributeOldValue: true, 
-		'attributeFilter': ['class']
+		'attributeFilter': ['style']
 	};
 	observer.observe(cytabNode, observerConfig);
 }
