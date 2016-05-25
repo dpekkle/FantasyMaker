@@ -4,87 +4,88 @@
 	<head>
 		<meta charset="utf-8" name="description" content="Fantasymaker : ">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-		<script src="js/lib/dialog-polyfill.js"></script>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/dialog-polyfill.css">
 
+		<!-- <script src="js/lib/dialog-polyfill.js"></script>
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/dialog-polyfill.css">
+        -->
 		
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
 		<title>Fantasymaker</title>
 	</head>
 
 	<body>
-	<!-- Page Style Overlay -->
-	<dialog id="Modal" class="pageOverlay">
-		<!-- Containers that the creator can edit, drag around etc... -->
 
-		
-		<div id="modalcontainers">
-			<div id = "pagecontainers" class = "drag-container" style="height:100%;">
-				<!-- Container for Dragging & Dropping page elements --> 
-			</div>
-		
-			<div id = "controlcontainers">
-				<textarea class = "textarea" id="controltext"></textarea>
-			</div>
+    <!-- Page Edits Overlay (Materialize) -->
+    <div id="page-modal" class="modal">
+        <div class="modal-content" >
+            <div id="pagecontainers" class = "drag-container" style="height:100%;">
 
-			<div id = "connectioncontainers" style="height:100%;">
-				<!-- panel for condtions list--> 
-				<div class="panel panel-default" style = "height:48%;">
-					  <div class="panel-heading" style="height:12%;">Conditions</div>
-					  <div class="panel-body" style="height:88%;overflow-y: auto;">
-						<ul id = "conditionsList" class="list-unstyled" ></ul>
-					  </div>
-				</div>
+            </div>
+            <div class = "toolbar" id="edit-page-toolbar">
+                <p id="pagename"></p>
+                <button class = "button" onCLick=addTextContainer()>Add A TextBox</button><br/>
+                <button class = "button" onclick=loadAudio()>Load Audio</button> <br/>
+                <button class = "button" onclick=toggleAudio()>Play Audio</button> <br/>
+                <button class = "button" onclick=loadImage()>Load Image</button> <br/>
+            </div>
+        </div>
+    </div>
 
-				<!-- panel for outcomes list--> 
-				<div class="panel panel-default" style = "height:48%;">
-					  <div class="panel-heading" style="height:12%;">Outcomes</div>
-					  <div class="panel-body" style="height:88%;overflow-y: auto;">
-						<ul id = "outcomeList" class="list-unstyled" ></ul>
-					  </div>
-				</div>
-			</div>
-		</div>
-		<!-- Toolbars for the overlay -->
-		<div id="modaltoolbar">
-			<button style="float:right;"class="button" onclick=closeOverlay(null)>X</button>
-			<div class = "toolbar" id="pagetoolbar">
-				<p id="pagename"></p>
-				<button class = "button" onCLick=addTextContainer()>Add A TextBox</button><br/>
-				<button class = "button" onclick=loadAudio()>Load Audio</button> <br/>
-				<button class = "button" onclick=toggleAudio()>Play Audio</button> <br/>
-				<button class = "button" onclick=loadImage()>Load Image</button> <br/>
-			</div>
-			<div class = "toolbar" id="controltoolbar">
-				<p id="controlname"></p>
-			</div>
-			<div class = "toolbar" id="connectiontoolbar">
-				<p id="connectionname"></p>
-				<button type="button" class="btn btn-default" onClick=edgeOverlay_addCondition()>Add Condition</button><br/>
-				<button type="button" class="btn btn-default" onClick=edgeOverlay_addOutcome()>Add Outcome</button><br/>
-			</div>	
-		</div>		
-	</dialog>
+    <!-- Control Edit Overlay (Materialize) -->
+    <div id="control-modal" class="modal">
+        <div class="modal-content">
+            <div id = "controlcontainers">
+                <textarea class = "textarea" id="controltext"></textarea>
+            </div>
+            <div class = "toolbar" id="controltoolbar">
+                <p id="controlname"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Edit Overlay (Materialize) -->
+    <div id="connection-modal" class="modal">
+        <div class="modal-content">
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li>
+                    <div class="collapsible-header">Conditions</div>
+                    <div class="collapsible-body"> <ul id = "conditionsList" class="list-unstyled" ></ul></div>
+                </li>
+                <li>
+                    <div class="collapsible-header">Outcomes</div>
+                    <div class="collapsible-body"><ul id = "outcomeList" class="list-unstyled" ></ul></div>
+                </li>
+            </ul>
+        </div>
+        <div class = "toolbar" id="connectiontoolbar">
+            <p id="connectionname"></p>
+
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            <button type="button" class="btn btn-default" onClick=edgeOverlay_addCondition()>Add Condition</button>
+            <button type="button" class="btn btn-default" onClick=edgeOverlay_addOutcome()>Add Outcome</button>
+
+        </div>
+    </div>
 	
 	<div class="container-fluid">
 		<div class="row">
-			<div class = "col-xs-12">
-				<ul class="nav nav-tabs nav-justified" id="tabheadings">
-					<li class="active"><a data-toggle="tab" href="#cyTab">Graph</a></li>
-					<li><a data-toggle="tab" href="#Play" onclick=prepareForGame()>Play</a></li>
-					<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-					<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+			<div class = "col s12 l12">
+				<ul class="tabs" id="tabheadings">
+					<li class="tab col s4"><a class="active" href="#cyTab">Graph</a></li>
+					<li class="tab col s4"><a href="#Play" onclick=prepareForGame()>Play</a></li>
+					<li class="tab col s4"><a href="#menu2">Menu 2</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="cyTab" class="tab-pane fade in active">
-						<div class="col-xs-9" id="cy"> <!-- Grid "workspace" container -->
+						<div class="col s9 l9" id="cy"> <!-- Grid "workspace" container -->
 							</div>
-						<div class="col-xs-3" id="sidebar"> <!-- Sidebar -->
+						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
 							<button class="pagemode button" onclick=changeState(this)>Create Page Node</button> <br/>
 							<button class="controlmode button" onclick=changeState(this)>Create Control Node</button><br/>
 							<button class="connectionmode button" onclick=changeState(this)>New Connection</button><br/>
@@ -102,13 +103,17 @@
 							<button class="loadbutton button" onclick=http_load()>Load</button><br/>
 							<br/>
 							<button class="deletebutton selectionbutton" onclick=changeState(this)>Delete</button><br/>
-							<button class="editbutton selectionbutton" onclick=showPageOverlay(null)>Edit node</button><br/>
-							<br/>
+							<!--<button class="editbutton selectionbutton" onclick=showEditPageOverlay(null)>Edit node</button><br/> -->
+                            <p>Only click the buttons below when you have the corresponding elements selected (Will fix)</p>
+                            <a class="waves-effect waves-light btn modal-trigger editbutton selectionbutton" href="#page-modal">Edit Page</a><br/>
+                            <a class="waves-effect waves-light btn modal-trigger editbutton selectionbutton" href="#connection-modal">Edit Connection</a><br/>
+                            <a class="waves-effect waves-light btn modal-trigger editbutton selectionbutton" href="#control-modal">Edit Control</a>
+                            <br/>
 							<br/>		
 						</div>
 					</div>
 					<div id="Play" class="tab-pane fade">
-						<div class="col-xs-9" id="playwindow">
+						<div class="col s9" id="playwindow">
 							<div class = "playpage">							
 							</div>
 							<button class="progressbutton button" style='float:right;' onclick=progressStory(0)>Continue</button>
@@ -118,23 +123,17 @@
 						<h3>Menu 2</h3>
 						<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
 					</div>
-					<div id="menu3" class="tab-pane fade">
-						<h3>Menu 3</h3>
-						<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-					</div>
 				</div>
 
 			</div>
 		</div>
 	</div>
 	
-	<audio id= "audio"></audio>
-	
 	</body>
 	<script src="js/lib/jquery-2.2.2.min.js"></script>
 	<script defer src="js/lib/cytoscape.min.js"></script>
 	<script defer src="js/lib/cytoscape-panzoom.js"></script>
-	<script defer src="js/lib/bootstrap.min.js"></script>
+	<script defer src="js/lib/materialize.min.js"></script>
 	<script defer src="js/lib/interact.js"></script>	
 	<script defer src="js/dev.min.js"></script>
 

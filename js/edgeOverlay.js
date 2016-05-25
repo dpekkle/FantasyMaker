@@ -6,6 +6,8 @@ var edgeOverlay_conditionCount = 0; //used to identify how many conds user has a
 var edgeOverlay_outcomeCount = 0; //used to identify how many outcomes user has added to ui
 var edgeOverlay_selectedEdge; // edge that the user is modifying
 
+//TODO - Get this working with materialize
+
 
 function populateEdgeOverlay(edge){
 	
@@ -124,8 +126,11 @@ function populateStatsDropDownMenu(index, type){
 	
 } 
 
+
+
 function edgeOverlay_addCondition(){
-	
+
+	//TODO - this is still using Bootstrap - fix
 	//html of condition row
 	var conditionHtml = '<li><ul class="nav nav-pills" id="conditionsList"><li><select class="form-control" id="condition_statTypeList' + edgeOverlay_conditionCount +'"><select></li><li><select class="form-control" id="condition_compList' + edgeOverlay_conditionCount +'"><option value="=">=</option><option value=">">></option><option value="<"><</option><option value=">=">>=</option><option value="<="><=</option></select></li><li><input type="number" class="form-control" id="condition_value' + edgeOverlay_conditionCount +'" placeholder="Enter value" ></li></ul><li>';
 	
@@ -137,7 +142,8 @@ function edgeOverlay_addCondition(){
 }
 
 function edgeOverlay_addOutcome(){
-	
+
+	//TODO - this is still using Bootstrap - fix
 	//html of outcome row
 	var outcomeHtml = '<li><ul class="nav nav-pills"><li><select class="form-control" id="outcome_statTypeList' + edgeOverlay_outcomeCount + '"><select></li><li><select class="form-control" id="outcome_modList' + edgeOverlay_outcomeCount +'"><option value="+">+</option><option value="-">-</option><option value="/">/</option><option value="*">*</option><option value="=">=</option></select></li><li><input type="number" class="form-control" id="outcome_value' + edgeOverlay_outcomeCount +'" placeholder="Enter value"></li></ul></li>';
 	

@@ -2,6 +2,31 @@ goog.provide('pageOverlay')
 
 //used to create dynamic html elements - see http://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro
 
+$(document).ready(function(){
+	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+	$('.modal-trigger').leanModal({
+		dismissible: true,
+		//callback for when overlay is triggered from html
+		ready: function() {
+			var selected = cy.$(':selected')[0];
+			if (selected.hasClass('page')) {
+				openEditPageOverlay(selected);
+				console.log("Opening page overlay");
+			}
+			else if(selected.isEdge()) {
+				openEditConnectionOverlay(selected);
+				console.log("Opening Edge Overlay")
+			}
+			else if(selected.hasClass('control')) {
+				openEditControlOverlay(selected);
+				console.log("Opening Control Overlay")
+			}
+		},
+		complete: function () { closeOverlay(null);} //callback for when modal is dismissed
+	});
+});
+
+
 function htmlToElements(html) {
     var template = document.createElement('template');
     template.innerHTML = html;
@@ -39,9 +64,9 @@ function addTextContainer()
 	html_string		+=		"<div id = 'editdiv' contenteditable=true style='border:1px solid #F00; width:200px; height:200px;position:relative; max-height: 200px; overflow-x:hidden; overflow-y:auto;'></div>"
 	html_string 	+= 	"</div>"
 	
-	new_container = htmlToElements(html_string);
+	var new_container = htmlToElements(html_string);
 
-	$("#pagecontainers").append(new_container);		
+	$("#pagecontainers").append(new_container);
 	$("#pagecontainers div#text-container:last").prepend("<div class='handle'>Text Container " + (size + 1) + "</div>");
 
 	$("#text-container" + size + " #editdiv").trigger('focus');
@@ -63,7 +88,100 @@ function updatePageStyle(element)
 	closeOverlay(element);
 }
 
-function showPageOverlay(element)
+
+function openEditPageOverlay(element){
+	//element is null when we are simply opening a selected node in cy.
+	//if we pass an element we are creating the HTML markup of the page
+	var selected = element;
+	if (element === null)
+		var selected = cy.$(':selected')[0];
+
+	if (element === null)
+		overlayToolbar(selected);
+
+	//update contents of page view
+	if (selected.hasClass('page'))
+	{
+		//$("#pagecontainers").show();
+
+		//clear page
+		$('#pagecontainers').html('');
+
+		//load any previously saved info
+		//create text containers
+		var text_cont = selected.data('textcontainers');
+		for (var j = 0; j < text_cont.length; j++)
+		{
+			$("#pagecontainers").append(text_cont[j].html);
+			$("#pagecontainers div#text-container:last").prepend("<div class='handle'>Text Container " + text_cont[j].name + "</div>");
+		}
+
+		outgoingEdges = selected.outgoers().edges();
+		var dec_cont = selected.data('decisioncontainers');
+
+		//create decision buttons for the first time
+		for (var i = 0; i < outgoingEdges.size(); i++)
+		{
+			var found = false;
+			for (var j = 0; j < dec_cont.length; j++)
+			{
+				if (outgoingEdges[i].data('name') == dec_cont[j].name)
+				{
+					found = true;
+					//one button per edge
+				}
+			}
+			if (!found)
+				addDecisionContainer(selected, i, outgoingEdges.eq(i).data('text'), outgoingEdges[i].data('name'));
+		}
+
+		//load saved decision containers
+		for (var j = 0; j < dec_cont.length; j++)
+		{
+			var found = false;
+			for (var i = 0; i < outgoingEdges.size(); i++)
+			{
+				if (dec_cont[j].name == outgoingEdges[i].data('name'))
+				{
+					$("#pagecontainers").append(dec_cont[j].html);
+					//handles added each time, as we want to draw on updated names
+					$("#pagecontainers div#decision-container:last").prepend("<div class='handle'>Link " + dec_cont[j].name + "</div>");
+					found = true;
+				}
+			}
+			if (!found)
+			{
+				dec_cont.splice(j, 1); //remove from stored decision in page
+			}
+		}
+	}
+
+
+	//$('#page-modal').openModal();
+}
+
+function openEditConnectionOverlay(element){
+	//element is null when we are simply opening a selected node in cy.
+	//if we pass an element we are creating the HTML markup of the page
+	var selected = element;
+	if (element === null)
+		var selected = cy.$(':selected')[0];
+
+	populateEdgeOverlay(selected.json()); // pass edge as json obj to populate overlay
+
+	//TODO (Russell) - Fix this method to properly populate connection edit overlay
+}
+
+function openEditControlOverlay(element){
+
+	var selected = element;
+	if (element === null)
+		var selected = cy.$(':selected')[0];
+
+	$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));
+}
+
+function showPageOverlay(element) //Deprecated
 {
 	//element is null when we are simply opening a selected node in cy. 
 	//if we pass an element we are creating the HTML markup of the page
@@ -71,8 +189,8 @@ function showPageOverlay(element)
 	if (element === null) 
 		var selected = cy.$(':selected')[0];	
 
-	$(".toolbar").hide(); //hide all toolbars
-	$("#modalcontainers").children().hide();
+	//$(".toolbar").hide(); //hide all toolbars
+	//$("#modalcontainers").children().hide();
 	
 	if (element === null)
 		overlayToolbar(selected);
@@ -80,7 +198,7 @@ function showPageOverlay(element)
 	//update contents of page view
 	if (selected.hasClass('page'))
 	{
-		$("#pagecontainers").show();
+		//$("#pagecontainers").show();
 		
 		//clear page
 		$('#pagecontainers').html('');
@@ -147,10 +265,12 @@ function showPageOverlay(element)
 		$("#controlcontainers").show();
 		$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));		
 	}
-	
+
+
 	//now lets actually show the modal i.e. overlay
 	if (element === null)
-		document.getElementById("Modal").showModal();
+		$("page-modal").openModal();
+	//document.getElementById("page-modal").openModal();
 }
 
 function overlayToolbar(element)
@@ -178,8 +298,8 @@ function overlayToolbar(element)
 
 function closeOverlay(element)
 {
-	if (element === null)
-		document.getElementById("Modal").close();
+	//if (element === null)
+	//	document.getElementById("Modal").close();
 	
 	//save the contents of the page to the associated page
 	var selected = element;
