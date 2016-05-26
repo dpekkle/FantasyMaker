@@ -77,6 +77,7 @@ function stylePage()
 	
 	//make content read-only
 	$(".playpage .handle").hide(); //player can't drag, replaces lock function - can't drag without a handle
+	$(".playpage #editdiv").toggleClass('resize-element');
 	$(".playpage #editdiv").attr('contenteditable','false'); //player can't edit
 	$(".playpage #editdec").attr('contenteditable','false');	
 }

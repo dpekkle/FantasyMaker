@@ -22,9 +22,8 @@
     <!-- Page Edits Overlay (Materialize) -->
     <div id="page-modal" class="modal">
         <div class="modal-content" >
-            <div id="pagecontainers" class = "drag-container" style="height:100%;">
-
-            </div>
+			<div id="pagecontainers" class = "drag-container" style="height:100%;">
+			</div>
             <div class = "toolbar" id="edit-page-toolbar">
                 <p id="pagename"></p>
                 <button class = "button" onCLick=addTextContainer()>Add A TextBox</button><br/>
@@ -88,7 +87,7 @@
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
 							<button class="pagemode button" onclick=changeState(this)>Create Page Node</button> <br/>
 							<button class="controlmode button" onclick=changeState(this)>Create Control Node</button><br/>
-							<button class="connectionmode button" onclick=changeState(this)>New Connection</button><br/>
+							<button class="connectionmode button" onclick=changeState(this)>New Edge</button><br/>
 							<br/>
 							<button class="connectivity button" onclick=checkValidGraph()>Test Graph</button> <br/>
 							<select onchange="layout_driver(this); this.selectedIndex = 0;" onfocus="this.selectedIndex = 0;">
@@ -103,9 +102,9 @@
 							<button class="loadbutton button" onclick=http_load()>Load</button><br/>
 							<br/>
 							<button class="deletebutton selectionbutton" onclick=changeState(this)>Delete</button><br/>
-                            <a class="waves-effect waves-light btn modal-trigger editbutton" href="#page-modal">Edit Page</a><br/>
-                            <a class="waves-effect waves-light btn modal-trigger editbutton" href="#connection-modal">Edit Connection</a><br/>
-                            <a class="waves-effect waves-light btn modal-trigger editbutton" href="#control-modal">Edit Control</a>
+                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#page-modal">Edit Page</a><br/>
+                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#connection-modal">Edit Edge</a><br/>
+                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#control-modal">Edit Control</a>
                             <br/>
 							<br/>		
 						</div>

@@ -1,8 +1,48 @@
 #cy {
 	/* width and height defined by js */
 	display: block;
-	border: 3px solid grey;
+	border: 3px solid #BBBBBB;
 	padding-left:0px;
+}
+
+.handle{ /*for containers */
+	background-color: #BBBBBB;
+	text-align: center;
+}
+
+#editdiv{ /* text container */
+	border-width: 2px;
+	border-color: #BBBBBB;
+	border-style: solid;
+	width: 295px; 
+	height: 200px; 
+	position: relative; 
+	max-height: 200px; 
+	overflow-x: hidden; 
+	overflow-y: auto;
+	
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+
+}
+
+#editdec:hover{
+	background-color: #EEEEEE;
+}
+
+#editdec{
+	border-width: 2px;
+	border-color: #BBBBBB;
+	border-style: solid;
+	background-color: #DDDDDD;
+
+	max-height: 100px; 
+	overflow-x: hidden; 
+	overflow-y: auto;	
+	word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 #sidebar{
@@ -40,8 +80,8 @@ body {
 	background-color: green;
 }
 
-.selectionbutton{
-	display: none;
+.editbutton{
+	display: none; /*this is being overridden by some materialise class, so have to explicitly call it in the style in create.html */
 }
 
 .toolbar{

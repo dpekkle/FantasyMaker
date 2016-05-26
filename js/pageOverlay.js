@@ -37,7 +37,7 @@ function htmlToElements(html) {
 function addDecisionContainer(selected, i, text, name)
 {	
 	var html_string  =  "<div id = 'decision-container' class='drag-element' style='position:absolute;'>"
-	html_string		+= 		"<div id = 'editdec' class = 'decisionbutton drag-element' contenteditable=true style='border:1px solid #F00;'>" + escapeHtml(text) + "</div>"
+	html_string		+= 		"<div id = 'editdec' class = 'decisionbutton drag-element resize-element' contenteditable=true>" + escapeHtml(text) + "</div>"
 	html_string 	+= 	"</div>"
 	
 	//new_container = htmlToElements(html_string);
@@ -61,7 +61,7 @@ function addTextContainer()
 	
 	//create the container and append it to the pageX
 	var html_string  =  "<div id = 'text-container' class='drag-element' style='position:absolute;'>"
-	html_string		+=		"<div id = 'editdiv' contenteditable=true style='border:1px solid #F00; width:200px; height:200px;position:relative; max-height: 200px; overflow-x:hidden; overflow-y:auto;'></div>"
+	html_string		+=		"<div id = 'editdiv' class='resize-element' contenteditable=true ></div>"
 	html_string 	+= 	"</div>"
 	
 	var new_container = htmlToElements(html_string);
