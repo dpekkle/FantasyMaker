@@ -19,6 +19,7 @@ function removeElement()
 		{
 			//if multiple edges should loop through them all
 			cleanup_edge_labels(element);
+			style_end_nodes();
 		}
 	}	
 	$(".editbutton").hide();
@@ -97,6 +98,8 @@ function createConnection(element)
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node
 				element.unselect();
+				
+				style_end_nodes();
 			}
 		}
 	}	

@@ -51,7 +51,7 @@ cy.on('tap', function(event)
 			})
 		}
 		if (cy.elements().size() === 1)
-			cy.$('node').first().addClass('start');		
+			cy.$('node').first().addClass('start');	
 	}
 	
 	else if (current_state === states.NEWCONTROL)
@@ -78,7 +78,7 @@ cy.on('select', function(event)
 	if (event.cyTarget.isNode())
 	{
 		event.cyTarget.outgoers().addClass('parent-selected'); //distinguish edges coming from this node
-		event.cyTarget.successors().leaves().addClass('leaf'); //distinguish the end points reachable from this node
+		//event.cyTarget.successors().leaves().addClass('leaf'); //distinguish the end points reachable from this node	
 	}
 	
 	console.log("Select event fired ", event.cyTarget.data('id'));
@@ -91,23 +91,8 @@ cy.on('select', function(event)
 		//if adding a new connection
 		createConnection(event.cyTarget);
 	}
-	
-	if (event.cyTarget.hasClass('page'))
-	{
-		//show page edit button
-		$('a[href="#page-modal"]').show();
-	}
-	else if (event.cyTarget.hasClass('control'))
-	{
-		//show control eddit button
-		$('a[href="#control-modal"]').show();
-
-	}
-	else if (event.cyTarget.hasClass('pageedge'))
-	{
-		//show edge edit button
-		$('a[href="#connection-modal"]').show();
-	}
+	else
+		showOverlayLinks(event.cyTarget);
 	
 	$(".selectionbutton").show();
 })
@@ -116,8 +101,8 @@ cy.on('unselect', function(event)
 {
 	if (event.cyTarget.isNode())
 	{
-		event.cyTarget.outgoers().removeClass('parent-selected');
-		event.cyTarget.successors().leaves().removeClass('leaf');
+		event.cyTarget.outgoers().removeClass('parent-selected'); //distinguish edges coming from this node
+		//event.cyTarget.successors().leaves().removeClass('leaf'); //distinguish the end points reachable from this node	
 	}
 
 	console.log("Unselect event fired ", event.cyTarget.data('id'));
@@ -126,5 +111,9 @@ cy.on('unselect', function(event)
 	{
 		$(".editbutton").hide();
 		$(".selectionbutton").hide(); //delete and edit buttons
+	}
+	else
+	{
+		showOverlayLinks(cy.$(':selected')[0])
 	}
 })

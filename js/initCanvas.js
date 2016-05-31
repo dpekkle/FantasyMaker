@@ -15,11 +15,12 @@ var cy = cytoscape({
 		{
 			selector: 'node',
 			style: {
-				'content': 'data(name)',
+				'label': 'data(name)',
 				'text-opacity': 1,
 				'text-valign': 'center',
 				'text-halign': 'center',
-				'border-width': 1,
+				
+				'border-width': 2,
 				'border-color': 'black',
 				//makes changes to these properties an animation
 				'transition-property': 'border-width, border-color',
@@ -29,7 +30,14 @@ var cy = cytoscape({
 		{
 			selector: 'edge',
 			style: {
-				'content': 'data(name)',
+				'label': 'data(name)',
+				'text-background-color' : 'white',
+				'text-background-opacity' : 1,
+				
+				'text-border-opacity' : 1,
+				'text-border-color' : '#9dbaea',
+				'text-border-width' : 2,
+
 				'width': 4,
 				'target-arrow-shape': 'triangle',
 				'line-color': '#9dbaea',
@@ -44,7 +52,7 @@ var cy = cytoscape({
 			selector: '.page',
 			style:{
 				'shape': 'roundrectangle',
-				'background-color': 'gray',
+				'background-color': '#aaaaaa',
 
 			}		
 		},
@@ -76,16 +84,19 @@ var cy = cytoscape({
 		{
 			selector: '.start',
 			style:{
-				'content': 'Start',
+				'label': 'Start',
+				'width': 40,
+				'height': 40,
 				'background-color': '#9deaa6',
 			}
 		},
 		{
 			selector: '.leaf',
 			style:{
+				'shape': 'hexagon',
+				'width': 35,
+				'height': 35,
 				'background-color': '#eacd9d',
-				'transition-property': 'background-color',
-				'transition-duration': '0.1s',
 			}
 		},
 		
@@ -121,6 +132,7 @@ var cy = cytoscape({
 		{
 			selector: ':selected', 
 			style: {
+				'text-border-color' : 'black',
 				'border-width':5,
 				'line-color': 'black',
 				'target-arrow-color': 'black',

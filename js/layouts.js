@@ -114,6 +114,12 @@ var breadth_first_layout = {
   stop: undefined // callback on layoutstop
 };
 
+function style_end_nodes()
+{
+	cy.elements('.leaf').removeClass('leaf');
+	cy.$('node').successors().leaves('.page').addClass('leaf'); //end points of graph	
+}
+
 function cleanup_node_labels(element)
 {
 	//remove element from graph(client-side)
@@ -123,15 +129,14 @@ function cleanup_node_labels(element)
 	var i = 1;
 	for (i; i < cy.nodes().size(); i++)
 	{
-		cy.nodes()[i].style('content', i+1);
+		cy.nodes()[i].style('label', i+1);
 		cy.nodes()[i].data('name', i+1);		
 	}
 	cy.$('node').first().addClass('start');
 }
 
 function cleanup_edge_labels(element)
-{
-	
+{	
 	//get parent node
 	var parent = element.source();
 	
@@ -160,7 +165,7 @@ function cleanup_edge_labels(element)
 		updatePageStyle(parent);//make sure decision containers in the page have been created and are up to date (normally done when you open the overlay)
 
 		var edge_label = String.fromCharCode('A'.charCodeAt() + i);
-		edge_list[i].style('content', edge_label);
+		edge_list[i].style('label', edge_label);
 		edge_list[i].data('name', edge_label);
 		parent.data('decisioncontainers')[i].name = edge_label;
 	}
@@ -191,10 +196,7 @@ function layout_driver(sel)
 }
 
 function change_layout(options)
-{
-
-	cleanup_titles();
-	
+{	
 	//set a root for tree
 	if (options.name == 'breadthfirst')
 	{

@@ -1,7 +1,5 @@
 goog.provide('pageOverlay')
 
-//used to create dynamic html elements - see http://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro
-
 $(document).ready(function(){
 	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
 	$('.modal-trigger').leanModal({
@@ -26,14 +24,7 @@ $(document).ready(function(){
 	});
 });
 
-
-function htmlToElements(html) {
-    var template = document.createElement('template');
-    template.innerHTML = html;
-    return template.content.childNodes;
-}
-
-//containers
+// page overlay functions
 function addDecisionContainer(selected, i, text, name)
 {	
 	var html_string  =  "<div id = 'decision-container' class='drag-element' style='position:absolute;'>"
@@ -81,13 +72,11 @@ function addTextContainer()
 }
 
 //general overlay
-
 function updatePageStyle(element)
 {
-	showPageOverlay(element);
+	openEditPageOverlay(element);
 	closeOverlay(element);
 }
-
 
 function openEditPageOverlay(element){
 	//element is null when we are simply opening a selected node in cy.
@@ -155,9 +144,6 @@ function openEditPageOverlay(element){
 			}
 		}
 	}
-
-
-	//$('#page-modal').openModal();
 }
 
 function openEditConnectionOverlay(element){
@@ -179,98 +165,6 @@ function openEditControlOverlay(element){
 		var selected = cy.$(':selected')[0];
 
 	$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));
-}
-
-function showPageOverlay(element) //Deprecated
-{
-	//element is null when we are simply opening a selected node in cy. 
-	//if we pass an element we are creating the HTML markup of the page
-	var selected = element;
-	if (element === null) 
-		var selected = cy.$(':selected')[0];	
-
-	//$(".toolbar").hide(); //hide all toolbars
-	//$("#modalcontainers").children().hide();
-	
-	if (element === null)
-		overlayToolbar(selected);
-	
-	//update contents of page view
-	if (selected.hasClass('page'))
-	{
-		//$("#pagecontainers").show();
-		
-		//clear page
-		$('#pagecontainers').html('');
-		
-		//load any previously saved info
-		//create text containers
-		var text_cont = selected.data('textcontainers');
-		for (var j = 0; j < text_cont.length; j++)
-		{
-			$("#pagecontainers").append(text_cont[j].html);		
-			$("#pagecontainers div#text-container:last").prepend("<div class='handle'>Text Container " + text_cont[j].name + "</div>");
-		}
-
-		outgoingEdges = selected.outgoers().edges();	
-		var dec_cont = selected.data('decisioncontainers');
-
-		//create decision buttons for the first time
-		for (var i = 0; i < outgoingEdges.size(); i++)
-		{
-			var found = false;
-			for (var j = 0; j < dec_cont.length; j++)
-			{
-				if (outgoingEdges[i].data('name') == dec_cont[j].name)
-				{
-					found = true;
-					//one button per edge
-				}				
-			}
-			if (!found)
-				addDecisionContainer(selected, i, outgoingEdges.eq(i).data('text'), outgoingEdges[i].data('name'));
-		}
-
-		//load saved decision containers
-		for (var j = 0; j < dec_cont.length; j++)
-		{
-			var found = false;
-			for (var i = 0; i < outgoingEdges.size(); i++)
-			{
-				if (dec_cont[j].name == outgoingEdges[i].data('name'))
-				{
-					$("#pagecontainers").append(dec_cont[j].html);
-					//handles added each time, as we want to draw on updated names
-					$("#pagecontainers div#decision-container:last").prepend("<div class='handle'>Link " + dec_cont[j].name + "</div>");
-					found = true;
-				}
-			}
-			if (!found)
-			{
-				dec_cont.splice(j, 1); //remove from stored decision in page
-			}
-		}
-	}
-	
-	if (selected.isEdge())
-	{
-		//this is where we define all the connection stuff that shows up in the overlay
-
-		$("#connectioncontainers").show();
-		populateEdgeOverlay(selected.json()); // pass edge as json obj to populate overlay
-		
-	}
-	if (selected.hasClass('control'))
-	{
-		$("#controlcontainers").show();
-		$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));		
-	}
-
-
-	//now lets actually show the modal i.e. overlay
-	if (element === null)
-		$("page-modal").openModal();
-	//document.getElementById("page-modal").openModal();
 }
 
 function overlayToolbar(element)
@@ -341,10 +235,42 @@ function closeOverlay(element)
 	//selected.data('styleHTML', total_html);
 }
 
-//We don't want users entering HTML within their text.
-//For example, <hello!> would create a html tag rather than display that as a string
-function escapeHtml(str) {
+function showOverlayLinks(element) //"edit page" button etc..
+{
+	$(".editbutton").hide();
+
+	if (element.hasClass('page'))
+	{
+		//show page edit button
+		$('a[href="#page-modal"]').show();
+	}
+	else if (element.hasClass('control'))
+	{
+		//show control eddit button
+		$('a[href="#control-modal"]').show();
+
+	}
+	else if (element.hasClass('pageedge'))
+	{
+		//show edge edit button
+		$('a[href="#connection-modal"]').show();
+	}
+}
+
+//Misc string and html auxillary functions
+
+function escapeHtml(str) 
+{
+	//We don't want users entering HTML within their text.
+	//For example, <hello!> would create a html tag rather than display that as a string
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
 };
+
+function htmlToElements(html) 
+{
+    var template = document.createElement('template');
+    template.innerHTML = html;
+    return template.content.childNodes;
+}
