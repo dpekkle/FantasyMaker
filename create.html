@@ -14,6 +14,8 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
+-		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
 		<title>Fantasymaker</title>
 	</head>
 
@@ -26,10 +28,10 @@
 			</div>
             <div class = "toolbar" id="edit-page-toolbar">
                 <p id="pagename"></p>
-                <button class = "button" onCLick=addTextContainer()>Add A TextBox</button><br/>
-                <button class = "button" onclick=loadAudio()>Load Audio</button> <br/>
-                <button class = "button" onclick=toggleAudio()>Play Audio</button> <br/>
-                <button class = "button" onclick=loadImage()>Load Image</button> <br/>
+                <button class = "btn" onCLick=addTextContainer()>Add A TextBox</button><br/>
+                <button class = "btn" onclick=loadAudio()>Load Audio</button> <br/>
+                <button class = "btn" onclick=toggleAudio()>Play Audio</button> <br/>
+                <button class = "btn" onclick=loadImage()>Load Image</button> <br/>
             </div>
         </div>
     </div>
@@ -89,7 +91,7 @@
 							<button class="controlmode btn" onclick=changeState(this)>Create Control Node</button><br/>
 							<button class="connectionmode btn" onclick=changeState(this)>New Edge</button><br/>
 							<br/>
-							<button class="connectivity button" onclick=checkValidGraph()>Test Graph</button> <br/>
+							<button class="connectivity btn" onclick=checkValidGraph()>Test Graph</button> <br/>
 							<select onchange="layout_driver(this); this.selectedIndex = 0;" onfocus="this.selectedIndex = 0;">
  								<option value="none">Style Graph</option>
  								<option value="Tree">Tree</option>
@@ -98,12 +100,12 @@
  								<option value="Spread">Spread</option>
  							</select> <br/>
 
-							<button class="savebutton button" onclick=http_save()>Save</button><br/>
-							<button class="loadbutton button" onclick=http_load()>Load</button><br/>
+							<button class="savebutton btn" onclick=http_save()>Save</button><br/>
+							<button class="loadbutton btn" onclick=http_load()>Load</button><br/>
 							<br/>
-							<button class="deletebutton selectionbutton" onclick=changeState(this)>Delete</button><br/>
-                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#page-modal">Edit Page</a><br/>
-                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#connection-modal">Edit Edge</a><br/>
+							<button class="deletebutton btn selectionbutton" onclick=changeState(this)>Delete</button><br/>
+                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#page-modal">Edit Page</a>
+                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#connection-modal">Edit Edge</a>
                             <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#control-modal">Edit Control</a>
                             <br/>
 							<br/>		

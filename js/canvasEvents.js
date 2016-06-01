@@ -85,6 +85,12 @@ cy.on('select', function(event)
 	//disable the additive selection behaviour when holding ctrl, alt, shift when we are in connection mode
 	if (current_state === states.CONNECTING)
 	{
+		if (event.cyTarget.isEdge())
+		{
+			defaultState();		//leave connection state
+			showOverlayLinks(event.cyTarget);
+		}
+		
 		var oldselect = cy.$(':selected').diff(event.cyTarget);
 		oldselect.left.unselect();
 		
