@@ -10,6 +10,12 @@ states = {
 
 current_state = states.DEFAULT;
 
+function defaultState()
+{
+	exitStates()
+	current_state = states.DEFAULT;
+}
+
 //function to run when leaving a state
 function exitStates()
 {
@@ -21,15 +27,15 @@ function exitStates()
 			source_node.removeClass("source_node"); //remove the style associated with source nodes	
 			source_node = null;		
 		}
-	}		
+	}	
+	$("#sidebar .btn").removeClass('activebutton')	
 }
 
 //triggered when a button to interact with the canvas is pressed
 function changeState(caller)
 {
 	exitStates();
-	$("#sidebar .button").removeClass('activebutton')
-	$(caller).addClass('activebutton')
+	$(caller).addClass('activebutton');
 	
 	if ($(caller).hasClass('connectionmode') && current_state != states.CONNECTING)
 	{
@@ -54,7 +60,6 @@ function changeState(caller)
 		current_state = states.DEFAULT;	
 		//delete is not a state, so button doesn't need to stay active
 		$(caller).removeClass('activebutton');
-
 	}
 	else
 	{
