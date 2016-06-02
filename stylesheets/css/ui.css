@@ -72,6 +72,10 @@ body {
 
 }
 
+.btn{
+	width: 100%;
+}
+
 .btn.activebutton{
 	background-color: green;
 }
