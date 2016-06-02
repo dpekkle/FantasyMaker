@@ -4,6 +4,7 @@ goog.require('initCanvas');
 console.log("Entering project.js");
 
 var project_project = project_createNewProject();
+project_updateProject(); //set up by deafult
 
 function project_createNewProject(){
 	
