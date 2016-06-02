@@ -252,8 +252,13 @@ function showOverlayLinks(element) //"edit page" button etc..
 	}
 	else if (element.hasClass('pageedge'))
 	{
-		//show edge edit button
+		//show page-edge edit button
 		$('a[href="#connection-modal"]').show();
+	}
+	else if (element.hasClass('controledge'))
+	{
+		//show control edge button, slightly different to page-edge overlay
+		$('a[href="#connection-modal"]').show(); //change this link if you want a new overlay
 	}
 }
 
