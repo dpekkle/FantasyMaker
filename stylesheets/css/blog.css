@@ -59,14 +59,28 @@ h1, h2, p{
     padding-left: 75px;
     padding-right: 50px;
     font-size: 1.5em;
+    color: whitesmoke;
 }
 
-#content h2 {
+.page-content li{
+    padding-left: 75px;
+    padding-right: 50px;
+    font-size: 1.5em;
+    color: whitesmoke;
+    list-style: none;
+}
+
+#content h2{
     padding-top: 25px;
     padding-left: 50px;
     padding-right: 50px;
     margin-bottom: 30px;
     color: #00FEBC;
+}
+
+#content h3{
+    color: whitesmoke;
+    padding-bottom: 20px;
 }
 
 #footer{

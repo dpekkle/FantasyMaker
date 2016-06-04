@@ -96,7 +96,7 @@ color: white;
 
 #about{
 	display: block;
-	height: 600px;
+	height: 500px;
 	background-color: #1E2328;
 }
 
@@ -128,7 +128,7 @@ color: white;
 	padding-right: 10px;
 	padding-left: 10px;
 	height: 225px;
-	background-color: rgba(0,0,0,0.4);
+	background-color: rgba(0,0,0,0.8);
 	border-radius: 20px;
 
 }
@@ -145,15 +145,20 @@ color: white;
 	text-transform: uppercase;
 }
 
+.card h3{
+	color: #FFF;
+}
+
+a {
+	text-decoration:  none;
+	color: #00FEBC;
+}
+
 .card .btn{
 	border: 2px solid #00FEBC;
 	width: 200px;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-.team_card:hover{
-	background-color: #00d69d;
 }
 
 
