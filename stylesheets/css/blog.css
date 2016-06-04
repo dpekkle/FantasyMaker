@@ -89,3 +89,8 @@ h1, h2, p{
     height: 75px;
     background-color: #1E2328;
 }
+
+.center{
+    align-content: center;
+    text-align: center;
+}
