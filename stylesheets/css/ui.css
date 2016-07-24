@@ -14,10 +14,10 @@
 	border-width: 2px;
 	border-color: #BBBBBB;
 	border-style: solid;
-	width: 295px; 
-	height: 200px; 
+	width: 300px; 
+	height: 200px; /*handle is 21 tall /*
 	position: relative; 
-	max-height: 200px; 
+	/*max-height: 200px;*/ 
 	overflow-x: hidden; 
 	overflow-y: auto;
 	
