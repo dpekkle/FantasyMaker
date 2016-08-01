@@ -95,6 +95,21 @@ function addImageContainer()
 			html_string		+=	"<source src= \"" + imgurl + "\"type='video/webm'></source>"
 			html_string 	+= 	"</video></div>"	
 		}
+		//gifv video
+		else if (imgurl.match(/\.(gifv|mp4)$/) != null)
+		{
+			var i = imgurl.lastIndexOf('.gifv'); //relabeled mp4s apparently...
+			if (i != -1) 
+			{
+				imgurl = imgurl.substr(0, i) + ".mp4";
+				console.log("Regexed to: ", imgurl);	
+			}
+			html_string  	 =  "<div id = 'img-container' class='drag-element' style='position:absolute;'>"
+			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' id = 'editdiv' class='resize-element'>"
+			html_string		+=	"<source src= \"" + imgurl + "\"type='video/mp4'></source>"
+			html_string 	+= 	"</video></div>"
+		}
+
 		else 
 		{
 			alert("Not a valid url");
