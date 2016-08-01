@@ -54,12 +54,18 @@ function stylePage()
 	//create text containers
 	var text_cont = currentNode.data('textcontainers');
 	var dec_cont = currentNode.data('decisioncontainers');
+	var img_cont = currentNode.data('imgcontainers');
 	
 	for (var i = 0; i < text_cont.length; i++)
 	{
 		$('.playpage').append(text_cont[i].html);
 	}
 	
+	for (var i = 0; i < img_cont.length; i++)
+	{
+		$('.playpage').append(img_cont[i].html);
+	}
+		
 	for (var i = 0; i < dec_cont.length; i++)
 	{
 		// we will need to check visibility conditions when deciding to add a decision container to a page 

@@ -1,6 +1,7 @@
 goog.provide('assetLoad')
 goog.require('initCanvas')
 
+/*
 function loadAudio()
 {
 	var audiolink = prompt("Enter audio url", cy.$(':selected').data('audio'));
@@ -72,4 +73,4 @@ function resizeImage(width, height)
 	$('#pageimg').attr("height", height);	
 	resizeCanvas();	
 }
-
+*/
