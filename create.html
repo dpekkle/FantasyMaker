@@ -40,13 +40,18 @@
     <!-- Control Edit Overlay (Materialize) -->
     <div id="control-modal" class="modal">
         <div class="modal-content">
+			<!--
             <div id = "controlcontainers">
                 <textarea class = "textarea" id="controltext"></textarea>
             </div>
             <div class = "toolbar" id="controltoolbar">
                 <p id="controlname"></p>
             </div>
+			-->
+			<ul id="connectedEdgesList" class="collapsible popout" data-collapsible="accordion"></ul>
+			
         </div>
+		
     </div>
 
     <!-- Connection Edit Overlay (Materialize) -->
@@ -54,12 +59,12 @@
         <div class="modal-content">
             <ul class="collapsible popout" data-collapsible="expandable">
                 <li>
-                    <div class="collapsible-header">Conditions</div>
+                    <div class="collapsible-header active">Conditions</div>
                     <div class="collapsible-body"> <ul id = "conditionsList" class="list-unstyled" ></ul></div>
                 </li>
                 <li>
-                    <div class="collapsible-header">Outcomes</div>
-                    <div class="collapsible-body"><ul id = "outcomeList" class="list-unstyled" ></ul></div>
+                    <div class="collapsible-header active">Outcomes</div>
+                    <div class="collapsible-body"><ul id = "outcomesList" class="list-unstyled" ></ul></div>
                 </li>
             </ul>
         </div>
@@ -69,8 +74,8 @@
         </div>
         <div class="modal-footer">
             <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-            <button type="button" class="btn btn-default" onClick=edgeOverlay_addCondition()>Add Condition</button>
-            <button type="button" class="btn btn-default" onClick=edgeOverlay_addOutcome()>Add Outcome</button>
+            <button type="button" class="btn btn-default" onClick=edgeOverlay_addNewCondition('conditionsList')>Add Condition</button>
+            <button type="button" class="btn btn-default" onClick=edgeOverlay_addNewOutcome('outcomesList')>Add Outcome</button>
 
         </div>
     </div>

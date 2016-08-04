@@ -165,6 +165,7 @@ function openEditControlOverlay(element){
 		var selected = cy.$(':selected')[0];
 
 	$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));
+	populateControlOverlay(selected);
 }
 
 function overlayToolbar(element)
@@ -223,11 +224,17 @@ function closeOverlay(element)
 		});		
 	}
 	
+	if (selected.hasClass('control'))
+	{
+		saveControl(selected)
+		$('#connectedEdgesList').children().remove();
+	}
+	
 	if(selected.isEdge()){
-		saveEdge();
+		saveEdge(selected,"EDGE_OVERLAY");
 		//remove html of condition/outcome lists
 		$('#conditionsList').children().remove(); 
-		$('#outcomeList').children().remove(); 
+		$('#outcomesList').children().remove(); 
 		
 	}
 	
