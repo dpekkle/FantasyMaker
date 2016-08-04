@@ -25,7 +25,7 @@ $(document).ready(function(){
 });
 
 // page overlay functions
-function addDecisionContainer(selected, i, text, name)
+function addDecisionContainer(selected, i, text, name) //automatic process, not a user action
 {	
 	var html_string  =  "<div id = 'decision-container' class='drag-element' style='position:absolute;'>"
 	html_string		+= 		"<div id = 'editdec' class = 'decisionbutton drag-element resize-element' contenteditable=true>" + escapeHtml(text) + "</div>"
@@ -60,7 +60,7 @@ function addTextContainer()
 	$("#pagecontainers").append(new_container);
 	$("#pagecontainers div#text-container:last").prepend("<div class='handle'>Text Container " + (size + 1) + "</div>");
 
-	$("#text-container" + size + " #editdiv").trigger('focus');
+	//$("#text-container" + size + " #editdiv").trigger('focus');
 	
 	var container_array = cy.$(':selected')[0].data('textcontainers');
 	var newcontainer = {
@@ -71,8 +71,73 @@ function addTextContainer()
 	cy.$(':selected')[0].data('textcontainers', container_array);
 }
 
+function addImageContainer()
+{
+	//ask user for URL
+	var html_string;
+	var imgurl = prompt("Enter image url", "http://");
+	
+	//check if valid image
+	if (imgurl != null )
+	{
+		//image url?
+		if (imgurl.match(/\.(jpeg|jpg|gif|png)$/) != null)
+		{
+			html_string  	 =  "<div id = 'img-container' class='drag-element' style='position:absolute;'>"
+			html_string		+=		"<img id = 'editdiv' class='resize-element' src=" + imgurl + "></img>"
+			html_string 	+= 	"</div>"	
+		}
+		//video url?
+		else if (imgurl.match(/\.(webm)$/) != null)
+		{
+			html_string  	 =  "<div id = 'img-container' class='drag-element' style='position:absolute;'>"
+			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' id = 'editdiv' class='resize-element'>"
+			html_string		+=	"<source src= \"" + imgurl + "\"type='video/webm'></source>"
+			html_string 	+= 	"</video></div>"	
+		}
+		//gifv video
+		else if (imgurl.match(/\.(gifv|mp4)$/) != null)
+		{
+			var i = imgurl.lastIndexOf('.gifv'); //relabeled mp4s apparently...
+			if (i != -1) 
+			{
+				imgurl = imgurl.substr(0, i) + ".mp4";
+				console.log("Regexed to: ", imgurl);	
+			}
+			html_string  	 =  "<div id = 'img-container' class='drag-element' style='position:absolute;'>"
+			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' id = 'editdiv' class='resize-element'>"
+			html_string		+=	"<source src= \"" + imgurl + "\"type='video/mp4'></source>"
+			html_string 	+= 	"</video></div>"
+		}
+
+		else 
+		{
+			alert("Not a valid url");
+			return;
+		}
+		
+	}
+	else{return;}	 //cancelled
+	
+	//Create a new draggable div to hold the image containers	
+	var size = cy.$(':selected')[0].data('imgcontainers').length;	
+	
+	var new_container = htmlToElements(html_string);
+	
+	$("#pagecontainers").append(new_container);
+	$("#pagecontainers div#img-container:last").prepend("<div class='handle'>Image Container " + (size + 1) + "</div>");
+	
+	var container_array = cy.$(':selected')[0].data('imgcontainers');
+	var newcontainer = {
+		'name' : size+1,
+		'html' : html_string
+		};
+	container_array.push(newcontainer);
+	cy.$(':selected')[0].data('imgcontainers', container_array);
+}
+
 //general overlay
-function updatePageStyle(element)
+function updatePageStyle(element) //used when we want to ensure unopened pages are saved for "export" (e.g saving/playing game)
 {
 	openEditPageOverlay(element);
 	closeOverlay(element);
@@ -80,7 +145,8 @@ function updatePageStyle(element)
 
 function openEditPageOverlay(element){
 	//element is null when we are simply opening a selected node in cy.
-	//if we pass an element we are creating the HTML markup of the page
+	//if we pass an element we are creating the HTML markup of the page, 
+	//e.g. imagine if we add a bunch of edges to a node but dont open it afterwards! we still need to create the html links before we could play the game
 	var selected = element;
 	if (element === null)
 		var selected = cy.$(':selected')[0];
@@ -91,11 +157,6 @@ function openEditPageOverlay(element){
 	//update contents of page view
 	if (selected.hasClass('page'))
 	{
-		//$("#pagecontainers").show();
-
-		//clear page
-		$('#pagecontainers').html('');
-
 		//load any previously saved info
 		//create text containers
 		var text_cont = selected.data('textcontainers');
@@ -104,8 +165,17 @@ function openEditPageOverlay(element){
 			$("#pagecontainers").append(text_cont[j].html);
 			$("#pagecontainers div#text-container:last").prepend("<div class='handle'>Text Container " + text_cont[j].name + "</div>");
 		}
-
+		
+		//create image containers
+		var img_cont = selected.data('imgcontainers');
+		for (var j = 0; j < img_cont.length; j++)
+		{
+			$("#pagecontainers").append(img_cont[j].html);
+			$("#pagecontainers div#img-container:last").prepend("<div class='handle'>Image Container " + img_cont[j].name + "</div>");
+		}
+			
 		outgoingEdges = selected.outgoers().edges();
+		
 		var dec_cont = selected.data('decisioncontainers');
 
 		//create decision buttons for the first time
@@ -181,8 +251,8 @@ function overlayToolbar(element)
 	{
 		$("#pagetoolbar").show();				
 		$("#pagename").text("Page " + element.data('name'));					
-		changeImage(element);
-		changeAudio(element);
+		//changeImage(element);
+		//changeAudio(element);
 	}
 	else if (element.isEdge()) //will probably need checks for each type of edge
 	{
@@ -192,10 +262,7 @@ function overlayToolbar(element)
 }
 
 function closeOverlay(element)
-{
-	//if (element === null)
-	//	document.getElementById("Modal").close();
-	
+{	
 	//save the contents of the page to the associated page
 	var selected = element;
 	if (element === null)
@@ -211,7 +278,6 @@ function closeOverlay(element)
 			var html = this.outerHTML;
 			selected.data('textcontainers')[index].html = html;
 			console.log("Updating HTML for ", index);
-
 		});
 		
 		$('#pagecontainers').children("div[id^='decision-container']").each(function(index)
@@ -219,9 +285,17 @@ function closeOverlay(element)
 			var html = this.outerHTML;
 			selected.data('decisioncontainers')[index].html = html;
 			console.log("save html for decision ", index);
-			//outgoingEdges.eq(index).data('text', this.innerHTML);
-			//console.log("Set: ", outgoingEdges.eq(index).data('text'));
 		});		
+		
+		$('#pagecontainers').children("div[id^='img-container']").each(function(index)
+		{
+			var html = this.outerHTML;
+			selected.data('imgcontainers')[index].html = html;
+			console.log("save html for img ", index);
+		});		
+
+		//clear page
+		$('#pagecontainers').html('');
 	}
 	
 	if (selected.hasClass('control'))
@@ -238,8 +312,6 @@ function closeOverlay(element)
 		
 	}
 	
-	//var total_html =  stripDraggable($("#pagecontainers").html());
-	//selected.data('styleHTML', total_html);
 }
 
 function showOverlayLinks(element) //"edit page" button etc..

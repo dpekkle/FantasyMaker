@@ -21,7 +21,11 @@ function initSnapOptions()
 		};
 	}
 	else
-		return {targets: [{x:0, y:0, range: 0}]};
+		return {
+			targets: [],
+			relativePoints: [{x:1, y:1}], //upper left corner binds to grid
+			endOnly: false	
+		};
 }
 
 //load grid into options
@@ -57,7 +61,10 @@ function setInteractions()
 	interact('.resize-element')
 		.resizable({
 			snap: snap_options,
-			edges: { left: false, right: true, bottom: true, top: false}
+			edges: { left: false, right: true, bottom: true, top: false},
+			onend: function(){
+				console.log("End resize");
+			}
 		})
 		.on('resizemove', function (event) {
 			var tar = event.target;
@@ -103,15 +110,14 @@ function dragMoveListener (event) {
     target.style.transform =
       'translate(' + x + 'px, ' + y + 'px)';
 
-    // update the posiion attributes
+    // update the position attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
   }
 
 window.dragMoveListener = dragMoveListener;
 
-//attempt at only calculating when resize event ENDS
-
+//When we resize the browser window it can sometimes make elements out of bounds, so we need to resize or translate them to stay in the "play screen" div
 var doit;
 window.onresize = function(){
   clearTimeout(doit);

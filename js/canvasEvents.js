@@ -39,7 +39,7 @@ cy.on('tap', function(event)
 			{
 				data: { 
 					name: cy.nodes().size()+1, 
-					img: "none",
+					imgcontainers: [],
 					audio: "none",
 					textcontainers: [],
 					decisioncontainers: [],
