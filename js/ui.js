@@ -46,6 +46,7 @@ function createConnection(element)
 				var makeedge = true;
 				if (source_node.hasClass('control')) //control nodes only have two edges, a success and a fail fallback
 				{
+					
 					var edge_list = source_node.edgesTo('*');
 					console.log("Size from control: ", edge_list.size());
 					if (edge_list.size() === 0) //add first success edge
@@ -65,8 +66,9 @@ function createConnection(element)
 					}
 					else
 					{
-						makeedge = false;
+						makeedge = true;
 					}
+					
 					style += ' controledge';
 				}
 				else if (source_node.hasClass('page'))
@@ -78,6 +80,9 @@ function createConnection(element)
 				{
 					// First edge 'A', second 'B', third 'C' etc...
 					var edge_label = String.fromCharCode('A'.charCodeAt() + source_node.edgesTo('*').size());
+					
+					
+					
 					
 					var newEdge = cy.add(
 					{
@@ -94,6 +99,12 @@ function createConnection(element)
 					});	
 					//edge selection is a bit buggy in chrome, so this should ensure it isn't.
 					newEdge.on('tap', function(event){this.select();});		
+					
+					//add new edge to control nodes priority list of edges
+					if(source_node.hasClass('control')){
+						console.log(source_node.json())
+						source_node.json().data.priorityList.push(newEdge.json().data.id)
+					}
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node

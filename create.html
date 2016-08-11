@@ -36,7 +36,7 @@
     </div>
 
     <!-- Control Edit Overlay (Materialize) -->
-    <div id="control-modal" class="modal">
+    <div id="control-modal" class="modal" >
         <div class="modal-content">
 			<!--
             <div id = "controlcontainers">
@@ -46,7 +46,8 @@
                 <p id="controlname"></p>
             </div>
 			-->
-			<ul id="connectedEdgesList" class="collapsible popout" data-collapsible="accordion"></ul>
+			<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion">
+			</ul>
 			
         </div>
 		

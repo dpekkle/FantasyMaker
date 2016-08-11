@@ -12,7 +12,8 @@ function project_createNewProject(){
 		"projectOwner" : "none",
 		"projectName" : "none",
 		"graph" : [],
-		"statTypes" : []
+		"statTypes" : [],
+		"characters" : []
 	}
 	
 	return newProj;
@@ -30,6 +31,12 @@ function project_updateProject(){
 		project_project.statTypes.push( { "type" : "MAGIC"} );
 		project_project.statTypes.push( { "type" : "SPIRIT"} );
 		project_project.statTypes.push( { "type" : "STRENGTH"} );
+		//add default character
+		character = {}
+		for(var i = 0; i< project_project.statTypes.length; i++){
+			character[project_project.statTypes[i].type] = 0
+		}
+		project_project.characters.push(character)
 	}
 	else{
 		console.log("Updating project...");

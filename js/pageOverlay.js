@@ -263,13 +263,16 @@ function overlayToolbar(element)
 
 function closeOverlay(element)
 {	
+
 	//save the contents of the page to the associated page
 	var selected = element;
 	if (element === null)
 		var selected = cy.$(':selected')[0];
 	
+	
 	if (selected.hasClass('page'))
 	{
+		
 		$('#pagecontainers .handle').remove();
 
 		//update containers
@@ -298,11 +301,13 @@ function closeOverlay(element)
 		$('#pagecontainers').html('');
 	}
 	
+	
 	if (selected.hasClass('control'))
 	{
 		saveControl(selected)
 		$('#connectedEdgesList').children().remove();
 	}
+	
 	
 	if(selected.isEdge()){
 		saveEdge(selected,"EDGE_OVERLAY");
@@ -311,6 +316,8 @@ function closeOverlay(element)
 		$('#outcomesList').children().remove(); 
 		
 	}
+	
+	
 	
 }
 

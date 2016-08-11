@@ -34,26 +34,37 @@ function populateEdgeOverlay(edge){
 
 function saveEdge(selectedEdge, mode){
 	
+	//console.log(cy.elements().jsons())
+	
 	var currEdge = selectedEdge.json();
+	
+	
 	
 	//save all existing conditions
 	for(var i = 0; i<currEdge.data.conditions.length; i++){
 		var temp = currEdge.data.conditions[i];
 		var id = 'exCondition_' + temp.edge + '_' + temp.id
 		
-		temp.stat = $('#' + id + '_statTypeList').val()
-		temp.comparison = $('#' + id + '_compList').val()
-		temp.value = $('#' + id + '_value').val()
+		if($('#' + id + '_statTypeList').length !== 0){
+			temp.stat = $('#' + id + '_statTypeList').val()
+			temp.comparison = $('#' + id + '_compList').val()
+			temp.value = $('#' + id + '_value').val()
+		}
+		
 	}
+	
 	
 	//save all existing outcomes
 	for(var i = 0; i<currEdge.data.outcomes.length; i++){
 		var temp = currEdge.data.outcomes[i];
 		var id = 'exOutcome_' + temp.edge + '_' + temp.id
 		
-		temp.stat = $('#' + id + '_statTypeList').val()
-		temp.modifier = $('#' + id + '_modList').val()
-		temp.value = $('#' + id + '_value').val()
+		if($('#' + id + '_statTypeList').length !== 0){
+			temp.stat = $('#' + id + '_statTypeList').val()
+			temp.modifier = $('#' + id + '_modList').val()
+			temp.value = $('#' + id + '_value').val()
+		}
+		
 	}
 	
 	//only the edge overlay will be handling new conds/outcomes
@@ -95,6 +106,8 @@ function saveEdge(selectedEdge, mode){
 		}
 	}
 	
+	edgeOverlay_newConditionCount = 0; 
+	edgeOverlay_newOutcomeCount = 0; 
 	
 }
 
