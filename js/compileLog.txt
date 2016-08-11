@@ -1,8 +1,13 @@
 
-C:\Users\powertower\Documents\GitHub\FantasyMaker\js>del ".\dev.min.js" 
+D:\Users\Russell\Repositories\FantasyMaker\js>del ".\dev.min.js" 
+Could Not Find D:\Users\Russell\Repositories\FantasyMaker\js\dev.min.js
 
-C:\Users\powertower\Documents\GitHub\FantasyMaker\js>java -jar compiler.jar --js *.js --jscomp_off=uselessCode --js_output_file dev.min.js 
-Picked up _JAVA_OPTIONS: -Djava.net.preferIPv4Stack=true
+D:\Users\Russell\Repositories\FantasyMaker\js>java -jar compiler.jar --js *.js --jscomp_off=uselessCode --js_output_file dev.min.js 
+attributesOverlay.js:34: ERROR - Parse error. ',' expected
+function attributeOverlay_updateAttribute(att-name-ID) {
+                                             ^
 
-C:\Users\powertower\Documents\GitHub\FantasyMaker\js>PAUSE
+1 error(s), 0 warning(s)
+
+D:\Users\Russell\Repositories\FantasyMaker\js>PAUSE
 Press any key to continue . . . 

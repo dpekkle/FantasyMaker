@@ -30,7 +30,7 @@
                 <p id="pagename"></p>
                 <button class = "btn" onCLick=addTextContainer()>Add A TextBox</button><br/>
                 <button class = "btn" onclick=addImageContainer()>Add Image</button> <br/>
-                <button class = "btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
+                <button class = "gridmode btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
             </div>
         </div>
     </div>
@@ -73,29 +73,62 @@
         </div>
         <div class="modal-footer">
             <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             <button type="button" class="btn btn-default" onClick=edgeOverlay_addNewCondition('conditionsList')>Add Condition</button>
             <button type="button" class="btn btn-default" onClick=edgeOverlay_addNewOutcome('outcomesList')>Add Outcome</button>
 
         </div>
     </div>
-	
+
+	<!-- Attributes Modal -->
+	<div id="attributes-modal" class=" modal modal-fixed-footer">
+		<div class="modal-content">
+				<h4>Attributes</h4> <br/>
+				<ul class="collapsible" id="attributes-list" data-collapsible="accordion">
+
+				</ul>
+		</div>
+		<div class="modal-footer">
+			<a class="btn-floating btn-small waves-effect waves-light red floating-action-button" onclick="attributesOverlay_addAttribute('attributes-list')"><i class="material-icons">add</i></a>
+		</div>
+	</div>
+
+
+	<!-- Modal Structure -->
+	<div id="mda" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<h4>Modal Header</h4>
+			<p>A bunch of text</p>
+		</div>
+		<div class="modal-footer">
+			<a href="javascript:;" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+		</div>
+	</div>
+
+
+	<!-- Main Content -->
 	<div class="container-fluid">
 		<div class="row">
 			<div class = "col s12 l12">
 				<ul class="tabs" id="tabheadings">
 					<li class="tab col s4"><a class="active" href="#cyTab">Graph</a></li>
+					<li class="tab col s4"><a href="#Character">Character</a></li>
 					<li class="tab col s4"><a href="#Play" onclick=prepareForGame()>Play</a></li>
-					<li class="tab col s4"><a href="#menu2">Menu 2</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="cyTab" class="tab-pane fade in active">
 						<div class="col s9 l9" id="cy"> <!-- Grid "workspace" container -->
 							</div>
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
+							<h5>FantasyMaker</h5>
+							<hr/>
 							<button class="pagemode btn" onclick=changeState(this)>Page Node</button> <br/>
 							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
 							<button class="connectionmode btn" onclick=changeState(this)>Edge</button><br/>
+							<hr/>
+							<a class="waves-effect waves-light btn modal-trigger" href="#attributes-modal">Attributes</a>
 							<br/>
+							<hr/>
 							<button class="connectivity btn" onclick=checkValidGraph()>Test Graph</button> <br/>
 							<select onchange="layout_driver(this); this.selectedIndex = 0;" onfocus="this.selectedIndex = 0;">
  								<option value="none">Style Graph</option>
@@ -103,17 +136,19 @@
  								<option value="Grid">Grid</option>
  								<option value="Circle">Circle</option>
  								<option value="Spread">Spread</option>
- 							</select> <br/>
+ 							</select>
 
 							<button class="savebutton btn" onclick=http_save()>Save</button><br/>
 							<button class="loadbutton btn" onclick=http_load()>Load</button><br/>
-							<br/>
+							<hr/>
 							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
                             <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#page-modal">Edit Page</a>
                             <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#connection-modal">Edit Edge</a>
                             <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#control-modal">Edit Control</a>
                             <br/>
-							<br/>		
+							<br/>
+
+
 						</div>
 					</div>
 					<div id="Play" class="tab-pane fade">
@@ -123,16 +158,18 @@
 							<button class="progressbutton button" style='float:right;' onclick=progressStory(0)>Continue</button>
 						</div>
 					</div>
-					<div id="menu2" class="tab-pane fade">
-						<h3>Menu 2</h3>
-						<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-					</div>
+					<div id="Character" class="tab-pane fade">
+						<div class="container">
+							<div class="row">
+						</div>
+						</div>
 				</div>
 
 			</div>
 		</div>
 	</div>
-	
+	</div>
+
 	</body>
 	<script src="js/lib/jquery-2.2.2.min.js"></script>
 	<script defer src="js/lib/cytoscape.min.js"></script>

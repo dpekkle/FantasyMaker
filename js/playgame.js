@@ -2,15 +2,12 @@ goog.require('initCanvas') //for cytoscape functions like outgoers
 goog.require('pageOverlay') //for escapehtml
 goog.provide('playGame')
 
-goog.require('project')
-
 
 currentNode = null;
 outgoingEdges = null;
 
 function prepareForGame()
 {
-	
 	currentNode = null;
 	outgoingEdges = null;
 	
@@ -21,13 +18,10 @@ function prepareForGame()
 	//will probably be an empty page i.e. no html
 	
 	var eles = cy.elements();
-	
 	for (var i = 0; i < eles.length; i++)
 	{
 		updatePageStyle(eles[i]);
 	}
-	
-	
 }
 
 
@@ -101,6 +95,7 @@ function stylePage()
 function parseControl(sourceNode, outgoingEdges)
 {
 	//handle control stuff
+	//Todo - Check Inventory Items & Attributes 
 	console.log("At control node. possible edges are: " + sourceNode.json().data.priorityList)
 	
 	var order = sourceNode.json().data.priorityList //get order in which to assess edges

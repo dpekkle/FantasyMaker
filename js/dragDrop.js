@@ -79,6 +79,7 @@ setInteractions();
 function toggleGridMode()
 {
 	grid_snapping_mode = !grid_snapping_mode;
+	$('.gridmode').toggleClass('activebutton');
 	snap_options = initSnapOptions();
 	setInteractions();	
 }
@@ -118,21 +119,27 @@ function dragMoveListener (event) {
 window.dragMoveListener = dragMoveListener;
 
 //When we resize the browser window it can sometimes make elements out of bounds, so we need to resize or translate them to stay in the "play screen" div
+
+//listener for resizing the window
 var doit;
-window.onresize = function(){
+window.onresize = function()
+{
   clearTimeout(doit);
   doit = setTimeout(modalBounds, 300);
 };
 
-function modalBounds(){
+function modalBounds()
+{
 	if ($('#page-modal').hasClass("open"))
 	{
-		$('.resize-element').each(function(){
+		$('.resize-element').each(function()
+		{
 			console.log("Test resize");
 			//recalculate bounds
 			var tar = $(this);
-			$(this).width(checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width()));
-			$(this).height(checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height() - $('.handle').height()));
+			//update width and height, could also update position
+			tar.width(checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width()));
+			tar.height(checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height() - $('.handle').height()));
 		})
 	}
 }

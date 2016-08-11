@@ -21,7 +21,7 @@ function project_createNewProject(){
 
 function project_updateProject(){
 	
-	//instantiate a new project if projectName hass not been set
+	//instantiate a new project if projectName has not been set
 	if(project_project.projectOwner == "none"){
 		console.log("Creating new project");
 		project_project.projectOwner = "Admin";
