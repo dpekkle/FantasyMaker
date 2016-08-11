@@ -91,14 +91,9 @@ function saveEdge(selectedEdge, mode){
 			if(newOut !== undefined){
 				currEdge.data.outcomes.push(newOut);
 			}
-			
 		}
 	}
-	
-	
 }
-
-
 
 //populate statType drop down menus based on contents of project_project.statTypes array
 function populateStatsDropDownMenu(listID){
@@ -106,14 +101,11 @@ function populateStatsDropDownMenu(listID){
 	var id = '#' + listID;
 	//for all defined stat types
 	for(var i = 0; i<project_project.statTypes.length; i++){
-		//append element to drop down menu
+			//append element to drop down menu
 		$(id).append( '<option value="' + project_project.statTypes[i].type + '">' + project_project.statTypes[i].type + "</option>");
 		$(id).material_select();
 	}
-
 } 
-
-
 
 function edgeOverlay_addNewCondition(listID){
 
@@ -128,7 +120,6 @@ function edgeOverlay_addNewCondition(listID){
 		$('#' + 'newCondition_' + edgeOverlay_newConditionCount).show(300);
 	});
 	
-	
 	$('#newCondition_statTypeList' + edgeOverlay_newConditionCount).material_select();
 	$('#newCondition_compList' + edgeOverlay_newConditionCount).material_select();
 	populateStatsDropDownMenu('newCondition_statTypeList' + edgeOverlay_newConditionCount); //populate the statType menu
@@ -137,7 +128,6 @@ function edgeOverlay_addNewCondition(listID){
 }
 
 function edgeOverlay_addNewOutcome(listID){
-
 
 	//html of outcome row
 	var outcomeHtml = '<li id= newOutcome_' + edgeOverlay_newOutcomeCount + '><div class="input-field col s12" style = "display: inline-block; width: 20%; padding-left: 3%"><select id="newOutcome_statTypeList' + edgeOverlay_newOutcomeCount +'"></select></div><div class="input-field col s12" style = "display: inline-block; width: 20%; padding-left: 1%; padding-right: 1%;"><select id="newOutcome_modList' + edgeOverlay_newOutcomeCount +'"><option value="+">+</option><option value="-">-</option><option value="*">*</option><option value="/">/</option><option value="=">=</option></select></div><input placeholder="Enter Value" id="newOutcome_value' + edgeOverlay_newOutcomeCount +'" type="number" class="validate" style = "display: inline-block; width: 20%;"><div id="DummyDiv" class="input-field col s12" style = "display: inline-block; width: 30%;"></div><a id="newOutcome_delete' + edgeOverlay_newOutcomeCount +'" class="btn-floating btn waves-effect waves-light red" onclick=removeOutcome('+ "'newOutcome_" + edgeOverlay_newOutcomeCount + "'" + ')><i class="material-icons">delete</i></a></li>';	

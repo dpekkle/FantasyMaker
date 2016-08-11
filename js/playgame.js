@@ -95,6 +95,7 @@ function stylePage()
 function parseControl(outgoingEdges)
 {
 	//handle control stuff
+	//Todo - Check Inventory Items & Attributes 
 }
 
 function progressStory(i)

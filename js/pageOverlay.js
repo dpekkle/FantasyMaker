@@ -7,18 +7,21 @@ $(document).ready(function(){
 		//callback for when overlay is triggered from html
 		ready: function() {
 			var selected = cy.$(':selected')[0];
-			if (selected.hasClass('page')) {
-				openEditPageOverlay(selected);
-				console.log("Opening page overlay");
+			if(selected != null) {
+				if (selected.hasClass('page')) {
+					openEditPageOverlay(selected);
+					console.log("Opening page overlay");
+				}
+				else if (selected.isEdge()) {
+					openEditConnectionOverlay(selected);
+					console.log("Opening Edge Overlay")
+				}
+				else if (selected.hasClass('control')) {
+					openEditControlOverlay(selected);
+					console.log("Opening Control Overlay")
+				}
 			}
-			else if(selected.isEdge()) {
-				openEditConnectionOverlay(selected);
-				console.log("Opening Edge Overlay")
-			}
-			else if(selected.hasClass('control')) {
-				openEditControlOverlay(selected);
-				console.log("Opening Control Overlay")
-			}
+			//TODO - Handle Opening Attributes Overlay
 		},
 		complete: function () { closeOverlay(null);} //callback for when modal is dismissed
 	});
@@ -267,49 +270,50 @@ function closeOverlay(element)
 	var selected = element;
 	if (element === null)
 		var selected = cy.$(':selected')[0];
-	
-	if (selected.hasClass('page'))
-	{
-		$('#pagecontainers .handle').remove();
 
-		//update containers
-		$('#pagecontainers').children("div[id^='text-container']").each(function(index)
-		{
-			var html = this.outerHTML;
-			selected.data('textcontainers')[index].html = html;
-			console.log("Updating HTML for ", index);
-		});
-		
-		$('#pagecontainers').children("div[id^='decision-container']").each(function(index)
-		{
-			var html = this.outerHTML;
-			selected.data('decisioncontainers')[index].html = html;
-			console.log("save html for decision ", index);
-		});		
-		
-		$('#pagecontainers').children("div[id^='img-container']").each(function(index)
-		{
-			var html = this.outerHTML;
-			selected.data('imgcontainers')[index].html = html;
-			console.log("save html for img ", index);
-		});		
+	if (selected != null) {
 
-		//clear page
-		$('#pagecontainers').html('');
-	}
-	
-	if (selected.hasClass('control'))
-	{
-		saveControl(selected)
-		$('#connectedEdgesList').children().remove();
-	}
-	
-	if(selected.isEdge()){
-		saveEdge(selected,"EDGE_OVERLAY");
-		//remove html of condition/outcome lists
-		$('#conditionsList').children().remove(); 
-		$('#outcomesList').children().remove(); 
-		
+		if (selected.hasClass('page')) {
+			$('#pagecontainers .handle').remove();
+
+			//update containers
+			$('#pagecontainers').children("div[id^='text-container']").each(function (index) {
+				var html = this.outerHTML;
+				selected.data('textcontainers')[index].html = html;
+				console.log("Updating HTML for ", index);
+			});
+
+			$('#pagecontainers').children("div[id^='decision-container']").each(function (index) {
+				var html = this.outerHTML;
+				selected.data('decisioncontainers')[index].html = html;
+				console.log("save html for decision ", index);
+			});
+
+			$('#pagecontainers').children("div[id^='img-container']").each(function (index) {
+				var html = this.outerHTML;
+				selected.data('imgcontainers')[index].html = html;
+				console.log("save html for img ", index);
+			});
+
+			//clear page
+			$('#pagecontainers').html('');
+		}
+
+		if (selected.hasClass('control')) {
+			saveControl(selected)
+			$('#connectedEdgesList').children().remove();
+		}
+
+		if (selected.isEdge()) {
+			saveEdge(selected, "EDGE_OVERLAY");
+			//remove html of condition/outcome lists
+			$('#conditionsList').children().remove();
+			$('#outcomesList').children().remove();
+
+		}
+	}else{
+		//Modal is independent of cytoscape (Attributes)
+		//TODO - Handle Attributes Overlay Closure
 	}
 	
 }

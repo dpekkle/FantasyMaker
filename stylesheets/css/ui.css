@@ -69,7 +69,6 @@ body {
   left:50%;
   margin-left: -40%;
   margin-top:0%;*/
-
 }
 
 .btn{
@@ -160,3 +159,16 @@ body {
 .modal-content{
 	height: 100%;
 }
+
+#att-list-container{
+	width: 100%;
+	padding-right: 10px;
+}
+
+.floating-action-button{
+	padding-top: 30px;
+	float: right;
+	right: 20px;
+}
+
+
