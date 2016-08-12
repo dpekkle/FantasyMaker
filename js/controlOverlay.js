@@ -14,7 +14,7 @@ function populateControlOverlay(node){
 	//load edges from control node priorityList
 	for(var i = 0; i<node.json().data.priorityList.length; i++){
 		var curr = cy.edges("[id='" + node.json().data.priorityList[i]+ "']").json()
-		var edgeHtml = '<li id=connectedEdge_' + curr.data.id + ' ><div id="header_'+ curr.data.id +'" draggable="true" ondragend=handleDragEnd(event) ondrag=handleDrag(event,'+ "'" + curr.data.name + "'" +') ondragenter=handleDragEnter(event) class="collapsible-header">Edge '+ curr.data.name +'</div><div class="collapsible-body"><ul id = "'+ curr.data.id + '_collapsible' +'" class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header">Conditions for '+ curr.data.name +'</div><div class="collapsible-body"><ul id = "controlConditions_' + curr.data.id + '" class="list-unstyled" ></ul></div></li><li><div class="collapsible-header">Outcomes for '+ curr.data.name +'</div><div class="collapsible-body"><ul id = "controlOutcomes_' + curr.data.id + '" class="list-unstyled" ></ul></div></li></ul></div></li>'
+		var edgeHtml = '<li id=connectedEdge_' + curr.data.id + ' ><div id="header_'+ curr.data.id +'" draggable="true" ondragend=handleDragEnd(event) ondragstart=handleDrag(event,'+ "'" + curr.data.name + "'" +') ondragenter=handleDragEnter(event) class="collapsible-header">Edge '+ curr.data.name +'</div><div class="collapsible-body"><ul id = "'+ curr.data.id + '_collapsible' +'" class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header">Conditions for '+ curr.data.name +'</div><div class="collapsible-body"><ul id = "controlConditions_' + curr.data.id + '" class="list-unstyled" ></ul></div></li><li><div class="collapsible-header">Outcomes for '+ curr.data.name +'</div><div class="collapsible-body"><ul id = "controlOutcomes_' + curr.data.id + '" class="list-unstyled" ></ul></div></li></ul></div></li>'
 		
 		$('#connectedEdgesList').append(edgeHtml)
 		$('#' + curr.data.id + '_collapsible').collapsible({accordion : false});
@@ -39,16 +39,30 @@ function saveControl(node){
 	
 }
 
-function handleDrag(e, itemName){
+function handleDrag(ev, itemName){
+	
+	
+	
+	console.log(ev)
+	console.log(itemName)
+	var dt = ev.dataTransfer;
+    dt.setData("Text", "Dropped in zone!");
+    
 
-	currentDraggedItem.ID = e.target.id
-	currentDraggedItem.parentID = "connectedEdge_" + e.target.id.split('_')[1]
+	
+	 //event.originalEvent.dataTransfer.setData
+	//e.dataTransfer.setData('text', 'anything');
+	currentDraggedItem.ID = ev.target.id
+	currentDraggedItem.parentID = "connectedEdge_" + ev.target.id.split('_')[1]
 	currentDraggedItem.name = itemName
+	//ev.preventDefault();
+	return true;
 }
 
 function handleDragEnter(e){
-	
-			
+	//e.preventDefault();
+	//e.dataTransfer.setData("text/plain", ev.target.id);
+	console.log("drag entered")
 	var dropZone = '<li id="dropZoneOuter"><div id="dropZone" class="collapsible-header" ondrop=handleDrop(event) ondragover=allowDrop(event) style="font-style: italic; background-color: gray; opacity: 0.25;"> Edge '+ currentDraggedItem.name +'</div></li>'
 	
 	if(currentHoverOver !== e.target.id){ //cant drop item on itself
@@ -69,11 +83,11 @@ function handleDragEnter(e){
 			}
 			
 			
-			$('#dropZone').hide()
+			$('#dropZoneOuter').hide()
 				
 				
-			$('#' + currentDraggedItem.ID).hide(300, function(){
-				$('#dropZone').show(300)
+			$('#' + currentDraggedItem.ID).hide(0, function(){
+				$('#dropZoneOuter').show(0)
 			})
 			
 		}
@@ -88,8 +102,8 @@ function handleDragEnter(e){
 
 
 function handleDrop(e){
-	
-
+	e.preventDefault();
+	//e.dataTransfer.setData("text/plain", ev.target.id);
 	//user has chosen valid drop zone
 	var tempHtml = $('#' + currentDraggedItem.parentID).clone()
 	$('#' + currentDraggedItem.parentID).remove()
@@ -106,13 +120,15 @@ function handleDrop(e){
 }
 
 function allowDrop(e){
+	//e.dataTransfer.setData("text/plain", ev.target.id);
 	e.preventDefault();
 }
 
 function handleDragEnd(e){
-			
-	$('#dropZone').hide(300, function(){
-		$('#' + currentDraggedItem.ID).show(300)
+	//e.dataTransfer.setData("text/plain", ev.target.id);
+	console.log($('#dropZoneOuter').length)
+	$('#dropZoneOuter').hide(0, function(){
+		$('#' + currentDraggedItem.ID).show(0)
 	})
 }
 
