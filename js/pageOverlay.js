@@ -27,6 +27,29 @@ $(document).ready(function(){
 	});
 });
 
+function retrieveHandleHTML(containertype, id)
+{
+	if (containertype == "img")
+	{
+		return "<div class='handle'>Image Container " + id  + "</div>"
+	}
+
+	else if (containertype == "text")
+	{
+		return "<div class='handle'>Text Container " + id + 
+			   "</div>";
+	}
+	else if (containertype == "decision")
+	{
+		return "<div class='handle'>Link " + id + "</div>"
+	}
+	else
+	{
+		console.log("Unknown container type when generating handle for HTML");
+		return null;
+	}
+}
+
 // page overlay functions
 function addDecisionContainer(selected, i, text, name) //automatic process, not a user action
 {	
@@ -48,20 +71,17 @@ function addDecisionContainer(selected, i, text, name) //automatic process, not 
 }
 
 function addTextContainer()
-{
-	//Create a new draggable div to hold the text container
-	
-	var size = cy.$(':selected')[0].data('textcontainers').length;
-	
-	//create the container and append it to the pageX
+{	
+	//create the container and append it to the page
 	var html_string  =  "<div id = 'text-container' class='drag-element' style='position:absolute;'>"
 	html_string		+=		"<div id = 'editdiv' class='resize-element' contenteditable=true ></div>"
 	html_string 	+= 	"</div>"
 	
+	var size = cy.$(':selected')[0].data('textcontainers').length;
 	var new_container = htmlToElements(html_string);
 
 	$("#pagecontainers").append(new_container);
-	$("#pagecontainers div#text-container:last").prepend("<div class='handle'>Text Container " + (size + 1) + "</div>");
+	$("#pagecontainers div#text-container:last").prepend(retrieveHandleHTML("text", size + 1));
 
 	//$("#text-container" + size + " #editdiv").trigger('focus');
 	
@@ -123,12 +143,11 @@ function addImageContainer()
 	else{return;}	 //cancelled
 	
 	//Create a new draggable div to hold the image containers	
-	var size = cy.$(':selected')[0].data('imgcontainers').length;	
-	
+	var size = cy.$(':selected')[0].data('imgcontainers').length;		
 	var new_container = htmlToElements(html_string);
 	
 	$("#pagecontainers").append(new_container);
-	$("#pagecontainers div#img-container:last").prepend("<div class='handle'>Image Container " + (size + 1) + "</div>");
+	$("#pagecontainers div#img-container:last").prepend(retrieveHandleHTML("image", size + 1));
 	
 	var container_array = cy.$(':selected')[0].data('imgcontainers');
 	var newcontainer = {
@@ -166,7 +185,7 @@ function openEditPageOverlay(element){
 		for (var j = 0; j < text_cont.length; j++)
 		{
 			$("#pagecontainers").append(text_cont[j].html);
-			$("#pagecontainers div#text-container:last").prepend("<div class='handle'>Text Container " + text_cont[j].name + "</div>");
+			$("#pagecontainers div#text-container:last").prepend(retrieveHandleHTML("text", text_cont[j].name));
 		}
 		
 		//create image containers
@@ -174,7 +193,7 @@ function openEditPageOverlay(element){
 		for (var j = 0; j < img_cont.length; j++)
 		{
 			$("#pagecontainers").append(img_cont[j].html);
-			$("#pagecontainers div#img-container:last").prepend("<div class='handle'>Image Container " + img_cont[j].name + "</div>");
+			$("#pagecontainers div#img-container:last").prepend(retrieveHandleHTML("image", img_cont[j].name));
 		}
 			
 		outgoingEdges = selected.outgoers().edges();
@@ -190,7 +209,7 @@ function openEditPageOverlay(element){
 				if (outgoingEdges[i].data('name') == dec_cont[j].name)
 				{
 					found = true;
-					//one button per edge
+					//only want one button per edge
 				}
 			}
 			if (!found)
@@ -207,7 +226,7 @@ function openEditPageOverlay(element){
 				{
 					$("#pagecontainers").append(dec_cont[j].html);
 					//handles added each time, as we want to draw on updated names
-					$("#pagecontainers div#decision-container:last").prepend("<div class='handle'>Link " + dec_cont[j].name + "</div>");
+					$("#pagecontainers div#decision-container:last").prepend(retrieveHandleHTML("decision", dec_cont[j].name));
 					found = true;
 				}
 			}
@@ -254,8 +273,6 @@ function overlayToolbar(element)
 	{
 		$("#pagetoolbar").show();				
 		$("#pagename").text("Page " + element.data('name'));					
-		//changeImage(element);
-		//changeAudio(element);
 	}
 	else if (element.isEdge()) //will probably need checks for each type of edge
 	{

@@ -2,7 +2,6 @@ goog.provide('ui')
 goog.require('initCanvas')
 goog.require('states')
 goog.require('httpRequests')
-goog.require('assetLoad')
 goog.require('pageOverlay')
 goog.require('layouts')
 
