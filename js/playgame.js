@@ -1,5 +1,5 @@
 goog.require('initCanvas') //for cytoscape functions like outgoers
-goog.require('pageOverlay') //for escapehtml
+goog.require('generalOverlay') //for escapehtml
 goog.provide('playGame')
 
 
@@ -73,7 +73,7 @@ function stylePage()
 	}
 
 	//give decisions on click behaviour
-	$('.playpage').children("div[id^='decision-container']").each(function(index)	
+	$('.playpage').children("div[class^='decision-container']").each(function(index)	
 	{
 		$(this).click(function()
 		{

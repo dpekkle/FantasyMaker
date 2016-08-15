@@ -20,8 +20,8 @@ div {
 }
 
 .drag-element{
-	display: inline-block;
-	
+/*	display: inline-block;
+*/	
 }
 
 .drag-element.can-drop {

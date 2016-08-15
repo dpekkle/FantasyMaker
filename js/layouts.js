@@ -1,6 +1,6 @@
 goog.provide('layouts')
 goog.require('initCanvas')
-goog.require('pageOverlay') //for containers
+//goog.require('pageOverlay') //for containers
 
 var cose_layout = {
   name: 'cose',

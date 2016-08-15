@@ -2,7 +2,7 @@ goog.provide('ui')
 goog.require('initCanvas')
 goog.require('states')
 goog.require('httpRequests')
-goog.require('pageOverlay')
+goog.require('generalOverlay')
 goog.require('layouts')
 
 function removeElement()
