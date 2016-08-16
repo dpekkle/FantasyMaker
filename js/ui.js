@@ -61,27 +61,14 @@ function createConnection(element)
 				{
 
 					var edge_list = source_node.edgesTo('*');
-					console.log("Size from control: ", edge_list.size());
-					if (edge_list.size() === 0) //add first success edge
-					{
-						style = 'success-edge';
-					}
-					else if (edge_list.size() === 1) //add second edge
-					{
-						if(edge_list.first().hasClass('success-edge'))
-						{
-							style = 'fail-edge';
-						}
-						else
-						{
-							style = 'success-edge'; //in case success edge was deleted and fail was not
-						}
-					}
-					else
-					{
-						makeedge = true;
-					}
 
+					style = 'fail-edge';
+					edge_list.forEach(function(ele){
+						if (ele.hasClass('fail-edge')){
+							style = 'success-edge';
+							return;
+						}
+					});
 					style += ' controledge';
 				}
 				else if (source_node.hasClass('page'))
@@ -93,10 +80,6 @@ function createConnection(element)
 				{
 					// First edge 'A', second 'B', third 'C' etc...
 					var edge_label = String.fromCharCode('A'.charCodeAt() + source_node.edgesTo('*').size());
-
-
-
-
 					var newEdge = cy.add(
 					{
 						data: {
@@ -117,12 +100,15 @@ function createConnection(element)
 					if(source_node.hasClass('control')){
 						//console.log(source_node.json())
 						source_node.json().data.priorityList.push(newEdge.json().data.id)
+						console.log("control nodes defaultFailEdge: " + source_node.json().data.defaultFailEdge)
 						if(source_node.json().data.defaultFailEdge === "none"){
+							console.log("setting initial default fail edge to " + newEdge.json().data.id)
 							source_node.json({ data:{ defaultFailEdge: newEdge.json().data.id }})
 							console.log("default fail edge is " + source_node.json().data.defaultFailEdge)
 						}
 					}
 
+					console.log(cy.elements().jsons())
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node
