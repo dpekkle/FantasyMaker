@@ -63,7 +63,8 @@ cy.on('tap', function(event)
 				data: { 
 					name: cy.nodes().size()+1, 
 					text: "control node text",
-					priorityList: []	//list to store order in which edges are assessed during gameplay
+					priorityList: [],	//list to store order in which edges are assessed during gameplay
+					defaultFailEdge: "none"
 				},
 				classes: "control",
 				group: "nodes",

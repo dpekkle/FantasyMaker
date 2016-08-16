@@ -1,13 +1,5 @@
 
-D:\Users\Russell\Repositories\FantasyMaker\js>del ".\dev.min.js" 
-Could Not Find D:\Users\Russell\Repositories\FantasyMaker\js\dev.min.js
+C:\Users\Darryl\Desktop\FantasyMaker\js>del ".\dev.min.js" 
 
-D:\Users\Russell\Repositories\FantasyMaker\js>java -jar compiler.jar --js *.js --jscomp_off=uselessCode --js_output_file dev.min.js 
-attributesOverlay.js:34: ERROR - Parse error. ',' expected
-function attributeOverlay_updateAttribute(att-name-ID) {
-                                             ^
-
-1 error(s), 0 warning(s)
-
-D:\Users\Russell\Repositories\FantasyMaker\js>PAUSE
-Press any key to continue . . . 
+C:\Users\Darryl\Desktop\FantasyMaker\js>java -jar compiler.jar --js *.js --jscomp_off=uselessCode --js_output_file dev.min.js 
+^C

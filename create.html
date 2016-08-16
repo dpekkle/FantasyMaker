@@ -36,8 +36,9 @@
     </div>
 
     <!-- Control Edit Overlay (Materialize) -->
-    <div id="control-modal" class="modal" >
+    <div id="control-modal" class="modal modal-fixed-footer" >
         <div class="modal-content">
+			<h4>Control Node</h4> <br/>
 			<!--
             <div id = "controlcontainers">
                 <textarea class = "textarea" id="controltext"></textarea>
@@ -46,10 +47,12 @@
                 <p id="controlname"></p>
             </div>
 			-->
-			<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion">
-			</ul>
+			<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
 			
         </div>
+		<div class="modal-footer">
+
+		</div>
 		
     </div>
 

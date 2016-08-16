@@ -7,7 +7,7 @@ var project_project = project_createNewProject();
 project_updateProject(); //set up by deafult
 
 function project_createNewProject(){
-	
+
 	var newProj = {
 		"projectOwner" : "none",
 		"projectName" : "none",
@@ -15,12 +15,12 @@ function project_createNewProject(){
 		"statTypes" : [],
 		"characters" : []
 	}
-	
+
 	return newProj;
 }
 
 function project_updateProject(){
-	
+
 	//instantiate a new project if projectName has not been set
 	if(project_project.projectOwner == "none"){
 		console.log("Creating new project");
@@ -42,6 +42,5 @@ function project_updateProject(){
 		console.log("Updating project...");
 		project_project.graph = cy.elements().jsons();
 	}
-	
-}
 
+}

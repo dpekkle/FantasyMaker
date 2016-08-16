@@ -102,9 +102,17 @@ function createConnection(element)
 					
 					//add new edge to control nodes priority list of edges
 					if(source_node.hasClass('control')){
-						console.log(source_node.json())
+						//console.log(source_node.json())
 						source_node.json().data.priorityList.push(newEdge.json().data.id)
+						console.log("control nodes defaultFailEdge: " + source_node.json().data.defaultFailEdge)
+						if(source_node.json().data.defaultFailEdge === "none"){
+							console.log("setting initial default fail edge to " + newEdge.json().data.id)
+							source_node.json({ data:{ defaultFailEdge: newEdge.json().data.id }})
+							console.log("default fail edge is " + source_node.json().data.defaultFailEdge)
+						}
 					}
+					
+					console.log(cy.elements().jsons())
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node
