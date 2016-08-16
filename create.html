@@ -7,8 +7,8 @@
 
 		<!-- <script src="js/lib/dialog-polyfill.js"></script>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/dialog-polyfill.css">
-        -->
-		
+		-->
+
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
@@ -21,9 +21,9 @@
 
 	<body>
 
-    <!-- Page Edits Overlay (Materialize) -->
-    <div id="page-modal" class="modal">
-        <div class="modal-content" >
+	<!-- Page Edits Overlay (Materialize) -->
+	<div id="page-modal" class="modal">
+		<div class="modal-content" >
 			<div id="pagecontainers" class = "drag-container" style="height:100%;">
 			</div>
             <div class = "toolbar" id="edit-page-toolbar">
@@ -31,6 +31,10 @@
                 <button class = "btn" onCLick=addTextContainer()>Add A TextBox</button><br/>
                 <button class = "btn" onclick=addImageContainer()>Add Image</button> <br/>
                 <button class = "gridmode btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
+								<!-- Control node output -->
+								<!-- Template save and load-->
+								<!-- Events pane -->
+								<!-- Close panel -->
             </div>
         </div>
     </div>
@@ -38,54 +42,51 @@
     <!-- Control Edit Overlay (Materialize) -->
     <div id="control-modal" class="modal modal-fixed-footer" >
         <div class="modal-content">
-			<h4>Control Node</h4> <br/>
-			<!--
-            <div id = "controlcontainers">
-                <textarea class = "textarea" id="controltext"></textarea>
-            </div>
-            <div class = "toolbar" id="controltoolbar">
-                <p id="controlname"></p>
-            </div>
-			-->
-			<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
-			
-        </div>
-		<div class="modal-footer">
+					<h4>Control Node</h4> <br/>
+					<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
+				</div>
+				<div class="modal-footer">
+				</div>
+		</div>
+
+
+
+
+
+
+
+
+
+	<!-- Connection Edit Overlay (Materialize) -->
+	<div id="connection-modal" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<h4>Conditions & Outcomes</h4> <br/>
+			<ul class="collapsible popout" data-collapsible="expandable">
+				<li>
+					<div class="collapsible-header active">Conditions</div>
+					<div class="collapsible-body"> <ul id = "conditionsList" class="list-unstyled" ></ul></div>
+				</li>
+				<li>
+					<div class="collapsible-header active">Outcomes</div>
+					<div class="collapsible-body"><ul id = "outcomesList" class="list-unstyled" ></ul></div>
+				</li>
+			</ul>
+		</div>
+		<div class = "toolbar" id="connectiontoolbar">
+			<p id="connectionname"></p>
 
 		</div>
-		
-    </div>
-
-    <!-- Connection Edit Overlay (Materialize) -->
-    <div id="connection-modal" class="modal modal-fixed-footer">
-        <div class="modal-content">
-			<h4>Conditions & Outcomes</h4> <br/>
-            <ul class="collapsible popout" data-collapsible="expandable">
-                <li>
-                    <div class="collapsible-header active">Conditions</div>
-                    <div class="collapsible-body"> <ul id = "conditionsList" class="list-unstyled" ></ul></div>
-                </li>
-                <li>
-                    <div class="collapsible-header active">Outcomes</div>
-                    <div class="collapsible-body"><ul id = "outcomesList" class="list-unstyled" ></ul></div>
-                </li>
-            </ul>
-        </div>
-        <div class = "toolbar" id="connectiontoolbar">
-            <p id="connectionname"></p>
-
-        </div>
-        <div class="modal-footer">
+		<div class="modal-footer">
 		<!--
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
 		-->
-            
-            <button type="button" class="btn btn-default" onClick=edgeOverlay_addNewOutcome('outcomesList') style="width: 30%; margin-right: 1%;">Add Outcome</button>
-			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewCondition('conditionsList') style="width: 30%; margin-right: 1%;">Add Condition</button>
-		
 
-        </div>
-    </div>
+			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewOutcome('outcomesList') style="width: 30%; margin-right: 1%;">Add Outcome</button>
+			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewCondition('conditionsList') style="width: 30%; margin-right: 1%;">Add Condition</button>
+
+
+		</div>
+	</div>
 
 	<!-- Attributes Modal -->
 	<div id="attributes-modal" class=" modal modal-fixed-footer">
@@ -138,21 +139,21 @@
 							<hr/>
 							<button class="connectivity btn" onclick=checkValidGraph()>Test Graph</button> <br/>
 							<select onchange="layout_driver(this); this.selectedIndex = 0;" onfocus="this.selectedIndex = 0;">
- 								<option value="none">Style Graph</option>
- 								<option value="Tree">Tree</option>
- 								<option value="Grid">Grid</option>
- 								<option value="Circle">Circle</option>
- 								<option value="Spread">Spread</option>
- 							</select>
+								<option value="none">Style Graph</option>
+								<option value="Tree">Tree</option>
+								<option value="Grid">Grid</option>
+								<option value="Circle">Circle</option>
+								<option value="Spread">Spread</option>
+							</select>
 
 							<button class="savebutton btn" onclick=http_save()>Save</button><br/>
 							<button class="loadbutton btn" onclick=http_load()>Load</button><br/>
 							<hr/>
 							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
-                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#page-modal">Edit Page</a>
-                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#connection-modal">Edit Edge</a>
-                            <a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#control-modal">Edit Control</a>
-                            <br/>
+							<a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#page-modal">Edit Page</a>
+							<a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#connection-modal">Edit Edge</a>
+							<a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#control-modal">Edit Control</a>
+							<br/>
 							<br/>
 
 
@@ -160,7 +161,7 @@
 					</div>
 					<div id="Play" class="tab-pane fade">
 						<div class="col s9" id="playwindow">
-							<div class = "playpage">							
+							<div class = "playpage">
 							</div>
 							<button class="progressbutton button" style='float:right;' onclick=progressStory(0)>Continue</button>
 						</div>
@@ -182,7 +183,7 @@
 	<script defer src="js/lib/cytoscape.min.js"></script>
 	<script defer src="js/lib/cytoscape-panzoom.js"></script>
 	<script defer src="js/lib/materialize.min.js"></script>
-	<script defer src="js/lib/interact.js"></script>	
+	<script defer src="js/lib/interact.js"></script>
 	<script defer src="js/dev.min.js"></script>
 
 </html>

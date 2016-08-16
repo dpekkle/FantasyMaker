@@ -1,7 +1,6 @@
 goog.require('initCanvas') //for cytoscape functions like outgoers
-goog.require('pageOverlay') //for escapehtml
+goog.require('generalOverlay') //for escapehtml
 goog.provide('playGame')
-
 goog.require('project')
 
 
@@ -73,9 +72,8 @@ function stylePage()
 		// we will need to check visibility conditions when deciding to add a decision container to a page
 		$('.playpage').append(dec_cont[i].html);
 	}
-
 	//give decisions on click behaviour
-	$('.playpage').children("div[id^='decision-container']").each(function(index)
+	$('.playpage').children("div[class^='decision-container']").each(function(index)
 	{
 		$(this).click(function()
 		{

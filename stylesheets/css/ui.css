@@ -6,11 +6,14 @@
 }
 
 .handle{ /*for containers */
+	margin-top:-37px; /* make the handle above it's parent div, necessary to prevent handle being considered part of it for dragging restrictions*/
+	overflow:auto; /*official hack! http://www.w3schools.com/css/tryit.asp?filename=trycss_layout_clearfix*/
 	background-color: #BBBBBB;
-	text-align: center;
+	text-align: left;
 }
 
 #editdiv{ /* text container */
+	display:block;
 	border-width: 2px;
 	border-color: #BBBBBB;
 	border-style: solid;
@@ -32,14 +35,18 @@
 }
 
 #editdec{
+	display:block;
 	border-width: 2px;
 	border-color: #BBBBBB;
 	border-style: solid;
 	background-color: #DDDDDD;
 
+	width: 200px;
+	height: 50px;
 	max-height: 100px; 
 	overflow-x: hidden; 
 	overflow-y: auto;	
+
 	word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
@@ -130,7 +137,6 @@ body {
 	border-style: solid;
 	border-width: 2px;
 	border-color: black;
-
 	width: 74%;
 	height: 100%;
 	float: left;

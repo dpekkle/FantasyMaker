@@ -70,7 +70,7 @@ function setInteractions()
 			var tar = event.target;
 			// update the element's dimensions
 			tar.style.width  = checkBounds(tar.parentNode.getAttribute('data-x'), event.rect.width, $('#pagecontainers').width()) + 'px';
-			tar.style.height = checkBounds(tar.parentNode.getAttribute('data-y'), event.rect.height, $('#pagecontainers').height() - $('.handle').height()) + 'px';
+			tar.style.height = checkBounds(tar.parentNode.getAttribute('data-y'), event.rect.height, $('#pagecontainers').height()) + 'px';
 		});
 }
 
@@ -139,7 +139,7 @@ function modalBounds()
 			var tar = $(this);
 			//update width and height, could also update position
 			tar.width(checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width()));
-			tar.height(checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height() - $('.handle').height()));
+			tar.height(checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height()));
 		})
 	}
 }
