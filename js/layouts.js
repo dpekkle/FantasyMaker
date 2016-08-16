@@ -140,14 +140,17 @@ function cleanup_edge_labels(element)
 	//get parent node
 	var parent = element.source();
 	
-	//find decision container of edge we are deleting
-	for (var i = 0; i < parent.data('decisioncontainers').length; i++)
+	if (parent.hasClass('page'))
 	{
-		if (parent.data('decisioncontainers')[i].name == element.data('name'))
+		//find decision container of edge we are deleting
+		for (var i = 0; i < parent.data('decisioncontainers').length; i++)
 		{
-			//remove decision container of edge we are deleting
-			parent.data('decisioncontainers').splice(i, 1);
-			break;
+			if (parent.data('decisioncontainers')[i].name == element.data('name'))
+			{
+				//remove decision container of edge we are deleting
+				parent.data('decisioncontainers').splice(i, 1);
+				break;
+			}
 		}
 	}
 	
@@ -159,15 +162,17 @@ function cleanup_edge_labels(element)
 	var edge_list = parent.edgesTo('*');
 	for (i; i < edge_list.size(); i++)
 	{
-		//update edges in cytoscape
-		
-		//update decision containers in the parent
-		updatePageStyle(parent);//make sure decision containers in the page have been created and are up to date (normally done when you open the overlay)
+		//update edges in cytoscape		
 
 		var edge_label = String.fromCharCode('A'.charCodeAt() + i);
 		edge_list[i].style('label', edge_label);
 		edge_list[i].data('name', edge_label);
-		parent.data('decisioncontainers')[i].name = edge_label;
+		if (parent.hasClass('page'))
+		{
+			//update decision containers in the parent
+			parent.data('decisioncontainers')[i].name = edge_label;
+			updatePageStyle(parent);//make sure decision containers in the page have been created and are up to date (normally done when you open the overlay)		
+		}
 	}
 	
 }
