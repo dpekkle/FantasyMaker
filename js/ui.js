@@ -26,9 +26,7 @@ function removeElement()
 		if (element.isEdge())
 		{
 			//if multiple edges should loop through them all
-		//	console.log(element.json())
 			if(element.hasClass('controledge')){
-				//console.log("is control edge")
 				removeEdgeFromPriorityList(element)
 			}
 			cleanup_edge_labels(element);
