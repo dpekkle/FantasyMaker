@@ -111,9 +111,42 @@ function setDefaultFailEdge(newDefaultEdgeID){
 		var newID = "#defaultIcon_" + newDefaultEdgeID
 		$(newID).html("stars")
 
+		//set edge classes for old default fail edge
+		cy.$("#" + currentSelectedNode.json().data.defaultFailEdge).removeClass('fail-edge')
+		cy.$("#" + currentSelectedNode.json().data.defaultFailEdge).addClass('success-edge')
+
 		//set new default fail edge in control node
 		currentSelectedNode.json({ data:{ defaultFailEdge: newDefaultEdgeID }})
+
+		//set edge classes for new default fail edge
+		cy.$("#" + newDefaultEdgeID).removeClass('success-edge')
+		cy.$("#" + newDefaultEdgeID).addClass('fail-edge')
 		console.log("new default is " + newDefaultEdgeID)
+	}
+
+}
+
+function removeEdgeFromPriorityList(edge){
+	var src = cy.nodes("[id='" + edge.json().data.source + "']")
+	if(src !== undefined){
+		//remove edge from priorityList
+		for(var i = 0; i<src.json().data.priorityList.length; i++){
+			if(src.json().data.priorityList[i] === edge.json().data.id){
+				src.json().data.priorityList.splice(i,1)
+			}
+		}
+
+		//check if removed edge was defaultFailEdge
+		if(src.json().data.defaultFailEdge === edge.json().data.id){
+			if(src.json().data.priorityList.length > 0){
+				//set to first element in priorityList
+				src.json({data:{defaultFailEdge: src.json().data.priorityList[0]}})
+				setDefaultFailEdge(src.json().data.priorityList[0])
+			}
+			else{
+				src.json({data:{defaultFailEdge: "none"}})
+			}
+		}
 	}
 
 }
