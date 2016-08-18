@@ -1,5 +1,6 @@
 goog.provide('pageOverlay')
 goog.require('generalOverlay')
+goog.require('contextMenu')
 
 $(document).ready(function(){
 	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
@@ -28,7 +29,6 @@ $(document).ready(function(){
 	});
 });
 
-
 function retrieveHandleHTML(containertype, id)
 {
 	var html_string;
@@ -41,6 +41,11 @@ function retrieveHandleHTML(containertype, id)
 	else if (containertype == "text")
 	{
 		html_string = "<div id = 'text" + id + "'" + "class = 'handle'>Text Container " + id;
+		html_string += ('<a style="float:right" class="textmenu btn-floating btn waves-effect waves-light red">'
+					+ 	 	'<i class="material-icons">settings</i>'
+					+   '</a>');
+		html_string += '</div>';
+
 	}
 	else if (containertype == "decision")
 	{
@@ -52,11 +57,6 @@ function retrieveHandleHTML(containertype, id)
 		console.log("Unknown container type when generating handle for HTML");
 		return null;
 	}
-
-	html_string += ('<a style="float:right" class="btn-floating btn waves-effect waves-light red" onclick="removeContainer(\'' + containertype + '\',\'' + id + '\')">'
-				+ 	 	'<i class="material-icons">delete</i>'
-				+   '</a>');
-	html_string += '</div>';
 
 	return html_string;
 }
@@ -72,7 +72,7 @@ function removeContainer(containertype, id)
 function addDecisionContainer(selected, i, text, name) //automatic process, not a user action
 {	
 	var html_string  =  "<div class = 'decision-container drag-element' style='position:absolute;'>"
-	html_string		+= 		"<div id = 'editdec' class = 'decisionbutton drag-element resize-element' contenteditable=true>" + escapeHtml(text) + "</div>"
+	html_string		+= 		"<div class = 'editdec decisionbutton drag-element resize-element' contenteditable=true>" + escapeHtml(text) + "</div>"
 	html_string 	+= 	"</div>"
 	
 	//new_container = htmlToElements(html_string);
@@ -92,7 +92,7 @@ function addTextContainer()
 {	
 	//create the container and append it to the page
 	var html_string  =  "<div class='text-container drag-element' style='position:absolute;'>"
-	html_string		+=		"<div id = 'editdiv' class='resize-element' contenteditable=true ></div>"
+	html_string		+=		"<div class='editdiv resize-element' contenteditable=true ></div>"
 	html_string 	+= 	"</div>"
 	
 	var size = $(".text-container").length;
@@ -101,7 +101,7 @@ function addTextContainer()
 	$("#pagecontainers").append(new_container);
 	$("#pagecontainers div.text-container:last").prepend(retrieveHandleHTML("text", size + 1));
 
-	//$(".text-container" + size + " #editdiv").trigger('focus');
+	//$(".text-container" + size + " .editdiv").trigger('focus');
 	
 }
 
@@ -118,14 +118,14 @@ function addImageContainer()
 		if (imgurl.match(/\.(jpeg|jpg|gif|png)$/) != null)
 		{
 			html_string  	 =  "<div class='img-container drag-element' style='position:absolute;'>"
-			html_string		+=		"<img id = 'editdiv' class='resize-element' src=" + imgurl + "></img>"
+			html_string		+=		"<img class='editdiv resize-element' src=" + imgurl + "></img>"
 			html_string 	+= 	"</div>"	
 		}
 		//video url?
 		else if (imgurl.match(/\.(webm)$/) != null)
 		{
 			html_string  	 =  "<div class='img-container drag-element' style='position:absolute;'>"
-			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' id = 'editdiv' class='resize-element'>"
+			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
 			html_string		+=	"<source src= \"" + imgurl + "\"type='video/webm'></source>"
 			html_string 	+= 	"</video></div>"	
 		}
@@ -139,7 +139,7 @@ function addImageContainer()
 				console.log("Regexed to: ", imgurl);	
 			}
 			html_string  	 =  "<div class='img-container drag-element' style='position:absolute;'>"
-			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' id = 'editdiv' class='resize-element'>"
+			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
 			html_string		+=	"<source src= \"" + imgurl + "\"type='video/mp4'></source>"
 			html_string 	+= 	"</video></div>"
 		}
@@ -164,7 +164,7 @@ function addImageContainer()
 		  },
 		  error: function(data)
 		  {
-		    alert('file does not exist');
+			alert('file does not exist');
 		  },
 		})
 	}

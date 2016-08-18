@@ -1,3 +1,8 @@
+#contextMenu {
+  position: absolute;
+  display:none;
+}
+
 #cy {
 	/* width and height defined by js */
 	display: block;
@@ -12,7 +17,7 @@
 	text-align: left;
 }
 
-#editdiv{ /* text container */
+.editdiv{ /* text container */
 	display:block;
 	border-width: 2px;
 	border-color: #BBBBBB;
@@ -30,11 +35,11 @@
 
 }
 
-#editdec:hover{
+.editdec:hover{
 	background-color: #EEEEEE;
 }
 
-#editdec{
+.editdec{
 	display:block;
 	border-width: 2px;
 	border-color: #BBBBBB;

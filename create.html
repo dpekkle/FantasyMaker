@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/dialog-polyfill.css">
 		-->
 
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/jquery.contextMenu.min.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
@@ -24,6 +25,7 @@
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
 		<div class="modal-content" >
+
 			<div id="pagecontainers" class = "drag-container" style="height:100%;">
 			</div>
             <div class = "toolbar" id="edit-page-toolbar">
@@ -31,10 +33,10 @@
                 <button class = "btn" onCLick=addTextContainer()>Add A TextBox</button><br/>
                 <button class = "btn" onclick=addImageContainer()>Add Image</button> <br/>
                 <button class = "gridmode btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
-								<!-- Control node output -->
-								<!-- Template save and load-->
-								<!-- Events pane -->
-								<!-- Close panel -->
+				<!-- Control node output -->
+				<!-- Template save and load-->
+				<!-- Events pane -->
+				<!-- Close panel -->
             </div>
         </div>
     </div>
@@ -42,20 +44,12 @@
     <!-- Control Edit Overlay (Materialize) -->
     <div id="control-modal" class="modal modal-fixed-footer" >
         <div class="modal-content">
-					<h4>Control Node</h4> <br/>
-					<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
-				</div>
-				<div class="modal-footer">
-				</div>
+			<h4>Control Node</h4> <br/>
+			<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
 		</div>
-
-
-
-
-
-
-
-
+		<div class="modal-footer">
+		</div>
+	</div>
 
 	<!-- Connection Edit Overlay (Materialize) -->
 	<div id="connection-modal" class="modal modal-fixed-footer">
@@ -184,6 +178,7 @@
 	<script defer src="js/lib/cytoscape-panzoom.js"></script>
 	<script defer src="js/lib/materialize.min.js"></script>
 	<script defer src="js/lib/interact.js"></script>
+	<script defer src="js/lib/jquery.contextMenu.min.js"></script>
+	<script defer src="js/lib/jquery.ui.position.min.js"></script>
 	<script defer src="js/dev.min.js"></script>
-
 </html>
