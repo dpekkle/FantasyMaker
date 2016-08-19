@@ -1,11 +1,31 @@
 goog.provide('generalOverlay')
 
-//general overlay
-function updatePageStyle(element) //used when we want to ensure unopened pages are saved for "export" (e.g saving/playing game)
-{
-	openEditPageOverlay(element);
-	closeOverlay(element);
-}
+$(document).ready(function(){
+	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+	$('.modal-trigger').leanModal({
+		dismissible: true,
+		//callback for when overlay is triggered from html
+		ready: function() {
+			var selected = cy.$(':selected')[0];
+			if(selected != null) {
+				if (selected.hasClass('page')) {
+					openEditPageOverlay(selected);
+					console.log("Opening page overlay");
+				}
+				else if (selected.isEdge()) {
+					openEditConnectionOverlay(selected);
+					console.log("Opening Edge Overlay")
+				}
+				else if (selected.hasClass('control')) {
+					openEditControlOverlay(selected);
+					console.log("Opening Control Overlay")
+				}
+			}
+			//TODO - Handle Opening Attributes Overlay
+		},
+		complete: function () { closeOverlay(null);} //callback for when modal is dismissed
+	});
+});
 
 function openEditPageOverlay(element){
 	//element is null when we are simply opening a selected node in cy.
@@ -27,7 +47,7 @@ function openEditPageOverlay(element){
 		for (var j = 0; j < text_cont.length; j++)
 		{
 			$("#pagecontainers").append(text_cont[j].html);
-			$("#pagecontainers div.text-container:last").prepend(retrieveHandleHTML("text", text_cont[j].name));
+			$("#pagecontainers div.text-container:last").prepend(genHandleHTML("text", text_cont[j].name));
 		}
 		
 		//create image containers
@@ -35,7 +55,7 @@ function openEditPageOverlay(element){
 		for (var j = 0; j < img_cont.length; j++)
 		{
 			$("#pagecontainers").append(img_cont[j].html);
-			$("#pagecontainers div.img-container:last").prepend(retrieveHandleHTML("img", img_cont[j].name));
+			$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", img_cont[j].name));
 		}
 			
 		outgoingEdges = selected.outgoers().edges();
@@ -68,7 +88,7 @@ function openEditPageOverlay(element){
 				{
 					$("#pagecontainers").append(dec_cont[j].html);
 					//handles added each time, as we want to draw on updated names
-					$("#pagecontainers div.decision-container:last").prepend(retrieveHandleHTML("decision", dec_cont[j].name));
+					$("#pagecontainers div.decision-container:last").prepend(genHandleHTML("decision", dec_cont[j].name));
 					found = true;
 				}
 			}
