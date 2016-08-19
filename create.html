@@ -8,7 +8,7 @@
 		<!-- <script src="js/lib/dialog-polyfill.js"></script>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/dialog-polyfill.css">
 		-->
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/spectrum.css" media="screen" />
+
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/jquery.contextMenu.min.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
@@ -30,10 +30,9 @@
 			</div>
             <div class = "toolbar" id="edit-page-toolbar">
                 <p id="pagename"></p>
-                <button class = "btn" oncLick=addTextContainer()>Add TextBox</button><br/>
+                <button class = "btn" onCLick=addTextContainer()>Add A TextBox</button><br/>
                 <button class = "btn" onclick=addImageContainer()>Add Image</button> <br/>
                 <button class = "gridmode btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
-                <button id = "ColourPicker" class = "btn">Pick Colour</button> <br/>
 				<!-- Control node output -->
 				<!-- Template save and load-->
 				<!-- Events pane -->
@@ -178,9 +177,8 @@
 	<script defer src="js/lib/cytoscape.min.js"></script>
 	<script defer src="js/lib/cytoscape-panzoom.js"></script>
 	<script defer src="js/lib/materialize.min.js"></script>
-	<script defer src="js/lib/interact.min.js"></script>
+	<script defer src="js/lib/interact.js"></script>
 	<script defer src="js/lib/jquery.contextMenu.min.js"></script>
 	<script defer src="js/lib/jquery.ui.position.min.js"></script>
-	<script defer src="js/lib/spectrum.js"></script>
 	<script defer src="js/dev.min.js"></script>
 </html>

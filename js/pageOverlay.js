@@ -1,15 +1,35 @@
 goog.provide('pageOverlay')
 goog.require('generalOverlay')
 goog.require('contextMenu')
-goog.require('dragDrop') //for page dimensions
 
-function updatePageStyle(element) //used when we want to ensure unopened pages are saved for "export" (e.g saving/playing game)
-{
-	openEditPageOverlay(element);
-	closeOverlay(element);
-}
+$(document).ready(function(){
+	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+	$('.modal-trigger').leanModal({
+		dismissible: true,
+		//callback for when overlay is triggered from html
+		ready: function() {
+			var selected = cy.$(':selected')[0];
+			if(selected != null) {
+				if (selected.hasClass('page')) {
+					openEditPageOverlay(selected);
+					console.log("Opening page overlay");
+				}
+				else if (selected.isEdge()) {
+					openEditConnectionOverlay(selected);
+					console.log("Opening Edge Overlay")
+				}
+				else if (selected.hasClass('control')) {
+					openEditControlOverlay(selected);
+					console.log("Opening Control Overlay")
+				}
+			}
+			//TODO - Handle Opening Attributes Overlay
+		},
+		complete: function () { closeOverlay(null);} //callback for when modal is dismissed
+	});
+});
 
-function genHandleHTML(containertype, id)
+function retrieveHandleHTML(containertype, id)
 {
 	var html_string;
 
@@ -41,20 +61,6 @@ function genHandleHTML(containertype, id)
 	return html_string;
 }
 
-function genPageCenterHTMLString(elew, eleh, iter)
-{
-
-	var x = ($('#pagecontainers').width()-elew)/2;
-	var y = ($('#pagecontainers').height()-eleh)/2;
-
-	if (iter >= 0)
-		y += 30*iter;
-	if (y > $('#pagecontainers').height())
-		y = $('#pagecontainers').height();
-	
-	return "transform: translate(" + x + "px, " + y + "px);' data-x='" + x + "' data-y='" + y;
-}
-
 // page overlay functions
 function removeContainer(containertype, id)
 {
@@ -65,8 +71,7 @@ function removeContainer(containertype, id)
 
 function addDecisionContainer(selected, i, text, name) //automatic process, not a user action
 {	
-	var position = genPageCenterHTMLString(300, 220, cy.$(':selected')[0].data('decisioncontainers').length);
-	var html_string  =  "<div class = 'decision-container drag-element' style='position:absolute; " + position + "'>"
+	var html_string  =  "<div class = 'decision-container drag-element' style='position:absolute;'>"
 	html_string		+= 		"<div class = 'editdec decisionbutton drag-element resize-element' contenteditable=true>" + escapeHtml(text) + "</div>"
 	html_string 	+= 	"</div>"
 	
@@ -86,8 +91,7 @@ function addDecisionContainer(selected, i, text, name) //automatic process, not 
 function addTextContainer()
 {	
 	//create the container and append it to the page
-	var position = genPageCenterHTMLString(300, 220);
-	var html_string  =  "<div class='text-container drag-element' style='position:absolute; " + position + "'>"
+	var html_string  =  "<div class='text-container drag-element' style='position:absolute;'>"
 	html_string		+=		"<div class='editdiv resize-element' contenteditable=true ></div>"
 	html_string 	+= 	"</div>"
 	
@@ -95,7 +99,7 @@ function addTextContainer()
 	var new_container = htmlToElements(html_string);
 
 	$("#pagecontainers").append(new_container);
-	$("#pagecontainers div.text-container:last").prepend(genHandleHTML("text", size + 1));
+	$("#pagecontainers div.text-container:last").prepend(retrieveHandleHTML("text", size + 1));
 
 	//$(".text-container" + size + " .editdiv").trigger('focus');
 	
@@ -106,7 +110,6 @@ function addImageContainer()
 	//ask user for URL
 	var html_string;
 	var imgurl = prompt("Enter image url", "http://");
-	var position = genPageCenterHTMLString(300, 220);
 	
 	//check if valid image
 	if (imgurl != null )
@@ -114,14 +117,14 @@ function addImageContainer()
 		//image url?
 		if (imgurl.match(/\.(jpeg|jpg|gif|png)$/) != null)
 		{
-			html_string  	 =  "<div class='img-container drag-element' style='position:absolute; " + position + "'>"
+			html_string  	 =  "<div class='img-container drag-element' style='position:absolute;'>"
 			html_string		+=		"<img class='editdiv resize-element' src=" + imgurl + "></img>"
 			html_string 	+= 	"</div>"	
 		}
 		//video url?
 		else if (imgurl.match(/\.(webm)$/) != null)
 		{
-			html_string  	 =  "<div class='img-container drag-element' style='position:absolute; " + position + "'>"
+			html_string  	 =  "<div class='img-container drag-element' style='position:absolute;'>"
 			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
 			html_string		+=	"<source src= \"" + imgurl + "\"type='video/webm'></source>"
 			html_string 	+= 	"</video></div>"	
@@ -135,7 +138,7 @@ function addImageContainer()
 				imgurl = imgurl.substr(0, i) + ".mp4";
 				console.log("Regexed to: ", imgurl);	
 			}
-			html_string  	 =  "<div class='img-container drag-element' style='position:absolute; " + position + "'>"
+			html_string  	 =  "<div class='img-container drag-element' style='position:absolute;'>"
 			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
 			html_string		+=	"<source src= \"" + imgurl + "\"type='video/mp4'></source>"
 			html_string 	+= 	"</video></div>"
@@ -157,7 +160,7 @@ function addImageContainer()
 			var new_container = htmlToElements(html_string);
 			
 			$("#pagecontainers").append(new_container);
-			$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));	
+			$("#pagecontainers div.img-container:last").prepend(retrieveHandleHTML("img", size + 1));	
 		  },
 		  error: function(data)
 		  {
