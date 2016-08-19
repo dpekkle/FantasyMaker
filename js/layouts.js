@@ -1,6 +1,6 @@
 goog.provide('layouts')
 goog.require('initCanvas')
-//goog.require('pageOverlay') //for containers
+goog.require('pageOverlay') //for updating page overlay
 
 var cose_layout = {
   name: 'cose',
@@ -142,7 +142,7 @@ function cleanup_edge_labels(element)
 	
 	if (parent.hasClass('page'))
 	{
-		//find decision container of edge we are deleting
+		//find decision container of edge we are deleting, if it even exists (maybe we didnt open since adding it)
 		for (var i = 0; i < parent.data('decisioncontainers').length; i++)
 		{
 			if (parent.data('decisioncontainers')[i].name == element.data('name'))
@@ -160,6 +160,9 @@ function cleanup_edge_labels(element)
 	//cleanup the displayed name for each edge from parent of this edge
 	var i = 0;
 	var edge_list = parent.edgesTo('*');
+  
+  updatePageStyle(parent);//make sure decision containers in the page have been created
+
 	for (i; i < edge_list.size(); i++)
 	{
 		//update edges in cytoscape		
@@ -171,7 +174,6 @@ function cleanup_edge_labels(element)
 		{
 			//update decision containers in the parent
 			parent.data('decisioncontainers')[i].name = edge_label;
-			updatePageStyle(parent);//make sure decision containers in the page have been created and are up to date (normally done when you open the overlay)		
 		}
 	}
 	
