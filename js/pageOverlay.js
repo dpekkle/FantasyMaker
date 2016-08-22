@@ -16,6 +16,10 @@ function genHandleHTML(containertype, id)
 	if (containertype == "img")
 	{
 		html_string = "<div id = 'img" + id + "'" + "class = 'handle'>Image Container " + id;
+		html_string += ('<a style="float:right" class="imgmenu btn-floating btn waves-effect waves-light red">'
+					+ 	 	'<i class="material-icons">settings</i>'
+					+   '</a>');
+
 	}
 
 	else if (containertype == "text")
@@ -29,7 +33,11 @@ function genHandleHTML(containertype, id)
 	}
 	else if (containertype == "decision")
 	{
-		html_string = "<div id = 'decision" + id + "'" + "class = 'handle'>Link " + id + "</div>";
+		html_string = "<div id = 'decision" + id + "'" + "class = 'handle'>Link " + id;
+		html_string += ('<a style="float:right" class="decmenu btn-floating btn waves-effect waves-light red">'
+					+ 	 	'<i class="material-icons">settings</i>'
+					+   '</a>');
+		html_string += '</div>';
 		return html_string;
 	}
 	else
@@ -100,6 +108,42 @@ function addTextContainer()
 	//$(".text-container" + size + " .editdiv").trigger('focus');
 	
 }
+function checkImageURL(imgurl, html_string)
+{
+	//image url?
+	if (imgurl.match(/\.(jpeg|jpg|gif|png)$/) != null)
+	{
+		html_string		+=		"<img class='editdiv resize-element' src=" + imgurl + "></img>"
+	}
+	//video url?
+	else if (imgurl.match(/\.(webm)$/) != null)
+	{
+		html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
+		html_string		+=	"<source src= \"" + imgurl + "\"type='video/webm'></source>"
+		html_string 	+= 	"</video>"
+	}
+	//gifv video
+	else if (imgurl.match(/\.(gifv|mp4)$/) != null)
+	{
+		var i = imgurl.lastIndexOf('.gifv'); //relabeled mp4s apparently...
+		if (i != -1) 
+		{
+			imgurl = imgurl.substr(0, i) + ".mp4";
+			console.log("Regexed to: ", imgurl);	
+		}
+		html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
+		html_string		+=	"<source src= \"" + imgurl + "\"type='video/mp4'></source>"
+		html_string 	+= 	"</video>"
+	}
+	else 
+	{
+		alert("Not a valid url (must be a jpeg|jpg|gif|png|webm|gifv|mp4");
+		return false;
+	}
+
+	return html_string;
+
+}
 
 function addImageContainer()
 {
@@ -111,58 +155,28 @@ function addImageContainer()
 	//check if valid image
 	if (imgurl != null )
 	{
-		//image url?
-		if (imgurl.match(/\.(jpeg|jpg|gif|png)$/) != null)
-		{
-			html_string  	 =  "<div class='img-container drag-element' style='position:absolute; " + position + "'>"
-			html_string		+=		"<img class='editdiv resize-element' src=" + imgurl + "></img>"
-			html_string 	+= 	"</div>"	
-		}
-		//video url?
-		else if (imgurl.match(/\.(webm)$/) != null)
-		{
-			html_string  	 =  "<div class='img-container drag-element' style='position:absolute; " + position + "'>"
-			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
-			html_string		+=	"<source src= \"" + imgurl + "\"type='video/webm'></source>"
-			html_string 	+= 	"</video></div>"	
-		}
-		//gifv video
-		else if (imgurl.match(/\.(gifv|mp4)$/) != null)
-		{
-			var i = imgurl.lastIndexOf('.gifv'); //relabeled mp4s apparently...
-			if (i != -1) 
-			{
-				imgurl = imgurl.substr(0, i) + ".mp4";
-				console.log("Regexed to: ", imgurl);	
-			}
-			html_string  	 =  "<div class='img-container drag-element' style='position:absolute; " + position + "'>"
-			html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
-			html_string		+=	"<source src= \"" + imgurl + "\"type='video/mp4'></source>"
-			html_string 	+= 	"</video></div>"
-		}
+		html_string  	 =  "<div class='img-container drag-element' style='position:absolute; " + position + "'>"
 
-		else 
-		{
-			alert("Not a valid url");
-			return;
-		}
+		html_string = checkImageURL(imgurl, html_string)
+
+		html_string 	+=  "</div>"	
 
 		$.ajax(
 		{
-		  url: imgurl, //or your url
-		  success: function(data)
-		  {
-			//Create a new draggable div to hold the image containers	
-			var size = $(".img-container").length;	
-			var new_container = htmlToElements(html_string);
-			
-			$("#pagecontainers").append(new_container);
-			$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));	
-		  },
-		  error: function(data)
-		  {
-			alert('file does not exist');
-		  },
+			url: imgurl, //or your url
+			success: function(data)
+			{
+				//Create a new draggable div to hold the image containers	
+				var size = $(".img-container").length;	
+				var new_container = htmlToElements(html_string);
+
+				$("#pagecontainers").append(new_container);
+				$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));	
+			},
+			error: function(data)
+			{
+				alert('URL: ' + imgurl + ' does not exist');
+			},
 		})
 	}
 	

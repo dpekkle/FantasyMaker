@@ -28,23 +28,26 @@
 
 			<div id="pagecontainers" class = "drag-container" style="height:100%;">
 			</div>
-            <div class = "toolbar" id="edit-page-toolbar">
-                <p id="pagename"></p>
-                <button class = "btn" oncLick=addTextContainer()>Add TextBox</button><br/>
-                <button class = "btn" onclick=addImageContainer()>Add Image</button> <br/>
-                <button class = "gridmode btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
-                <button id = "ColourPicker" class = "btn">Pick Colour</button> <br/>
+			<div class = "toolbar" id="edit-page-toolbar">
+				<p id="pagename"></p>
+				<button class = "btn" oncLick=addTextContainer()>Add TextBox</button><br>
+				<button class = "btn" onclick=addImageContainer()>Add Image</button> <br/>
+				<button class = "btn" oncLick=addControlContainer()>Add Control Node Output</button><br/>
+				<br/>
+				<button id = "ColourPicker" class = "btn">Pick Colour</button> <br/>
+				<br/>
+				<button class = "gridmode btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
 				<!-- Control node output -->
 				<!-- Template save and load-->
 				<!-- Events pane -->
 				<!-- Close panel -->
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 
-    <!-- Control Edit Overlay (Materialize) -->
-    <div id="control-modal" class="modal modal-fixed-footer" >
-        <div class="modal-content">
+	<!-- Control Edit Overlay (Materialize) -->
+	<div id="control-modal" class="modal modal-fixed-footer" >
+		<div class="modal-content">
 			<h4>Control Node</h4> <br/>
 			<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
 		</div>
