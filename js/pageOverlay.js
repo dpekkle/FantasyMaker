@@ -3,10 +3,29 @@ goog.require('generalOverlay')
 goog.require('contextMenu')
 goog.require('dragDrop') //for page dimensions
 
+var show_handles = true;
+
 function updatePageStyle(element) //used when we want to ensure unopened pages are saved for "export" (e.g saving/playing game)
 {
 	openEditPageOverlay(element);
 	closeOverlay(element);
+}
+
+function toggleHandles()
+{
+	show_handles = !show_handles;
+	$('.handlemode').toggleClass('activebutton');
+
+	if (show_handles)
+	{
+		$('.handle').show();
+		$('.handlemode').html("Handles: Shown")
+	}
+	else 
+	{
+		$('.handle').hide();
+		$('.handlemode').html("Handles: Hidden")
+	}
 }
 
 function genHandleHTML(containertype, id)
@@ -40,6 +59,16 @@ function genHandleHTML(containertype, id)
 		html_string += '</div>';
 		return html_string;
 	}
+	else if (containertype == "output")
+	{
+		html_string = "<div id = 'output" + id + "'" + "class = 'handle'>Control Output";
+		html_string += ('<a style="float:right" class="controlmenu btn-floating btn waves-effect waves-light red">'
+					+ 	 	'<i class="material-icons">settings</i>'
+					+   '</a>');
+		html_string += '</div>';
+		return html_string;
+	}
+
 	else
 	{
 		console.log("Unknown container type when generating handle for HTML");
@@ -66,9 +95,39 @@ function genPageCenterHTMLString(elew, eleh, iter)
 // page overlay functions
 function removeContainer(containertype, id)
 {
-	alert("Are you sure you want to delete" + containertype + "container" + id + "?");
-	//remove from HTML
-	$('#' + containertype + id).parent().remove();
+
+	//if an edge remove it from cytoscape based on it's ID
+	if (containertype == "decision")
+	{
+		var selected = cy.$(':selected')[0];
+
+		closeOverlay(selected);
+
+		console.log("Removing link ", id, " from cytoscape");
+
+		outgoingEdges = selected.outgoers().edges();
+
+		var i = 0; 			
+		var found = false;
+
+		while (i < outgoingEdges.size() && !found)
+		{
+			console.log("Increment to ", i)
+			if (outgoingEdges[i].data('name') == id)
+			{
+				console.log("Removing link ", id, " from cytoscape");
+				found = true;
+				cleanup_edge_labels(outgoingEdges[i]);
+			}
+			i++;
+		}
+		openEditPageOverlay(selected);
+	}
+	else
+	{
+		//remove from HTML
+		$('#' + containertype + id).parent().remove();
+	}
 }
 
 function addDecisionContainer(selected, i, text, name) //automatic process, not a user action
@@ -77,11 +136,7 @@ function addDecisionContainer(selected, i, text, name) //automatic process, not 
 	var html_string  =  "<div class = 'decision-container drag-element' style='position:absolute; " + position + "'>"
 	html_string		+= 		"<div class = 'editdec decisionbutton drag-element resize-element' contenteditable=true>" + escapeHtml(text) + "</div>"
 	html_string 	+= 	"</div>"
-	
-	//new_container = htmlToElements(html_string);
-
-	//$("#pagecontainers").append(new_container);	
-	
+		
 	var container_array = selected.data('decisioncontainers');
 	var newcontainer = {
 		'name' : name,
@@ -90,6 +145,31 @@ function addDecisionContainer(selected, i, text, name) //automatic process, not 
 	container_array.push(newcontainer);
 	selected.data('decisioncontainers', container_array);
 }
+
+function addOutputContainer()
+{	
+	if(!$("#pagecontainers div.output-container:last").length) //only want 1 output container per page
+	{
+
+		//create the container and append it to the page
+		var position = genPageCenterHTMLString(300, 220);
+		var html_string  =  "<div class='output-container drag-element' style='position:absolute; " + position + "'>"
+		html_string		+=		"<div class='editdiv resize-element' contenteditable=false ></div>"
+		html_string 	+= 	"</div>"
+		
+		var new_container = htmlToElements(html_string);
+
+		$("#pagecontainers").append(new_container);
+		$("#pagecontainers div.output-container:last").prepend(genHandleHTML("output", 0));	
+		if (!show_handles)
+			$('.handle').hide();
+	}
+	else
+	{
+		alert("You may only have one control output container per page")
+	}
+}
+
 
 function addTextContainer()
 {	
@@ -104,9 +184,10 @@ function addTextContainer()
 
 	$("#pagecontainers").append(new_container);
 	$("#pagecontainers div.text-container:last").prepend(genHandleHTML("text", size + 1));
+	if (!show_handles)
+		$('.handle').hide();
 
 	//$(".text-container" + size + " .editdiv").trigger('focus');
-	
 }
 function checkImageURL(imgurl, html_string)
 {
@@ -172,6 +253,8 @@ function addImageContainer()
 
 				$("#pagecontainers").append(new_container);
 				$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));	
+				if (!show_handles)
+					$('.handle').hide();
 			},
 			error: function(data)
 			{

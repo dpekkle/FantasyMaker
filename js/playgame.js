@@ -56,6 +56,7 @@ function stylePage()
 	var text_cont = currentNode.data('textcontainers');
 	var dec_cont = currentNode.data('decisioncontainers');
 	var img_cont = currentNode.data('imgcontainers');
+	var output_cont = currentNode.data('outputcontainer');
 
 	for (var i = 0; i < text_cont.length; i++)
 	{
@@ -72,6 +73,9 @@ function stylePage()
 		// we will need to check visibility conditions when deciding to add a decision container to a page
 		$('.playpage').append(dec_cont[i].html);
 	}
+
+	$('.playpage').append(output_cont);
+
 	//give decisions on click behaviour
 	$('.playpage').children("div[class^='decision-container']").each(function(index)
 	{

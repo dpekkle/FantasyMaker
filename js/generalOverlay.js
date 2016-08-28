@@ -43,6 +43,12 @@ function openEditPageOverlay(element){
 	{
 		//load any previously saved info
 		//create text containers
+
+		var output_cont = selected.data('outputcontainer');
+		$("#pagecontainers").append(output_cont);
+		$("#pagecontainers div.output-container:last").prepend(genHandleHTML("output", 0));
+	
+
 		var text_cont = selected.data('textcontainers');
 		for (var j = 0; j < text_cont.length; j++)
 		{
@@ -97,6 +103,8 @@ function openEditPageOverlay(element){
 				dec_cont.splice(j, 1); //remove from stored decision in page
 			}
 		}
+		if (!show_handles)
+			$('.handle').hide();
 	}
 }
 
@@ -155,8 +163,10 @@ function closeOverlay(element)
 
 			$('#pagecontainers .handle').remove();
 
+			//clear saved info
 			selected.data('textcontainers', []);
 			selected.data('imgcontainers', []);
+			selected.data('outputcontainer', "");
 
 			//update containers
 			$('#pagecontainers').children("div[class^='text-container']").each(function (index) {
@@ -191,9 +201,16 @@ function closeOverlay(element)
 					'html' : html
 					};
 				container_array.push(newcontainer);
-				cy.$(':selected')[0].data('imgcontainers', container_array);
-
+				selected.data('imgcontainers', container_array);
 			});
+
+			$('#pagecontainers').children("div[class^='output-container']").each(function (index) {
+				var html = this.outerHTML;
+				selected.data('outputcontainer', html);
+				console.log("Save HTML for output ");
+			
+			});
+
 
 			//clear page
 			$('#pagecontainers').html('');

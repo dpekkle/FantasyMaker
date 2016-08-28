@@ -2,6 +2,7 @@ goog.provide('canvasEvents')
 goog.require('initCanvas')
 goog.require('ui')
 goog.require('states')
+goog.require('pageTemplates')
 
 console.log("Enter canvasEvents.js")
 
@@ -37,13 +38,14 @@ cy.on('tap', function(event)
 			console.log("Really Add a node");
 			cy.add(
 			{
-				data: { 
+				data:
+				{ 
 					name: cy.nodes().size()+1, 
-					imgcontainers: [],
-					audio: "none",
-					textcontainers: [],
-					decisioncontainers: [],
-					styleHTML: ""
+					outputcontainer: selected_page_template.outputcontainer,
+					imgcontainers: selected_page_template.imgcontainers,
+					audio: selected_page_template.audio,
+					textcontainers: selected_page_template.textcontainers,
+					decisioncontainers: selected_page_template.decisioncontainers,
 				},
 				classes: "page",
 				group: "nodes",
