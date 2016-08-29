@@ -25,6 +25,11 @@ function prepareForGame()
 	}
 }
 
+function wipeGame()
+{
+	//clear page
+	$('.playpage').html('');	
+}
 
 function parseNode()
 {
@@ -291,8 +296,15 @@ function progressStory(i)
 {
 	if (currentNode === null) //very first page
 	{
-		currentNode = cy.$('.start')[0];
-		parseNode();
+		if (cy.$('*').length < 1)
+		{
+			alert("Your graph is empty")
+		}
+		else
+		{
+			currentNode = cy.$('.start')[0];
+			parseNode();
+		}
 	}
 	else if (currentNode.outgoers().size() > 0)
 	{

@@ -121,8 +121,9 @@
 		<div class="row">
 			<div class = "col s12 l12">
 				<ul class="tabs" id="tabheadings">
-					<li class="tab col s4"><a class="active" href="#cyTab">Graph</a></li>
-					<li class="tab col s4"><a href="#Character">Character</a></li>
+					<li class="tab col s4"><a class="active" href="#cyTab" onclick=wipeGame()>Graph</a></li> 
+					<!-- onclick function added to clear .playpage, otherwise the elements present can mess with .length operations e.g. $('.text-container').length -->
+					<li class="tab col s4"><a href="#Character" onclick=wipeGame()>Character</a></li>
 					<li class="tab col s4"><a href="#Play" onclick=prepareForGame()>Play</a></li>
 				</ul>
 				<div class="tab-content">
@@ -132,9 +133,6 @@
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
 							<h5>FantasyMaker</h5>
 							<hr/>
-
-<!-- 							<button class="pagemode btn" onclick=changeState(this)>Page Node</button> <br/>
- -->
 							<button class='pagemode dropdown-button btn' href='#' onclick=changeState(this) data-activates='pagetemplates'>Page Node</button> <br/>
 							<ul id='pagetemplates' class='dropdown-content'>
 								<li><a onclick="chooseNodeTemplate('Default');">Default</a></li>

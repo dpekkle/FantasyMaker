@@ -35,8 +35,7 @@ cy.on('tap', function(event)
 		console.log("Add a node");
 		if (evtTarget === cy) //tap on background
 		{					
-			console.log("Really Add a node");
-			cy.add(
+			console.log("Really Add a node" + cy.add(
 			{
 				data:
 				{ 
@@ -45,12 +44,12 @@ cy.on('tap', function(event)
 					imgcontainers: selected_page_template.imgcontainers,
 					audio: selected_page_template.audio,
 					textcontainers: selected_page_template.textcontainers,
-					decisioncontainers: selected_page_template.decisioncontainers,
+					decisioncontainers: [],
 				},
 				classes: "page",
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
-			})
+			}).data());
 		}
 		if (cy.elements().size() === 1)
 			cy.$('node').first().addClass('start');	

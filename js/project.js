@@ -18,7 +18,8 @@ function project_createNewProject(){
 		"projectName" : "none",
 		"graph" : [],
 		"statTypes" : [],
-		"characters" : []
+		"characters" : [],
+		"resolution" : {"x": 1000, "y": 800},
 	}
 
 	return newProj;

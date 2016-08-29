@@ -56,7 +56,7 @@ function generateContextMenu(container_type, template_menu_list)
 			{
 				"font":
 				{
-					"name": "text",
+					"name": "Font",
 					"items":
 					{
 						"Alignment":
@@ -271,6 +271,7 @@ function generateContextMenu(container_type, template_menu_list)
 
 					}
 				},
+				"position": zIndex_menu_entry(key, options),
 				"sep2": "---------",
 				"clone": {"name": "Clone", "callback" : function(key, options){
 					//clone
@@ -372,11 +373,67 @@ function generateContextMenu(container_type, template_menu_list)
 						})
 
 					}
-				}
+				},
+				"position": zIndex_menu_entry(key, options),
 			}
 		}
 	}
 }
+
+
+
+function bringEleToFront(element)
+{
+	var max = 0;
+	$('#pagecontainers').children('div').each(function()
+	{
+		var z = $(this).css('zIndex');
+		if (z > max)
+			max = z;
+	});
+	max++;
+	console.log("Set zIndex to ", max);
+	element.css("zIndex", max);
+};
+
+function zIndex_menu_entry(key, options)
+{
+		return {
+			"name": "Position",
+			"items":
+			{
+					"Front": { "name": "Bring to Front", "callback": function(key, options)
+					{
+						var max = 0;
+						$('#pagecontainers').children('div').each(function()
+						{
+							var z = $(this).css('zIndex');
+							if (z > max)
+								max = z;
+						});
+						max++;
+						console.log("Set zIndex to ", max);
+						options.$trigger.parent().parent().css("zIndex", max);				
+					}},
+					"Back": { "name": "Send to Back", "callback": function(key, options)
+					{
+						var min = 10000;
+						$('#pagecontainers').children('div').each(function()
+						{
+							var z = $(this).css('zIndex');
+							if (z < min)
+								min = z;
+						});
+						min--;
+						if (min < 0)
+							min = 0;
+						console.log("Set zIndex to ", min);
+						options.$trigger.parent().parent().css("zIndex", min); //".text-container" level
+
+					}},
+			}
+		}
+};
 
 $(function(){
 	/**************************************************

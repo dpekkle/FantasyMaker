@@ -3,10 +3,6 @@ div {
     margin: 0px;
 }
 
-.handle{
-
-}
-
 .drag-container {
 		height: 100%;
 		width: 100%;
@@ -20,8 +16,7 @@ div {
 }
 
 .drag-element{
-/*	display: inline-block;
-*/	
+	z-index: 50; /*Room on either side to increment/decrement	containers*/
 }
 
 .drag-element.can-drop {
@@ -41,10 +36,7 @@ div {
     pointer-events:none; /*removes the possibility on drop-container blocking an image*/
 }
 
-
-
 .text-area{
-	
 	width: auto;
 	height: auto;
 	display: block;
