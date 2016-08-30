@@ -141,7 +141,12 @@ function addImageContainer()
 function checkImageURL(imgurl, html_string)
 {
 	//image url?
-	if (imgurl.match(/\.(jpeg|jpg|gif|png)$/) != null)
+	if (imgurl == "")
+	{
+		alert("Not a valid url")
+		return false;
+	}
+	else if (imgurl.match(/\.(jpeg|jpg|gif|png)$/) != null)
 	{
 		html_string		+=		"<img class='editdiv resize-element' src=" + imgurl + "></img>"
 	}
@@ -167,7 +172,7 @@ function checkImageURL(imgurl, html_string)
 	}
 	else 
 	{
-		alert("Not a valid url (must be a jpeg|jpg|gif|png|webm|gifv|mp4");
+		alert("Not a valid url (must be a jpeg|jpg|gif|png|webm|gifv|mp4).");
 		return false;
 	}
 

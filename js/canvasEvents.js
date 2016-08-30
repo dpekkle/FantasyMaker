@@ -9,6 +9,16 @@ console.log("Enter canvasEvents.js")
 source_node = null;
 
 //tap event has concurrency differences between touchscreen and mouse in chrome
+
+cy.on('tap', ':selected', function(event)
+{
+	console.log("Tapped on: ", cy.$(':selected').data('name'));
+	if (current_state === states.CONNECTING)
+	{
+		createConnection(event.cyTarget);
+	}
+});
+
 cy.on('tap', function(event)
 {
 	var evtTarget = event.cyTarget;
@@ -19,7 +29,7 @@ cy.on('tap', function(event)
 	if (current_state === states.CONNECTING)
 	{
 		// method to "deselect" a source node for connections
-		if (evtTarget === source_node || evtTarget === cy)
+		if (evtTarget === cy)
 		{
 			if (source_node !== null)
 			{
@@ -51,8 +61,8 @@ cy.on('tap', function(event)
 				renderedPosition: event.cyRenderedPosition,
 			}).data());
 		}
-		if (cy.elements().size() === 1)
-			cy.$('node').first().addClass('start');	
+		if (cy.elements('.page').size() === 1)
+			cy.$('.page').first().addClass('start');	
 	}
 	
 	else if (current_state === states.NEWCONTROL)
@@ -100,8 +110,7 @@ cy.on('select', function(event)
 		//if adding a new connection
 		createConnection(event.cyTarget);
 	}
-	else
-		showOverlayLinks(event.cyTarget);
+	showOverlayLinks(event.cyTarget);
 	
 	$(".selectionbutton").show();
 })

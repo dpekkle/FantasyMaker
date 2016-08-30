@@ -122,8 +122,16 @@ function style_end_nodes()
 
 function cleanup_node_labels(element)
 {
-	//remove element from graph(client-side)
-	cy.remove(element);
+  if (element.hasClass('start'))
+  {
+    //remove element from graph(client-side)
+    cy.remove(element);
+    cy.$('.page').first().addClass('start');    
+  }
+  else
+  {
+        cy.remove(element);
+  }
 	
 	//cleanup the displayed name for each label
 	var i = 1;
@@ -132,7 +140,6 @@ function cleanup_node_labels(element)
 		cy.nodes()[i].style('label', i+1);
 		cy.nodes()[i].data('name', i+1);		
 	}
-	cy.$('node').first().addClass('start');
 }
 
 function cleanup_edge_labels(element)

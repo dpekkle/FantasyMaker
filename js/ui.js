@@ -45,7 +45,7 @@ function createConnection(element)
 		{
 			source_node = element;
 			source_node.addClass("source_node"); //lets style the source node a bit?
-			console.log("Source node assigned as node", element.data('id'));
+			console.log("Source node assigned as node", source_node.data('id'));
 		}
 		else
 		{
@@ -110,7 +110,6 @@ function createConnection(element)
 				}
 				source_node.removeClass("source_node"); //remove the style associated with source nodes
 				source_node = null; //remove stored source node
-				element.unselect();
 
 				style_end_nodes();
 			}
