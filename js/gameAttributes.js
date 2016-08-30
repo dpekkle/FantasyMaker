@@ -22,9 +22,7 @@ function GameAttribute(parent_path, parent_level, name, attID, value){
         //TODO - Remove this.value?
         //TODO - Append HTML to this in document
     }
-
 }
-
 
 //navigate to attribute from provided path
 function gameAttributes_find(s_path){
@@ -60,7 +58,6 @@ function gameAttributes_delete(s_path){
     console.log("Deleting - " + path[path.length-1]);
     attObj[path[path.length-1]] = null;
     delete  attObj[path[path.length-1]];
-
     //TODO - WARN USER CHILDREN WILL BE DELETED
 
 }
