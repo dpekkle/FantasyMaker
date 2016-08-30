@@ -181,10 +181,10 @@ function cleanup_edge_labels(element)
 
 function layout_driver(sel)
 {
-	if (sel.value == "none")
+	if (sel == "none")
 		return;
 	
-	var type = sel.value;	
+	var type = sel;	
 	var options = null;
 	
 	if (type == "Tree")

@@ -1,6 +1,5 @@
 goog.provide('contextMenu')
 goog.require('generalOverlay')
-picked_colour = "#FFF";
 
 //Right click context menus
 
@@ -10,41 +9,54 @@ function changeCSSinMenu(target, key, options, attribute, value)
 	return false; //return this function in a callback to prevent the menu from closing when an option is selected
 }
 
-var picked_colour = "rgba(255,255,255,1.0)";
-$("#ColourPicker").spectrum({
-    color: picked_colour,
+var primary_colour = "rgba(255,255,255,1.0)";
+var secondary_colour = "rgba(255,255,255,1.0)";
+
+$("#ColourPicker1").spectrum({
+    color: primary_colour,
 	change: function(color) {
-	    picked_colour = color.toRgbString(); // #rgb(255,0,0)
-	    $('#ColourPicker').css("background-color", picked_colour);
+	    primary_colour = color.toRgbString(); // #rgb(255,0,0)
+	    $('#ColourPicker1').css("background-color", primary_colour);
 	}
 });
 
-// THESE WILL NEED TO BE ATTRIBUTES FOR THE PROJECT
+$("#ColourPicker2").spectrum({
+    color: secondary_colour,
+	change: function(color) {
+	    secondary_colour = color.toRgbString(); // #rgb(255,0,0)
+	    $('#ColourPicker2').css("background-color", secondary_colour);
+	}
+});
+
+// *********** THESE WILL NEED TO BE ATTRIBUTES FOR THE PROJECT ************************
 
 var template_ID = 0;
 var text_template_menu_list = {} //shared with control output containers
 var decision_template_menu_list = {}
 var image_template_menu_list = {}
 
+// *******************************************************************************
+
+
 function generateContextMenu(container_type, template_menu_list)
 {
 	//choose target element
-	if (container_type == "Text" || container_type == "Control")
+	if (container_type == "text" || container_type == "output")
 		var target_element = '.editdiv';
-	else if (container_type == "Decision")
+	else if (container_type == "decision")
 		var target_element = '.editdec';
-	else if (container_type == "Image")
+	else if (container_type == "img")
 		var target_element = '.editdiv';
 
 	//generate menu items
-	if (container_type == "Text" || container_type == "Decision" || container_type == "Control")
+	if (container_type == "text" || container_type == "decision" || container_type == "output")
 	{
 		return {
 			"items":
 			{
 				"font":
 				{
-					"name": "Text",
+					"name": "Font",
 					"items":
 					{
 						"Alignment":
@@ -116,8 +128,11 @@ function generateContextMenu(container_type, template_menu_list)
 								"White": {"name": "White", "callback": function(key, options){
 									return changeCSSinMenu(target_element, key, options, "color", "White");
 								}},
-								"Custom": {"name": "Custom", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "color", picked_colour);
+								"Primary": {"name": "Primary", "callback": function(key, options){
+									return changeCSSinMenu(target_element, key, options, "color", primary_colour);
+								}},
+								"Secondary": {"name": "Secondary", "callback": function(key, options){
+									return changeCSSinMenu(target_element, key, options, "color", secondary_colour);
 								}},
 								
 							}
@@ -140,8 +155,11 @@ function generateContextMenu(container_type, template_menu_list)
 								"White": {"name": "White", "callback": function(key, options){
 									return changeCSSinMenu(target_element, key, options, "background-color", "White");
 								}},
-								"Custom": {"name": "Custom", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "background-color", picked_colour);
+								"Primary": {"name": "Primary", "callback": function(key, options){
+									return changeCSSinMenu(target_element, key, options, "background-color", primary_colour);
+								}},
+								"Secondary": {"name": "Secondary", "callback": function(key, options){
+									return changeCSSinMenu(target_element, key, options, "background-color", secondary_colour);
 								}},
 							}
 						},
@@ -220,8 +238,11 @@ function generateContextMenu(container_type, template_menu_list)
 								"Gray": {"name": "Gray", "callback": function(key, options){
 									return changeCSSinMenu(target_element, key, options, "border-color", "Gray");
 								}},
-								"Custom": {"name": "Custom", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-color", picked_colour);
+								"Primary": {"name": "Primary", "callback": function(key, options){
+									return changeCSSinMenu(target_element, key, options, "border-color", primary_colour);
+								}},
+								"Secondary": {"name": "Secondary", "callback": function(key, options){
+									return changeCSSinMenu(target_element, key, options, "border-color", secondary_colour);
 								}},
 							}
 
@@ -250,6 +271,7 @@ function generateContextMenu(container_type, template_menu_list)
 
 					}
 				},
+				"position": zIndex_menu_entry(key, options),
 				"sep2": "---------",
 				"clone": {"name": "Clone", "callback" : function(key, options){
 					//clone
@@ -314,13 +336,15 @@ function generateContextMenu(container_type, template_menu_list)
 					if (confirm("Are you sure you want to delete this container?"))
 					{
 						//remove from HTML
-						options.$trigger.parent().parent().remove();
+
+						var id = options.$trigger.parent().attr('id').split(container_type)[1] //get the cytoscape name from the div ID
+						removeContainer(container_type, id);
 					}
 				}},
 			}
 		}
 	}
-	else if (container_type == "Image")
+	else if (container_type == "img")
 	{
 		return {
 			"items":
@@ -349,11 +373,67 @@ function generateContextMenu(container_type, template_menu_list)
 						})
 
 					}
-				}
+				},
+				"position": zIndex_menu_entry(key, options),
 			}
 		}
 	}
 }
+
+
+
+function bringEleToFront(element)
+{
+	var max = 0;
+	$('#pagecontainers').children('div').each(function()
+	{
+		var z = $(this).css('zIndex');
+		if (z > max)
+			max = z;
+	});
+	max++;
+	console.log("Set zIndex to ", max);
+	element.css("zIndex", max);
+};
+
+function zIndex_menu_entry(key, options)
+{
+		return {
+			"name": "Position",
+			"items":
+			{
+					"Front": { "name": "Bring to Front", "callback": function(key, options)
+					{
+						var max = 0;
+						$('#pagecontainers').children('div').each(function()
+						{
+							var z = $(this).css('zIndex');
+							if (z > max)
+								max = z;
+						});
+						max++;
+						console.log("Set zIndex to ", max);
+						options.$trigger.parent().parent().css("zIndex", max);				
+					}},
+					"Back": { "name": "Send to Back", "callback": function(key, options)
+					{
+						var min = 10000;
+						$('#pagecontainers').children('div').each(function()
+						{
+							var z = $(this).css('zIndex');
+							if (z < min)
+								min = z;
+						});
+						min--;
+						if (min < 0)
+							min = 0;
+						console.log("Set zIndex to ", min);
+						options.$trigger.parent().parent().css("zIndex", min); //".text-container" level
+
+					}},
+			}
+		}
+};
 
 $(function(){
 	/**************************************************
@@ -366,7 +446,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
         build: function($trigger, e) 
         {
-	        return generateContextMenu("Text", text_template_menu_list);
+	        return generateContextMenu("text", text_template_menu_list);
 		}
 	});	
 	/**************************************************
@@ -379,7 +459,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
         build: function($trigger, e) 
         {
-	        return generateContextMenu("Decision", decision_template_menu_list);
+	        return generateContextMenu("decision", decision_template_menu_list);
 		}
 	});
 	/**************************************************
@@ -392,7 +472,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
         build: function($trigger, e) 
         {
-	        return generateContextMenu("Control", text_template_menu_list);
+	        return generateContextMenu("output", text_template_menu_list);
 		}
 	});
 	$.contextMenu(
@@ -402,7 +482,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
         build: function($trigger, e) 
         {
-	        return generateContextMenu("Image", image_template_menu_list);
+	        return generateContextMenu("img", image_template_menu_list);
 		}
 	});
 });

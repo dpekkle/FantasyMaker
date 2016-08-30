@@ -32,12 +32,16 @@
 				<p id="pagename"></p>
 				<button class = "btn" oncLick=addTextContainer()>Add TextBox</button><br>
 				<button class = "btn" onclick=addImageContainer()>Add Image</button> <br/>
-				<button class = "btn" oncLick=addControlContainer()>Add Control Node Output</button><br/>
+				<button class = "btn" oncLick=addOutputContainer()>Add Control Output</button><br/>
 				<br/>
-				<button id = "ColourPicker" class = "btn">Pick Colour</button> <br/>
+				<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
+				<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
 				<br/>
 				<button class = "gridmode btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
-				<!-- Control node output -->
+				<button class = "handlemode btn" onclick=toggleHandles()>Toggle Handles</button> <br/>
+
+				<button class = "pagetemplate btn" onclick=createPageTemplate()>Save Page Template</button> <br/>
+
 				<!-- Template save and load-->
 				<!-- Events pane -->
 				<!-- Close panel -->
@@ -117,8 +121,9 @@
 		<div class="row">
 			<div class = "col s12 l12">
 				<ul class="tabs" id="tabheadings">
-					<li class="tab col s4"><a class="active" href="#cyTab">Graph</a></li>
-					<li class="tab col s4"><a href="#Character">Character</a></li>
+					<li class="tab col s4"><a class="active" href="#cyTab" onclick=wipeGame()>Graph</a></li> 
+					<!-- onclick function added to clear .playpage, otherwise the elements present can mess with .length operations e.g. $('.text-container').length -->
+					<li class="tab col s4"><a href="#Character" onclick=wipeGame()>Character</a></li>
 					<li class="tab col s4"><a href="#Play" onclick=prepareForGame()>Play</a></li>
 				</ul>
 				<div class="tab-content">
@@ -128,7 +133,10 @@
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
 							<h5>FantasyMaker</h5>
 							<hr/>
-							<button class="pagemode btn" onclick=changeState(this)>Page Node</button> <br/>
+							<button class='pagemode dropdown-button btn' href='#' onclick=changeState(this) data-activates='pagetemplates'>Page Node</button> <br/>
+							<ul id='pagetemplates' class='dropdown-content'>
+								<li><a onclick="chooseNodeTemplate('Default');">Default</a></li>
+							</ul>
 							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
 							<button class="connectionmode btn" onclick=changeState(this)>Edge</button><br/>
 							<hr/>
@@ -136,14 +144,14 @@
 							<br/>
 							<hr/>
 							<button class="connectivity btn" onclick=checkValidGraph()>Test Graph</button> <br/>
-							<select onchange="layout_driver(this); this.selectedIndex = 0;" onfocus="this.selectedIndex = 0;">
-								<option value="none">Style Graph</option>
-								<option value="Tree">Tree</option>
-								<option value="Grid">Grid</option>
-								<option value="Circle">Circle</option>
-								<option value="Spread">Spread</option>
-							</select>
-
+							<button class='dropdown-button btn' href='#' data-activates='stylegraph'>Style Graph</button> <br/>
+							<ul id='stylegraph' class='dropdown-content'>
+								<li><a onclick="layout_driver('Tree');">Tree</a></li>
+								<li><a onclick="layout_driver('Grid');">Grid</a></li>
+								<li><a onclick="layout_driver('Circle');">Circle</a></li>
+								<li><a onclick="layout_driver('Spread');">Spread</a></li>
+							</ul>
+							<hr/>
 							<button class="savebutton btn" onclick=http_save()>Save</button><br/>
 							<button class="loadbutton btn" onclick=http_load()>Load</button><br/>
 							<hr/>

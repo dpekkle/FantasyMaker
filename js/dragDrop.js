@@ -79,6 +79,11 @@ setInteractions();
 function toggleGridMode()
 {
 	grid_snapping_mode = !grid_snapping_mode;
+	if (grid_snapping_mode)
+		$('.gridmode').html("Grid: Enabled");
+	else
+		$('.gridmode').html("Grid: Disabled");
+	
 	$('.gridmode').toggleClass('activebutton');
 	snap_options = initSnapOptions();
 	setInteractions();	
@@ -91,13 +96,13 @@ function checkBounds(offset, dimension, limit)
 	if (offset + dimension > limit)
 	{
 		console.log ("Greater than " + limit);
-		dimension = limit - offset;
+		offset  = limit - dimension
 	}
 	else
 	{
 		console.log ("Less than " + limit);
 	}
-	return dimension;
+	return offset;
 }  
   
 function dragMoveListener (event) {
@@ -132,14 +137,27 @@ function modalBounds()
 {
 	if ($('#page-modal').hasClass("open"))
 	{
-		$('.resize-element').each(function()
+		$('.drag-element').each(function()
 		{
-			console.log("Test resize");
 			//recalculate bounds
 			var tar = $(this);
 			//update width and height, could also update position
-			tar.width(checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width()));
-			tar.height(checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height()));
+
+			//tar.width(checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width()));
+			//tar.height(checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height()));
+
+
+
+			//these numbers are all wrong, but the calls are right i believe
+			// var x1 = checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width());
+			// var y1 = checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height());
+
+		 //    tar.css("webkitTransform", 'translate(' + x1 + 'px, ' + y1 + 'px)');
+		 //    tar.css("transform", 'translate(' + x1 + 'px, ' + y1 + 'px)');
+
+		 //    // update the position attributes
+		 //    tar.attr('data-x', x1);
+		 //    tar.attr('data-y', y1);
 		})
 	}
 }

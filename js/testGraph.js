@@ -10,10 +10,13 @@ function checkValidGraph()
 {
 	var alertString = "";
 	
+	if (cy.$('*').length < 1)
+		alertString = alertString.concat("The graph is empty\n");
+
 	//check if starting node is a page
 	if (!cy.$('.start').hasClass('page'))
 	{
-		alertString = alertString.concat("Starting class must be a page node\n")
+		alertString = alertString.concat("Starting class must be a page node\n");
 	}
 	
 	if (!testConnectivity())

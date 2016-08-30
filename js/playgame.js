@@ -25,6 +25,11 @@ function prepareForGame()
 	}
 }
 
+function wipeGame()
+{
+	//clear page
+	$('.playpage').html('');	
+}
 
 function parseNode()
 {
@@ -56,6 +61,7 @@ function stylePage()
 	var text_cont = currentNode.data('textcontainers');
 	var dec_cont = currentNode.data('decisioncontainers');
 	var img_cont = currentNode.data('imgcontainers');
+	var output_cont = currentNode.data('outputcontainer');
 
 	for (var i = 0; i < text_cont.length; i++)
 	{
@@ -72,6 +78,9 @@ function stylePage()
 		// we will need to check visibility conditions when deciding to add a decision container to a page
 		$('.playpage').append(dec_cont[i].html);
 	}
+
+	$('.playpage').append(output_cont);
+
 	//give decisions on click behaviour
 	$('.playpage').children("div[class^='decision-container']").each(function(index)
 	{
@@ -287,8 +296,15 @@ function progressStory(i)
 {
 	if (currentNode === null) //very first page
 	{
-		currentNode = cy.$('.start')[0];
-		parseNode();
+		if (cy.$('*').length < 1)
+		{
+			alert("Your graph is empty")
+		}
+		else
+		{
+			currentNode = cy.$('.start')[0];
+			parseNode();
+		}
 	}
 	else if (currentNode.outgoers().size() > 0)
 	{

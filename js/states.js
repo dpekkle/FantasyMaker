@@ -29,6 +29,8 @@ function exitStates()
 		}
 	}	
 	$("#sidebar .btn").removeClass('activebutton')	
+	$('.pagemode').html("Page Node");
+
 }
 
 //triggered when a button to interact with the canvas is pressed
@@ -44,7 +46,7 @@ function changeState(caller)
 		source_node = null;
 		cy.$(':selected').unselect();
 	}
-	else if ($(caller).hasClass('pagemode') && current_state != states.NEWPAGE)
+	else if ($(caller).hasClass('pagemode'))
 	{
 		current_state = states.NEWPAGE;
 	}

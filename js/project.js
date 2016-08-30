@@ -4,16 +4,25 @@ goog.require('initCanvas');
 console.log("Entering project.js");
 
 var project_project = project_createNewProject();
+
 project_updateProject(); //set up by default
-//defaultState();
+defaultState();
+project_updateProject(); //set up by deafult
+
+
+//add template_menu_lists from contextMenu.js
+//add gridmode and showhandles bools
+//add page_templates from pageTemplates.js
+
 function project_createNewProject(){
 
 	var newProj = {
 		"projectOwner" : "none",
 		"projectName" : "none",
 		"graph" : [],
-		"gameAttributes" : {}
-	}
+		"gameAttributes" : {},
+		"resolution" : {"x": 1000, "y": 800}
+	};
 
 	return newProj;
 }
