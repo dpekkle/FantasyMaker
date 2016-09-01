@@ -61,16 +61,8 @@ function setInteractions()
 	interact('.resize-element')
 		.resizable({
 			snap: snap_options,
-			edges: { left: false, right: true, bottom: true, top: false},
-			onend: function(){
-				console.log("End resize");
-			}
-		})
-		.on('resizemove', function (event) {
-			var tar = event.target;
-			// update the element's dimensions
-			tar.style.width  = checkBounds(tar.parentNode.getAttribute('data-x'), event.rect.width, $('#pagecontainers').width()) + 'px';
-			tar.style.height = checkBounds(tar.parentNode.getAttribute('data-y'), event.rect.height, $('#pagecontainers').height()) + 'px';
+			edges: { left: true, right: true, bottom: true, top: false},
+			onmove: resizeMoveListener
 		});
 }
 
@@ -89,50 +81,43 @@ function toggleGridMode()
 	setInteractions();	
 }
 
+function resizeMoveListener(event)
+{
+	var tar = event.target;
+	// update the element's dimensions
+	tar.style.width  = checkBounds(tar.parentNode.getAttribute('data-x'), event.rect.width, $('#pagecontainers').width()) + 'px';
+	tar.style.height = checkBounds(tar.parentNode.getAttribute('data-y'), event.rect.height, $('#pagecontainers').height()) + 'px';
+}
+
 function checkBounds(offset, dimension, limit)
 {
 	offset = (parseFloat(offset) || 0);
 	console.log("Check " + offset + " + " + dimension)
 	if (offset + dimension > limit)
 	{
-		console.log ("Greater than " + limit);
-		offset  = limit - dimension
+		dimension  = limit - offset
 	}
-	else
-	{
-		console.log ("Less than " + limit);
-	}
-	return offset;
+	return dimension;
 }  
   
-function dragMoveListener (event) {
-    var target = event.target;
+function dragMoveListener (event) 
+{
+	var target = event.target;
 	// keep the dragged position in the data-x/data-y attributes
 	var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
 	var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-	
-    // translate the element
-    target.style.webkitTransform =
-    target.style.transform =
-      'translate(' + x + 'px, ' + y + 'px)';
 
-    // update the position attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-  }
+	// translate the element
+	target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+	// update the position attributes
+	target.setAttribute('data-x', x);
+	target.setAttribute('data-y', y);
+}
 
 window.dragMoveListener = dragMoveListener;
 
 //When we resize the browser window it can sometimes make elements out of bounds, so we need to resize or translate them to stay in the "play screen" div
-
-//listener for resizing the window
-var doit;
-window.onresize = function()
-{
-  clearTimeout(doit);
-  doit = setTimeout(modalBounds, 300);
-};
-
 function modalBounds()
 {
 	if ($('#page-modal').hasClass("open"))
@@ -161,3 +146,13 @@ function modalBounds()
 		})
 	}
 }
+
+//listener for resizing the window
+var doit;
+window.onresize = function()
+{
+  clearTimeout(doit);
+  doit = setTimeout(modalBounds, 300);
+};
+
+

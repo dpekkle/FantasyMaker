@@ -193,85 +193,8 @@ function generateContextMenu(container_type, template_menu_list)
 						},
 					}
 				},
-				"border":
-				{
-					"name": "Border",
-					"items":
-					{
-						"Style": 
-						{
-							"name": "Style", 
-							"items": 
-							{
-								"None": {"name": "None", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-style", "none");
-								}},
-								"Solid": {"name": "Solid", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-style", "solid");
-								}},
-								"Double": {"name": "Double", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-style", "double");
-								}},
-								"Dashed": {"name": "Dashed", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-style", "dashed");
-								}},
-								"Dotted": {"name": "Dotted", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-style", "dotted");
-								}},
-								"Button": {"name": "Button", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-style", "outset");
-								}},
-								"Ridge": {"name": "Ridge", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-style", "ridge");
-								}},
-
-							}
-						},
-						"Colour": 
-						{
-							"name": "Colour", 
-							"items": 
-							{
-								"Red": {"name": "Black", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-color", "Black");
-								}},
-								"Gray": {"name": "Gray", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-color", "Gray");
-								}},
-								"Primary": {"name": "Primary", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-color", primary_colour);
-								}},
-								"Secondary": {"name": "Secondary", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "border-color", secondary_colour);
-								}},
-							}
-
-						},
-						"Corners": 
-						{
-							"name": "Rounded Corners", "callback": function(key, options){
-								var size = prompt("Enter a number from 0 (square)  to 12 (fully rounded)", "5");
-								if (size <= 12 && size >= 0)
-									return changeCSSinMenu(target_element, key, options, "border-radius", size + "px");		
-								else
-									return false;				
-							}
-						},
-						"Thickness": 						
-						{
-							"name": "Border Width", "callback": function(key, options){
-								var size = prompt("Enter a number from 0 up", "2");
-								if (size <= 100 && size >= 0)
-									return changeCSSinMenu(target_element, key, options, "border-width", size + "px");		
-								else
-									return false;				
-							}
-						},
-
-
-					}
-				},
-				"position": zIndex_menu_entry(key, options),
+				"border": border_menu_entry(target_element),
+				"position": zIndex_menu_entry(),
 				"sep2": "---------",
 				"clone": {"name": "Clone", "callback" : function(key, options){
 					//clone
@@ -349,32 +272,35 @@ function generateContextMenu(container_type, template_menu_list)
 		return {
 			"items":
 			{
+				"border": border_menu_entry(target_element),				
+				"position": zIndex_menu_entry(),
+				"sep3": "---------",
 				"URL":
 				{
 					"name":"Change URL",
 					"callback": function(key, options){
 						var imgurl = prompt("Enter new URL for image/video", "http://");
-						var html_string = checkImageURL(imgurl, "");
-
-						$.ajax(
+						if(html_string = checkImageURL(imgurl, "")) //returns false for failure
 						{
-							url: imgurl, //or your url
-							success: function(data)
+							$.ajax(
 							{
-								//Replace URL
-								var parent = $(target_element).parent();	
-								$(target_element).remove();
-								parent.append(html_string);
-							},
-							error: function(data)
-							{
-								alert('URL: ' + imgurl + ' does not exist');
-							},
-						})
+								url: imgurl, //or your url
+								success: function(data)
+								{
+									//Replace URL
+									var parent = $(target_element).parent();	
+									$(target_element).remove();
+									parent.append(html_string);
+								},
+								error: function(data)
+								{
+									alert('URL: ' + imgurl + ' does not exist');
+								},
+							})
+						}
 
 					}
 				},
-				"position": zIndex_menu_entry(key, options),
 			}
 		}
 	}
@@ -396,7 +322,7 @@ function bringEleToFront(element)
 	element.css("zIndex", max);
 };
 
-function zIndex_menu_entry(key, options)
+function zIndex_menu_entry()
 {
 		return {
 			"name": "Position",
@@ -433,6 +359,84 @@ function zIndex_menu_entry(key, options)
 					}},
 			}
 		}
+};
+
+function border_menu_entry(target_element)
+{
+	return {
+		"name": "Border",
+		"items":
+		{
+			"Style": 
+			{
+				"name": "Style", 
+				"items": 
+				{
+					"None": {"name": "None", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-style", "none");
+					}},
+					"Solid": {"name": "Solid", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-style", "solid");
+					}},
+					"Double": {"name": "Double", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-style", "double");
+					}},
+					"Dashed": {"name": "Dashed", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-style", "dashed");
+					}},
+					"Dotted": {"name": "Dotted", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-style", "dotted");
+					}},
+					"Button": {"name": "Button", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-style", "outset");
+					}},
+					"Ridge": {"name": "Ridge", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-style", "ridge");
+					}},
+				}
+			},
+			"Colour": 
+			{
+				"name": "Colour", 
+				"items": 
+				{
+					"Red": {"name": "Black", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-color", "Black");
+					}},
+					"Gray": {"name": "Gray", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-color", "Gray");
+					}},
+					"Primary": {"name": "Primary", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-color", primary_colour);
+					}},
+					"Secondary": {"name": "Secondary", "callback": function(key, options){
+						return changeCSSinMenu(target_element, key, options, "border-color", secondary_colour);
+					}},
+				}
+
+			},
+			"Corners": 
+			{
+				"name": "Rounded Corners", "callback": function(key, options){
+					var size = prompt("Enter a number from 0 (square)  to 12 (fully rounded)", "5");
+					if (size <= 12 && size >= 0)
+						return changeCSSinMenu(target_element, key, options, "border-radius", size + "px");		
+					else
+						return false;				
+				}
+			},
+			"Thickness": 						
+			{
+				"name": "Border Width", "callback": function(key, options){
+					var size = prompt("Enter a number from 0 up", "2");
+					if (size <= 100 && size >= 0)
+						return changeCSSinMenu(target_element, key, options, "border-width", size + "px");		
+					else
+						return false;				
+				}
+			},
+		}
+	}
 };
 
 $(function(){
