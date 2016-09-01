@@ -72,8 +72,10 @@ body {
   background-color: white;
   border-radius: 5px;
   box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-  height:90%;
-  width:90%;
+  height: 100%;
+  width:100%;
+	top: 0;
+	max-height: 100%;
 
   /*change position to fixed if you want to prevent the dialog from scrolling away, and center it 
   position:fixed;

@@ -28,6 +28,8 @@ $(document).ready(function(){
 });
 
 function openEditPageOverlay(element){
+	//Make Modal take up 100% of screen space
+	$("#page-modal").css("top","0");
 	//element is null when we are simply opening a selected node in cy.
 	//if we pass an element we are creating the HTML markup of the page, 
 	//e.g. imagine if we add a bunch of edges to a node but dont open it afterwards! we still need to create the html links before we could play the game
@@ -106,6 +108,8 @@ function openEditPageOverlay(element){
 		if (!show_handles)
 			$('.handle').hide();
 	}
+
+
 }
 
 function openEditConnectionOverlay(element){
