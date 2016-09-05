@@ -21,6 +21,7 @@ function project_createNewProject(){
 		"projectName" : "none",
 		"graph" : [],
 		"gameAttributes" : {},
+		"attributesHTML" : "",
 		"resolution" : {"x": 1000, "y": 800}
 	};
 
@@ -30,10 +31,10 @@ function project_createNewProject(){
 //Add top level attribute directly under gameAttributes
 function project_addGameAttribute(name){
 	var attID = generateID();
-	project_project["gameAttributes"][attID] = new GameAttribute(null, null, name, attID, 50);
-	var newAttributeHTML = '<li class="' + attID  + '">' + name + '<ul class="' + attID + '-inner_list"></ul></li>';
+	project_project["gameAttributes"][attID] = new GameAttribute(null, null, name, attID, false);
+	var newAttributeHTML = '<li class="' + attID  + ' margin">' + name + '<ul id="' + attID + '-inner_list"></ul></li>';
 	$('#attributes-list').append(newAttributeHTML);
-	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path[0]);
+	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path);
 }
 
 
