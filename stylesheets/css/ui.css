@@ -3,6 +3,14 @@
   display:none;
 }
 
+/*
+.material-tooltip{
+	background-color: red;
+	font-size: 8px;
+	max-width: 100px;
+}
+*/
+
 #cy {
 	/* width and height defined by js */
 	display: block;
@@ -109,27 +117,8 @@ body {
 	background-color: transparent;
 }
 
-#modalcontainers{
-	border-style: solid;
-	border-width: 2px;
-	border-color: black;
-	
-	width: 74%;
-	height: 100%;
-	float: left;
-}
-
-#modaltoolbar{
-	border-style: solid;
-	border-width: 2px;
-	border-color: black;
-
-	width: 25%;
-	height:100%;
-	float: right;
-}
-
 #edit-page-toolbar{
+	padding-right: 5px;
 	height:700px;
 	margin-left: 820px;
 	min-width: 200px;

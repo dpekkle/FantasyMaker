@@ -4,10 +4,10 @@ grid_snapping_mode = false;
 
 //create a grid pattern
 var grid_targets = interact.createSnapGrid({
-  x: 10, //grid spacing between x points
-  y: 10, 
-  range: 10, //range from grid point from which to snap
-  offset: {x:-2, y:2}
+	x: 10, //grid spacing between x points
+	y: 10, 
+	range: 10, //range from grid point from which to snap
+	offset: {x:-2, y:2}
 });
 
 function initSnapOptions()

@@ -11,8 +11,4 @@ console.log("Enter main.js version 0.5.0")
 
 $('select').material_select(); //initialises the layout <select> tag for materialize
 
-
-// Fallback in case <dialog> tag is not supported by browser
-//var dialog = document.querySelector('modal1');
-//dialogPolyfill.registerDialog(dialog);
-
+$('.tooltip').tooltip();

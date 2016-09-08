@@ -48,6 +48,8 @@ function addDecisionContainer(selected, i, text, name) //automatic process, not 
 	};
 	container_array.push(newcontainer);
 	selected.data('decisioncontainers', container_array);
+
+	//actually gets added to the page when in openeditpageoverlay
 }
 
 function addOutputContainer()
@@ -300,7 +302,7 @@ function removeContainer(containertype, id)
 }
 function bindHandleSelection()
 {
-	$('.handle').on('click', function(event){
+	$('.handle').on('mousedown', function(event){
 		$(this).siblings().trigger('focus');
 		bringContainerToFront($(this).parent());
 		console.log("trigger handle")
@@ -309,15 +311,14 @@ function bindHandleSelection()
 
 function bringContainerToFront(element)
 {
-	var max = 0;
+	var max = 50;
 	$('#pagecontainers').children('div').each(function()
 	{
 		var z = $(this).css('zIndex');
 		if (z > max)
 			max = z;
-		$(this).css('zIndex', z-1);
 	});
-	//max++;
+	max++;
 	
 	if (element == 'decision')
 		return max;

@@ -4,7 +4,7 @@ console.log("Enter initCanvas.js")
 
 var cy = cytoscape({
 	container: document.getElementById('cy'), // container to render in
-  
+
 	//predefined layout, mostly used for static graphs
 	layout: {
 			},

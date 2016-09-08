@@ -34,18 +34,18 @@ var primary_colour = "rgba(255,255,255,1.0)";
 var secondary_colour = "rgba(255,255,255,1.0)";
 
 $("#ColourPicker1").spectrum({
-    color: primary_colour,
+	color: primary_colour,
 	change: function(color) {
-	    primary_colour = color.toRgbString(); // #rgb(255,0,0)
-	    $('#ColourPicker1').css("background-color", primary_colour);
+		primary_colour = color.toRgbString(); // #rgb(255,0,0)
+		$('#ColourPicker1').css("background-color", primary_colour);
 	}
 });
 
 $("#ColourPicker2").spectrum({
-    color: secondary_colour,
+	color: secondary_colour,
 	change: function(color) {
-	    secondary_colour = color.toRgbString(); // #rgb(255,0,0)
-	    $('#ColourPicker2').css("background-color", secondary_colour);
+		secondary_colour = color.toRgbString(); // #rgb(255,0,0)
+		$('#ColourPicker2').css("background-color", secondary_colour);
 	}
 });
 
@@ -61,26 +61,26 @@ var page_template_menu_list = {}
 
 //custom type of menu item for selecting a colour
 $.contextMenu.types.color = function(item, opt, root) {
-    // this === item.$node
-    console.log(item)
-    $('<span>' + item.customName + '<ul>'
-    	+ '<li class = "black"></li>'
-    	+ '<li class = "gray"></li>'
-    	+ '<li class = "white"></li>'
-    	+ '<li class = "primary" style="background-color: ' + primary_colour + ';"></li>'
-    	+ '<li class = "secondary" style="background-color: ' + secondary_colour + ';"></li>'
-    	)
-        .appendTo(this)
-        .on('click', 'li', function() {
-        	//change CSS instantly, target/attribute is passed through className of menu item
-           	var class_names = item.className.split(" ");
-           	var css_attribute = class_names[0];
-           	var target = class_names[1];
-            changeCSSinMenu(target, root, item.className.split(" ")[0], $(this).css('background-color'))
+	// this === item.$node
+	console.log(item)
+	$('<span>' + item.customName + '<ul>'
+		+ '<li class = "black"></li>'
+		+ '<li class = "gray"></li>'
+		+ '<li class = "white"></li>'
+		+ '<li class = "primary" style="background-color: ' + primary_colour + ';"></li>'
+		+ '<li class = "secondary" style="background-color: ' + secondary_colour + ';"></li>'
+		)
+		.appendTo(this)
+		.on('click', 'li', function() {
+			//change CSS instantly, target/attribute is passed through className of menu item
+			var class_names = item.className.split(" ");
+			var css_attribute = class_names[0];
+			var target = class_names[1];
+			changeCSSinMenu(target, root, item.className.split(" ")[0], $(this).css('background-color'))
 
-            // hide the menu
-            root.$menu.trigger('contextmenu:hide');
-        });
+			// hide the menu
+			root.$menu.trigger('contextmenu:hide');
+		});
 
 	this.addClass('color').on('contextmenu:focus', function(e) {
 	// setup some awesome stuff
@@ -114,25 +114,25 @@ function generateContextMenu(container_type, template_menu_list)
 					"name": "Font",
 					"items":
 					{
-			            "Alignment": 
-			            {
-			                "name": "Alignment", 
-			                "type": 'select', 
-			                "options": {left: 'left', right: 'right', Center: 'Center', Justify: "Justify"}, 
-			            },
-			            "fontfamily": 
-			            {
-			                "name": "Style", 
-			                "type": 'select', 
-			                "options": {
-			                	"\"Courier New\", Courier, monospace"   : "Courier New", 
-			                	"\"Lucida Console\", Monaco, monospace" : "Lucinda",
-			                	"\"Times New Roman\", Times, serif"     : "Times New Roman",
-			                	"\"Arial\", Helvetica, sans-serif"      : "Arial",
-			                	"Tahoma, Geneva, sans-serif"            : "Tahoma",
-			                	"\"Comic Sans MS\", cursive, sans-serif": "Comic Sans"
-			            	}, 
-			            },
+						"Alignment": 
+						{
+							"name": "Alignment", 
+							"type": 'select', 
+							"options": {left: 'left', right: 'right', Center: 'Center', Justify: "Justify"}, 
+						},
+						"fontfamily": 
+						{
+							"name": "Style", 
+							"type": 'select', 
+							"options": {
+								"\"Courier New\", Courier, monospace"   : "Courier New", 
+								"\"Lucida Console\", Monaco, monospace" : "Lucinda",
+								"\"Times New Roman\", Times, serif"     : "Times New Roman",
+								"\"Arial\", Helvetica, sans-serif"      : "Arial",
+								"Tahoma, Geneva, sans-serif"            : "Tahoma",
+								"\"Comic Sans MS\", cursive, sans-serif": "Comic Sans"
+							}, 
+						},
 						"font-size":
 						{
 							"name": "Size",
@@ -146,8 +146,8 @@ function generateContextMenu(container_type, template_menu_list)
 						},
 						"font-color": 
 						{
-			        		type: "color", customName: "Font Colour", className: "color " + target_element,
-			            },
+							type: "color", customName: "Font Colour", className: "color " + target_element,
+						},
 					}
 				},
 				"background": 
@@ -158,8 +158,8 @@ function generateContextMenu(container_type, template_menu_list)
 
 						"Colour": 
 						{
-			        		type: "color", customName: "Background Colour", className: "background-color " + target_element,
-			            },
+							type: "color", customName: "Background Colour", className: "background-color " + target_element,
+						},
 						"Opacity":
 						{ 
 							"name": "Opacity", 
@@ -262,25 +262,25 @@ function generateContextMenu(container_type, template_menu_list)
 					}
 				}},
 			},
-	        "events": {
-	            show: function(opt) {
-	                // this is the trigger element
-	                var $this = this;
-	                // import states from data store 
-	                $.contextMenu.setInputValues(opt, $this.data());
-	            }, 
-	            hide: function(opt) {
-	                // this is the trigger element
-	                var $this = this;
-	                // export states to data store
-	                $.contextMenu.getInputValues(opt, $this.data());
-	                //change values based on selects
+			"events": {
+				show: function(opt) {
+					// this is the trigger element
+					var $this = this;
+					// import states from data store 
+					$.contextMenu.setInputValues(opt, $this.data());
+				}, 
+				hide: function(opt) {
+					// this is the trigger element
+					var $this = this;
+					// export states to data store
+					$.contextMenu.getInputValues(opt, $this.data());
+					//change values based on selects
 					changeCSSinMenu(target_element, opt, "border-style", $this.data().Style);
 					changeCSSinMenu(target_element, opt, "text-align", $this.data().Alignment);
 					changeCSSinMenu(target_element, opt, "font-family", $this.data().fontfamily);
 
-	            }
-	        }
+				}
+			}
 		}
 	}
 	else if (container_type == "img")
@@ -318,23 +318,23 @@ function generateContextMenu(container_type, template_menu_list)
 					}
 				},
 			},
-	        "events": {
-	            show: function(opt) {
-	                // this is the trigger element
-	                var $this = this;
-	                // import states from data store 
-	                $.contextMenu.setInputValues(opt, $this.data());
-	            }, 
-	            hide: function(opt) {
-	                // this is the trigger element
-	                var $this = this;
-	                // export states to data store
-	                $.contextMenu.getInputValues(opt, $this.data());
+			"events": {
+				show: function(opt) {
+					// this is the trigger element
+					var $this = this;
+					// import states from data store 
+					$.contextMenu.setInputValues(opt, $this.data());
+				}, 
+				hide: function(opt) {
+					// this is the trigger element
+					var $this = this;
+					// export states to data store
+					$.contextMenu.getInputValues(opt, $this.data());
 
-	                //change values based on selects
+					//change values based on selects
 					changeCSSinMenu(target_element, opt, "border-style", $this.data().Style);
-	            }
-	        }
+				}
+			}
 		}
 	}
 	else if (container_type == "page")
@@ -345,32 +345,32 @@ function generateContextMenu(container_type, template_menu_list)
 				"border": border_menu_entry(target_element),
 				"background": 
 				{
-	        		type: "color", customName: "Background Colour", className: "background-color " + target_element,
-	            },
+					type: "color", customName: "Background Colour", className: "background-color " + target_element,
+				},
 			},
-	        "events": {
-	            show: function(opt) {
-	                // this is the trigger element
-	                var $this = this;
-	                // import states from data store 
-	                $.contextMenu.setInputValues(opt, $this.data());
-	                // this basically fills the input commands from an object
-	                // like {name: "foo", yesno: true, radio: "3", &hellip;}
-	            }, 
-	            hide: function(opt) {
-	                // this is the trigger element
-	                var $this = this;
-	                // export states to data store
-	                $.contextMenu.getInputValues(opt, $this.data());
-	                // this basically dumps the input commands' values to an object
-	                // like {name: "foo", yesno: true, radio: "3", &hellip;}
-	                console.log($this.data())
+			"events": {
+				show: function(opt) {
+					// this is the trigger element
+					var $this = this;
+					// import states from data store 
+					$.contextMenu.setInputValues(opt, $this.data());
+					// this basically fills the input commands from an object
+					// like {name: "foo", yesno: true, radio: "3", &hellip;}
+				}, 
+				hide: function(opt) {
+					// this is the trigger element
+					var $this = this;
+					// export states to data store
+					$.contextMenu.getInputValues(opt, $this.data());
+					// this basically dumps the input commands' values to an object
+					// like {name: "foo", yesno: true, radio: "3", &hellip;}
+					console.log($this.data())
 
-	                //change values based on selects
-	                $(target_element).css("border-style", $this.data().Style);
+					//change values based on selects
+					$(target_element).css("border-style", $this.data().Style);
 
-	            }
-	        }
+				}
+			}
 		}
 	}
 }
@@ -420,16 +420,16 @@ function border_menu_entry(target_element)
 		"name": "Border",
 		"items":
 		{
-            "Style": 
-            {
-                "name": "Style", 
-                "type": 'select', 
-                "options": {none: 'None', solid: 'Solid', double: 'Double', dashed: "Dashed", dotted: "Dotted", outset: "Outset", ridge: "Ridge"}, 
-            },
+			"Style": 
+			{
+				"name": "Style", 
+				"type": 'select', 
+				"options": {none: 'None', solid: 'Solid', double: 'Double', dashed: "Dashed", dotted: "Dotted", outset: "Outset", ridge: "Ridge"}, 
+			},
 			"Colour": 
 			{
-        		type: "color", customName: "Colour", className: "border-color " + target_element,
-            },
+				type: "color", customName: "Colour", className: "border-color " + target_element,
+			},
 			"Corners": 
 			{
 				"name": "Rounded Corners", "callback": function(key, options){
@@ -463,9 +463,9 @@ $(function(){
 		selector: '.textmenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-        build: function($trigger, e) 
-        {
-	        return generateContextMenu("text", text_template_menu_list);
+		build: function($trigger, e) 
+		{
+			return generateContextMenu("text", text_template_menu_list);
 		}
 	});	
 	/**************************************************
@@ -476,9 +476,9 @@ $(function(){
 		selector: '.decmenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-        build: function($trigger, e) 
-        {
-	        return generateContextMenu("decision", decision_template_menu_list);
+		build: function($trigger, e) 
+		{
+			return generateContextMenu("decision", decision_template_menu_list);
 		}
 	});
 	/**************************************************
@@ -489,9 +489,9 @@ $(function(){
 		selector: '.controlmenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-        build: function($trigger, e) 
-        {
-	        return generateContextMenu("output", text_template_menu_list);
+		build: function($trigger, e) 
+		{
+			return generateContextMenu("output", text_template_menu_list);
 		}
 	});
 	$.contextMenu(
@@ -499,9 +499,9 @@ $(function(){
 		selector: '.imgmenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-        build: function($trigger, e) 
-        {
-	        return generateContextMenu("img", image_template_menu_list);
+		build: function($trigger, e) 
+		{
+			return generateContextMenu("img", image_template_menu_list);
 		}
 	});
 	$.contextMenu(
@@ -509,10 +509,10 @@ $(function(){
 		selector: '.pagemenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-        build: function($trigger, e) 
-        {
-	        return generateContextMenu("page");
-	        //return generateContextMenu("page", page_template_menu_list);
+		build: function($trigger, e) 
+		{
+			return generateContextMenu("page");
+			//return generateContextMenu("page", page_template_menu_list);
 		}
 	});
 });

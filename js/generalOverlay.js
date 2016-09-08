@@ -282,14 +282,14 @@ function escapeHtml(str)
 {
 	//We don't want users entering HTML within their text.
 	//For example, <hello!> would create a html tag rather than display that as a string
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
+	var div = document.createElement('div');
+	div.appendChild(document.createTextNode(str));
+	return div.innerHTML;
 };
 
 function htmlToElements(html) 
 {
-    var template = document.createElement('template');
-    template.innerHTML = html;
-    return template.content.childNodes;
+	var template = document.createElement('template');
+	template.innerHTML = html;
+	return template.content.childNodes;
 }
