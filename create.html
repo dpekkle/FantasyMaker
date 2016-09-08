@@ -21,7 +21,16 @@
 	</head>
 
 	<body>
-
+	<nav>
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a href="#">Project</a></li>
+				<li><a href="#">Profile</a></li>
+				<li><a href="#">Settings</a></li>
+			</ul>
+		</div>
+	</nav>
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
 		<div class="modal-content" >
@@ -79,27 +88,68 @@
 
 		</div>
 		<div class="modal-footer">
-		<!--
-			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-		-->
 
 			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewOutcome('outcomesList') style="width: 30%; margin-right: 1%;">Add Outcome</button>
 			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewCondition('conditionsList') style="width: 30%; margin-right: 1%;">Add Condition</button>
-
 
 		</div>
 	</div>
 
 	<!-- Attributes Modal -->
-	<div id="attributes-modal" class=" modal modal-fixed-footer">
+	<div id="attributes-modal" class=" modal">
 		<div class="modal-content">
-				<h4>Attributes</h4> <br/>
-				<ul class="collapsible" id="attributes-list" data-collapsible="accordion">
-
-				</ul>
-		</div>
-		<div class="modal-footer">
-			<a class="btn-floating btn-small waves-effect waves-light red floating-action-button" onclick="attributesOverlay_addAttribute('attributes-list')"><i class="material-icons">add</i></a>
+			<div class="row max-height">
+				<div class="col m5 s3">
+					<h4>Attributes List</h4> <br/>
+					<ul id="attributes-list"></ul>
+				</div>
+				<div class="col m6 offset-m1 s7 max-height">
+					<div id="attribute-detail-card" class="card-panel blue-grey">
+						<div id="attribute-detail">
+							<div id="attribute-detail-header"  class="row">
+								<div class="row">
+									<h5 id="attribute-detail-title"></h5>
+								</div>
+							</div>
+							<div class="row float-bottom">
+								<div class="col m2 s3 value-class-row-style"><h5>Values</h5></div>
+								<div class="col m2 s2 value-class-row-style"><a class="btn-floating btn-small waves-effect waves-light red" id="new-value-button" onclick="showAddValueInput()"><i class="material-icons">add</i></a></div>
+								<div class="col m7 s7" id="new-value-container">
+									<div class="input-field col s6">
+										<input id="add-value-name" type="text" class="validate add-value" data-path="">
+										<label for="add-value-name">Value Name</label>
+									</div>
+									<div class="input-field col s4">
+										<input id="add-value-data" type="number" class="validate add-value" data-path="">
+										<label for="add-value-data">Value</label>
+									</div>
+								</div>
+							</div>
+							<div class="row chips-container">
+								<div class="col m12" id="values-chips-container">
+									<ul id="attribute-detail-value-list"></ul>
+								</div>
+							</div>
+							<div class="row float-bottom">
+								<div class="col m2 s3 value-class-row-style"><h5>Sub-Classes</h5></div>
+								<div class="col m2 s2 value-class-row-style"><a class="btn-floating btn-small waves-effect waves-light red" id="new-class-button" onclick="showAddClassInput()"><i class="material-icons">add</i></a></div>
+								<div class="col m7 s7" id="new-class-container">
+									<div class="input-field col s6">
+										<input id="add-class-name" type="text" class="validate" data-path="">
+										<label for="add-class-name">Class Name</label>
+									</div>
+								</div>
+							</div>
+							<div class="row chips-container">
+								<div class="col m12" id="classes-chips-container">
+									<ul id="attribute-detail-class-list"></ul>
+								</div>
+							</div>
+						</div>
+						<!-- <span class="white-text" style="margin-top: 50%; margin-bottom: 50%;">Click On An Attribute!</span> -->
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -161,8 +211,6 @@
 							<a class="waves-effect waves-light btn modal-trigger editbutton" style = "display:none;" href="#control-modal">Edit Control</a>
 							<br/>
 							<br/>
-
-
 						</div>
 					</div>
 					<div id="Play" class="tab-pane fade">

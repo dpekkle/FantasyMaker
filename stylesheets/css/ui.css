@@ -173,6 +173,10 @@ body {
 	height: 100%;
 }
 
+.max-height {
+	height: 100%;
+}
+
 #att-list-container{
 	width: 100%;
 	padding-right: 10px;
@@ -184,4 +188,40 @@ body {
 	right: 20px;
 }
 
+#attributes-modal{
+	height: 75%;
+	width: 75%;
+}
 
+#attribute-detail-card{
+	height: 80%;
+	width: 100%;
+	float: right;
+	margin-bottom: 10%;
+	margin-top: 10%;
+}
+
+#attribute-detail{
+	display: none;
+}
+
+li.margin { margin-left: 10px; }
+
+#new-value-container, #new-class-container{display:none;}
+
+#attribute-detail-header{
+	margin-bottom: 0px;
+	height: 45px;
+}
+
+.float-bottom{
+	height: 70px; margin-bottom:0px
+}
+
+.value-class-row-style{
+	margin-top: 25px;
+}
+
+.chip{
+	margin: 5px;
+}

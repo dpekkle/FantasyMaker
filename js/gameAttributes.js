@@ -26,6 +26,7 @@ function gameAttributes_addAttributeClass(parent_path, child_name) {
 }
 
 function gameAttributes_addChild(parent_path, child_name, is_leaf, value){
+    console.log("New Child: " + child_name);
     //find parent to add child to
     var parent = gameAttributes_find(parent_path);
     var newID = generateID();
@@ -94,7 +95,10 @@ function gameAttributes_display(s_path){
 
     var attributeTitle = $('#attribute-detail-title');
     var classList = $('#attribute-detail-class-list');
-    var valueList = $('#attribute-detail-value-list');
+    var valueList = $('#values-chips-container');
+    var addClassInput = $('#add-class-name');
+    var addValueNameInput = $('#add-value-name');
+    var addValueDataInput = $('#add-value-data');
 
     //clear old html
     classList.empty();
@@ -108,13 +112,19 @@ function gameAttributes_display(s_path){
       //TODO - DISPLAY VALUE HTML w/ FORM TO UPDATE
     }else{
         $('#attribute-detail').show();
+
+        //Bind current attribute path to the input fields
+        addClassInput.attr('data-path', attribute.path);
+        addValueDataInput.attr('data-path', attribute.path);
+        addValueNameInput.attr('data-path', attribute.path);
+
         var i;
         var childrenArray = attribute.children;
        for(i=0; i<childrenArray.length; i++){
             if(attribute[childrenArray[i]].is_leaf)
-                valueList.append("<li>" + attribute[childrenArray[i]].name + ": " + attribute[childrenArray[i]].value + "</li>"); //TODO - ADD LINK TO ATTRIBUTE OR EDIT BUTTON
+                valueList.append('<div class="chip" onclick="gameAttributes_display('+ '\'' + attribute[childrenArray[i]].path + '\'' +')">' + attribute[childrenArray[i]].name + ': ' + attribute[childrenArray[i]].value + '</div>'); //TODO - ADD LINK TO ATTRIBUTE OR EDIT BUTTON
             else
-                classList.append("<li>" + attribute[childrenArray[i]].name + "</li>"); //TODO - ADD LINK TO ATTRIBUTE
+                classList.append('<div class="chip" onclick="gameAttributes_display('+ '\'' + attribute[childrenArray[i]].path + '\'' +')">' + attribute[childrenArray[i]].name + '</div>');
        }
     }
 }
@@ -139,3 +149,54 @@ function saveListHTML(){
 function loadListHTML(){
     $('#attributes-list').html(project_project["attributeHTML"]);
 }
+
+
+function showAddValueInput(){
+    $('#new-value-button').parent().hide();
+    $('#new-value-container').show();
+}
+
+function showAddClassInput(){
+    $('#new-class-button').parent().hide();
+    $('#new-class-container').show();
+}
+
+
+$("#add-class-name").keypress(function(event) {
+    if (event.which == 13) {
+
+        console.log("enter clicked");
+        var class_name_input =$('#add-class-name');
+        //--
+
+        gameAttributes_addAttributeClass(class_name_input.attr('data-path'), class_name_input.val());
+
+        //Clear Fields
+        class_name_input.val("");
+
+        //update display panel
+        gameAttributes_display(class_name_input.attr('data-path'));
+
+        $('#new-class-button').parent().show();
+        $('#new-class-container').hide();
+    }
+});
+
+$(".add-value").keypress(function(event) {
+    if (event.which == 13) {
+        var value_name_input =$('#add-value-name');
+        var value_data_input = $('#add-value-data');
+        gameAttributes_addAttributeValue(value_name_input.attr('data-path'), value_name_input.val(), value_data_input.val());
+
+        //Clear Fields
+        value_data_input.val("");
+        value_name_input.val("");
+
+        //update display panel
+        gameAttributes_display(value_name_input.attr('data-path'));
+
+        $('#new-value-button').parent().show();
+        $('#new-value-container').hide();
+
+    }
+});
