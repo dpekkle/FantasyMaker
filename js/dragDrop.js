@@ -4,10 +4,10 @@ grid_snapping_mode = false;
 
 //create a grid pattern
 var grid_targets = interact.createSnapGrid({
-  x: 10, //grid spacing between x points
-  y: 10, 
-  range: 10, //range from grid point from which to snap
-  offset: {x:-2, y:2}
+	x: 10, //grid spacing between x points
+	y: 10, 
+	range: 10, //range from grid point from which to snap
+	offset: {x:-2, y:2}
 });
 
 function initSnapOptions()
@@ -120,31 +120,31 @@ window.dragMoveListener = dragMoveListener;
 //When we resize the browser window it can sometimes make elements out of bounds, so we need to resize or translate them to stay in the "play screen" div
 function modalBounds()
 {
-	if ($('#page-modal').hasClass("open"))
-	{
-		$('.drag-element').each(function()
-		{
-			//recalculate bounds
-			var tar = $(this);
-			//update width and height, could also update position
+	// if ($('#page-modal').hasClass("open"))
+	// {
+	// 	$('.drag-element').each(function()
+	// 	{
+	// 		//recalculate bounds
+	// 		var tar = $(this);
+	// 		update width and height, could also update position
 
-			//tar.width(checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width()));
-			//tar.height(checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height()));
+	// 		tar.width(checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width()));
+	// 		tar.height(checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height()));
 
 
 
-			//these numbers are all wrong, but the calls are right i believe
-			// var x1 = checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width());
-			// var y1 = checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height());
+	// 		these numbers are all wrong, but the calls are right i believe
+	// 		var x1 = checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width());
+	// 		var y1 = checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height());
 
-		 //    tar.css("webkitTransform", 'translate(' + x1 + 'px, ' + y1 + 'px)');
-		 //    tar.css("transform", 'translate(' + x1 + 'px, ' + y1 + 'px)');
+	// 	    tar.css("webkitTransform", 'translate(' + x1 + 'px, ' + y1 + 'px)');
+	// 	    tar.css("transform", 'translate(' + x1 + 'px, ' + y1 + 'px)');
 
-		 //    // update the position attributes
-		 //    tar.attr('data-x', x1);
-		 //    tar.attr('data-y', y1);
-		})
-	}
+	// 	    // update the position attributes
+	// 	    tar.attr('data-x', x1);
+	// 	    tar.attr('data-y', y1);
+	// 	})
+	// }
 }
 
 //listener for resizing the window

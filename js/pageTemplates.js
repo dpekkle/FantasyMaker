@@ -5,6 +5,7 @@ var page_templates =
 {
 	"Default": 				
 	{ 
+		pagestyle: "width:800px; height:700px; 	border: 3px solid #BBBBBB",
 		outputcontainer: "",
 		imgcontainers: [],
 		audio: "none",

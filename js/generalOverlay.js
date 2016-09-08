@@ -29,13 +29,16 @@ $(document).ready(function(){
 
 function openEditPageOverlay(element){
 	//Make Modal take up 100% of screen space
-	$("#page-modal").css("top","0");
+	//$("#page-modal").css("top","0");
+
 	//element is null when we are simply opening a selected node in cy.
 	//if we pass an element we are creating the HTML markup of the page, 
 	//e.g. imagine if we add a bunch of edges to a node but dont open it afterwards! we still need to create the html links before we could play the game
 	var selected = element;
 	if (element === null)
+	{
 		var selected = cy.$(':selected')[0];
+	}
 
 	if (element === null)
 		overlayToolbar(selected);
@@ -43,8 +46,14 @@ function openEditPageOverlay(element){
 	//update contents of page view
 	if (selected.hasClass('page'))
 	{
+		$('#pagename').html('Design Page: ' + selected.data('name'));
+
 		//load any previously saved info
 		//create text containers
+		$("#pagecontainers").append('<a style="float:right" class="pagemenu btn-floating btn waves-effect waves-light gray"><i class="material-icons">settings</i></a>');
+
+		var page_style = selected.data('pagestyle');
+		$("#pagecontainers").attr("style", page_style);
 
 		var output_cont = selected.data('outputcontainer');
 		$("#pagecontainers").append(output_cont);
@@ -107,9 +116,8 @@ function openEditPageOverlay(element){
 		}
 		if (!show_handles)
 			$('.handle').hide();
+		bindHandleSelection();
 	}
-
-
 }
 
 function openEditConnectionOverlay(element){
@@ -171,6 +179,8 @@ function closeOverlay(element)
 			selected.data('textcontainers', []);
 			selected.data('imgcontainers', []);
 			selected.data('outputcontainer', "");
+			
+			selected.data('pagestyle', $('#pagecontainers').attr("style"));
 
 			//update containers
 			$('#pagecontainers').children("div[class^='text-container']").each(function (index) {
@@ -272,14 +282,14 @@ function escapeHtml(str)
 {
 	//We don't want users entering HTML within their text.
 	//For example, <hello!> would create a html tag rather than display that as a string
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
+	var div = document.createElement('div');
+	div.appendChild(document.createTextNode(str));
+	return div.innerHTML;
 };
 
 function htmlToElements(html) 
 {
-    var template = document.createElement('template');
-    template.innerHTML = html;
-    return template.content.childNodes;
+	var template = document.createElement('template');
+	template.innerHTML = html;
+	return template.content.childNodes;
 }

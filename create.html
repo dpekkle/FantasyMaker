@@ -10,7 +10,9 @@
 		-->
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/spectrum.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/jquery.contextMenu.min.css" media="screen" />
+ 		<link rel="stylesheet" type="text/css" href="stylesheets/css/jquery-ui.min.css">
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/contextMenu.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
@@ -33,34 +35,40 @@
 	</nav>
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
-		<div class="modal-content" >
 
-			<div id="pagecontainers" class = "drag-container" style="height:100%;">
+		<div class="modal-content" style="padding-top: 40px" >
+
+			<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
 			</div>
 			<div class = "toolbar" id="edit-page-toolbar">
-				<p id="pagename"></p>
-				<button class = "btn" oncLick=addTextContainer()>Add TextBox</button><br>
-				<button class = "btn" onclick=addImageContainer()>Add Image</button> <br/>
-				<button class = "btn" oncLick=addOutputContainer()>Add Control Output</button><br/>
-				<br/>
+				<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
+
+				<h5 id="pagename">Design Page: </h5>
+				<hr/>
+				<button class = "btn tooltip" title = "A container to hold any text, dialogue, etc..." oncLick=addTextContainer()>Add TextBox</button><br>
+				<button class = "btn tooltip" title = "Images and movies (gif,gifv,mov,webm,mp4)" onclick=addImageContainer()>Add Image</button> <br/>
+				<button class = "btn tooltip" title = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Add Control Output</button><br/>
+				<hr/>
 				<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
 				<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
-				<br/>
-				<button class = "gridmode btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
-				<button class = "handlemode btn" onclick=toggleHandles()>Toggle Handles</button> <br/>
+				<hr/>
+				<button class = "gridmode btn tooltip" title = "Enable/disable a grid for your containers to snap to" onclick=toggleGridMode()>Toggle Grid</button> <br/>
+				<button class = "handlemode btn tooltip" title = "Lets you preview how your page will look without the above handles" onclick=toggleHandles()>Toggle Handles</button> <br/>
 
-				<button class = "pagetemplate btn" onclick=createPageTemplate()>Save Page Template</button> <br/>
+				<button class = "pagetemplate btn tooltip" title = "Copy and save all the containers and styles within the page node, letting you make copies" onclick=createPageTemplate()>Save Page Template</button> <br/>
+				
 
-				<!-- Template save and load-->
 				<!-- Events pane -->
 				<!-- Close panel -->
 			</div>
+
 		</div>
 	</div>
 
 	<!-- Control Edit Overlay (Materialize) -->
 	<div id="control-modal" class="modal modal-fixed-footer" >
 		<div class="modal-content">
+			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
 			<h4>Control Node</h4> <br/>
 			<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
 		</div>
@@ -71,6 +79,7 @@
 	<!-- Connection Edit Overlay (Materialize) -->
 	<div id="connection-modal" class="modal modal-fixed-footer">
 		<div class="modal-content">
+			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
 			<h4>Conditions & Outcomes</h4> <br/>
 			<ul class="collapsible popout" data-collapsible="expandable">
 				<li>
@@ -153,19 +162,6 @@
 		</div>
 	</div>
 
-
-	<!-- Modal Structure -->
-	<div id="mda" class="modal modal-fixed-footer">
-		<div class="modal-content">
-			<h4>Modal Header</h4>
-			<p>A bunch of text</p>
-		</div>
-		<div class="modal-footer">
-			<a href="javascript:;" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-		</div>
-	</div>
-
-
 	<!-- Main Content -->
 	<div class="container-fluid">
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
@@ -234,6 +230,7 @@
 
 	</body>
 	<script src="js/lib/jquery-2.2.2.min.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 	<script defer src="js/lib/cytoscape.min.js"></script>
 	<script defer src="js/lib/cytoscape-panzoom.js"></script>
 	<script defer src="js/lib/materialize.min.js"></script>

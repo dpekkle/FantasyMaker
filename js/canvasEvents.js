@@ -50,6 +50,7 @@ cy.on('tap', function(event)
 				data:
 				{ 
 					name: cy.nodes().size()+1, 
+					pagestyle: selected_page_template.pagestyle,
 					outputcontainer: selected_page_template.outputcontainer,
 					imgcontainers: selected_page_template.imgcontainers,
 					audio: selected_page_template.audio,

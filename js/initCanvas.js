@@ -4,7 +4,7 @@ console.log("Enter initCanvas.js")
 
 var cy = cytoscape({
 	container: document.getElementById('cy'), // container to render in
-  
+
 	//predefined layout, mostly used for static graphs
 	layout: {
 			},
@@ -35,13 +35,13 @@ var cy = cytoscape({
 				'text-background-opacity' : 1,
 				
 				'text-border-opacity' : 1,
-				'text-border-color' : '#9dbaea',
+				'text-border-color' : '#90caf9',
 				'text-border-width' : 2,
 
 				'width': 4,
 				'target-arrow-shape': 'triangle',
-				'line-color': '#9dbaea',
-				'target-arrow-color': '#9dbaea',
+				'line-color': '#90caf9',
+				'target-arrow-color': '#90caf9',
 				'curve-style': 'bezier',
 				'line-style': 'solid',
 			}
@@ -60,7 +60,7 @@ var cy = cytoscape({
 			selector: '.control',
 			style:{
 				'shape': 'ellipse',
-				'background-color': '#72dadb',
+				'background-color': '#5c6bc0',
 			}
 			
 		},

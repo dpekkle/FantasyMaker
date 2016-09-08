@@ -56,6 +56,7 @@ function stylePage()
 {
 	//clear page
 	$('.playpage').html('');
+	$('.playpage').attr("style", currentNode.data('pagestyle'));
 
 	//create text containers
 	var text_cont = currentNode.data('textcontainers');
