@@ -69,6 +69,7 @@ function addOutputContainer()
 		bringContainerToFront($("pagecontainers div.output-container:last"));
 		if (!show_handles)
 			$('.handle').hide();
+		bindHandleSelection();
 	}
 	else
 	{
@@ -94,14 +95,14 @@ function addTextContainer()
 	$("#pagecontainers div.text-container:last .editdiv").trigger('focus');
 	if (!show_handles)
 		$('.handle').hide();
-
+	bindHandleSelection();
 }
 
 function addImageContainer()
 {
 	//ask user for URL
 	var html_string;
-	var imgurl = prompt("Enter image url", "http://");
+	var imgurl = prompt("Enter image url", "http://i.imgur.com/6aSJo9b.gifv");
 	var position = genPageCenterHTML(300, 220);
 	
 	//check if valid image
@@ -128,6 +129,7 @@ function addImageContainer()
 				bringContainerToFront($("pagecontainers div.img-container:last"));
 				if (!show_handles)
 					$('.handle').hide();
+				bindHandleSelection();
 			},
 			error: function(data)
 			{
@@ -185,16 +187,21 @@ function genHandleHTML(containertype, id)
 
 	if (containertype == "img")
 	{
-		html_string = "<div id = 'img" + id + "'" + "class = 'handle'>Image Container " + id;
+		html_string = "<div id = 'img" + id + "'" + "class = 'handle img-handle'>Image";
+		html_string += ('<a style="float:left" class="btn-floating btn waves-effect waves-light green">'
+					+ 	 	'<i class="fa fa-picture-o"></i>'
+					+   '</a>');
 		html_string += ('<a style="float:right" class="imgmenu btn-floating btn waves-effect waves-light red">'
 					+ 	 	'<i class="material-icons">settings</i>'
 					+   '</a>');
-
 	}
 
 	else if (containertype == "text")
 	{
-		html_string = "<div id = 'text" + id + "'" + "class = 'handle'>Text Container " + id;
+		html_string = "<div id = 'text" + id + "'" + "class = 'handle text-handle'>Text";
+		html_string += ('<a style="float:left" class="btn-floating btn waves-effect waves-light grey">'
+					+ 	 	'<i class="material-icons">comment</i>'
+					+   '</a>');
 		html_string += ('<a style="float:right" class="textmenu btn-floating btn waves-effect waves-light red">'
 					+ 	 	'<i class="material-icons">settings</i>'
 					+   '</a>');
@@ -203,7 +210,11 @@ function genHandleHTML(containertype, id)
 	}
 	else if (containertype == "decision")
 	{
-		html_string = "<div id = 'decision" + id + "'" + "class = 'handle'>Link " + id;
+		html_string = "<div id = 'decision" + id + "'" + "class = 'handle link-handle'>Decision";
+		html_string += ('<a style="float:left" class="btn-floating btn waves-effect waves-light blue lighten-3">'
+					+ 	 	id
+					+   '</a>');
+
 		html_string += ('<a style="float:right" class="decmenu btn-floating btn waves-effect waves-light red">'
 					+ 	 	'<i class="material-icons">settings</i>'
 					+   '</a>');
@@ -212,7 +223,10 @@ function genHandleHTML(containertype, id)
 	}
 	else if (containertype == "output")
 	{
-		html_string = "<div id = 'output" + id + "'" + "class = 'handle'>Control Output";
+		html_string = "<div id = 'output" + id + "'" + "class = 'handle control-handle'>Output";
+		html_string += ('<a style="float:left" class="btn-floating btn waves-effect waves-light indigo lighten-1">'
+					+ 	 	'<i class="fa fa-terminal"></i>'
+					+   '</a>');
 		html_string += ('<a style="float:right" class="controlmenu btn-floating btn waves-effect waves-light red">'
 					+ 	 	'<i class="material-icons">settings</i>'
 					+   '</a>');
@@ -243,7 +257,7 @@ function genPageCenterHTML(elew, eleh, iter)
 	if (y > project_project.resolution.y)
 		y = project_project.resolution.y;
 	
-	return "transform: translate(" + x + "px, " + y + "px);' data-x='" + x + "' data-y='" + y;
+	//return "transform: translate(" + x + "px, " + y + "px);' data-x='" + x + "' data-y='" + y;
 }
 
 /*** MODIFY CONTAINERS ***/
@@ -284,6 +298,14 @@ function removeContainer(containertype, id)
 		$('#' + containertype + id).parent().remove();
 	}
 }
+function bindHandleSelection()
+{
+	$('.handle').on('click', function(event){
+		$(this).siblings().trigger('focus');
+		bringContainerToFront($(this).parent());
+		console.log("trigger handle")
+	})
+}
 
 function bringContainerToFront(element)
 {
@@ -293,8 +315,9 @@ function bringContainerToFront(element)
 		var z = $(this).css('zIndex');
 		if (z > max)
 			max = z;
+		$(this).css('zIndex', z-1);
 	});
-	max++;
+	//max++;
 	
 	if (element == 'decision')
 		return max;

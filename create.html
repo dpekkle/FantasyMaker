@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/spectrum.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/jquery.contextMenu.min.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/contextMenu.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
@@ -24,19 +25,20 @@
 
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
-		<div class="modal-content" >
+		<div class="modal-content" style="padding-top: 40px" >
 
-			<div id="pagecontainers" class = "drag-container" style="height:100%;">
+			<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
 			</div>
 			<div class = "toolbar" id="edit-page-toolbar">
-				<p id="pagename"></p>
+				<h5 id="pagename">Design Page: </h5>
+				<hr/>
 				<button class = "btn" oncLick=addTextContainer()>Add TextBox</button><br>
 				<button class = "btn" onclick=addImageContainer()>Add Image</button> <br/>
 				<button class = "btn" oncLick=addOutputContainer()>Add Control Output</button><br/>
-				<br/>
+				<hr/>
 				<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
 				<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
-				<br/>
+				<hr/>
 				<button class = "gridmode btn" onclick=toggleGridMode()>Toggle Grid</button> <br/>
 				<button class = "handlemode btn" onclick=toggleHandles()>Toggle Handles</button> <br/>
 
@@ -102,19 +104,6 @@
 			<a class="btn-floating btn-small waves-effect waves-light red floating-action-button" onclick="attributesOverlay_addAttribute('attributes-list')"><i class="material-icons">add</i></a>
 		</div>
 	</div>
-
-
-	<!-- Modal Structure -->
-	<div id="mda" class="modal modal-fixed-footer">
-		<div class="modal-content">
-			<h4>Modal Header</h4>
-			<p>A bunch of text</p>
-		</div>
-		<div class="modal-footer">
-			<a href="javascript:;" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-		</div>
-	</div>
-
 
 	<!-- Main Content -->
 	<div class="container-fluid">

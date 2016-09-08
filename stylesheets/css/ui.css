@@ -11,10 +11,14 @@
 }
 
 .handle{ /*for containers */
-	margin-top:-37px; /* make the handle above it's parent div, necessary to prevent handle being considered part of it for dragging restrictions*/
+	margin-top:-39px; /* make the handle above it's parent div, necessary to prevent handle being considered part of it for dragging restrictions*/
 	overflow:auto; /*official hack! http://www.w3schools.com/css/tryit.asp?filename=trycss_layout_clearfix*/
-	background-color: #BBBBBB;
-	text-align: left;
+	background-color: #CCCCCC;
+	box-sizing: border-box;
+	border-width: 2px 2px 0px 2px;
+	border-color: #BBBBBB ;
+	border-style: solid;
+	text-align: center;
 }
 
 .editdiv{ /* text container */
@@ -69,20 +73,15 @@ body {
 
 #page-modal{
   /* arbitrary styling */
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-  height: 100%;
-  width:100%;
-	top: 0;
-	max-height: 100%;
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
 
-  /*change position to fixed if you want to prevent the dialog from scrolling away, and center it 
-  position:fixed;
-  top:50%;
-  left:50%;
-  margin-left: -40%;
-  margin-top:0%;*/
+	height: 90% !important;
+	width: 90% !important;
+	top: 5% !important;
+
+	max-height: 100%;
 }
 
 .btn{
@@ -131,22 +130,16 @@ body {
 }
 
 #edit-page-toolbar{
-	border-style: solid;
-	border-width: 2px;
-	border-color: black;
-
-	width: 25%;
-	height:100%;
-	float: right;
+	height:700px;
+	margin-left: 820px;
+	min-width: 200px;
+	max-width: 500px;
 }
 
 #pagecontainers{
-	border-style: solid;
-	border-width: 2px;
-	border-color: black;
-	width: 74%;
-	height: 100%;
-	float: left;
+/*	width: 800px; these are initialised as default in pageTemplates
+	height: 700px;
+*/	float: left;
 }
 
 #controlcontainers{

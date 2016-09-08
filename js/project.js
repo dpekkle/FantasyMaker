@@ -1,5 +1,6 @@
 goog.provide('project');
 goog.require('initCanvas');
+goog.require('states')
 
 console.log("Entering project.js");
 

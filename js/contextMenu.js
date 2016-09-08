@@ -3,11 +3,32 @@ goog.require('generalOverlay')
 
 //Right click context menus
 
-function changeCSSinMenu(target, key, options, attribute, value)
+function changeCSSinMenu(target, options, attribute, value)
 {
-	options.$trigger.parent().siblings(target).css(attribute, value);
-	return false; //return this function in a callback to prevent the menu from closing when an option is selected
+	console.log("Inside change CSS")
+	console.log(options)
+
+
+	if (target == '#pagecontainers')
+		$(target).css(attribute, value);
+	else
+		options.$trigger.parent().siblings(target).css(attribute, value);
 }
+
+function bringEleToFront(element)
+{
+	var max = 0;
+	$('#pagecontainers').children('div').each(function()
+	{
+		var z = $(this).css('zIndex');
+		if (z > max)
+			max = z;
+	});
+	max++;
+	console.log("Set zIndex to ", max);
+	element.css("zIndex", max);
+};
+
 
 var primary_colour = "rgba(255,255,255,1.0)";
 var secondary_colour = "rgba(255,255,255,1.0)";
@@ -34,9 +55,41 @@ var template_ID = 0;
 var text_template_menu_list = {} //shared with control output containers
 var decision_template_menu_list = {}
 var image_template_menu_list = {}
+var page_template_menu_list = {}
 
 // *******************************************************************************
 
+//custom type of menu item for selecting a colour
+$.contextMenu.types.color = function(item, opt, root) {
+    // this === item.$node
+    console.log(item)
+    $('<span>' + item.customName + '<ul>'
+    	+ '<li class = "black"></li>'
+    	+ '<li class = "gray"></li>'
+    	+ '<li class = "white"></li>'
+    	+ '<li class = "primary" style="background-color: ' + primary_colour + ';"></li>'
+    	+ '<li class = "secondary" style="background-color: ' + secondary_colour + ';"></li>'
+    	)
+        .appendTo(this)
+        .on('click', 'li', function() {
+        	//change CSS instantly, target/attribute is passed through className of menu item
+           	var class_names = item.className.split(" ");
+           	var css_attribute = class_names[0];
+           	var target = class_names[1];
+            changeCSSinMenu(target, root, item.className.split(" ")[0], $(this).css('background-color'))
+
+            // hide the menu
+            root.$menu.trigger('contextmenu:hide');
+        });
+
+	this.addClass('color').on('contextmenu:focus', function(e) {
+	// setup some awesome stuff
+	}).on('contextmenu:blur', function(e) {
+	 // tear down whatever you did
+	}).on('keydown', function(e) {
+	 // some funky key handling, maybe?
+	});
+};
 
 function generateContextMenu(container_type, template_menu_list)
 {
@@ -47,6 +100,8 @@ function generateContextMenu(container_type, template_menu_list)
 		var target_element = '.editdec';
 	else if (container_type == "img")
 		var target_element = '.editdiv';
+	else if (container_type == "page")
+		var target_element = '#pagecontainers';
 
 	//generate menu items
 	if (container_type == "text" || container_type == "decision" || container_type == "output")
@@ -59,84 +114,40 @@ function generateContextMenu(container_type, template_menu_list)
 					"name": "Font",
 					"items":
 					{
-						"Alignment":
-						{
-							"name": "Alignment",
-							"items":
-							{
-								"Left":{"name": "Left", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "text-align", "left");
-								}},
-								"Right":{"name": "Right", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "text-align", "Right");
-								}},
-								"Center":{"name": "Center", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "text-align", "Center");
-								}},
-								"Justify":{"name": "Justify", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "text-align", "Justify");
-								}},
-							}
-						},
-						"font-family": 
-						{
-							"name": "Style",
-							"items":
-							{
-								"fold2-key1":{"name": "Courier New", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "font-family", "\"Courier New\", Courier, monospace");
-								}},
-								"fold2-key2":{"name": "Lucinda Console", "callback": function(key,options){
-									return changeCSSinMenu(target_element, key, options, "font-family", "\"Lucida Console\", Monaco, monospace");
-								}},
-								"fold2-key3":{"name": "Times New Roman", "callback": function(key,options){
-									return changeCSSinMenu(target_element, key, options, "font-family", "\"Times New Roman\", Times, serif");
-								}},
-								"fold2-key4":{"name": "Arial", "callback": function(key,options){
-									return changeCSSinMenu(target_element, key, options, "font-family", "\"Arial\", Helvetica, sans-serif");
-								}},
-								"fold2-key5":{"name": "Tahoma", "callback": function(key,options){
-									return changeCSSinMenu(target_element, key, options, "font-family", "Tahoma, Geneva, sans-serif");
-								}},
-								"fold2-key6":{"name": "Comic Sans", "callback": function(key,options){
-									return changeCSSinMenu(target_element, key, options, "font-family", "\"Comic Sans MS\", cursive, sans-serif");
-								}},
-							}
-						},
+			            "Alignment": 
+			            {
+			                "name": "Alignment", 
+			                "type": 'select', 
+			                "options": {left: 'left', right: 'right', Center: 'Center', Justify: "Justify"}, 
+			            },
+			            "fontfamily": 
+			            {
+			                "name": "Style", 
+			                "type": 'select', 
+			                "options": {
+			                	"\"Courier New\", Courier, monospace"   : "Courier New", 
+			                	"\"Lucida Console\", Monaco, monospace" : "Lucinda",
+			                	"\"Times New Roman\", Times, serif"     : "Times New Roman",
+			                	"\"Arial\", Helvetica, sans-serif"      : "Arial",
+			                	"Tahoma, Geneva, sans-serif"            : "Tahoma",
+			                	"\"Comic Sans MS\", cursive, sans-serif": "Comic Sans"
+			            	}, 
+			            },
 						"font-size":
 						{
 							"name": "Size",
 							"callback": function(key, options){
 								var size = prompt("Enter font size", "14");
 								if (size <= 50 && size >= 0)
-									return changeCSSinMenu(target_element, key, options, "font-size", size + "px");		
+									return changeCSSinMenu(target_element, options, "font-size", size + "px");		
 								else
 									return false;				
 							}						
 						},
-						"font-color":
+						"font-color": 
 						{
-							"name": "Colour", 
-							"items": 
-							{
-								"Red": {"name": "Black", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "color", "Black");
-								}},
-								"Gray": {"name": "Gray", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "color", "Gray");
-								}},
-								"White": {"name": "White", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "color", "White");
-								}},
-								"Primary": {"name": "Primary", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "color", primary_colour);
-								}},
-								"Secondary": {"name": "Secondary", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "color", secondary_colour);
-								}},
-								
-							}
-						}
+			        		type: "color", customName: "Font Colour", className: "color " + target_element,
+			            },
 					}
 				},
 				"background": 
@@ -144,25 +155,11 @@ function generateContextMenu(container_type, template_menu_list)
 					"name": "Background",
 					"items": 
 					{
-						"Colour":
+
+						"Colour": 
 						{
-							"name": "Background Colour", 
-							"items": 
-							{
-								"Gray": {"name": "Gray", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "background-color", "Gray");
-								}},
-								"White": {"name": "White", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "background-color", "White");
-								}},
-								"Primary": {"name": "Primary", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "background-color", primary_colour);
-								}},
-								"Secondary": {"name": "Secondary", "callback": function(key, options){
-									return changeCSSinMenu(target_element, key, options, "background-color", secondary_colour);
-								}},
-							}
-						},
+			        		type: "color", customName: "Background Colour", className: "background-color " + target_element,
+			            },
 						"Opacity":
 						{ 
 							"name": "Opacity", 
@@ -264,7 +261,26 @@ function generateContextMenu(container_type, template_menu_list)
 						removeContainer(container_type, id);
 					}
 				}},
-			}
+			},
+	        "events": {
+	            show: function(opt) {
+	                // this is the trigger element
+	                var $this = this;
+	                // import states from data store 
+	                $.contextMenu.setInputValues(opt, $this.data());
+	            }, 
+	            hide: function(opt) {
+	                // this is the trigger element
+	                var $this = this;
+	                // export states to data store
+	                $.contextMenu.getInputValues(opt, $this.data());
+	                //change values based on selects
+					changeCSSinMenu(target_element, opt, "border-style", $this.data().Style);
+					changeCSSinMenu(target_element, opt, "text-align", $this.data().Alignment);
+					changeCSSinMenu(target_element, opt, "font-family", $this.data().fontfamily);
+
+	            }
+	        }
 		}
 	}
 	else if (container_type == "img")
@@ -301,26 +317,63 @@ function generateContextMenu(container_type, template_menu_list)
 
 					}
 				},
-			}
+			},
+	        "events": {
+	            show: function(opt) {
+	                // this is the trigger element
+	                var $this = this;
+	                // import states from data store 
+	                $.contextMenu.setInputValues(opt, $this.data());
+	            }, 
+	            hide: function(opt) {
+	                // this is the trigger element
+	                var $this = this;
+	                // export states to data store
+	                $.contextMenu.getInputValues(opt, $this.data());
+
+	                //change values based on selects
+					changeCSSinMenu(target_element, opt, "border-style", $this.data().Style);
+	            }
+	        }
+		}
+	}
+	else if (container_type == "page")
+	{
+		return {
+			"items":
+			{
+				"border": border_menu_entry(target_element),
+				"background": 
+				{
+	        		type: "color", customName: "Background Colour", className: "background-color " + target_element,
+	            },
+			},
+	        "events": {
+	            show: function(opt) {
+	                // this is the trigger element
+	                var $this = this;
+	                // import states from data store 
+	                $.contextMenu.setInputValues(opt, $this.data());
+	                // this basically fills the input commands from an object
+	                // like {name: "foo", yesno: true, radio: "3", &hellip;}
+	            }, 
+	            hide: function(opt) {
+	                // this is the trigger element
+	                var $this = this;
+	                // export states to data store
+	                $.contextMenu.getInputValues(opt, $this.data());
+	                // this basically dumps the input commands' values to an object
+	                // like {name: "foo", yesno: true, radio: "3", &hellip;}
+	                console.log($this.data())
+
+	                //change values based on selects
+	                $(target_element).css("border-style", $this.data().Style);
+
+	            }
+	        }
 		}
 	}
 }
-
-
-
-function bringEleToFront(element)
-{
-	var max = 0;
-	$('#pagecontainers').children('div').each(function()
-	{
-		var z = $(this).css('zIndex');
-		if (z > max)
-			max = z;
-	});
-	max++;
-	console.log("Set zIndex to ", max);
-	element.css("zIndex", max);
-};
 
 function zIndex_menu_entry()
 {
@@ -367,60 +420,22 @@ function border_menu_entry(target_element)
 		"name": "Border",
 		"items":
 		{
-			"Style": 
-			{
-				"name": "Style", 
-				"items": 
-				{
-					"None": {"name": "None", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-style", "none");
-					}},
-					"Solid": {"name": "Solid", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-style", "solid");
-					}},
-					"Double": {"name": "Double", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-style", "double");
-					}},
-					"Dashed": {"name": "Dashed", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-style", "dashed");
-					}},
-					"Dotted": {"name": "Dotted", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-style", "dotted");
-					}},
-					"Button": {"name": "Button", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-style", "outset");
-					}},
-					"Ridge": {"name": "Ridge", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-style", "ridge");
-					}},
-				}
-			},
+            "Style": 
+            {
+                "name": "Style", 
+                "type": 'select', 
+                "options": {none: 'None', solid: 'Solid', double: 'Double', dashed: "Dashed", dotted: "Dotted", outset: "Outset", ridge: "Ridge"}, 
+            },
 			"Colour": 
 			{
-				"name": "Colour", 
-				"items": 
-				{
-					"Red": {"name": "Black", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-color", "Black");
-					}},
-					"Gray": {"name": "Gray", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-color", "Gray");
-					}},
-					"Primary": {"name": "Primary", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-color", primary_colour);
-					}},
-					"Secondary": {"name": "Secondary", "callback": function(key, options){
-						return changeCSSinMenu(target_element, key, options, "border-color", secondary_colour);
-					}},
-				}
-
-			},
+        		type: "color", customName: "Colour", className: "border-color " + target_element,
+            },
 			"Corners": 
 			{
 				"name": "Rounded Corners", "callback": function(key, options){
 					var size = prompt("Enter a number from 0 (square)  to 12 (fully rounded)", "5");
 					if (size <= 12 && size >= 0)
-						return changeCSSinMenu(target_element, key, options, "border-radius", size + "px");		
+						return changeCSSinMenu(target_element, options, "border-radius", size + "px");		
 					else
 						return false;				
 				}
@@ -430,7 +445,7 @@ function border_menu_entry(target_element)
 				"name": "Border Width", "callback": function(key, options){
 					var size = prompt("Enter a number from 0 up", "2");
 					if (size <= 100 && size >= 0)
-						return changeCSSinMenu(target_element, key, options, "border-width", size + "px");		
+						return changeCSSinMenu(target_element, options, "border-width", size + "px");		
 					else
 						return false;				
 				}
@@ -489,4 +504,17 @@ $(function(){
 	        return generateContextMenu("img", image_template_menu_list);
 		}
 	});
+	$.contextMenu(
+	{
+		selector: '.pagemenu',
+		trigger: 'left',
+		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
+        build: function($trigger, e) 
+        {
+	        return generateContextMenu("page");
+	        //return generateContextMenu("page", page_template_menu_list);
+		}
+	});
 });
+
+
