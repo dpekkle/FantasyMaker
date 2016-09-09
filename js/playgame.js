@@ -28,7 +28,8 @@ function prepareForGame()
 function wipeGame()
 {
 	//clear page
-	$('.playpage').html('');	
+	$('.playpage').html('');
+	$('.playpage').attr('style', '');	
 }
 
 function parseNode()

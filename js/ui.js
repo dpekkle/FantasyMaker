@@ -122,7 +122,7 @@ function resizeCanvas()
 {
 	var x = $(window).width(); 	//row is the screen width
 	var y = $(window).height();		//want total height of the page
-	var buffer = $('#tabheadings').height();
+	var buffer = $('#tabheadings').height() + $('.nav-wrapper').height();
 
 	$('#cy').css('width', x*9/12 - 30);	//match the col-md-9 size, 9/12 of the row width, -30 for col padding
 	$('#cy').css('height', y-buffer); //tabs at top are 42;
