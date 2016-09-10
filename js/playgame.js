@@ -29,7 +29,7 @@ function wipeGame()
 {
 	//clear page
 	$('.playpage').html('');
-	$('.playpage').attr('style', '');	
+	$('.playpage').attr('style', '');
 }
 
 function parseNode()
@@ -105,6 +105,7 @@ function stylePage()
 
 function parseControl(sourceNode, outgoingEdges)
 {
+	/*
 	//handle control stuff
 	//Todo - Check Inventory Items & Attributes
 	console.log("At control node. possible edges are: " + sourceNode.json().data.priorityList)
@@ -151,6 +152,8 @@ function parseControl(sourceNode, outgoingEdges)
 		progressStory(0)
 		console.log("parseControl(): invalid edge id. progressing to first edge in outgoingEdges")
 	}
+	*/
+	progressStory(0)
 
 }
 
@@ -312,7 +315,7 @@ function progressStory(i)
 	{
 		currentNode = outgoingEdges.eq(i).target();
 		//need to run edge outcomes here
-		executeOutcomes(outgoingEdges.eq(i))
+		//executeOutcomes(outgoingEdges.eq(i))
 		console.log("Now on node ", currentNode.data('id'));
 		parseNode();
 	}
