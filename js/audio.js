@@ -55,14 +55,15 @@ function audioAsset(name, id, link, type)
 function audioObj()
 {
 	this.selected_audio = null;
-	this.size = 0;
+	this.size = 0; //used for unique ids, different to array length
 	this.assets = [];
 
-	this.getAssetAsModalList = function(id){
+	this.getAssetAsModalList = function(id)
+	{
 		var htmlstring = "";
 		if (id != undefined)
 		{
-			var entry = this.getAsset(id);
+			var entry = this.assets[id];
 			htmlstring += "<li id='" + entry.id + "''>Name: " + entry.name + "<br>Link: " + entry.link + "</li>"
 			return htmlstring
 		}
@@ -70,39 +71,39 @@ function audioObj()
 		{
 			for (var i = 0; i < this.assets.length; i++)
 			{
-				var entry = this.getAsset(i);
+				var entry = this.assets[i];
 				htmlstring += "<li id='" + entry.id + "''>Name: " + entry.name + "<br>Link: " + entry.link + "</li>"
 			}		
 		}
 		return htmlstring;
 	}
 
-	this.getAssetAsMenu = function(){
+	this.getAssetAsMenu = function()
+	{
 		assetlist = {}
 		for (var i = 0; i < this.assets.length; i++)
 		{
 			console.log("Generate audio menu")
-			console.log(this.assets[i])
 			assetlist[i] = {
 				"name": this.assets[i].name,
 				"id": this.assets[i].id,
 				"callback": function(key, options){
-					console.log("Key: ", key);
-					audio.getAsset(key).addEvent();
-					console.log(options);
+					audio.assets[key].addEvent();
 				}
 			}
 		}
-		console.log(assetlist)
 		return assetlist;
 	}
-	this.getAsset = function(id){
-		if (id !== undefined)
+	this.getAsset = function(id)
+	{
+		//get an asset by the value of it's id (not necessarily the same as it's index)
+		if (id !== undefined) 
 		{
-			if (id >= 0 && id < this.size)
-				return this.assets[id];
-			else
-				return "No such asset";
+			if (id >= 0)
+			{
+				return this.assets.find(x=> x.id === id);
+			}
+			return false;
 		}
 		else
 			return this.assets;
@@ -112,7 +113,8 @@ function audioObj()
 	{
 		if (this.selected_audio != null)
 		{
-			this.assets.splice(this.selected_audio, 1);
+			var ele = this.getAsset(parseInt(this.selected_audio))	
+			this.assets.splice(this.assets.indexOf(ele), 1);
 			$('#audiolist').find('#' + this.selected_audio).remove();
 		}
 	}
@@ -130,9 +132,17 @@ function audioObj()
 			return;
 		}
 		this.addAsset(name, link);
+		$('#audiolist li').on('click', function(event) {
+			event.preventDefault();
+			$('#audiolist li').removeClass('highlighted');
+			$(this).toggleClass('highlighted');
+			audio.selected_audio = $(this).attr('id');
+		});
+
 	}
 
-	this.addAsset = function(name, link){
+	this.addAsset = function(name, link)
+	{
 		//parse URL for type
 		var type = this.parseType(link);
 		if (type != "error")
@@ -171,8 +181,10 @@ testAudioObjects();
 function testAudioObjects()
 {
 	//must be imbed link, such as https://www.youtube.com/embed/4vKmEmY8ZD8
-	audio.addAsset("RAP BEAT - REGGAE STYLE", "https://www.youtube.com/watch?v=4vKmEmY8ZD8")
+	audio.addAsset("Reggae Rap", "https://www.youtube.com/watch?v=4vKmEmY8ZD8")
 	audio.addAsset("Fantasy RPG", "https://www.youtube.com/watch?v=Pq824AM9ZHQ")
+	audio.addAsset("Missing You", "https://www.youtube.com/watch?v=Ct_t92NloA8")
+	audio.addAsset("Electronic", "https://www.youtube.com/watch?v=MiRcFl8iafg")
 
 	console.log(audio.getAsset(0));
 	console.log(audio.getAsset(1));

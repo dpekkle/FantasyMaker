@@ -87,7 +87,11 @@ function openEditPageOverlay(element){
 		{
 			//check type of event
 			//audio event
-			audio.getAsset(events_cont[i].id).addEvent();
+			if (audio.getAsset(parseInt(events_cont[i].id)))
+			{
+				//make sure we didnt delete the audio without deleting related events!
+				audio.getAsset(parseInt(events_cont[i].id)).addEvent();
+			}
 
 			$('.eventtrigger input').last().val(events_cont[i].trigger)
 			$('.eventtype select').last().val(events_cont[i].action);
