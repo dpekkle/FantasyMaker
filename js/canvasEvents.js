@@ -56,6 +56,12 @@ cy.on('tap', function(event)
 					audio: selected_page_template.audio,
 					textcontainers: selected_page_template.textcontainers,
 					decisioncontainers: [],
+					events: [],
+					eventspane: '<div class= "eventscontainer">'
+						+		'<span class="eventspanetitle eventname" style="text-align:center; font-size: 16px;">Asset</span>'
+						+		'<span class="eventspanetitle eventtype" style="text-align:center; font-size: 16px;">Event</span>'
+						+		'<span class="eventspanetitle eventtrigger" style="text-align:center; font-size: 16px;">Trigger</span>'
+						+		'</div>',
 				},
 				classes: "page",
 				group: "nodes",

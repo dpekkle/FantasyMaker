@@ -2,13 +2,16 @@ goog.require('initCanvas') //for cytoscape functions like outgoers
 goog.require('generalOverlay') //for escapehtml
 goog.provide('playGame')
 goog.require('project')
-
+goog.require('audio')
+goog.require('events')
 
 currentNode = null;
 outgoingEdges = null;
+event_manager = new eventManager();
 
 function prepareForGame()
 {
+	event_manager.tick;
 	currentNode = null;
 	outgoingEdges = null;
 
@@ -28,6 +31,7 @@ function prepareForGame()
 function wipeGame()
 {
 	//clear page
+	audioplayer.stopVideo();
 	$('.playpage').html('');
 	$('.playpage').attr('style', '');	
 }
@@ -50,6 +54,8 @@ function parseNode()
 
 function parsePage(outgoingEdges)
 {
+	event_manager.newPage();
+	event_manager.playPageEvents(currentNode.data('events'));
 	stylePage();
 }
 
@@ -59,12 +65,14 @@ function stylePage()
 	$('.playpage').html('');
 	$('.playpage').attr("style", currentNode.data('pagestyle'));
 
-	//create text containers
+	//load page data
 	var text_cont = currentNode.data('textcontainers');
 	var dec_cont = currentNode.data('decisioncontainers');
 	var img_cont = currentNode.data('imgcontainers');
 	var output_cont = currentNode.data('outputcontainer');
+	var events_list = currentNode.data('events');
 
+	//create text containers
 	for (var i = 0; i < text_cont.length; i++)
 	{
 		$('.playpage').append(text_cont[i].html);
@@ -100,6 +108,12 @@ function stylePage()
 
 	$(".playpage").children().attr('contenteditable','false');
 	$(".playpage").children().children().attr('contenteditable','false');
+
+	//handle events
+	for (var i = 0; i < events_list.length; i++)
+	{
+		
+	}
 
 }
 

@@ -18,56 +18,7 @@
 	padding-left:0px;
 }
 
-.handle{ /*for containers */
-	margin-top:-39px; /* make the handle above it's parent div, necessary to prevent handle being considered part of it for dragging restrictions*/
-	overflow:auto; /*official hack! http://www.w3schools.com/css/tryit.asp?filename=trycss_layout_clearfix*/
-	background-color: #CCCCCC;
-	box-sizing: border-box;
-	border-width: 2px 2px 0px 2px;
-	border-color: #BBBBBB ;
-	border-style: solid;
-	text-align: center;
-}
 
-.editdiv{ /* text container */
-	display:block;
-	border-width: 2px;
-	border-color: #BBBBBB;
-	border-style: solid;
-	background-color: #FFFFFF; /*transparent by default*/
-	width: 300px; 
-	height: 200px;
-
-	position: relative; 
-	overflow-x: hidden; 
-	overflow-y: auto;
-	
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-
-}
-
-.editdec:hover{
-	background-color: #EEEEEE;
-}
-
-.editdec{
-	display:block;
-	border-width: 2px;
-	border-color: #BBBBBB;
-	border-style: solid;
-	background-color: #DDDDDD;
-
-	width: 200px;
-	height: 50px;
-	overflow-x: hidden; 
-	overflow-y: auto;	
-
-	word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-}
 
 #sidebar{
 	height: 90vh;
@@ -79,18 +30,6 @@ body {
 	font-size: 14px;
 }
 
-#page-modal{
-  /* arbitrary styling */
-	background-color: white;
-	border-radius: 5px;
-	box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-
-	height: 90% !important;
-	width: 90% !important;
-	top: 5% !important;
-
-	max-height: 100%;
-}
 
 .btn{
 	width: 100%;
@@ -117,19 +56,6 @@ body {
 	background-color: transparent;
 }
 
-#edit-page-toolbar{
-	padding-right: 5px;
-	height:700px;
-	margin-left: 820px;
-	min-width: 200px;
-	max-width: 500px;
-}
-
-#pagecontainers{
-/*	width: 800px; these are initialised as default in pageTemplates
-	height: 700px;
-*/	float: left;
-}
 
 #controlcontainers{
 	width: 50%;

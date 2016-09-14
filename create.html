@@ -13,6 +13,7 @@
  		<link rel="stylesheet" type="text/css" href="stylesheets/css/jquery-ui.min.css">
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/contextMenu.css"/>
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/page-overlay.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
@@ -35,34 +36,38 @@
 	</nav>
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
+			<div class="modal-content" style="padding-top: 40px" >
+				<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
+				</div>
+				<div class = "toolbar" id="edit-page-toolbar">
+					<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
 
-		<div class="modal-content" style="padding-top: 40px" >
+					<h5 id="pagename">Design Page: </h5>
+					<hr/>
+					<button class = "btn tooltip" title = "A container to hold any text, dialogue, etc..." oncLick=addTextContainer()>Add TextBox</button><br>
+					<button class = "btn tooltip" title = "Images " onclick=addImageContainer()>Add Image</button> <br/>
+					<button class = "btn tooltip" title = "Movies (gif,gifv,mov,webm,mp4)" onclick=addImageContainer()>Add Video</button> <br/>
+					<button class = "btn tooltip" title = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Add Control Output</button><br/>
+					<hr/>
+					<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
+					<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
+					<hr/>
+					<button class = "gridmode btn tooltip" title = "Enable/disable a grid for your containers to snap to" onclick=toggleGridMode()>Toggle Grid</button> <br/>
+					<button class = "handlemode btn tooltip" title = "Lets you preview how your page will look without the above handles" onclick=toggleHandles()>Toggle Handles</button> <br/>
 
-			<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
+					<button class = "pagetemplate btn tooltip" title = "Copy and save all the containers and styles within the page node, letting you make copies" onclick=createPageTemplate()>Save Page Template</button> <br/>
+					<hr/>
+					<div style="margin-top: 10px;">
+						<i id = "addevent" class = "fa fa-plus fa-2x dropdown-button"style="float: right;"></i>
+						<i id = "removeevent" class = "fa fa-minus fa-2x"style="float: right; margin-right: 5px;" onclick=deleteEvent()></i>
+						<h6>Events</h6>	
+					</div>				
+					<!-- Events pane -->
+					<div id = "eventspane">
+					</div>
+
+				</div>
 			</div>
-			<div class = "toolbar" id="edit-page-toolbar">
-				<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
-
-				<h5 id="pagename">Design Page: </h5>
-				<hr/>
-				<button class = "btn tooltip" title = "A container to hold any text, dialogue, etc..." oncLick=addTextContainer()>Add TextBox</button><br>
-				<button class = "btn tooltip" title = "Images and movies (gif,gifv,mov,webm,mp4)" onclick=addImageContainer()>Add Image</button> <br/>
-				<button class = "btn tooltip" title = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Add Control Output</button><br/>
-				<hr/>
-				<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
-				<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
-				<hr/>
-				<button class = "gridmode btn tooltip" title = "Enable/disable a grid for your containers to snap to" onclick=toggleGridMode()>Toggle Grid</button> <br/>
-				<button class = "handlemode btn tooltip" title = "Lets you preview how your page will look without the above handles" onclick=toggleHandles()>Toggle Handles</button> <br/>
-
-				<button class = "pagetemplate btn tooltip" title = "Copy and save all the containers and styles within the page node, letting you make copies" onclick=createPageTemplate()>Save Page Template</button> <br/>
-				
-
-				<!-- Events pane -->
-				<!-- Close panel -->
-			</div>
-
-		</div>
 	</div>
 
 	<!-- Control Edit Overlay (Materialize) -->
@@ -101,6 +106,17 @@
 			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewOutcome('outcomesList') style="width: 30%; margin-right: 1%;">Add Outcome</button>
 			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewCondition('conditionsList') style="width: 30%; margin-right: 1%;">Add Condition</button>
 
+		</div>
+	</div>
+	<div id="audio-modal" class=" modal">
+		<div class="modal-content">
+			<ul id="audiolist" style="padding-top: 10px;" class="collapsible popout" data-collapsible="accordion">
+			
+			</ul>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" onClick=audio.addAssetButton(); style="width: 30%; margin-right: 1%;">Add</button>
+			<button type="button" class="btn btn-default" onClick=audio.removeAsset(); style="width: 30%; margin-right: 1%;">Remove</button>
 		</div>
 	</div>
 
@@ -188,6 +204,8 @@
 							<hr/>
 							<a class="waves-effect waves-light btn modal-trigger" href="#attributes-modal">Attributes</a>
 							<br/>
+							<a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a>
+							<br/>
 							<hr/>
 							<button class="connectivity btn" onclick=checkValidGraph()>Test Graph</button> <br/>
 							<button class='dropdown-button btn' href='#' data-activates='stylegraph'>Style Graph</button> <br/>
@@ -214,6 +232,9 @@
 							<div class = "playpage">
 							</div>
 							<button class="progressbutton button" style='float:right;' onclick=progressStory(0)>Continue</button>
+							<div id = "audioplayer"></div>
+							<div id = "videoplayer"></div>
+
 						</div>
 					</div>
 					<div id="Character" class="tab-pane fade">
@@ -238,5 +259,6 @@
 	<script defer src="js/lib/jquery.contextMenu.min.js"></script>
 	<script defer src="js/lib/jquery.ui.position.min.js"></script>
 	<script defer src="js/lib/spectrum.js"></script>
+	<script src="http://www.youtube.com/player_api"></script>
 	<script defer src="js/dev.min.js"></script>
 </html>
