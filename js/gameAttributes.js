@@ -93,38 +93,100 @@ function gameAttributes_display(s_path){
     console.log("displaying attribute in panel: " + attribute.name);
 
 
-    var attributeTitle = $('#attribute-detail-title');
-    var classList = $('#attribute-detail-class-list');
-    var valueList = $('#values-chips-container');
+    //var attributeTitle = $('#attribute-detail-title');
+    //var classList = $('#attribute-detail-class-list');
+    var valueList = $('#values-list');
     var addClassInput = $('#add-class-name');
     var addValueNameInput = $('#add-value-name');
     var addValueDataInput = $('#add-value-data');
 
     //clear old html
-    classList.empty();
+   // classList.empty();
     valueList.empty();
-    attributeTitle.text(" ");
-    attributeTitle.text(attribute.name)
+    //attributeTitle.text(" ");
+    //attributeTitle.text(attribute.name)
 
     //TODO - UPDATE ATTRIBUTE NAME
     if (attribute.is_leaf){
-        $('#attribute-detail').show();
+        //$('#attribute-detail').show();
       //TODO - DISPLAY VALUE HTML w/ FORM TO UPDATE
     }else{
-        $('#attribute-detail').show();
+        //$('#attribute-detail').show();
 
         //Bind current attribute path to the input fields
-        addClassInput.attr('data-path', attribute.path);
-        addValueDataInput.attr('data-path', attribute.path);
-        addValueNameInput.attr('data-path', attribute.path);
+        //addClassInput.attr('data-path', attribute.path);
+        //addValueDataInput.attr('data-path', attribute.path);
+        //addValueNameInput.attr('data-path', attribute.path);
 
         var i;
         var childrenArray = attribute.children;
        for(i=0; i<childrenArray.length; i++){
-            if(attribute[childrenArray[i]].is_leaf)
-                valueList.append('<div class="chip" onclick="gameAttributes_display('+ '\'' + attribute[childrenArray[i]].path + '\'' +')">' + attribute[childrenArray[i]].name + ': ' + attribute[childrenArray[i]].value + '</div>'); //TODO - ADD LINK TO ATTRIBUTE OR EDIT BUTTON
-            else
-                classList.append('<div class="chip" onclick="gameAttributes_display('+ '\'' + attribute[childrenArray[i]].path + '\'' +')">' + attribute[childrenArray[i]].name + '</div>');
+            if(attribute[childrenArray[i]].is_leaf){
+                var childObj = attribute[childrenArray[i]];
+                $.ajax({
+                    url: "attribute_partial.html",
+                    success: function (data) {
+                       if(valueList.append(data))
+                           console.log($('#temp_title_id').id);
+                    },
+                    dataType: 'html'
+                });
+
+
+                //grab all temporary ID'ed elements to update
+                var tempTitle = $('#temp_title_id');
+                var tempInitVal = $('#temp_init_value_id');
+                var tempMaxVal = $('#temp_max_value_id');
+                var tempNameInput = $('#temp_name_edit_input');
+                var tempNameInputLabel = $('#temp_name_edit_input_label');
+                var tempInitValInput = $('#temp_init_val_edit_input');
+                var tempInitValInputLabel = $('#temp_init_val_edit_input_label');
+                var tempMaxValInput = $('#temp_max_val_edit_input');
+                var tempMaxValInputLabel = $('#temp_max_val_edit_input_label');
+                var tempUpdateButton = $('#temp_update_button');
+                var tempDeleteButton = $('#temp_delete_button');
+
+
+                //template of attribute/value list element has been loaded, update the temporary IDs and fields
+                //Update Title & Value Fields
+                console.log(childObj.name);
+                //console.log(tempTitle).attr(id));
+                tempTitle.text(childObj.name);
+                tempTitle.attr('id', '' + childObj + '-display-name');
+
+                tempInitVal.text(childObj.value); //TODO - Change to init Value
+                tempInitVal.id = childObj + '-display-init-val';
+
+                //tempMaxVal.text(childObj.value); //TODO - Change to max Value
+                //tempMaxVal.id = childObj + '-display-max-val';
+
+                //Update Input Field ID's, Labels, & data-path attributes
+                tempNameInputLabel.attr('for', '' + childObj + '-edit-name-input');
+                tempNameInput.data('path', childObj.path);
+                tempNameInput.id = childObj + '-edit-name-input';
+
+                tempInitValInputLabel.attr('for', '' + childObj + '-edit-init-input');
+                tempInitValInput.data('path', childObj.path);
+                tempInitValInput.id = childObj + '-edit-init-input';
+
+                tempMaxValInputLabel.attr('for', '' + childObj + '-edit-max-input');
+                tempMaxValInput.data('path', childObj.path);
+                tempMaxValInput.id = childObj + '-edit-max-input';
+
+                //Update buttons
+                tempUpdateButton.data('path', childObj.path);
+                //tempUpdateButton.onclick(updateAttribute());
+                tempUpdateButton.id = childObj + '-update';
+
+                tempDeleteButton.data('path', childObj.path);
+                //tempDeleteButton.click(deleteAttribute());
+                tempDeleteButton.id = childObj + '-delete'
+
+
+            }
+              //  valueList.append('<div class="chip" onclick="gameAttributes_display('+ '\'' + attribute[childrenArray[i]].path + '\'' +')">' + attribute[childrenArray[i]].name + ': ' + attribute[childrenArray[i]].value + '</div>'); //TODO - ADD LINK TO ATTRIBUTE OR EDIT BUTTON
+            //else
+                //classList.append('<div class="chip" onclick="gameAttributes_display('+ '\'' + attribute[childrenArray[i]].path + '\'' +')">' + attribute[childrenArray[i]].name + '</div>');
        }
     }
 }
@@ -150,6 +212,11 @@ function loadListHTML(){
     $('#attributes-list').html(project_project["attributeHTML"]);
 }
 
+//TODO - COLLATE INTO ONE METHOD
+function showAddTopLevelInput(){
+    $('#new-top-level-button').hide();
+    $('#new-top-level-container').show();
+}
 
 function showAddValueInput(){
     $('#new-value-button').parent().hide();
@@ -164,8 +231,7 @@ function showAddClassInput(){
 
 $("#add-class-name").keypress(function(event) {
     if (event.which == 13) {
-
-        console.log("enter clicked");
+        
         var class_name_input =$('#add-class-name');
         //--
 
@@ -200,3 +266,34 @@ $(".add-value").keypress(function(event) {
 
     }
 });
+
+$("#add-top-level-name").keypress(function(event) {
+    if (event.which == 13) {
+        var class_name_input =$('#add-top-level-name');
+        //--
+
+       project_addTopGameAttribute(class_name_input.val());
+
+        //Clear Fields
+        class_name_input.val("");
+
+        $('#new-top-level-button').show();
+        $('#new-top-level-container').hide();
+    }
+});
+
+//temporary function for dealing with button click
+//TODO - Clean up
+function temp_add_top_level() {
+    var class_name_input =$('#add-top-level-name');
+    //--
+
+    project_addTopGameAttribute(class_name_input.val());
+
+    //Clear Fields
+    class_name_input.val("");
+
+    $('#new-top-level-button').show();
+    $('#new-top-level-container').hide();
+}
+

@@ -30,10 +30,10 @@ function project_createNewProject(){
 }
 
 //Add top level attribute directly under gameAttributes
-function project_addGameAttribute(name){
+function project_addTopGameAttribute(name){
 	var attID = generateID();
 	project_project["gameAttributes"][attID] = new GameAttribute(null, null, name, attID, false);
-	var newAttributeHTML = '<li class="' + attID  + ' margin">' + name + '<ul id="' + attID + '-inner_list"></ul></li>';
+	var newAttributeHTML = '<li class="' + attID  + ' margin"><a onclick="gameAttributes_display('+ '\'' + attID + '\'' + ')">' + name + '</a><ul id="' + attID + '-inner_list"></ul></li>';
 	$('#attributes-list').append(newAttributeHTML);
 	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path);
 }
@@ -47,19 +47,7 @@ function project_updateProject(){
 		project_project.projectOwner = "Admin";
 		project_project.projectName = "newDemo";
 		project_project.graph = cy.elements().jsons();
-		/* 
-		 //adding default statTypes for the moment, to be replaced with dynamic statType creation
-		 project_project.statTypes.push( { "type" : "MAGIC"} );
-		project_project.statTypes.push( { "type" : "SPIRIT"} );
-		project_project.statTypes.push( { "type" : "STRENGTH"} );
-		//add default character
-		character = {}
-		for(var i = 0; i< project_project.statTypes.length; i++){
-			character[project_project.statTypes[i].type] = 0
-		}
-		project_project.characters.push(character) 
-		TODO - REMOVE COMMENT
-		*/
+
 	}
 	else{
 		console.log("Updating project...");

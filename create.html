@@ -11,13 +11,15 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/spectrum.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/jquery.contextMenu.min.css" media="screen" />
  		<link rel="stylesheet" type="text/css" href="stylesheets/css/jquery-ui.min.css">
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/contextMenu.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+
 
 		<title>Fantasymaker</title>
 	</head>
@@ -108,16 +110,50 @@
 	<div id="attributes-modal" class=" modal">
 		<div class="modal-content">
 			<div class="row max-height">
-				<div class="col m5 s3">
-					<h4>Attributes List</h4> <br/>
+				<!-- List Pane -->
+				<div class="col m2 pos-relative box-border" style="height: 100%;">
+					<h4>Attributes</h4> <br/>
 					<ul id="attributes-list"></ul>
+					<a id="new-top-level-button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="showAddTopLevelInput();"><i class="medium material-icons">library_add</i></a>
+					<div class="col m12 s12 float-bottom" id="new-top-level-container">
+						<div class="input-field col m12">
+							<input id="add-top-level-name" type="text" class="validate">
+							<label for="add-top-level-name">Folder Name</label>
+						</div>
+						<a class="waves-effect waves-teal btn-flat col m12 s12" onclick="temp_add_top_level()">Add Folder</a>
 				</div>
-				<div class="col m6 offset-m1 s7 max-height">
+				</div>
+
+				<div class="col m10 max-height">
+					<!-- Attribute/Folder Title -->
+					<div class="row">
+						<div class="col m12">
+							<h4 id="attribute-detail-title">Attribute Name</h4>
+						</div>
+					</div>
+					<div class="row max-height">
+						<!-- Sub-Folder Pane -->
+						<div class="pane col m6 max-height pos-relative box-border">
+							<h5 class="bottom-border">Folders</h5>
+							<a id="new-folder-button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick=""><i class="medium material-icons">add</i></a>
+						</div>
+						<!-- Values Pane -->
+						<div class="pane col m6 max-height pos-relative box-border">
+							<h5 class="bottom-border">Values</h5>
+							<a id="new-value-button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick=""><i class="medium material-icons">add</i></a>
+							<br/>
+							<ul id="values-list" class="collapsible" data-collapsible="accordion">
+
+							</ul>
+						</div>
+					</div>
+
+<!--
 					<div id="attribute-detail-card" class="card-panel blue-grey">
 						<div id="attribute-detail">
 							<div id="attribute-detail-header"  class="row">
 								<div class="row">
-									<h5 id="attribute-detail-title"></h5>
+
 								</div>
 							</div>
 							<div class="row float-bottom">
@@ -161,6 +197,7 @@
 			</div>
 		</div>
 	</div>
+
 
 	<!-- Main Content -->
 	<div class="container-fluid">

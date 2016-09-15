@@ -189,15 +189,17 @@ body {
 
 li.margin { margin-left: 10px; }
 
-#new-value-container, #new-class-container{display:none;}
+#new-value-container, #new-class-container, #new-top-level-container{display:none;}
 
 #attribute-detail-header{
 	margin-bottom: 0px;
 	height: 45px;
 }
 
-.float-bottom{
-	height: 70px; margin-bottom:0px
+.fab{
+	position: absolute !important;
+	bottom:10px;
+	right: 10px;
 }
 
 .value-class-row-style{
@@ -206,4 +208,39 @@ li.margin { margin-left: 10px; }
 
 .chip{
 	margin: 5px;
+}
+
+.pos-relative{
+	position:relative;
+}
+
+.pos-absolute{
+	position: absolute;
+}
+
+.pos-relative .float-bottom{
+	bottom: 15px;
+	position: absolute;
+}
+
+.pos-relative .float-right{
+	right: 0;
+}
+
+
+.box-border{
+	border: black solid;
+}
+
+.pane{
+	max-height: 90%;
+}
+
+.bottom-border{
+	border-bottom: black solid;
+}
+
+.edit-value-button{
+	position: absolute;
+	bottom: 15px;
 }

@@ -2,6 +2,19 @@ goog.provide('initCanvas')
 
 console.log("Enter initCanvas.js")
 
+
+//HACK TO FIX CURRENT STATE UNDEFINED
+//little state enum for the current state the UI is in
+states = {
+	DEFAULT: 0,
+	CONNECTING: 1, //i.e. connecting two nodes with an edge
+	NEWPAGE: 2, // adding a new page node
+	NEWCONTROL: 3, // adding a new control node
+};
+
+current_state = states.DEFAULT;
+
+
 var cy = cytoscape({
 	container: document.getElementById('cy'), // container to render in
 
