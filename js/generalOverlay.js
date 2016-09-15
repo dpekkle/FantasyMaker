@@ -1,3 +1,4 @@
+goog.require('events')
 goog.provide('generalOverlay')
 
 $(document).ready(function(){
@@ -49,7 +50,6 @@ function openEditPageOverlay(element){
 		$('#pagename').html('Design Page: ' + selected.data('name'));
 
 		//load any previously saved info
-		//create text containers
 		$("#pagecontainers").append('<a style="float:right" class="pagemenu btn-floating btn waves-effect waves-light gray"><i class="material-icons">settings</i></a>');
 
 		var page_style = selected.data('pagestyle');
@@ -59,7 +59,7 @@ function openEditPageOverlay(element){
 		$("#pagecontainers").append(output_cont);
 		$("#pagecontainers div.output-container:last").prepend(genHandleHTML("output", 0));
 	
-
+		//create text containers
 		var text_cont = selected.data('textcontainers');
 		for (var j = 0; j < text_cont.length; j++)
 		{
@@ -74,12 +74,34 @@ function openEditPageOverlay(element){
 			$("#pagecontainers").append(img_cont[j].html);
 			$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", img_cont[j].name));
 		}
-			
-		outgoingEdges = selected.outgoers().edges();
-		
-		var dec_cont = selected.data('decisioncontainers');
+
+		//load event list
+
+		$('#eventspane').append('<span class="eventspanetitle eventname" style="text-align:center; font-size: 16px;">Asset</span>'
+						+		'<span class="eventspanetitle eventtype" style="text-align:center; font-size: 16px;">Event</span>'
+						+		'<span class="eventspanetitle eventtrigger" style="text-align:center; font-size: 16px;">Time</span>');
+
+
+		var events_cont = selected.data('events');
+		for (var i = 0; i < events_cont.length; i++)
+		{
+			//check type of event
+			//audio event
+			if (audio.getAsset(parseInt(events_cont[i].id)))
+			{
+				//make sure we didnt delete the audio without deleting related events!
+				audio.getAsset(parseInt(events_cont[i].id)).addEvent();
+			}
+
+			$('.eventtrigger input').last().val(events_cont[i].trigger)
+			$('.eventtype select').last().val(events_cont[i].action);
+			$('#eventspane select').last().material_select();
+
+		}
 
 		//create decision buttons for the first time
+		outgoingEdges = selected.outgoers().edges();
+		var dec_cont = selected.data('decisioncontainers');
 		for (var i = 0; i < outgoingEdges.size(); i++)
 		{
 			var found = false;
@@ -142,6 +164,28 @@ function openEditControlOverlay(element){
 	populateControlOverlay(selected);
 }
 
+function openAudioOverlay(){
+	console.log("Audio overlay opened")
+	$('#audio-modal').openModal({
+		dismissible: true,
+		//callback for when overlay is triggered from html
+		ready: function() {
+			audio.selected_audio = null;
+			$('#audiolist').html('');
+			$('#audiolist').append(audio.getAssetAsModalList());
+			$('#audiolist li').on('click', function(event) {
+				event.preventDefault();
+				$('#audiolist li').removeClass('highlighted');
+				$(this).toggleClass('highlighted');
+				audio.selected_audio = $(this).attr('id');
+			});
+		},
+		complete: function(){
+			// $('#audiolist').html('');
+		}
+	});
+}
+
 function overlayToolbar(element)
 {
 	//display control info on selection
@@ -178,26 +222,24 @@ function closeOverlay(element)
 			//clear saved info
 			selected.data('textcontainers', []);
 			selected.data('imgcontainers', []);
-			selected.data('outputcontainer', "");
-			
-			selected.data('pagestyle', $('#pagecontainers').attr("style"));
+			selected.data('events', []);
 
 			//update containers
+			selected.data('pagestyle', $('#pagecontainers').attr("style"));
+			selected.data('outputcontainer', $('.output-container').outerHTML);
+
+			var text_container_array = [];
 			$('#pagecontainers').children("div[class^='text-container']").each(function (index) {
 				var html = this.outerHTML;
 				//selected.data('textcontainers')[index].html = html;
-
 				console.log("Updating HTML for ", index);
-
-				var container_array = selected.data('textcontainers');
 				var newcontainer = {
 					'name' : index+1,
 					'html' : html
 					};
-				container_array.push(newcontainer);
-				selected.data('textcontainers', container_array);
-
+				text_container_array.push(newcontainer);
 			});
+			selected.data('textcontainers', text_container_array);
 
 			$('#pagecontainers').children("div[class^='decision-container']").each(function (index) {
 				var html = this.outerHTML;
@@ -205,29 +247,58 @@ function closeOverlay(element)
 				console.log("Save HTML for decision ", index);
 			});
 
+			var img_container_array = [];
 			$('#pagecontainers').children("div[class^='img-container']").each(function (index) {
 				var html = this.outerHTML;
 				console.log("Save HTML for img ", index);
-
-				var container_array = selected.data('imgcontainers');
 				var newcontainer = {
 					'name' : index+1,
 					'html' : html
 					};
-				container_array.push(newcontainer);
-				selected.data('imgcontainers', container_array);
+				img_container_array.push(newcontainer);
+			});
+			selected.data('imgcontainers', img_container_array);
+
+
+
+			var event_array = [];
+			$('#eventspane').children(".eventscontainer").each(function(index)
+			{
+				var name = $(this).children('.eventname');
+				var eventtype = $(this).attr("class").split(' ')[0];
+				var action = name.nextAll('.eventtype:first');
+				var trigger = action.nextAll('.eventtrigger:first');
+				var eventid = $(this).attr('id');
+
+				var newcontainer = {
+					'eventtype': eventtype,
+					'id': eventid,
+					'name' : name.html(),
+					'action' : action.find('div input').val(),
+					'trigger' : trigger.find('input').val(),
+					};
+
+				action.material_select('destroy'); //convert html back to pre-materialise base
+
+
+				event_array.push(newcontainer);
+			});
+			event_array.sort(function(a, b) {
+    			return parseFloat(a.trigger) - parseFloat(b.trigger);
 			});
 
-			$('#pagecontainers').children("div[class^='output-container']").each(function (index) {
-				var html = this.outerHTML;
-				selected.data('outputcontainer', html);
-				console.log("Save HTML for output ");
-			
-			});
+			selected.data('events', event_array);
+
+
+			//events pane
+			selected.data('eventspane', $('#eventspane').html());
 
 
 			//clear page
 			$('#pagecontainers').html('');
+			$('#eventspane').html('');
+			selected_event = null;
+
 		}
 
 		if (selected.hasClass('control')) {

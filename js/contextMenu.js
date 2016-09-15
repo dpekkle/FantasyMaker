@@ -1,5 +1,6 @@
 goog.provide('contextMenu')
 goog.require('generalOverlay')
+goog.require('audio')
 
 //Right click context menus
 
@@ -317,6 +318,15 @@ function generateContextMenu(container_type, template_menu_list)
 
 					}
 				},
+				"delete": {"name": "Delete", "icon": "delete", "callback" : function(key, options){
+					if (confirm("Are you sure you want to delete this container?"))
+					{
+						//remove from HTML
+
+						var id = options.$trigger.parent().attr('id').split(container_type)[1] //get the cytoscape name from the div ID
+						removeContainer(container_type, id);
+					}
+				}},
 			},
 			"events": {
 				show: function(opt) {
@@ -347,6 +357,12 @@ function generateContextMenu(container_type, template_menu_list)
 				{
 					type: "color", customName: "Background Colour", className: "background-color " + target_element,
 				},
+				"resolution":
+				{
+					"name": 'Resolution',
+					"type": 'select', 
+					"options": {a320pxa480px: 'Mobile 320x480', a800pxa600px: 'Small 800x600', a1024pxa768px: 'Medium 1024x768', a1280pxa1024px: "Large 1280x1024"}, 		
+				}
 			},
 			"events": {
 				show: function(opt) {
@@ -368,6 +384,12 @@ function generateContextMenu(container_type, template_menu_list)
 
 					//change values based on selects
 					$(target_element).css("border-style", $this.data().Style);
+					if ($this.data().resolution != null)
+					{
+						$(target_element).css("flex", "0 0 " + $this.data().resolution.split('a')[1]);
+						$(target_element).css("height", $this.data().resolution.split('a')[2]);
+					}
+					// $('#edit-page-toolbar').css("height", $this.data().resolution.split('a')[2]);
 
 				}
 			}
@@ -515,6 +537,28 @@ $(function(){
 			//return generateContextMenu("page", page_template_menu_list);
 		}
 	});
+	$.contextMenu(
+	{
+		selector: '#addevent',
+		trigger: 'left',
+		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
+		build: function($trigger, e) 
+		{
+			var audiolist = audio.getAssetAsMenu();
+			return {
+			"items":
+				{
+					"Audio":
+					{
+						"name": "Audio",
+						"items": audiolist
+					},
+				}
+			}
+		}
+	});
+
+
 });
 
 
