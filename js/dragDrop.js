@@ -48,6 +48,9 @@ function setInteractions()
 			// enable autoScroll
 			autoScroll: true,
 
+			onstart: function(event){
+				console.log("Started dragging");
+			},
 			// call this function on every dragmove event
 			onmove: dragMoveListener,
 			// call this function on every dragend event
@@ -55,7 +58,8 @@ function setInteractions()
 			  console.log(event);
 			}
 		})
-		.allowFrom('.handle');
+		.allowFrom('.handle')
+		.preventDefault('auto');
 
 
 	interact('.resize-element')

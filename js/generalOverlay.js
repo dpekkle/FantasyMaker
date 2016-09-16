@@ -50,7 +50,7 @@ function openEditPageOverlay(element){
 		$('#pagename').html('Design Page: ' + selected.data('name'));
 
 		//load any previously saved info
-		$("#pagecontainers").append('<a style="float:right" class="pagemenu btn-floating btn waves-effect waves-light gray"><i class="material-icons">settings</i></a>');
+		$("#pagecontainers").append('<a style="float:right" class="pagemenu btn-floating waves-effect waves-light gray"><i class="material-icons">settings</i></a>');
 
 		var page_style = selected.data('pagestyle');
 		$("#pagecontainers").attr("style", page_style);
@@ -87,10 +87,10 @@ function openEditPageOverlay(element){
 		{
 			//check type of event
 			//audio event
-			if (audio.getAsset(parseInt(events_cont[i].id)))
+			if (project_project.audio.getAsset(parseInt(events_cont[i].id)))
 			{
 				//make sure we didnt delete the audio without deleting related events!
-				audio.getAsset(parseInt(events_cont[i].id)).addEvent();
+				project_project.audio.getAsset(parseInt(events_cont[i].id)).addEvent();
 			}
 
 			$('.eventtrigger input').last().val(events_cont[i].trigger)
@@ -170,14 +170,14 @@ function openAudioOverlay(){
 		dismissible: true,
 		//callback for when overlay is triggered from html
 		ready: function() {
-			audio.selected_audio = null;
+			project_project.audio.selected_audio = null;
 			$('#audiolist').html('');
-			$('#audiolist').append(audio.getAssetAsModalList());
+			$('#audiolist').append(project_project.audio.getAssetAsModalList());
 			$('#audiolist li').on('click', function(event) {
 				event.preventDefault();
 				$('#audiolist li').removeClass('highlighted');
 				$(this).toggleClass('highlighted');
-				audio.selected_audio = $(this).attr('id');
+				project_project.audio.selected_audio = $(this).attr('id');
 			});
 		},
 		complete: function(){
@@ -327,23 +327,23 @@ function showOverlayLinks(element) //"edit page" button etc..
 	if (element.hasClass('page'))
 	{
 		//show page edit button
-		$('a[href="#page-modal"]').show();
+		$('button[data-target="page-modal"]').show();
 	}
 	else if (element.hasClass('control'))
 	{
 		//show control eddit button
-		$('a[href="#control-modal"]').show();
+		$('button[data-target="control-modal"]').show();
 
 	}
 	else if (element.hasClass('pageedge'))
 	{
 		//show page-edge edit button
-		$('a[href="#connection-modal"]').show();
+		$('button[data-target="connection-modal"]').show();
 	}
 	else if (element.hasClass('controledge'))
 	{
 		//show control edge button, slightly different to page-edge overlay
-		$('a[href="#connection-modal"]').show(); //change this link if you want a new overlay
+		$('button[data-target="connection-modal"]').show(); //change this link if you want a new overlay
 	}
 }
 

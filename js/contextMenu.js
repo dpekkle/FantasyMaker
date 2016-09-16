@@ -7,8 +7,6 @@ goog.require('audio')
 function changeCSSinMenu(target, options, attribute, value)
 {
 	console.log("Inside change CSS")
-	console.log(options)
-
 
 	if (target == '#pagecontainers')
 		$(target).css(attribute, value);
@@ -63,7 +61,6 @@ var page_template_menu_list = {}
 //custom type of menu item for selecting a colour
 $.contextMenu.types.color = function(item, opt, root) {
 	// this === item.$node
-	console.log(item)
 	$('<span>' + item.customName + '<ul>'
 		+ '<li class = "black"></li>'
 		+ '<li class = "gray"></li>'
@@ -380,8 +377,6 @@ function generateContextMenu(container_type, template_menu_list)
 					$.contextMenu.getInputValues(opt, $this.data());
 					// this basically dumps the input commands' values to an object
 					// like {name: "foo", yesno: true, radio: "3", &hellip;}
-					console.log($this.data())
-
 					//change values based on selects
 					$(target_element).css("border-style", $this.data().Style);
 					if ($this.data().resolution != null)
@@ -487,6 +482,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
 		build: function($trigger, e) 
 		{
+			console.log("Triggered text menu context menu")
 			return generateContextMenu("text", text_template_menu_list);
 		}
 	});	
@@ -544,7 +540,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
 		build: function($trigger, e) 
 		{
-			var audiolist = audio.getAssetAsMenu();
+			var audiolist = project_project.audio.getAssetAsMenu();
 			return {
 			"items":
 				{
@@ -560,5 +556,3 @@ $(function(){
 
 
 });
-
-

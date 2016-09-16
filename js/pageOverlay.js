@@ -18,12 +18,12 @@ function toggleHandles()
 
 	if (show_handles)
 	{
-		$('.handle').show();
+		$('.handlecontainer').show();
 		$('.handlemode').html("Handles: Shown")
 	}
 	else 
 	{
-		$('.handle').hide();
+		$('.handlecontainer').hide();
 		$('.handlemode').html("Handles: Hidden")
 	}
 }
@@ -185,55 +185,54 @@ function checkImageURL(imgurl, html_string)
 
 function genHandleHTML(containertype, id)
 {
-	var html_string;
+	var html_string = "";
+	html_string += "<div class = 'handlecontainer'>";
 
 	if (containertype == "img")
 	{
-		html_string = "<div id = 'img" + id + "'" + "class = 'handle img-handle'>Image";
-		html_string += ('<a style="float:left" class="btn-floating btn waves-effect waves-light green">'
+		html_string += ('<a class="btn-floating waves-effect waves-light green lefticon">'
 					+ 	 	'<i class="fa fa-picture-o"></i>'
 					+   '</a>');
-		html_string += ('<a style="float:right" class="imgmenu btn-floating btn waves-effect waves-light red">'
+		html_string += "<div id = 'img" + id + "'" + "class = 'handle img-handle'>Image";
+		html_string += '</div>';
+		html_string += ('<a class="imgmenu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'
 					+   '</a>');
 	}
 
 	else if (containertype == "text")
 	{
-		html_string = "<div id = 'text" + id + "'" + "class = 'handle text-handle'>Text";
-		html_string += ('<a style="float:left" class="btn-floating btn waves-effect waves-light grey">'
+		html_string += ('<a class="btn-floating waves-effect waves-light grey lefticon">'
 					+ 	 	'<i class="material-icons">comment</i>'
 					+   '</a>');
-		html_string += ('<a style="float:right" class="textmenu btn-floating btn waves-effect waves-light red">'
-					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');
+		html_string += "<div id = 'text" + id + "'" + "class = 'handle text-handle'>Text";
 		html_string += '</div>';
 
+		html_string += ('<a class="textmenu btn-floating waves-effect waves-light red righticon">'
+					+ 	 	'<i class="material-icons">settings</i>'
+					+   '</a>');
 	}
 	else if (containertype == "decision")
 	{
-		html_string = "<div id = 'decision" + id + "'" + "class = 'handle link-handle'>Decision";
-		html_string += ('<a style="float:left" class="btn-floating btn waves-effect waves-light blue lighten-3">'
+		html_string += ('<a class="btn-floating waves-effect waves-light blue lighten-3 lefticon">'
 					+ 	 	id
 					+   '</a>');
-
-		html_string += ('<a style="float:right" class="decmenu btn-floating btn waves-effect waves-light red">'
+		html_string += "<div id = 'decision" + id + "'" + "class = 'handle link-handle'>Decision";
+		html_string += '</div>';
+		html_string += ('<a class="decmenu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'
 					+   '</a>');
-		html_string += '</div>';
-		return html_string;
 	}
 	else if (containertype == "output")
 	{
-		html_string = "<div id = 'output" + id + "'" + "class = 'handle control-handle'>Output";
-		html_string += ('<a style="float:left" class="btn-floating btn waves-effect waves-light indigo lighten-1">'
+		html_string += ('<a class="btn-floating waves-effect waves-light indigo lighten-1 lefticon">'
 					+ 	 	'<i class="fa fa-terminal"></i>'
 					+   '</a>');
-		html_string += ('<a style="float:right" class="controlmenu btn-floating btn waves-effect waves-light red">'
+		html_string += "<div id = 'output" + id + "'" + "class = 'handle control-handle'>Output";
+		html_string += '</div>';
+		html_string += ('<a class="controlmenu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'
 					+   '</a>');
-		html_string += '</div>';
-		return html_string;
 	}
 
 	else
@@ -241,7 +240,9 @@ function genHandleHTML(containertype, id)
 		console.log("Unknown container type when generating handle for HTML");
 		return null;
 	}
-
+	
+	html_string += '</div>'; //handle container end tag
+	console.log(html_string)
 	return html_string;
 }
 
@@ -302,7 +303,7 @@ function removeContainer(containertype, id)
 }
 function bindHandleSelection()
 {
-	$('.handle').on('mousedown', function(event){
+	$('.handle').last().on('mousedown touch', function(event){
 		$(this).siblings().trigger('focus');
 		bringContainerToFront($(this).parent());
 		console.log("trigger handle")

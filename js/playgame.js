@@ -101,7 +101,7 @@ function stylePage()
 	});
 
 	//make content read-only
-	$(".playpage .handle").hide(); // can't drag without a handle
+	$(".playpage .handlecontainer").hide(); // can't drag without a handle
 
 	$(".playpage").children().removeClass('resize-element');
 	$(".playpage").children().children().removeClass('resize-element');

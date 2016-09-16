@@ -18,6 +18,19 @@ project_updateProject(); //set up by deafult
 function project_createNewProject(){
 
 	var newProj = {
+		"project_templates": 
+		{	
+			"Default": 				
+			{ 
+				pagestyle: "width:800px; height:600px; 	border: 3px solid #BBBBBB",
+				outputcontainer: "",
+				imgcontainers: [],
+				textcontainers: [],
+				decisioncontainers: [],
+			}
+		},
+		"audio": new audioObj(),
+
 		"projectOwner" : "none",
 		"projectName" : "none",
 		"graph" : [],

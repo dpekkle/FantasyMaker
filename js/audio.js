@@ -50,8 +50,6 @@ function audioAsset(name, id, link, type)
 	}
 }
 
-
-
 function audioObj()
 {
 	this.selected_audio = null;
@@ -81,14 +79,15 @@ function audioObj()
 	this.getAssetAsMenu = function()
 	{
 		assetlist = {}
+		console.log("Generate audio menu of size: ", this.assets.length)
+
 		for (var i = 0; i < this.assets.length; i++)
 		{
-			console.log("Generate audio menu")
 			assetlist[i] = {
 				"name": this.assets[i].name,
 				"id": this.assets[i].id,
 				"callback": function(key, options){
-					audio.assets[key].addEvent();
+					project_project.audio.assets[key].addEvent();
 				}
 			}
 		}
@@ -136,7 +135,7 @@ function audioObj()
 			event.preventDefault();
 			$('#audiolist li').removeClass('highlighted');
 			$(this).toggleClass('highlighted');
-			audio.selected_audio = $(this).attr('id');
+			project_project.audio.selected_audio = $(this).attr('id');
 		});
 
 	}
@@ -175,53 +174,59 @@ function audioObj()
 	}
 }
 
-var audio = new audioObj();
 testAudioObjects();
 
 function testAudioObjects()
 {
 	//must be imbed link, such as https://www.youtube.com/embed/4vKmEmY8ZD8
-	audio.addAsset("Reggae Rap", "https://www.youtube.com/watch?v=4vKmEmY8ZD8")
-	audio.addAsset("Fantasy RPG", "https://www.youtube.com/watch?v=Pq824AM9ZHQ")
-	audio.addAsset("Missing You", "https://www.youtube.com/watch?v=Ct_t92NloA8")
-	audio.addAsset("Electronic", "https://www.youtube.com/watch?v=MiRcFl8iafg")
+	project_project.audio.addAsset("Reggae Rap", "https://www.youtube.com/watch?v=4vKmEmY8ZD8")
+	project_project.audio.addAsset("Fantasy RPG", "https://www.youtube.com/watch?v=Pq824AM9ZHQ")
+	project_project.audio.addAsset("Missing You", "https://www.youtube.com/watch?v=Ct_t92NloA8")
+	project_project.audio.addAsset("Electronic", "https://www.youtube.com/watch?v=MiRcFl8iafg")
 
-	console.log(audio.getAsset(0));
-	console.log(audio.getAsset(1));
-	console.log(audio.getAsset());
-	console.log(audio.getAsset("a"));
-	console.log(audio.getAsset(-1));
-	console.log(audio.getAsset(2));
+	console.log(project_project.audio.getAsset(0));
+	console.log(project_project.audio.getAsset(1));
+	console.log(project_project.audio.getAsset());
+	console.log(project_project.audio.getAsset("a"));
+	console.log(project_project.audio.getAsset(-1));
+	console.log(project_project.audio.getAsset(2));
 
 }
 
-function onYouTubePlayerAPIReady() {
-    audioplayer = new YT.Player('audioplayer', {
-      height: '100',
-      width: '100',
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange,
-        'onError': onPlayerError,
-      }
-    });
+function onYouTubePlayerAPIReady() 
+{
+	$( document ).ready(function(){
+		audioplayer = new YT.Player('audioplayer', {
+		  origin: 'dpekkle.github.io/FantasyMaker/create.html',
+		  height: '100',
+		  width: '100',
+		  events: {
+			'onReady': onPlayerReady,
+			'onStateChange': onPlayerStateChange,
+			'onError': onPlayerError,
+		  }
+		});			
+	});
 }
 
 // autoplay video
-function onPlayerReady(event) {
+function onPlayerReady(event) 
+{
 	alert("started video")
     //event.target.playVideo();
 }
 
 // when video ends
-function onPlayerStateChange(event) { 
+function onPlayerStateChange(event) 
+{ 
 	if(event.data === -1){alert('youtube video not started');}
 	if(event.data === 5){alert('youtube video queued');}       
 	if(event.data === 1){alert('now playing');}       
     if(event.data === 0){alert('done');}
 }
 
-function onPlayerError(event) {
+function onPlayerError(event) 
+{
 	alert("Youtube audio playback encountered error: ", event.data, ". Embedding of this link may be disabled by the owner.")
 	console.log(event.data)
     //event.target.playVideo();
