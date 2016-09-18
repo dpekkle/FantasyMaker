@@ -1,6 +1,7 @@
 goog.provide('contextMenu')
 goog.require('generalOverlay')
 goog.require('audio')
+goog.require('project')
 
 //Right click context menus
 
@@ -50,11 +51,14 @@ $("#ColourPicker2").spectrum({
 
 // *********** THESE WILL NEED TO BE ATTRIBUTES FOR THE PROJECT ************************
 
-var template_ID = 0;
-var text_template_menu_list = {} //shared with control output containers
-var decision_template_menu_list = {}
-var image_template_menu_list = {}
-var page_template_menu_list = {}
+function templateMenuObj()
+{
+	this.template_ID = 0;
+	this.text_template_menu_list = {} //shared with control output containers
+	this.decision_template_menu_list = {}
+	this.image_template_menu_list = {}
+	this.page_template_menu_list = {}
+}
 
 // *******************************************************************************
 
@@ -202,9 +206,9 @@ function generateContextMenu(container_type, template_menu_list)
 						"save":{"name": "Save As", "callback": function(key, options){
 							//ensure we dont have any issues with sharing template keys
 							var count = 0;
-							while (template_menu_list["template" + template_ID] !== undefined && count < 100)
+							while (template_menu_list["template" + project_project.template_menus.template_ID] !== undefined && count < 100)
 							{
-								template_ID++;
+								project_project.template_menus.template_ID++;
 								count++;
 								console.log("conflict with template IDs")
 							}
@@ -212,7 +216,7 @@ function generateContextMenu(container_type, template_menu_list)
 							if (count < 100)
 							{
 								var name = prompt("Enter name for template"); 
-								template_menu_list["template" + template_ID] = 
+								template_menu_list["template" + project_project.template_menus.template_ID] = 
 								{
 									"name": name,
 									"savedhtml": options.$trigger.parent().parent().children(target_element)[0].outerHTML, //goes for the editdiv
@@ -237,7 +241,7 @@ function generateContextMenu(container_type, template_menu_list)
 										}
 									}
 								}
-								template_ID++;
+								project_project.template_menus.template_ID++;
 							}
 						}},
 						"load":{
@@ -483,7 +487,7 @@ $(function(){
 		build: function($trigger, e) 
 		{
 			console.log("Triggered text menu context menu")
-			return generateContextMenu("text", text_template_menu_list);
+			return generateContextMenu("text", project_project.template_menus.text_template_menu_list);
 		}
 	});	
 	/**************************************************
@@ -496,7 +500,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
 		build: function($trigger, e) 
 		{
-			return generateContextMenu("decision", decision_template_menu_list);
+			return generateContextMenu("decision", project_project.template_menus.decision_template_menu_list);
 		}
 	});
 	/**************************************************
@@ -509,7 +513,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
 		build: function($trigger, e) 
 		{
-			return generateContextMenu("output", text_template_menu_list);
+			return generateContextMenu("output", project_project.template_menus.text_template_menu_list);
 		}
 	});
 	$.contextMenu(
@@ -519,7 +523,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
 		build: function($trigger, e) 
 		{
-			return generateContextMenu("img", image_template_menu_list);
+			return generateContextMenu("img", project_project.template_menus.image_template_menu_list);
 		}
 	});
 	$.contextMenu(

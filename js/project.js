@@ -10,7 +10,6 @@ project_updateProject(); //set up by default
 defaultState();
 project_updateProject(); //set up by deafult
 
-
 //add template_menu_lists from contextMenu.js
 //add gridmode and showhandles bools
 //add page_templates from pageTemplates.js
@@ -29,6 +28,7 @@ function project_createNewProject(){
 				decisioncontainers: [],
 			}
 		},
+		"template_menus": new templateMenuObj(),
 		"audio": new audioObj(),
 
 		"projectOwner" : "none",

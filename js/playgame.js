@@ -5,6 +5,10 @@ goog.require('project')
 goog.require('audio')
 goog.require('events')
 
+
+
+//load project file here for play module
+
 currentNode = null;
 outgoingEdges = null;
 event_manager = new eventManager();

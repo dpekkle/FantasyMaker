@@ -57,7 +57,7 @@ h1, h2, p{
 }
 
 .btn {
-	display: block; 
+	display: inline-block; 
 	font-weight: 600;
 	text-transform: uppercase;
 	color: white;

@@ -53,7 +53,7 @@ function audioAsset(name, id, link, type)
 function audioObj()
 {
 	this.selected_audio = null;
-	this.size = 0; //used for unique ids, different to array length
+	this.unique_id = 0; //used for unique ids, different to array length
 	this.assets = [];
 
 	this.getAssetAsModalList = function(id)
@@ -79,7 +79,7 @@ function audioObj()
 	this.getAssetAsMenu = function()
 	{
 		assetlist = {}
-		console.log("Generate audio menu of size: ", this.assets.length)
+		console.log("Generate audio menu of length: ", this.assets.length)
 
 		for (var i = 0; i < this.assets.length; i++)
 		{
@@ -146,11 +146,12 @@ function audioObj()
 		var type = this.parseType(link);
 		if (type != "error")
 		{
-			this.assets[this.size] = new audioAsset(name, this.size, link, type);
+			this.assets[this.assets.length] = new audioAsset(name, this.unique_id, link, type);
 			//add to dropdown list
-			this.size++;
 			$('#audiolist').html('');
 			$('#audiolist').append(this.getAssetAsModalList());
+			this.unique_id++;
+
 		}
 		else
 		{
@@ -174,30 +175,11 @@ function audioObj()
 	}
 }
 
-testAudioObjects();
-
-function testAudioObjects()
-{
-	//must be imbed link, such as https://www.youtube.com/embed/4vKmEmY8ZD8
-	project_project.audio.addAsset("Reggae Rap", "https://www.youtube.com/watch?v=4vKmEmY8ZD8")
-	project_project.audio.addAsset("Fantasy RPG", "https://www.youtube.com/watch?v=Pq824AM9ZHQ")
-	project_project.audio.addAsset("Missing You", "https://www.youtube.com/watch?v=Ct_t92NloA8")
-	project_project.audio.addAsset("Electronic", "https://www.youtube.com/watch?v=MiRcFl8iafg")
-
-	console.log(project_project.audio.getAsset(0));
-	console.log(project_project.audio.getAsset(1));
-	console.log(project_project.audio.getAsset());
-	console.log(project_project.audio.getAsset("a"));
-	console.log(project_project.audio.getAsset(-1));
-	console.log(project_project.audio.getAsset(2));
-
-}
-
 function onYouTubePlayerAPIReady() 
 {
 	$( document ).ready(function(){
 		audioplayer = new YT.Player('audioplayer', {
-		  origin: 'dpekkle.github.io/FantasyMaker/create.html',
+		  origin: 'https://www.youtube.com',
 		  height: '100',
 		  width: '100',
 		  events: {
