@@ -3,13 +3,12 @@
   display:none;
 }
 
-/*
-.material-tooltip{
-	background-color: red;
+
+.material-tooltip .backdrop{
+	background-color: gray;
 	font-size: 8px;
-	max-width: 100px;
 }
-*/
+
 
 #cy {
 	/* width and height defined by resizeCanvas in ui.js */

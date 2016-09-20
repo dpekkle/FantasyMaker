@@ -60,6 +60,10 @@
 	border-left: 0;
 
 }
+.setting{
+	display: none;
+}
+
 .eventtype .select-wrapper input{
 	height: 100% !important;
 }
@@ -126,19 +130,20 @@
 
 	width:100%;
 
-	margin-top:-37px; /* make the handle above it's parent div, necessary to prevent handle being considered part of it for dragging restrictions*/
+	margin-top:-39px; /* make the handle above it's parent div, necessary to prevent handle being considered part of it for dragging restrictions*/
 /*	overflow:auto; official hack! http://www.w3schools.com/css/tryit.asp?filename=trycss_layout_clearfix
 */	background-color: #CCCCCC;
 	box-sizing: border-box;
 	border-width: 2px 2px 0px 2px;
 	border-color: #BBBBBB ;
 	border-style: solid;
+	text-align: center;
+
 }
 
 .handle{ /*for containers */
 	line-height: 37px;
 	flex: 1 0 0;
-	text-align: center;
 }
 
 .lefticon{

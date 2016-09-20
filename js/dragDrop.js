@@ -59,8 +59,6 @@ function setInteractions()
 			}
 		})
 		.allowFrom('.handle')
-		.preventDefault('auto');
-
 
 	interact('.resize-element')
 		.resizable({

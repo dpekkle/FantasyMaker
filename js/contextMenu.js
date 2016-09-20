@@ -57,6 +57,7 @@ function templateMenuObj()
 	this.text_template_menu_list = {} //shared with control output containers
 	this.decision_template_menu_list = {}
 	this.image_template_menu_list = {}
+	this.video_template_menu_list = {}
 	this.page_template_menu_list = {}
 }
 
@@ -100,7 +101,7 @@ function generateContextMenu(container_type, template_menu_list)
 		var target_element = '.editdiv';
 	else if (container_type == "decision")
 		var target_element = '.editdec';
-	else if (container_type == "img")
+	else if (container_type == "img" || container_type == "vid")
 		var target_element = '.editdiv';
 	else if (container_type == "page")
 		var target_element = '#pagecontainers';
@@ -258,8 +259,7 @@ function generateContextMenu(container_type, template_menu_list)
 					if (confirm("Are you sure you want to delete this container?"))
 					{
 						//remove from HTML
-
-						var id = options.$trigger.parent().attr('id').split(container_type)[1] //get the cytoscape name from the div ID
+						var id = options.$trigger.siblings('.handle').attr('id').split(container_type)[1] //get the cytoscape name from the div ID
 						removeContainer(container_type, id);
 					}
 				}},
@@ -297,8 +297,8 @@ function generateContextMenu(container_type, template_menu_list)
 				{
 					"name":"Change URL",
 					"callback": function(key, options){
-						var imgurl = prompt("Enter new URL for image/video", "http://");
-						if(html_string = checkImageURL(imgurl, "")) //returns false for failure
+						var imgurl = prompt("Enter new URL for image", "http://");
+						if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
 						{
 							$.ajax(
 							{
@@ -306,9 +306,12 @@ function generateContextMenu(container_type, template_menu_list)
 								success: function(data)
 								{
 									//Replace URL
-									var parent = $(target_element).parent();	
-									$(target_element).remove();
-									parent.append(html_string);
+									var parent = options.$trigger.parent().siblings(target_element);
+									var copy = parent.parent();
+
+									parent.remove();
+
+									copy.append(html_string);	
 								},
 								error: function(data)
 								{
@@ -324,7 +327,73 @@ function generateContextMenu(container_type, template_menu_list)
 					{
 						//remove from HTML
 
-						var id = options.$trigger.parent().attr('id').split(container_type)[1] //get the cytoscape name from the div ID
+						var id = options.$trigger.siblings('.handle').attr('id').split(container_type)[1] //get the cytoscape name from the div ID
+						removeContainer(container_type, id);
+					}
+				}},
+			},
+			"events": {
+				show: function(opt) {
+					// this is the trigger element
+					var $this = this;
+					// import states from data store 
+					$.contextMenu.setInputValues(opt, $this.data());
+				}, 
+				hide: function(opt) {
+					// this is the trigger element
+					var $this = this;
+					// export states to data store
+					$.contextMenu.getInputValues(opt, $this.data());
+
+					//change values based on selects
+					changeCSSinMenu(target_element, opt, "border-style", $this.data().Style);
+				}
+			}
+		}
+	}
+	else if (container_type == "vid")
+	{
+		return {
+			"items":
+			{
+				"border": border_menu_entry(target_element),				
+				"position": zIndex_menu_entry(),
+				"sep3": "---------",
+				"URL":
+				{
+					"name":"Change URL",
+					"callback": function(key, options){
+						var imgurl = prompt("Enter new URL for video", "http://");
+						if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
+						{
+							$.ajax(
+							{
+								url: imgurl, //or your url
+								success: function(data)
+								{
+									//Replace URL
+									var parent = options.$trigger.parent().siblings(target_element);
+									var copy = parent.parent();
+
+									parent.remove();
+
+									copy.append(html_string);	
+								},
+								error: function(data)
+								{
+									alert('URL: ' + imgurl + ' does not exist');
+								},
+							})
+						}
+
+					}
+				},
+				"delete": {"name": "Delete", "icon": "delete", "callback" : function(key, options){
+					if (confirm("Are you sure you want to delete this container?"))
+					{
+						//remove from HTML
+
+						var id = options.$trigger.siblings('.handle').attr('id').split(container_type)[1] //get the cytoscape name from the div ID
 						removeContainer(container_type, id);
 					}
 				}},
@@ -524,6 +593,16 @@ $(function(){
 		build: function($trigger, e) 
 		{
 			return generateContextMenu("img", project_project.template_menus.image_template_menu_list);
+		}
+	});
+	$.contextMenu(
+	{
+		selector: '.vidmenu',
+		trigger: 'left',
+		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
+		build: function($trigger, e) 
+		{
+			return generateContextMenu("vid", project_project.template_menus.video_template_menu_list);
 		}
 	});
 	$.contextMenu(

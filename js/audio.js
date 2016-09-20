@@ -9,16 +9,15 @@ function audioAsset(name, id, link, type)
 	this.id = id;
 	this.type = type;
 	this.link = link;
-	this.loadAndPlayAudio = function()
+	this.player = null;
+
+	this.loadAudio = function()
 	{
 		if (this.type == "youtube")
 		{
 			var youtubeid_reg = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 			var youtubeid = this.link.match(youtubeid_reg)
-			audioplayer.loadVideoById(youtubeid[1], 0, "large");
-
-			//$('#Play').append('<iframe width="0" height="0" src="' + this.link 
-			//					+ '?autoplay=1" frameborder="0" allowfullscreen></iframe>');
+			this.createYoutubePlayer(youtubeid[1]);
 			console.log("youtube audio loaded with ID: ", youtubeid[1])
 		}
 		else if (this.type == "mp3")
@@ -30,14 +29,114 @@ function audioAsset(name, id, link, type)
 			alert("You shouldn't be here...")
 		}
 	}
+
+	this.playAudio = function()
+	{
+		if (this.type == "youtube")
+		{
+		    this.player.playVideo();
+		}
+	}
+
+	this.setVolume = function(value)
+	{
+		if (this.type == "youtube")
+		{
+			this.player.setVolume(value)
+		}
+	}
+	this.stopAudio = function()
+	{
+		if (this.type == "youtube")
+		{
+		    this.player.stopVideo();
+		}
+	}
+
+	this.createYoutubePlayer = function(videoId)
+	{
+		$('#playwindow #audioplayerlist').append("<div id = '" + "youtube" + this.id + "'></div>");
+
+		this.player = new YT.Player('youtube' + this.id, {
+		  origin: 'https://www.youtube.com',
+		  height: '0',
+		  width: '0',
+		  // playerVars: { 'autoplay': 1, 'controls': 0 }, //not needed with playVideo call
+		  videoId: videoId,
+		  events: {
+			'onReady': onPlayerReady,
+			'onStateChange': onPlayerStateChange,
+			'onError': onPlayerError,
+		  }
+		});			
+		// video
+		function onPlayerReady(event) 
+		{
+			console.log("Player ready", project_project.audio.loaded++);
+			if (project_project.audio.loaded == project_project.audio.assets.length)
+			{
+				loadingScreen(false);
+			}
+		}
+
+		// when video ends
+		function onPlayerStateChange(event) 
+		{ 
+			if(event.data === -1)
+			{
+				console.log('youtube video not started');
+			}
+			if(event.data === 5)
+			{
+				console.log('youtube video queued');
+			}       
+			if(event.data === 1)
+			{
+				console.log('now playing');
+			}       
+		    if(event.data === 0) //video ended
+		    {
+		    	console.log("Video ended")
+		    }
+		}
+
+		function onPlayerError(event) 
+		{
+			alert("Youtube audio playback encountered error: ", event.data, ". Embedding of this link: " + videoId + " may be disabled by the owner.")
+			this.player.destroy(); 
+	    	console.log("Destroying player");
+		}
+	}
+
 	this.addEvent = function()
 	{
 		//add it to the page container's list of events
 		$('#eventspane').append("<div id = '" + this.id + "' class='audioevent eventscontainer'><span class = 'eventname flex-center-vertically'>" + this.name + "</span>"
-								+ "<span class = 'eventtype flex-center-vertically'><select><option value='Play'>Play</option><option value='Stop'>Stop</option></select></span>" 
+								+ "<span class = 'eventtype flex-center-vertically'><select>"
+								+ "<option value='Play'>Play</option><option value='Stop'>Stop</option><option value='Volume'>Volume</option></select><input class='setting' type='number' min = 0 max = 100 value = 100></span>" 
 								+ "<span class = 'eventtrigger'><input type='number' min = 0 value = 0></span></div>");
+			
+		this.eventListBehaviour();
+		$('.eventscontainer').last().find('select').material_select();	
+	}
 
-		$('.eventscontainer').last().on('click', '.eventname', function(event) {
+	this.eventListBehaviour = function()
+	{
+		var added_event = $('.eventscontainer').last();
+
+		//dynamic events
+		added_event.find('.eventtype').on('change', 'select', function(event){
+			if ($(this).val() == "Volume")
+			{
+				$(this).parent().siblings('.setting').show();
+			}
+			else
+			{
+				$(this).parent().siblings('.setting').hide();
+			}
+		});
+
+		added_event.on('click', '.eventname', function(event) {
 			event.preventDefault();
 
 			$('.eventscontainer').removeClass('highlighted');
@@ -45,8 +144,6 @@ function audioAsset(name, id, link, type)
 			selected_event = $(this).parent();
 			console.log(selected_event)
 		});
-		$('.eventtype select').material_select();
-
 	}
 }
 
@@ -55,6 +152,8 @@ function audioObj()
 	this.selected_audio = null;
 	this.unique_id = 0; //used for unique ids, different to array length
 	this.assets = [];
+	this.loaded = 0;
+	this.changed = true;
 
 	this.getAssetAsModalList = function(id)
 	{
@@ -98,9 +197,10 @@ function audioObj()
 		//get an asset by the value of it's id (not necessarily the same as it's index)
 		if (id !== undefined) 
 		{
-			if (id >= 0)
+			var id_int = parseInt(id);
+			if (id_int >= 0)
 			{
-				return this.assets.find(x=> x.id === id);
+				return this.assets.find(x=> x.id === id_int);
 			}
 			return false;
 		}
@@ -110,9 +210,10 @@ function audioObj()
 
 	this.removeAsset = function()
 	{
+		this.changed = true;
 		if (this.selected_audio != null)
 		{
-			var ele = this.getAsset(parseInt(this.selected_audio))	
+			var ele = this.getAsset(this.selected_audio)	
 			this.assets.splice(this.assets.indexOf(ele), 1);
 			$('#audiolist').find('#' + this.selected_audio).remove();
 		}
@@ -146,6 +247,7 @@ function audioObj()
 		var type = this.parseType(link);
 		if (type != "error")
 		{
+			this.changed = true;
 			this.assets[this.assets.length] = new audioAsset(name, this.unique_id, link, type);
 			//add to dropdown list
 			$('#audiolist').html('');
@@ -173,43 +275,4 @@ function audioObj()
 	{
 		this.assets[id].addEvent();
 	}
-}
-
-function onYouTubePlayerAPIReady() 
-{
-	$( document ).ready(function(){
-		audioplayer = new YT.Player('audioplayer', {
-		  origin: 'https://www.youtube.com',
-		  height: '100',
-		  width: '100',
-		  events: {
-			'onReady': onPlayerReady,
-			'onStateChange': onPlayerStateChange,
-			'onError': onPlayerError,
-		  }
-		});			
-	});
-}
-
-// autoplay video
-function onPlayerReady(event) 
-{
-	alert("started video")
-    //event.target.playVideo();
-}
-
-// when video ends
-function onPlayerStateChange(event) 
-{ 
-	if(event.data === -1){alert('youtube video not started');}
-	if(event.data === 5){alert('youtube video queued');}       
-	if(event.data === 1){alert('now playing');}       
-    if(event.data === 0){alert('done');}
-}
-
-function onPlayerError(event) 
-{
-	alert("Youtube audio playback encountered error: ", event.data, ". Embedding of this link may be disabled by the owner.")
-	console.log(event.data)
-    //event.target.playVideo();
 }

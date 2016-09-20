@@ -29,9 +29,6 @@ $(document).ready(function(){
 });
 
 function openEditPageOverlay(element){
-	//Make Modal take up 100% of screen space
-	//$("#page-modal").css("top","0");
-
 	//element is null when we are simply opening a selected node in cy.
 	//if we pass an element we are creating the HTML markup of the page, 
 	//e.g. imagine if we add a bunch of edges to a node but dont open it afterwards! we still need to create the html links before we could play the game
@@ -46,100 +43,7 @@ function openEditPageOverlay(element){
 
 	//update contents of page view
 	if (selected.hasClass('page'))
-	{
-		$('#pagename').html('Design Page: ' + selected.data('name'));
-
-		//load any previously saved info
-		$("#pagecontainers").append('<a style="float:right" class="pagemenu btn-floating waves-effect waves-light gray"><i class="material-icons">settings</i></a>');
-
-		var page_style = selected.data('pagestyle');
-		$("#pagecontainers").attr("style", page_style);
-
-		var output_cont = selected.data('outputcontainer');
-		$("#pagecontainers").append(output_cont);
-		$("#pagecontainers div.output-container:last").prepend(genHandleHTML("output", 0));
-	
-		//create text containers
-		var text_cont = selected.data('textcontainers');
-		for (var j = 0; j < text_cont.length; j++)
-		{
-			$("#pagecontainers").append(text_cont[j].html);
-			$("#pagecontainers div.text-container:last").prepend(genHandleHTML("text", text_cont[j].name));
-		}
-		
-		//create image containers
-		var img_cont = selected.data('imgcontainers');
-		for (var j = 0; j < img_cont.length; j++)
-		{
-			$("#pagecontainers").append(img_cont[j].html);
-			$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", img_cont[j].name));
-		}
-
-		//load event list
-
-		$('#eventspane').append('<span class="eventspanetitle eventname" style="text-align:center; font-size: 16px;">Asset</span>'
-						+		'<span class="eventspanetitle eventtype" style="text-align:center; font-size: 16px;">Event</span>'
-						+		'<span class="eventspanetitle eventtrigger" style="text-align:center; font-size: 16px;">Time</span>');
-
-
-		var events_cont = selected.data('events');
-		for (var i = 0; i < events_cont.length; i++)
-		{
-			//check type of event
-			//audio event
-			if (project_project.audio.getAsset(parseInt(events_cont[i].id)))
-			{
-				//make sure we didnt delete the audio without deleting related events!
-				project_project.audio.getAsset(parseInt(events_cont[i].id)).addEvent();
-			}
-
-			$('.eventtrigger input').last().val(events_cont[i].trigger)
-			$('.eventtype select').last().val(events_cont[i].action);
-			$('#eventspane select').last().material_select();
-
-		}
-
-		//create decision buttons for the first time
-		outgoingEdges = selected.outgoers().edges();
-		var dec_cont = selected.data('decisioncontainers');
-		for (var i = 0; i < outgoingEdges.size(); i++)
-		{
-			var found = false;
-			for (var j = 0; j < dec_cont.length; j++)
-			{
-				if (outgoingEdges[i].data('name') == dec_cont[j].name)
-				{
-					found = true;
-					//only want one button per edge
-				}
-			}
-			if (!found)
-				addDecisionContainer(selected, i, outgoingEdges.eq(i).data('text'), outgoingEdges[i].data('name'));
-		}
-
-		//load saved decision containers
-		for (var j = 0; j < dec_cont.length; j++)
-		{
-			var found = false;
-			for (var i = 0; i < outgoingEdges.size(); i++)
-			{
-				if (dec_cont[j].name == outgoingEdges[i].data('name'))
-				{
-					$("#pagecontainers").append(dec_cont[j].html);
-					//handles added each time, as we want to draw on updated names
-					$("#pagecontainers div.decision-container:last").prepend(genHandleHTML("decision", dec_cont[j].name));
-					found = true;
-				}
-			}
-			if (!found)
-			{
-				dec_cont.splice(j, 1); //remove from stored decision in page
-			}
-		}
-		if (!show_handles)
-			$('.handle').hide();
-		bindHandleSelection();
-	}
+		populatePageOverlay(selected);
 }
 
 function openEditConnectionOverlay(element){
@@ -164,16 +68,19 @@ function openEditControlOverlay(element){
 	populateControlOverlay(selected);
 }
 
-function openAudioOverlay(){
+function openAudioOverlay()
+{
 	console.log("Audio overlay opened")
-	$('#audio-modal').openModal({
+	$('#audio-modal').openModal(
+	{
 		dismissible: true,
 		//callback for when overlay is triggered from html
 		ready: function() {
 			project_project.audio.selected_audio = null;
 			$('#audiolist').html('');
 			$('#audiolist').append(project_project.audio.getAssetAsModalList());
-			$('#audiolist li').on('click', function(event) {
+			$('#audiolist li').on('click', function(event) 
+			{
 				event.preventDefault();
 				$('#audiolist li').removeClass('highlighted');
 				$(this).toggleClass('highlighted');
@@ -216,89 +123,7 @@ function closeOverlay(element)
 	if (selected != null) {
 
 		if (selected.hasClass('page')) {
-
-			$('#pagecontainers .handle').remove();
-
-			//clear saved info
-			selected.data('textcontainers', []);
-			selected.data('imgcontainers', []);
-			selected.data('events', []);
-
-			//update containers
-			selected.data('pagestyle', $('#pagecontainers').attr("style"));
-			selected.data('outputcontainer', $('.output-container').outerHTML);
-
-			var text_container_array = [];
-			$('#pagecontainers').children("div[class^='text-container']").each(function (index) {
-				var html = this.outerHTML;
-				//selected.data('textcontainers')[index].html = html;
-				console.log("Updating HTML for ", index);
-				var newcontainer = {
-					'name' : index+1,
-					'html' : html
-					};
-				text_container_array.push(newcontainer);
-			});
-			selected.data('textcontainers', text_container_array);
-
-			$('#pagecontainers').children("div[class^='decision-container']").each(function (index) {
-				var html = this.outerHTML;
-				selected.data('decisioncontainers')[index].html = html;
-				console.log("Save HTML for decision ", index);
-			});
-
-			var img_container_array = [];
-			$('#pagecontainers').children("div[class^='img-container']").each(function (index) {
-				var html = this.outerHTML;
-				console.log("Save HTML for img ", index);
-				var newcontainer = {
-					'name' : index+1,
-					'html' : html
-					};
-				img_container_array.push(newcontainer);
-			});
-			selected.data('imgcontainers', img_container_array);
-
-
-
-			var event_array = [];
-			$('#eventspane').children(".eventscontainer").each(function(index)
-			{
-				var name = $(this).children('.eventname');
-				var eventtype = $(this).attr("class").split(' ')[0];
-				var action = name.nextAll('.eventtype:first');
-				var trigger = action.nextAll('.eventtrigger:first');
-				var eventid = $(this).attr('id');
-
-				var newcontainer = {
-					'eventtype': eventtype,
-					'id': eventid,
-					'name' : name.html(),
-					'action' : action.find('div input').val(),
-					'trigger' : trigger.find('input').val(),
-					};
-
-				action.material_select('destroy'); //convert html back to pre-materialise base
-
-
-				event_array.push(newcontainer);
-			});
-			event_array.sort(function(a, b) {
-    			return parseFloat(a.trigger) - parseFloat(b.trigger);
-			});
-
-			selected.data('events', event_array);
-
-
-			//events pane
-			selected.data('eventspane', $('#eventspane').html());
-
-
-			//clear page
-			$('#pagecontainers').html('');
-			$('#eventspane').html('');
-			selected_event = null;
-
+			savePage(selected);
 		}
 
 		if (selected.hasClass('control')) {

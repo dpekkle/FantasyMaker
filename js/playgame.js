@@ -9,13 +9,31 @@ goog.require('events')
 
 //load project file here for play module
 
-currentNode = null;
-outgoingEdges = null;
-event_manager = new eventManager();
+// currentNode = null;
+// outgoingEdges = null;
+
+function loadingScreen(more_to_load)
+{
+	if (!more_to_load)
+	{
+		//all the audio is loaded, allow player to continue
+		$('#loader').hide();
+		$('.progressbutton').show();
+
+	}
+	else
+	{
+		$('#loader').show();
+		$('.progressbutton').hide();
+	}
+
+}
 
 function prepareForGame()
 {
-	event_manager.tick;
+	loadingScreen(project_project.audio.changed);
+
+	event_manager = new eventManager();
 	currentNode = null;
 	outgoingEdges = null;
 
@@ -30,12 +48,32 @@ function prepareForGame()
 	{
 		updatePageStyle(eles[i]);
 	}
+
+	//preload all the audio assets
+	if (project_project.audio.changed)
+	{
+		//clear assets
+		$('#playwindow #audioplayerlist').html('');
+
+		var audio_assets = project_project.audio.getAsset();
+		for (var i = 0; i < audio_assets.length; i++)
+		{
+			audio_assets[i].loadAudio();
+		}
+		project_project.audio.changed = false;
+	}
 }
 
 function wipeGame()
 {
+	project_project.audio.loaded = 0;
+
 	//clear page
-	audioplayer.stopVideo();
+	for (var i = 0; i < project_project.audio.getAsset().length; i++)
+	{
+		project_project.audio.assets[i].stopAudio();
+	}
+
 	$('.playpage').html('');
 	$('.playpage').attr('style', '');
 }
@@ -58,8 +96,7 @@ function parseNode()
 
 function parsePage(outgoingEdges)
 {
-	event_manager.newPage();
-	event_manager.playPageEvents(currentNode.data('events'));
+	event_manager.newPage(currentNode.data('events'));
 	stylePage();
 }
 
@@ -340,7 +377,8 @@ function progressStory(i)
 	else
 	{
 		currentNode = null;
-		$('.playpage').html("");
+		console.log("Reached the end")
+		$('.playpage').html('<h1>Fin!</h1>');
 	}
 }
 

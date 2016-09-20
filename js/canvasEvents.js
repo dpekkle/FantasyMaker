@@ -53,6 +53,7 @@ cy.on('tap', function(event)
 					pagestyle: selected_page_template.pagestyle,
 					outputcontainer: selected_page_template.outputcontainer,
 					imgcontainers: selected_page_template.imgcontainers,
+					vidcontainers: selected_page_template.vidcontainers,
 					textcontainers: selected_page_template.textcontainers,
 					decisioncontainers: [],
 					events: [],

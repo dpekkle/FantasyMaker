@@ -24,6 +24,7 @@ function project_createNewProject(){
 				pagestyle: "width:800px; height:600px; 	border: 3px solid #BBBBBB",
 				outputcontainer: "",
 				imgcontainers: [],
+				vidcontainers: [],
 				textcontainers: [],
 				decisioncontainers: [],
 			}
