@@ -30,7 +30,7 @@ $(document).ready(function(){
 
 function openEditPageOverlay(element){
 	//element is null when we are simply opening a selected node in cy.
-	//if we pass an element we are creating the HTML markup of the page, 
+	//if we pass an element we are creating the HTML markup of the page,
 	//e.g. imagine if we add a bunch of edges to a node but dont open it afterwards! we still need to create the html links before we could play the game
 	var selected = element;
 	if (element === null)
@@ -79,7 +79,7 @@ function openAudioOverlay()
 			project_project.audio.selected_audio = null;
 			$('#audiolist').html('');
 			$('#audiolist').append(project_project.audio.getAssetAsModalList());
-			$('#audiolist li').on('click', function(event) 
+			$('#audiolist li').on('click', function(event)
 			{
 				event.preventDefault();
 				$('#audiolist li').removeClass('highlighted');
@@ -98,14 +98,14 @@ function overlayToolbar(element)
 	//display control info on selection
 	if (element.hasClass('control'))
 	{
-		$("#controltoolbar").show();	
+		$("#controltoolbar").show();
 		$("#controlname").text("control " + element.data('id'));
 	}
-	//display page info on selection	
+	//display page info on selection
 	else if (element.hasClass('page'))
 	{
-		$("#pagetoolbar").show();				
-		$("#pagename").text("Page " + element.data('name'));					
+		$("#pagetoolbar").show();
+		$("#pagename").text("Page " + element.data('name'));
 	}
 	else if (element.isEdge()) //will probably need checks for each type of edge
 	{
@@ -115,7 +115,7 @@ function overlayToolbar(element)
 }
 
 function closeOverlay(element)
-{	
+{
 	//save the contents of the page to the associated page
 	var selected = element;
 	if (element === null)
@@ -139,10 +139,15 @@ function closeOverlay(element)
 
 		}
 	}else{
+		//daznote - set this to run only on newProject-modal closure
+		$('#projName').val('') //empties newProject-modal input field
+		if( !$('#projNameAcceptButton').hasClass('disabled') ){
+			$('#projNameAcceptButton').addClass('disabled')
+		}
 		//Modal is independent of cytoscape (Attributes)
 		//TODO - Handle Attributes Overlay Closure
 	}
-	
+
 }
 
 function showOverlayLinks(element) //"edit page" button etc..
@@ -174,7 +179,7 @@ function showOverlayLinks(element) //"edit page" button etc..
 
 //Misc string and html auxillary functions
 
-function escapeHtml(str) 
+function escapeHtml(str)
 {
 	//We don't want users entering HTML within their text.
 	//For example, <hello!> would create a html tag rather than display that as a string
@@ -183,7 +188,7 @@ function escapeHtml(str)
 	return div.innerHTML;
 };
 
-function htmlToElements(html) 
+function htmlToElements(html)
 {
 	var template = document.createElement('template');
 	template.innerHTML = html;

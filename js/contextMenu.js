@@ -117,24 +117,24 @@ function generateContextMenu(container_type, template_menu_list)
 					"name": "Font",
 					"items":
 					{
-						"Alignment": 
+						"Alignment":
 						{
-							"name": "Alignment", 
-							"type": 'select', 
-							"options": {left: 'left', right: 'right', Center: 'Center', Justify: "Justify"}, 
+							"name": "Alignment",
+							"type": 'select',
+							"options": {left: 'left', right: 'right', Center: 'Center', Justify: "Justify"},
 						},
-						"fontfamily": 
+						"fontfamily":
 						{
-							"name": "Style", 
-							"type": 'select', 
+							"name": "Style",
+							"type": 'select',
 							"options": {
-								"\"Courier New\", Courier, monospace"   : "Courier New", 
+								"\"Courier New\", Courier, monospace"   : "Courier New",
 								"\"Lucida Console\", Monaco, monospace" : "Lucinda",
 								"\"Times New Roman\", Times, serif"     : "Times New Roman",
 								"\"Arial\", Helvetica, sans-serif"      : "Arial",
 								"Tahoma, Geneva, sans-serif"            : "Tahoma",
 								"\"Comic Sans MS\", cursive, sans-serif": "Comic Sans"
-							}, 
+							},
 						},
 						"font-size":
 						{
@@ -142,31 +142,31 @@ function generateContextMenu(container_type, template_menu_list)
 							"callback": function(key, options){
 								var size = prompt("Enter font size", "14");
 								if (size <= 50 && size >= 0)
-									return changeCSSinMenu(target_element, options, "font-size", size + "px");		
+									return changeCSSinMenu(target_element, options, "font-size", size + "px");
 								else
-									return false;				
-							}						
+									return false;
+							}
 						},
-						"font-color": 
+						"font-color":
 						{
 							type: "color", customName: "Font Colour", className: "color " + target_element,
 						},
 					}
 				},
-				"background": 
+				"background":
 				{
 					"name": "Background",
-					"items": 
+					"items":
 					{
 
-						"Colour": 
+						"Colour":
 						{
 							type: "color", customName: "Background Colour", className: "background-color " + target_element,
 						},
 						"Opacity":
-						{ 
-							"name": "Opacity", 
-							"callback": function(key, options) 
+						{
+							"name": "Opacity",
+							"callback": function(key, options)
 							{
 								var opacity = prompt("Enter an opacity from 0-100", "100");
 
@@ -199,7 +199,7 @@ function generateContextMenu(container_type, template_menu_list)
 				"clone": {"name": "Clone", "callback" : function(key, options){
 					//clone
 				}},
-				"template": 
+				"template":
 				{
 					"name": "Templates",
 					"items":
@@ -216,8 +216,8 @@ function generateContextMenu(container_type, template_menu_list)
 							//create a new template menu entry, storing the needed html
 							if (count < 100)
 							{
-								var name = prompt("Enter name for template"); 
-								template_menu_list["template" + project_project.template_menus.template_ID] = 
+								var name = prompt("Enter name for template");
+								template_menu_list["template" + project_project.template_menus.template_ID] =
 								{
 									"name": name,
 									"savedhtml": options.$trigger.parent().parent().children(target_element)[0].outerHTML, //goes for the editdiv
@@ -227,15 +227,15 @@ function generateContextMenu(container_type, template_menu_list)
 										{
 											//load template
 											console.log("Loading: " + key);
-											//options.$trigger is the jquery object for the icon that triggers the menu											
+											//options.$trigger is the jquery object for the icon that triggers the menu
 											var element = options.$trigger.parent().parent().children(target_element);
-											
+
 											//save inner content
 											var preserve_content = element.html();
 											//swap outer tag, including style stuff
 											element[0].outerHTML = template_menu_list[key].savedhtml;
 											options.$trigger.parent().parent().children(target_element).html(preserve_content);
-										}	
+										}
 										else if (options.$selected.parent().siblings('span').html() == "Delete")
 										{
 											delete template_menu_list[key]
@@ -246,7 +246,7 @@ function generateContextMenu(container_type, template_menu_list)
 							}
 						}},
 						"load":{
-							"name": "Load", 
+							"name": "Load",
 							"items": template_menu_list
 						},
 						"delete":{
@@ -268,9 +268,9 @@ function generateContextMenu(container_type, template_menu_list)
 				show: function(opt) {
 					// this is the trigger element
 					var $this = this;
-					// import states from data store 
+					// import states from data store
 					$.contextMenu.setInputValues(opt, $this.data());
-				}, 
+				},
 				hide: function(opt) {
 					// this is the trigger element
 					var $this = this;
@@ -290,7 +290,7 @@ function generateContextMenu(container_type, template_menu_list)
 		return {
 			"items":
 			{
-				"border": border_menu_entry(target_element),				
+				"border": border_menu_entry(target_element),
 				"position": zIndex_menu_entry(),
 				"sep3": "---------",
 				"URL":
@@ -311,7 +311,7 @@ function generateContextMenu(container_type, template_menu_list)
 
 									parent.remove();
 
-									copy.append(html_string);	
+									copy.append(html_string);
 								},
 								error: function(data)
 								{
@@ -336,9 +336,9 @@ function generateContextMenu(container_type, template_menu_list)
 				show: function(opt) {
 					// this is the trigger element
 					var $this = this;
-					// import states from data store 
+					// import states from data store
 					$.contextMenu.setInputValues(opt, $this.data());
-				}, 
+				},
 				hide: function(opt) {
 					// this is the trigger element
 					var $this = this;
@@ -356,7 +356,7 @@ function generateContextMenu(container_type, template_menu_list)
 		return {
 			"items":
 			{
-				"border": border_menu_entry(target_element),				
+				"border": border_menu_entry(target_element),
 				"position": zIndex_menu_entry(),
 				"sep3": "---------",
 				"URL":
@@ -377,7 +377,7 @@ function generateContextMenu(container_type, template_menu_list)
 
 									parent.remove();
 
-									copy.append(html_string);	
+									copy.append(html_string);
 								},
 								error: function(data)
 								{
@@ -402,9 +402,9 @@ function generateContextMenu(container_type, template_menu_list)
 				show: function(opt) {
 					// this is the trigger element
 					var $this = this;
-					// import states from data store 
+					// import states from data store
 					$.contextMenu.setInputValues(opt, $this.data());
-				}, 
+				},
 				hide: function(opt) {
 					// this is the trigger element
 					var $this = this;
@@ -423,26 +423,26 @@ function generateContextMenu(container_type, template_menu_list)
 			"items":
 			{
 				"border": border_menu_entry(target_element),
-				"background": 
+				"background":
 				{
 					type: "color", customName: "Background Colour", className: "background-color " + target_element,
 				},
 				"resolution":
 				{
 					"name": 'Resolution',
-					"type": 'select', 
-					"options": {a320pxa480px: 'Mobile 320x480', a800pxa600px: 'Small 800x600', a1024pxa768px: 'Medium 1024x768', a1280pxa1024px: "Large 1280x1024"}, 		
+					"type": 'select',
+					"options": {a320pxa480px: 'Mobile 320x480', a800pxa600px: 'Small 800x600', a1024pxa768px: 'Medium 1024x768', a1280pxa1024px: "Large 1280x1024"},
 				}
 			},
 			"events": {
 				show: function(opt) {
 					// this is the trigger element
 					var $this = this;
-					// import states from data store 
+					// import states from data store
 					$.contextMenu.setInputValues(opt, $this.data());
 					// this basically fills the input commands from an object
 					// like {name: "foo", yesno: true, radio: "3", &hellip;}
-				}, 
+				},
 				hide: function(opt) {
 					// this is the trigger element
 					var $this = this;
@@ -482,7 +482,7 @@ function zIndex_menu_entry()
 						});
 						max++;
 						console.log("Set zIndex to ", max);
-						options.$trigger.parent().parent().css("zIndex", max);				
+						options.$trigger.parent().parent().css("zIndex", max);
 					}},
 					"Back": { "name": "Send to Back", "callback": function(key, options)
 					{
@@ -510,34 +510,34 @@ function border_menu_entry(target_element)
 		"name": "Border",
 		"items":
 		{
-			"Style": 
+			"Style":
 			{
-				"name": "Style", 
-				"type": 'select', 
-				"options": {none: 'None', solid: 'Solid', double: 'Double', dashed: "Dashed", dotted: "Dotted", outset: "Outset", ridge: "Ridge"}, 
+				"name": "Style",
+				"type": 'select',
+				"options": {none: 'None', solid: 'Solid', double: 'Double', dashed: "Dashed", dotted: "Dotted", outset: "Outset", ridge: "Ridge"},
 			},
-			"Colour": 
+			"Colour":
 			{
 				type: "color", customName: "Colour", className: "border-color " + target_element,
 			},
-			"Corners": 
+			"Corners":
 			{
 				"name": "Rounded Corners", "callback": function(key, options){
 					var size = prompt("Enter a number from 0 (square)  to 12 (fully rounded)", "5");
 					if (size <= 12 && size >= 0)
-						return changeCSSinMenu(target_element, options, "border-radius", size + "px");		
+						return changeCSSinMenu(target_element, options, "border-radius", size + "px");
 					else
-						return false;				
+						return false;
 				}
 			},
-			"Thickness": 						
+			"Thickness":
 			{
 				"name": "Border Width", "callback": function(key, options){
 					var size = prompt("Enter a number from 0 up", "2");
 					if (size <= 100 && size >= 0)
-						return changeCSSinMenu(target_element, options, "border-width", size + "px");		
+						return changeCSSinMenu(target_element, options, "border-width", size + "px");
 					else
-						return false;				
+						return false;
 				}
 			},
 		}
@@ -553,12 +553,12 @@ $(function(){
 		selector: '.textmenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-		build: function($trigger, e) 
+		build: function($trigger, e)
 		{
 			console.log("Triggered text menu context menu")
 			return generateContextMenu("text", project_project.template_menus.text_template_menu_list);
 		}
-	});	
+	});
 	/**************************************************
 	 * Decision container context menu
 	 **************************************************/
@@ -567,7 +567,7 @@ $(function(){
 		selector: '.decmenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-		build: function($trigger, e) 
+		build: function($trigger, e)
 		{
 			return generateContextMenu("decision", project_project.template_menus.decision_template_menu_list);
 		}
@@ -580,7 +580,7 @@ $(function(){
 		selector: '.controlmenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-		build: function($trigger, e) 
+		build: function($trigger, e)
 		{
 			return generateContextMenu("output", project_project.template_menus.text_template_menu_list);
 		}
@@ -590,7 +590,7 @@ $(function(){
 		selector: '.imgmenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-		build: function($trigger, e) 
+		build: function($trigger, e)
 		{
 			return generateContextMenu("img", project_project.template_menus.image_template_menu_list);
 		}
@@ -600,7 +600,7 @@ $(function(){
 		selector: '.vidmenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-		build: function($trigger, e) 
+		build: function($trigger, e)
 		{
 			return generateContextMenu("vid", project_project.template_menus.video_template_menu_list);
 		}
@@ -610,7 +610,7 @@ $(function(){
 		selector: '.pagemenu',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-		build: function($trigger, e) 
+		build: function($trigger, e)
 		{
 			return generateContextMenu("page");
 			//return generateContextMenu("page", page_template_menu_list);
@@ -621,7 +621,7 @@ $(function(){
 		selector: '#addevent',
 		trigger: 'left',
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
-		build: function($trigger, e) 
+		build: function($trigger, e)
 		{
 			var audiolist = project_project.audio.getAssetAsMenu();
 			return {
@@ -639,3 +639,513 @@ $(function(){
 
 
 });
+
+
+
+
+/**************************************************
+ * Edge Overlay context menus
+ **************************************************/
+
+
+ $.contextMenu({
+	 selector: ".condition-settings-context-menu",
+	trigger: 'left',
+	 build: function($trigger) {
+		 var options = {
+			 callback: function(key, options) {
+				 var m = "clicked: " + key;
+				 window.console && console.log(m) || alert(m);
+			 },
+			 items: {}
+		 }
+
+		 options.items['type1'] = {
+			 name: 'Compare Two Attributes',
+			 callback: function(key, options){
+				 setComparisonType('type1',$trigger.attr('id'))
+			 }
+		 }
+
+		 options.items['type2'] = {
+			 name: 'Compare Statement and Attribute',
+			 callback: function(key, options){
+				 setComparisonType('type2',$trigger.attr('id'))
+			 }
+		 }
+
+		 options.items['type3'] = {
+			 name: 'Compare Two Statements',
+			 callback: function(key, options){
+				 setComparisonType('type3',$trigger.attr('id'))
+			 }
+		 }
+		 options.items['sep'] = {
+			 name: '----------------------------------------------',
+			 disabled: true
+		 }
+
+		 var spl = $trigger.attr('id').split('_')
+		 var name
+		 if(spl[0] === 'newCondition' || spl[0] === 'exCondition'){
+			 name = 'Remove Condition'
+		 }
+		 else if(spl[0] === 'newOutcome' || spl[0] === 'exOutcome'){
+			 name = 'Remove Outcome'
+		 }
+
+		 options.items['remove'] = {
+			 name: name,
+			 callback: function(key,options){
+				 if(name === 'Remove Condition'){
+					 if(spl[0] === 'newCondition'){
+						 removeCondition(spl[0] + '_' + spl[1])
+					 }
+					 else{
+						 removeCondition(spl[0] + '_' + spl[1] + '_' + spl[2])
+					 }
+
+				 }
+				 else if(name === 'Remove Outcome'){
+					 if(spl[0] === 'newOutcome'){
+						 removeOutcome(spl[0] + '_' + spl[1])
+					 }
+					 else{
+						 removeOutcome(spl[0] + '_' + spl[1] + '_' + spl[2])
+					 }
+				 }
+			 }
+		 }
+		 return options
+	 }
+ });
+
+ function addAttributeToContextMenu(att,options,trigger,parent){
+
+	 if(att.children.length > 0){	//if attribute has a chlid
+		 //add attribute to list
+		 options.items[att.name] = {
+			 name: att.name,
+			 items: {}
+		 }
+
+		 //add attributes children to list
+		 for(var i = 0; i<att.children.length; i++){
+			 var next = gameAttributes_find(att.path + "_" + att.children[i])
+			 addAttributeToContextMenu(next,options.items[att.name],trigger,att.name)
+		 }
+	 }
+	 else{ //if attribute has no chlid
+		 options.items[att.name] = {
+			 name: att.name,
+			 callback: function(key,option){
+				 handleSelection(key,trigger.attr('id'),att)
+			 }
+		 }
+	 }
+ }
+
+ $.contextMenu({
+   selector: ".condition-context-menu",
+	 trigger: 'left',
+   build: function($trigger) {
+     var options = {
+       callback: function(key, options) {
+         var m = "clicked: " + key;
+         window.console && console.log(m) || alert(m);
+       },
+       items: {}
+     };
+
+     if ($trigger.hasClass('condition-context-menu')) {
+
+			 //add all game attributes
+			 if ($trigger.hasClass('game-attributes')) {
+				 for(var key in project_project.gameAttributes){
+	 				// add characters option
+	 				var att = gameAttributes_find(key)
+	 				addAttributeToContextMenu(att,options,$trigger,'')
+	 			}
+			 }
+
+
+			 if($trigger.hasClass('numbers')){
+  				// add value option
+  				options.items.specValue = {
+  					name: "Specific Value",
+  					callback: function(key,options){
+							handleSelection(key,$trigger.attr('id'))
+  						//numberSelected($trigger.attr("id"))
+  					}
+  				}
+
+  				// add rand option
+  				options.items.randValue = {
+  					name: "Random Value",
+  					callback: function(key,option){
+							handleSelection(key,$trigger.attr('id'))
+  						//randomSelected($trigger.attr("id"))
+  					}
+  				}
+  			}
+     } else {
+       options.items.bar = {name: "bar"};
+     }
+
+     return options;
+   }
+ });
+
+ $.contextMenu({
+   selector: ".comparison-context-menu",
+	 trigger: 'left',
+   build: function($trigger) {
+     var options = {
+       callback: function(key, options) {
+         var m = "clicked: " + key;
+         window.console && console.log(m) || alert(m);
+       },
+       items: {}
+     };
+
+     if ($trigger.hasClass('comparison-context-menu')) {
+
+ 			if($trigger.hasClass('comps')){
+ 				// add characters option
+ 				options.items.comparison = {
+ 					name: "comparison",
+ 					items: {
+ 						"=" : {
+ 							name: "=",
+ 							callback: function(key,options){
+								$('#' + $trigger.attr("id") ).text(key)
+
+ 							}
+ 						},
+ 						"<" : {
+ 							name: "<",
+ 							callback: function(key,options){
+ 								$('#' + $trigger.attr("id")).text(key)
+ 							}
+ 						},
+ 						">" : {
+ 							name: ">",
+ 							callback: function(key,options){
+ 								$('#' + $trigger.attr("id")).text(key)
+ 							}
+ 						},
+ 						"<=" : {
+ 							name: "<=",
+ 							callback: function(key,options){
+ 								$('#' + $trigger.attr("id")).text(key)
+ 							}
+ 						},
+ 						">=" : {
+ 							name: ">=",
+ 							callback: function(key,options){
+ 								$('#' + $trigger.attr("id")).text(key)
+ 							}
+ 						}
+ 					}
+ 				}
+ 			}
+
+ 			if($trigger.hasClass('mods')){
+ 				options.items.modifier = {
+ 					name: "Modifier",
+ 					items: {
+ 						"+" : {
+ 							name: "+",
+ 							callback: function(key,options){
+ 								$('#' + $trigger.attr("id")).text(key)
+ 							}
+ 						},
+ 						"-" : {
+ 							name: "-",
+ 							callback: function(key,options){
+ 								$('#' + $trigger.attr("id")).text(key)
+ 							}
+ 						},
+ 						"*" : {
+ 							name: "*",
+ 							callback: function(key,options){
+ 								$('#' + $trigger.attr("id")).text(key)
+ 							}
+ 						},
+ 						"/" : {
+ 							name: "/",
+ 							callback: function(key,options){
+ 								$('#' + $trigger.attr("id")).text(key)
+ 							}
+ 						}
+ 					}
+ 				}
+ 			}
+     } else {
+
+     }
+
+     return options;
+   }
+ });
+
+ function handleSelection(selected, clickedItemID, att){
+
+	 console.log(selected)
+	 if(selected === 'randValue'){
+		 randomSelected(clickedItemID)
+	 }
+	 else if(selected === 'specValue'){
+		 numberSelected(clickedItemID)
+	 }
+	 else{
+		 //attribute was selected
+		 var spl = clickedItemID.split('_')
+		 if(spl[2] !== 'attButton'){
+			 attributeSelected(selected,clickedItemID,att)
+		 }
+		 else{
+			 $('#' + clickedItemID).text(selected)
+			 $('#' + clickedItemID).attr('path',att.path)
+			 updateTooltip(clickedItemID,att.path)
+		 }
+	 }
+
+ }
+
+
+//change name of this
+ function attributeSelected(selected, clickedItemID, att){
+	 var spl = clickedItemID.split('_')
+	 var newID
+	 if(spl[0] === 'newCondition'){
+		 	newID = spl[0] + '_' +spl[1] + '_' + 'attButton' + '_' + spl[3] + '_' + spl[4]
+		 	newButton = generateAttributeButton(newID,'game-attributes numbers','NO_COL')
+			$('#' + spl[0] + '_' +spl[1] + '_' + spl[2] + '_' + spl[3] + '_' + spl[4]).replaceWith(newButton)
+	 }
+	 else if(spl[0] === 'exCondition'){
+		 	newID = spl[0] + '_' + spl[1] + '_' + spl[2] + '_attButton_' + spl[4] + '_' + spl[5]
+		 	newButton = generateAttributeButton( newID,'game-attributes numbers','NO_COL')
+			$('#' + spl[0] + '_' + spl[1] + '_' + spl[2] + '_' + spl[3] + '_' + spl[4] + '_' + spl[5]).replaceWith(newButton)
+	 }
+	 else if(spl[0] === 'newOutcome'){
+		 newID = spl[0] + '_' +spl[1] + '_' + 'attButton' + '_' + spl[3]
+		 newButton = generateAttributeButton(newID,'game-attributes numbers','NO_COL')
+		 $('#' + spl[0] + '_' +spl[1] + '_' + spl[2] + '_' + spl[3]).replaceWith(newButton)
+	 }
+	 else if(spl[0] === 'exOutcome'){
+		 newID = spl[0] + '_' + spl[1] + '_' + spl[2] + '_attButton_' + spl[4]
+		 newButton = generateAttributeButton( newID,'game-attributes numbers','NO_COL')
+		 $('#' + spl[0] + '_' + spl[1] + '_' + spl[2] + '_' + spl[3] + '_' + spl[4]).replaceWith(newButton)
+	 }
+
+	 console.log(newID + ' ' + att.path)
+	 $('#' + newID).text(selected)
+	 $('#' + newID).attr('path',att.path)
+	 updateTooltip(newID,att.path)
+ }
+
+ function numberSelected(clickedItemID){
+
+	 var spl = clickedItemID.split('_')
+	 var id
+	 if(spl[0] === 'newCondition'){
+		 id = spl[0] + '_' + spl[1] + '_specValue_'+ spl[3] + '_' + spl[4]
+	 }
+	 else if(spl[0] === 'exCondition'){
+		 id = spl[0] + '_' + spl[1] + '_' + spl[2] +'_specValue_'+ spl[4] + '_' + spl[5]
+	 }
+	 else if(spl[0] === 'newOutcome'){
+		 id = spl[0] + '_' + spl[1] + '_specValue_' + spl[3]
+	 }
+	 else if(spl[0] === 'exOutcome'){
+		 id = spl[0] + '_' + spl[1] + '_' + spl[2] + '_specValue_' + spl[4]
+	 }
+
+
+ 	var html = '<div id="'+id +'" class="input-field">'+
+ 							'<input placeholder="Enter Value" id="'+id+'_inputField' +'" type="number" class="input-field condition-context-menu game-attributes numbers">'+
+ 							'</div>'
+ 	//$('#comparisonButton').after(html)
+ 	$('#' + clickedItemID).replaceWith(html)
+ }
+
+ function randomSelected(clickedItemID){
+
+ }
+
+
+
+ function generateCondition_type1(id){
+
+	 var html = '<li id=' + id + '>'+
+  							'<div class="row" type="1">'+
+  								generateSettingsButton(id) +
+									generateAttributeButton(id + '_attButton_s1_1', 'game-attributes') +
+									generateComparisonButon(id + '_compMenu_s1', 'comps', '=') +
+									generateAttributeButton(id + '_attButton_s1_2', 'game-attributes numbers') +
+								'</div>'+
+			 					'<div class="divider"></div>'+
+			 				'</li>'
+		return html
+ }
+
+ function generateCondition_type2(id){
+	 var html = '<li id=' + id + '>'+
+  							'<div class="row" type="2">'+
+  								generateSettingsButton(id) +
+									generateAttributeButton(id + '_attButton_s1_1', 'game-attributes') +
+									generateComparisonButon(id + '_compMenu_s1', 'mods', '+') +
+									generateAttributeButton(id + '_attButton_s1_2', 'game-attributes numbers') +
+									generateComparisonButon(id + '_pivot', 'comps', '=') +
+									generateAttributeButton(id + '_attButton_s2_1', 'game-attributes numbers') +
+								'</div>'+
+			 					'<div class="divider"></div>'+
+			 				'</li>'
+		return html
+ }
+
+ function generateCondition_type3(id){
+	 var html = '<li id=' + id + '>'+
+								'<div class="row" type="3">'+
+									generateSettingsButton(id) +
+									generateAttributeButton(id + '_attButton_s1_1', 'game-attributes') +
+									generateComparisonButon(id + '_compMenu_s1', 'mods', '+') +
+									generateAttributeButton(id + '_attButton_s1_2', 'game-attributes numbers') +
+									generateComparisonButon(id + '_pivot', 'comps', '=') +
+									generateAttributeButton(id + '_attButton_s2_1', 'game-attributes numbers') +
+									generateComparisonButon(id + '_compMenu_s2', 'mods', '+') +
+									generateAttributeButton(id + '_attButton_s2_2', 'game-attributes numbers') +
+								'</div>'+
+								'<div class="divider"></div>'+
+							'</li>'
+		return html
+ }
+
+ function generateOutcome(id){
+	 var html = '<li id=' + id + '>'+
+								'<div class="row">'+
+									generateSettingsButton(id) +
+									generateAttributeButton(id + '_attButton_1', 'game-attributes') +
+									generateComparisonButon(id + '_compMenu', 'mods', '+') +
+									generateAttributeButton(id + '_attButton_2', 'game-attributes numbers') +
+								'</div>'+
+								'<div class="divider"></div>'+
+							'</li>'
+		return html
+ }
+
+ function generateAttributeButton(id,classes,mode){
+	 var ret
+	 if(mode === 'NO_COL'){
+		 ret = '<div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-position="bottom" data-delay="50" data-tooltip=""></div>'
+	 }
+	 else{
+		 ret = '<div class="col s2"><div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-position="bottom" data-delay="50" data-tooltip=""></div></div>'
+	 }
+	 return ret
+ }
+
+ function generateComparisonButon(id,classes,initial){
+	 var ret = '<div id="' + id +'" class="col s1 comparison-context-menu ' + classes + ' comparison-button">'+initial+'</div>'
+	 return ret
+ }
+
+ function generateSettingsButton(id){
+	 var ret = '<div class="col s1"><div id="' + id + '_settings'+ '" class="condition-settings-context-menu condition-settings-button"><a class="btn-floating btn waves-effect waves-light gray"><i class="material-icons">settings</i></a></div></div>'
+	 return ret
+ }
+
+ function setComparisonType(type,id){
+	 var spl = id.split('_')
+	 var newCondition = ''
+	 var id
+	 if(spl[0] === 'newCondition'){
+		 id = spl[0] + '_' + spl[1]
+	 }
+	 else if(spl[0] === 'exCondition'){
+		 id = spl[0] + '_' + spl[1] + '_' + spl[2]
+	 }
+
+	 switch(type){
+		case 'type1':
+			newCondition = generateCondition_type1(id)
+			$('#' + id).replaceWith(newCondition)
+			initAttributeButton(id + '_attButton_s1_1')
+			initAttributeButton(id + '_attButton_s1_2')
+		 	break;
+		case 'type2':
+			newCondition = generateCondition_type2(id)
+			$('#' + id).replaceWith(newCondition)
+			initAttributeButton(id + '_attButton_s1_1')
+			initAttributeButton(id + '_attButton_s1_2')
+			initAttributeButton(id + '_attButton_s2_1')
+
+			break;
+		case 'type3':
+			newCondition = generateCondition_type3(id)
+			$('#' + id).replaceWith(newCondition)
+			initAttributeButton(id + '_attButton_s1_1')
+			initAttributeButton(id + '_attButton_s1_2')
+			initAttributeButton(id + '_attButton_s2_1')
+			initAttributeButton(id + '_attButton_s2_2')
+			break;
+	 }
+
+
+ }
+
+function findFirstLeafPath(path){
+	var att = gameAttributes_find(path)
+	if(att.is_leaf === false){
+		for(var i = 0; i<att.children.length; i++){
+			var temp = findFirstLeafPath(path + '_' + att.children[i])
+			if(temp !== undefined){
+				return temp
+			}
+		}
+	}
+	else{
+		return path
+	}
+}
+
+
+
+ function initAttributeButton(id){
+	 for(var key in project_project.gameAttributes){
+		 var path = findFirstLeafPath(key)
+		 if(path !== undefined){
+			 var att = gameAttributes_find(path)
+			 $('#'+id).text(att.name)
+			 $('#'+id).attr('path',path)
+			 updateTooltip(id,path)
+
+			 return
+		 }
+	 }
+ }
+
+ function updateTooltip(id,path){
+	 //add path nams to tool tip
+	 var spl = path.split('_')
+	 var ttText = ''
+	 var currPath = ''
+	 for(var i = 0; i<spl.length; i++){
+		 if(i === 0 ){
+			 currPath += spl[0]
+		 }
+		 else{
+			 currPath += '_' + spl[i]
+		 }
+		 var temp = gameAttributes_find(currPath)
+		 ttText = ttText + temp.name
+		 if(i !== spl.length-1){
+			 ttText += ' > '
+		 }
+	 }
+	 $('#' + id).attr('data-tooltip',ttText)
+
+	 //init tooltipp
+	 $('#'+id).tooltip({delay: 50});
+ }

@@ -29,7 +29,7 @@
 		<div class="nav-wrapper">
 			<a href="#" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="#">Project</a></li>
+				<li><a href="#" onclick=showProjectSettings()>Project</a></li>
 				<li><a href="#">Profile</a></li>
 				<li><a href="#">Settings</a></li>
 			</ul>
@@ -61,8 +61,8 @@
 					<div style="margin-top: 10px;">
 						<i id = "addevent" class = "fa fa-plus fa-2x dropdown-button"style="float: right;"></i>
 						<i id = "removeevent" class = "fa fa-minus fa-2x"style="float: right; margin-right: 5px;" onclick=deleteEvent()></i>
-						<h6>Events</h6>	
-					</div>				
+						<h6>Events</h6>
+					</div>
 					<!-- Events pane -->
 					<div id = "eventspane">
 					</div>
@@ -109,10 +109,11 @@
 
 		</div>
 	</div>
+
 	<div id="audio-modal" class=" modal">
 		<div class="modal-content">
 			<ul id="audiolist" style="padding-top: 10px;" class="collapsible popout" data-collapsible="accordion">
-			
+
 			</ul>
 		</div>
 		<div class="modal-footer">
@@ -213,13 +214,46 @@
 		</div>
 	</div>
 
+	<!-- ui for project settings(nav bar) -->
+	<div id="projectMain" class="hide">
+		<div class="row">
+			<div class="col s1"><p></p></div>
+			<div class="col s10">
+				<h2 id="projectMain_title"style="color: #ee6e73;"></h2>
+			</div>
+			<div class="col s1">
+				<a href="#newProject-modal" class="modal-trigger btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);"><i class="material-icons">add</i></a>
+			</div>
+		</div>
+		<div class="row">
+			<ul id="projectsList"></ul>
+		</div>
+	</div>
+
+	<!-- modal for creating new projects -->
+	<div id="newProject-modal" class="modal" >
+		<div class="modal-content">
+			<h4 class="center-align">Create New Project</h4>
+			<form class="col s12">
+				<div class="row">
+					<div class="input-field col s11">
+	          <input id="projName" type="text" class="validate">
+	          <label for="projName">Project Name</label>
+	        </div>
+					<div class="col s1">
+						<a id="projNameAcceptButton" class="condition-settings-button btn-floating btn waves-effect waves-light gray disabled" onclick="project_createNewProject()"><i class="material-icons">done</i></a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
 	<!-- Main Content -->
-	<div class="container-fluid">
+	<div id="mainContent" class="container-fluid">
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
 				<ul class="tabs" id="tabheadings">
-					<li class="tab col s4"><a class="active" href="#cyTab" onclick=wipeGame()>Graph</a></li> 
+					<li class="tab col s4"><a class="active" href="#cyTab" onclick=wipeGame()>Graph</a></li>
 					<!-- onclick function added to clear .playpage, otherwise the elements present can mess with .length operations e.g. $('.text-container').length -->
 					<li class="tab col s4"><a href="#Character" onclick=wipeGame()>Character</a></li>
 					<li class="tab col s4"><a href="#Play" onclick=prepareForGame()>Play</a></li>
@@ -252,8 +286,7 @@
 								<li><a onclick="layout_driver('Spread');">Spread</a></li>
 							</ul>
 							<hr/>
-							<button class="savebutton btn" onclick=http_save()>Save</button><br/>
-							<button class="loadbutton btn" onclick=http_load()>Load</button><br/>
+							<button class="savebutton btn" onclick=project_saveProject()>Save</button><br/>
 							<hr/>
 							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
 

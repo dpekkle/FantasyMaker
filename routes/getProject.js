@@ -2,7 +2,7 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');
 var serverPath = 'mongodb://localhost/';
-	
+
 module.exports = function(app){
 
    app.get('/getProject',function(req,res){
@@ -24,10 +24,10 @@ module.exports = function(app){
 				db.close();
 				res.json(results); //return results
 			});
-			
+
 		  }
 		});
-		
+
 	});
 
 }

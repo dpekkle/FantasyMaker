@@ -11,12 +11,12 @@ module.exports = function(app){
 	app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 	//route for handling POST to '/saveProject2'
-	app.post('/saveProject',function(req,res){
+	app.post('/deleteProject',function(req,res){
 
-		var project = JSON.parse(req.body.save); //parse saveFile
+
 
 		//add name of project to url for db connection
-		var url = serverPath + project.projectOwner;
+		var url = serverPath + req.body.username;
 
 		//open connection to db
 		MongoClient.connect(url, function (err, db) {
@@ -24,25 +24,19 @@ module.exports = function(app){
 			res.send('Unable to connect to the mongoDB server.');
 		  } else {
 			//successful connection
-			var collection = db.collection(project.projectName); //get save file based on projectName
+			var collection = db.collection(req.body.projName); //get save file based on projectName
 
 			//check whether project already exists in DB
-			collection.find({ "projectName": project.projectName}).count(function(err,results){
+			collection.find({ "projectName": req.body.projName}).count(function(err,results){
 				//if project already exists
 				if(results > 0){
-					//update project in DB
-					collection.updateOne({"projectName": project.projectName}, project, function(err,results){
-						console.log("entry updated");
-						res.send("Databse updated");
-					});
+					//delete collection
+          collection.drop()
+          res.send('Collection Deleted')
 				}
-				else{
-					//project does not exist in DB
-					collection.insert(project,function(){
-						console.log("entry created");
-						res.send("New project saved");
-					});
-				}
+        else{
+          res.send('Unable to delete collection')
+        }
 			});
 
 		  }

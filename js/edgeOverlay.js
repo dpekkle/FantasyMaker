@@ -34,78 +34,151 @@ function populateEdgeOverlay(edge){
 
 function saveEdge(selectedEdge, mode){
 
-	//console.log(cy.elements().jsons())
+		//console.log(cy.elements().jsons())
 
-	var currEdge = selectedEdge.json();
+		var currEdge = selectedEdge.json();
 
 
+		//save all existing conditions
+		for(var i = 0; i<currEdge.data.conditions.length; i++){
+			var temp = currEdge.data.conditions[i]
+			if($('#exCondition_' + temp.edge + '_' + temp.id).length > 0){
+				$('#exCondition_' + temp.edge + '_' + temp.id + '_specValue_s1_2_inputField').attr('value',$('#exCondition_' + temp.edge + '_' + temp.id + '_specValue_s1_2_inputField').val())
+				$('#exCondition_' + temp.edge + '_' + temp.id + '_specValue_s2_1_inputField').attr('value',$('#exCondition_' + temp.edge + '_' + temp.id + '_specValue_s2_1_inputField').val())
+				$('#exCondition_' + temp.edge + '_' + temp.id + '_specValue_s2_2_inputField').attr('value',$('#exCondition_' + temp.edge + '_' + temp.id + '_specValue_s2_2_inputField').val())
+				var html = $('#exCondition_' + temp.edge + '_' + temp.id).html()
 
-	//save all existing conditions
-	for(var i = 0; i<currEdge.data.conditions.length; i++){
-		var temp = currEdge.data.conditions[i];
-		var id = 'exCondition_' + temp.edge + '_' + temp.id
+				temp.html = html
+			}
 
-		if($('#' + id + '_statTypeList').length !== 0){
-			temp.stat = $('#' + id + '_statTypeList').val()
-			temp.comparison = $('#' + id + '_compList').val()
-			temp.value = $('#' + id + '_value').val()
+			//var id = 'exCondition_' + temp.edge + '_' + temp.id
+
+			//if($('#' + id + '_statTypeList').length !== 0){
+				//temp.stat = $('#' + id + '_statTypeList').val()
+				//temp.comparison = $('#' + id + '_compList').val()
+				//temp.value = $('#' + id + '_value').val()
+			//}
+
 		}
 
-	}
 
 
-	//save all existing outcomes
-	for(var i = 0; i<currEdge.data.outcomes.length; i++){
-		var temp = currEdge.data.outcomes[i];
-		var id = 'exOutcome_' + temp.edge + '_' + temp.id
 
-		if($('#' + id + '_statTypeList').length !== 0){
-			temp.stat = $('#' + id + '_statTypeList').val()
-			temp.modifier = $('#' + id + '_modList').val()
-			temp.value = $('#' + id + '_value').val()
-		}
 
-	}
+		//save all existing outcomes
+		for(var i = 0; i<currEdge.data.outcomes.length; i++){
+			var temp = currEdge.data.outcomes[i];
+			var id = 'exOutcome_' + temp.edge + '_' + temp.id
 
-	//only the edge overlay will be handling new conds/outcomes
-	if(mode === "EDGE_OVERLAY"){
-		//save all new conditions
-		for(var i = 0; i<edgeOverlay_newConditionCount; i++){
-			//get values of menus/text from ui
-			var stat = $('#newCondition_statTypeList' + i).val();
-			var comp = $('#newCondition_compList' + i).val();
-			var val = $('#newCondition_value' + i).val();
-
-			//convert ui condition row into json obj
-			var newCond = conditions_createCondition(currEdge, stat, comp, val);
-
-			console.log(newCond)
-
-			if(newCond !== undefined){
-				currEdge.data.conditions.push(newCond);
+			if($('#exOutcome_' + temp.edge + '_' + temp.id).length > 0){
+				$('#exOutcome_' + temp.edge + '_' + temp.id + '_specValue_2_inputField').attr('value',$('#exOutcome_' + temp.edge + '_' + temp.id + '_specValue_2_inputField').val())
+				var html = $('#exOutcome_' + temp.edge + '_' + temp.id).html()
+				temp.html = html
 			}
 
 		}
 
-		//save all new outcomes
-		for(var i = 0; i<edgeOverlay_newOutcomeCount; i++){
-			//get values of menus/text from ui
-			var stat = $('#newOutcome_statTypeList' + i).val();
-			var mod = $('#newOutcome_modList' + i).val();
-			var val = $('#newOutcome_value' + i).val();
 
-			//convert ui condition row into json obj
-			var newOut = conditions_createOutcome(currEdge, stat, mod, val);
+		//only the edge overlay will be handling new conds/outcomes
+		if(mode === "EDGE_OVERLAY"){
+			//save all new conditions
+			for(var i = 0; i<edgeOverlay_newConditionCount; i++){
+				//get values of menus/text from ui
+				/*
+				var stat = $('#newCondition_statTypeList' + i).val();
+				var comp = $('#newCondition_compList' + i).val();
+				var val = $('#newCondition_value' + i).val();
+				*/
 
-			console.log(newOut)
+				//convert ui condition row into json obj
+				if($('#' + 'newCondition_' + i).length > 0){
+					var html = $('#' + 'newCondition_' + i).html()
 
-			if(newOut !== undefined){
-				currEdge.data.outcomes.push(newOut);
+					var newCond = conditions_createCondition(currEdge,null);
+					$('#' + 'newCondition_' + i + '_settings').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_settings')
+					$('#' + 'newCondition_' + i).attr('id','exCondition_' + newCond.edge + '_' + newCond.id)
+					$('#' + 'newCondition_' + i + '_attButton_s1_1').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_1')
+					$('#' + 'newCondition_' + i + '_attButton_s1_1_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_1_title')
+					$('#' + 'newCondition_' + i + '_attButton_s1_1_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_1_attribute')
+
+					$('#' + 'newCondition_' + i + '_compMenu_s1').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_compMenu_s1')
+
+					if($('#' + 'newCondition_' + i + '_attButton_s1_2').length > 0){
+						$('#' + 'newCondition_' + i + '_attButton_s1_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_2')
+						$('#' + 'newCondition_' + i + '_attButton_s1_2_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_2_title')
+						$('#' + 'newCondition_' + i + '_attButton_s1_2_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_2_attribute')
+					}
+					else if($('#' + 'newCondition_' + i + '_specValue_s1_2').length > 0){
+						$('#' + 'newCondition_' + i + '_specValue_s1_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s1_2')
+						$('#' + 'newCondition_' + i + '_specValue_s1_2_inputField').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s1_2_inputField')
+						$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s1_2_inputField').attr('value',$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s1_2_inputField').val())
+					}
+
+					$('#' + 'newCondition_' + i + '_pivot').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_pivot')
+
+					if($('#' + 'newCondition_' + i + '_attButton_s2_1').length > 0){
+						$('#' + 'newCondition_' + i + '_attButton_s2_1').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_1')
+						$('#' + 'newCondition_' + i + '_attButton_s2_1_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_1_title')
+						$('#' + 'newCondition_' + i + '_attButton_s2_1_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_1_attribute')
+					}
+					else if($('#' + 'newCondition_' + i + '_specValue_s2_1').length > 0){
+						$('#' + 'newCondition_' + i + '_specValue_s2_1').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_1')
+						$('#' + 'newCondition_' + i + '_specValue_s2_1_inputField').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_1_inputField')
+						$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_1_inputField').attr('value',$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_1_inputField').val())
+					}
+
+					$('#' + 'newCondition_' + i + '_compMenu_s2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_compMenu_s2')
+
+					if($('#' + 'newCondition_' + i + '_attButton_s2_2').length > 0){
+						$('#' + 'newCondition_' + i + '_attButton_s2_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_2')
+						$('#' + 'newCondition_' + i + '_attButton_s2_2_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_2_title')
+						$('#' + 'newCondition_' + i + '_attButton_s2_2_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_2_attribute')
+					}
+					else if($('#' + 'newCondition_' + i + '_specValue_s2_2').length > 0){
+						$('#' + 'newCondition_' + i + '_specValue_s2_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_2')
+						$('#' + 'newCondition_' + i + '_specValue_s2_2_inputField').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_2_inputField')
+						$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_2_inputField').attr('value',$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_2_inputField').val())
+					}
+
+					newCond.html = $('#' + 'exCondition_' + newCond.edge + '_' + newCond.id).html()
+
+
+					if(newCond !== undefined){
+						currEdge.data.conditions.push(newCond);
+					}
+				}
+
+
 			}
+
+			//save all new outcomes
+			for(var i = 0; i<edgeOverlay_newOutcomeCount; i++){
+				if($('#' + 'newOutcome_' + i).length > 0){
+					//convert ui condition row into json obj
+
+					var newOut = conditions_createOutcome(currEdge,null);
+					$('#' + 'newOutcome_' + i + '_settings').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_settings')
+					$('#' + 'newOutcome_' + i).attr('id','exOutcome_' + newOut.edge + '_' + newOut.id)
+					$('#' + 'newOutcome_' + i + '_attButton_1').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_attButton_1')
+					$('#' + 'newOutcome_' + i + '_compMenu').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_compMenu')
+					$('#' + 'newOutcome_' + i + '_attButton_2').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_attButton_2')
+					$('#' + 'newOutcome_' + i + '_specValue_2').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2')
+					$('#' + 'newOutcome_' + i + '_specValue_2_inputField').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField')
+					$('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField').attr('value',$('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField').val())
+
+					newOut.html = $('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id).html()
+
+					if(newOut !== undefined){
+						currEdge.data.outcomes.push(newOut);
+					}
+				}
+			}
+
 		}
-	}
-	edgeOverlay_newConditionCount = 0;
-	edgeOverlay_newOutcomeCount = 0;
+
+		edgeOverlay_newConditionCount = 0;
+		edgeOverlay_newOutcomeCount = 0;
+
 
 }
 
@@ -123,188 +196,61 @@ function populateStatsDropDownMenu(listID){
 
 function edgeOverlay_addNewCondition(listID){
 
-	//html of condition row
-	var conditionHtml = '<li id="' + 'newCondition_' + edgeOverlay_newConditionCount + '">' +
-												'<div class="row">' +
-													'<div class="input-field col s2">'+
-														'<select id="newCondition_statTypeList' + edgeOverlay_newConditionCount +'"></select>'+
-													'</div>' +
-													'<div class="input-field col s2">' +
-														'<select id="newCondition_compList' + edgeOverlay_newConditionCount +'">'+
-															'<option value=">">></option>'+
-															'<option value="<"><</option>'+
-															'<option value=">=">>=</option>'+
-															'<option value="<="><=</option>'+
-															'<option value="=">=</option>'+
-														'</select>'+
-													'</div>'+
-													'<div class="input-field col s2">' +
-														'<input placeholder="Enter Value" id="newCondition_value' + edgeOverlay_newConditionCount +'" type="number" class="validate">'+
-													'</div>' +
-													'<div class="input-field col s1 offset-s5">' +
-														'<a id="newCondition_delete' + edgeOverlay_newConditionCount +'" class="btn-floating btn waves-effect waves-light red" onclick=removeCondition(' + "'" + 'newCondition_' + edgeOverlay_newConditionCount + "'" + ')>'+
-															'<i class="material-icons">delete</i>'+
-														'</a>'+
-													'</div>'
-												'</div>'+
-											'</li>';
-
-	//add html to conditionList html element
-	$('#' + listID).append(conditionHtml);
-
-	//do fancy animation
-	$('#' + 'newCondition_' + edgeOverlay_newConditionCount).hide(0,function(){
-		$('#' + 'newCondition_' + edgeOverlay_newConditionCount).show(300);
-	});
-
-	$('#newCondition_statTypeList' + edgeOverlay_newConditionCount).material_select();
-	$('#newCondition_compList' + edgeOverlay_newConditionCount).material_select();
-	populateStatsDropDownMenu('newCondition_statTypeList' + edgeOverlay_newConditionCount); //populate the statType menu
-
-	edgeOverlay_newConditionCount++;
+		//html of condition row
+		var id = 'newCondition_' + edgeOverlay_newConditionCount
+		var conditionHtml = generateCondition_type1(id)
+		//add html to conditionList html element
+		$('#' + listID).append(conditionHtml);
+		initAttributeButton(id + '_attButton_s1_1')
+		initAttributeButton(id + '_attButton_s1_2')
+		edgeOverlay_newConditionCount++;
 }
 
 function edgeOverlay_addNewOutcome(listID){
-
-	//html of outcome row
-	var outcomeHtml = '<li id= newOutcome_' + edgeOverlay_newOutcomeCount + '>'+
-											'<div class="row">'+
-												'<div class="input-field col s2">'+
-													'<select id="newOutcome_statTypeList' + edgeOverlay_newOutcomeCount +'"></select>'+
-												'</div>'+
-												'<div class="input-field col s2">'+
-													'<select id="newOutcome_modList' + edgeOverlay_newOutcomeCount +'">'+
-														'<option value="+">+</option>'+
-														'<option value="-">-</option>'+
-														'<option value="*">*</option>'+
-														'<option value="/">/</option>'+
-														'<option value="=">=</option>'+
-													'</select>'+
-												'</div>'+
-												'<div class="input-field col s2">'+
-													'<input placeholder="Enter Value" id="newOutcome_value' + edgeOverlay_newOutcomeCount +'" type="number" class="validate" >'+
-												'</div>'+
-												'<div class="input-field col s1 offset-s5">'+
-													'<a id="newOutcome_delete' + edgeOverlay_newOutcomeCount +'" class="btn-floating btn waves-effect waves-light red" onclick=removeOutcome('+ "'newOutcome_" + edgeOverlay_newOutcomeCount + "'" + ')>'+
-														'<i class="material-icons">delete</i>'+
-													'</a>'+
-												'</div>'
-											'</div>'
-										'</li>';
-
-	//add html to outcomeList
+	//html of condition row
+	var id = 'newOutcome_' + edgeOverlay_newOutcomeCount
+	var outcomeHtml = generateOutcome(id)
+	//add html to conditionList html element
 	$('#' + listID).append(outcomeHtml);
-
-	//do fancy animation
-	$('#' + 'newOutcome_' + edgeOverlay_newOutcomeCount).hide(0,function(){
-		$('#' + 'newOutcome_' + edgeOverlay_newOutcomeCount).show(300);
-	});
-
-	$('#newOutcome_statTypeList' + edgeOverlay_newOutcomeCount).material_select();
-	$('#newOutcome_modList' + edgeOverlay_newOutcomeCount).material_select();
-	populateStatsDropDownMenu('newOutcome_statTypeList' + edgeOverlay_newOutcomeCount); //populate the statType menu
+	initAttributeButton(id + '_attButton_1')
+	initAttributeButton(id + '_attButton_2')
 	edgeOverlay_newOutcomeCount++;
 }
 
 function edgeOverlay_addExistingCondition(listID, cond){
 	//html of condition row
 	var id = 'exCondition_' + cond.edge + '_' + cond.id
-	var conditionHtml = '<li id="' + id + '">'+
-													'<div class="row">'+
-														'<div class="input-field col s2">'+
-															'<select id="' + id + '_statTypeList' + '"></select>'+
-														'</div>'+
-														'<div class="input-field col s2">'+
-															'<select id="' + id + '_compList' +'">'+
-																'<option value=">">></option>'+
-																'<option value="<"><</option>'+
-																'<option value=">=">>=</option>'+
-																'<option value="<="><=</option>'+
-																'<option value="=">=</option>'+
-															'</select>'+
-														'</div>'+
-														'<div class="input-field col s2">'+
-															'<input placeholder="Enter Value" id="' + id + '_value' + '" type="number" class="validate" >'+
-														'</div>'+
-														'<div class="input-field col s1 offset-s5">'+
-															'<a id="' + id + '_delete' +'" class="btn-floating btn waves-effect waves-light red" onclick=removeCondition(' + "'" + id + "'" + ')>'+
-																'<i class="material-icons">delete</i>'+
-															'</a>'+
-														'</div>'+
-													'</div>'+
-											'</li>';
-
+	var conditionHtml = '<li id='+id+' class="condition-context-menu">'+cond.html+'</li>'
 	//add html to conditionList html element
 	$('#' + listID).append(conditionHtml);
 
-	$('#' + id + '_statTypeList').material_select();
-	$('#' + id + '_compList').material_select();
-	populateStatsDropDownMenu(id + '_statTypeList'); //populate the statType menu
-
-	//var id = 'exCondition_' + cond.edge + '_' + cond.id
-	//update outcome to reflect curr
-	$('#' + id + '_statTypeList').val(cond.stat);
-	$('#' + id + '_compList').val(cond.comparison);
-	$('#' + id + '_value').val(cond.value);
-
-	//refresh drop down boxes
-	$('#' + id + '_statTypeList').material_select();
-	$('#' + id + '_compList').material_select();
+	$('#' + id + '_specValue_s1_2_inputField').val($('#' + id + '_specValue_s1_2_inputField').attr('value'))
+	$('#' + id + '_specValue_s2_1_inputField').val($('#' + id + '_specValue_s2_1_inputField').attr('value'))
+	$('#' + id + '_specValue_s2_2_inputField').val($('#' + id + '_specValue_s2_2_inputField').attr('value'))
+	//init tooltipp
+	$('#'+id + '_attButton_s1_1').tooltip({delay: 50});
+	$('#'+id + '_attButton_s1_2').tooltip({delay: 50});
+	$('#'+id + '_attButton_s2_1').tooltip({delay: 50});
+	$('#'+id + '_attButton_s2_2').tooltip({delay: 50});
 
 	//do fancy animation
 	$('#' + id).hide(0,function(){
 		$('#' + id).show(300);
 	});
-
 }
 
 
 
 function edgeOverlay_addExistingOutcome(listID, out){
-
 	//html of condition row
 	var id = 'exOutcome_' + out.edge + '_' + out.id
-	var outcomeHtml = '<li id=' + id + '>'+
-											'<div class="row">'+
-												'<div class="input-field col s2">'+
-													'<select id="' + id + '_statTypeList' + '"></select>'+
-												'</div>'+
-												'<div class="input-field col s2">'+
-													'<select id="' + id + '_modList' +'">'+
-														'<option value="+">+</option>'+
-														'<option value="-">-</option>'+
-														'<option value="*">*</option>'+
-														'<option value="/">/</option>'+
-														'<option value="=">=</option>'+
-													'</select>'+
-												'</div>'+
-												'<div class="input-field col s2">'+
-													'<input placeholder="Enter Value" id="' + id + '_value' +'" type="number" class="validate">'+
-												'</div>'+
-												'<div class="input-field col s1 offset-s5">' +
-													'<a id="'+ id + '_delete' +'" class="btn-floating btn waves-effect waves-light red" onclick=removeOutcome('+ "'" + id + "'" + ')>'+
-														'<i class="material-icons">delete</i>'+
-													'</a>'+
-												'</div>'+
-											'</div>'+
-										'</li>';
+	var outcomeHtml = '<li id='+id+' class="condition-context-menu">'+out.html+'</li>'
 
 	//add html to conditionList html element
 	$('#' + listID).append(outcomeHtml);
 
-	$('#' + id + '_statTypeList').material_select();
-	$('#' + id + '_modList').material_select();
-	populateStatsDropDownMenu(id + '_statTypeList'); //populate the statType menu
-
-	//var id = 'exOutcome_' + out.edge + '_' + out.id
-	//update outcome to reflect curr
-	$('#' + id + '_statTypeList').val(out.stat);
-	$('#' + id + '_modList').val(out.modifier);
-	$('#' + id + '_value').val(out.value);
-
-	//refresh drop down boxes
-	$('#' + id + '_statTypeList').material_select();
-	$('#' + id + '_modList').material_select();
+	$('#'+id + '_attButton_1').tooltip({delay: 50});
+	$('#'+id + '_attButton_2').tooltip({delay: 50});
 
 	//do fancy animation
 	$('#' + id).hide(0,function(){
@@ -316,13 +262,15 @@ function edgeOverlay_addExistingOutcome(listID, out){
 
 
 function removeCondition(id){
+	console.log("Removing condition " + id);
+	var arr = id.split('_')
 	//remove html of element
 	$('#' + id).hide(300, function(){
 		$('#' + id).remove();
 	});
 
 	//console.log(id)
-	var arr = id.split('_')
+
 
 	if(arr[0] === 'newCondition'){
 		//new conditon being deleted

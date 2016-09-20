@@ -153,14 +153,14 @@ function stylePage()
 	//handle events
 	for (var i = 0; i < events_list.length; i++)
 	{
-		
+
 	}
 
 }
 
 function parseControl(sourceNode, outgoingEdges)
 {
-	/*
+
 	//handle control stuff
 	//Todo - Check Inventory Items & Attributes
 	console.log("At control node. possible edges are: " + sourceNode.json().data.priorityList)
@@ -171,6 +171,7 @@ function parseControl(sourceNode, outgoingEdges)
 	for(var i = 0; i<order.length; i++){
 
 		var edgeResult = assessEdge(order[i])
+		console.log('ER: ' + edgeResult)
 		if(edgeResult === true){
 			if(firstValidEdgeIndex === -1){
 				firstValidEdgeIndex = i
@@ -207,8 +208,9 @@ function parseControl(sourceNode, outgoingEdges)
 		progressStory(0)
 		console.log("parseControl(): invalid edge id. progressing to first edge in outgoingEdges")
 	}
-	*/
-	progressStory(0)
+
+	//progressStory(0)
+
 
 }
 
@@ -226,130 +228,203 @@ function getIndexFromOutgoingEdges(id, outgoingEdges){
 
 function assessEdge(edgeID){
 
-	var edge = cy.edges("[id='" + edgeID + "']")
-	console.log("Assessing edge " + edge.json().data.name)
-	if(edge !== undefined){
-		var conditions = edge.json().data.conditions
-		var results = [] //storage of results of T/F condition assessments
-		var character = project_project.characters[0] //character to assess against
+		var edge = cy.edges("[id='" + edgeID + "']")
+		console.log("Assessing edge " + edge.json().data.name)
+		if(edge !== undefined){
+			var conditions = edge.json().data.conditions
+			var results = [] //storage of results of T/F condition assessments
 
-		for(var i = 0; i<conditions.length; i++){ //for all conditions in edge
-			var currCond = conditions[i]
-			switch (currCond.comparison) {
-				case '=':
-					if(parseInt(character[currCond.stat]) === parseInt(currCond.value)){
-						results[i] = true
-					}
-					else{
-						results[i] = false
-					}
-					break;
+			var ret = true
+			for(var i = 0; i<conditions.length; i++){ //for all conditions in edge
+				var result = assessCondition(conditions[i])
 
-				case '!=':
-					if(parseInt(character[currCond.stat]) !== parseInt(currCond.value)){
-						results[i] = true
-					}
-					else{
-						results[i] = false
-					}
-					break;
-
-				case '>':
-					if(parseInt(character[currCond.stat]) > parseInt(currCond.value) ){
-						results[i] = true
-					}
-					else{
-						results[i] = false
-					}
-					break;
-
-				case '<':
-					if(parseInt(character[currCond.stat]) < parseInt(currCond.value)){
-						results[i] = true
-					}
-					else{
-						results[i] = false
-					}
-					break;
-
-				case '>=':
-					if(parseInt(character[currCond.stat]) >= parseInt(currCond.value)){
-						results[i] = true
-					}
-					else{
-						results[i] = false
-					}
-					break;
-
-				case '<=':
-					if(parseInt(character[currCond.stat]) <= parseInt(currCond.value)){
-						results[i] = true
-					}
-					else{
-						results[i] = false
-					}
-					break;
+				if(result === false){
+					ret = false
+				}
 			}
-
-			if(results[i] === true){
-				console.log("Condition '" + currCond.stat + " " + currCond.comparison + " " + currCond.value + "' is true")
-			}
-			else{
-				console.log("Condition '" + currCond.stat + " " + currCond.comparison + " " + currCond.value + "' is false")
-			}
-
+			return ret
 
 		}
-
-		//assess if all conditions are met
-		var res = true;
-		for(var x = 0; x<results.length; x++){
-			if(results[x] === false){
-				res = false
-			}
+		else{
+			console.log("assessEdge(): invalid edge. unable to assess")
+			return false
 		}
+}
 
-		if(res.length === 0){
-			res = false
-		}
-		return res;
+
+function assessCondition(condition){
+	var html = $.parseHTML(condition.html)
+	console.log(html)
+
+	var type = html[0].attributes[1].value
+	if(type === '1'){
+		var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
+		var comparison = html[0].childNodes[2].childNodes[0].data
+		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
+		console.log(attButton1_val + comparison + attButton2_val)
+		console.log(assessComparison(attButton1_val,comparison,attButton2_val))
+		return assessComparison(attButton1_val,comparison,attButton2_val)
+	}
+	else if(type === '2'){
+		var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
+		var modification = html[0].childNodes[2].childNodes[0].data
+		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
+		var lhs = assessModification(attButton1_val, modification,attButton2_val)
+
+		var pivot = html[0].childNodes[4].childNodes[0].data
+		var rhs = getAttributeValue(html[0].childNodes[5].childNodes[0])
+		console.log(attButton1_val + ' ' + modification + ' ' + attButton2_val + ' ' + pivot + ' ' + rhs)
+		console.log(assessComparison(lhs,pivot,rhs))
+		return assessComparison(lhs,pivot,rhs)
+
+	}
+	else if(type === '3'){
+		var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
+		var mod1 = html[0].childNodes[2].childNodes[0].data
+		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
+		var lhs = assessModification(attButton1_val, mod1,attButton2_val)
+
+		var pivot = html[0].childNodes[4].childNodes[0].data
+
+		var attButton3_val = getAttributeValue(html[0].childNodes[5].childNodes[0])
+		var mod2 = html[0].childNodes[6].childNodes[0].data
+		var attButton4_val = getAttributeValue(html[0].childNodes[7].childNodes[0])
+		var rhs = assessModification(attButton3_val,mod2,attButton4_val)
+		console.log(attButton1_val + ' ' + mod1 + ' ' + attButton2_val + ' ' + pivot + ' ' + attButton3_val + ' ' + mod2 + ' ' + attButton4_val )
+		console.log(assessComparison(lhs,pivot,rhs))
+		return assessComparison(lhs,pivot,rhs)
+	}
+
+}
+
+
+function getAttributeValue(childNode){
+
+	if(childNode.id.split('_')[3] === 'specValue'){
+		//button is an input feild
+		console.log(childNode.childNodes[0].value)
+		return parseFloat(childNode.childNodes[0].value)
+
 	}
 	else{
-		console.log("assessEdge(): invalid edge. unable to assess")
-		return false
+		//button is attribute button
+		var path = childNode.attributes.path.nodeValue
+		var att = gameAttributes_find(path)
+		return att.value
+	}
+
+}
+
+function assessComparison(left_value, comparison, right_value){
+	var L = parseInt(left_value)
+	var R = parseInt(right_value)
+	switch (comparison) {
+		case '=':
+			if(L === R){
+				return true
+			}
+			else{
+				return false
+			}
+			break;
+
+		case '!=':
+			if(L !== R){
+				return true
+			}
+			else{
+				return false
+			}
+			break;
+
+		case '>':
+			if(L > R){
+				return true
+			}
+			else{
+				return false
+			}
+			break;
+
+		case '<':
+			if(L < R){
+				return true
+			}
+			else{
+				return false
+			}
+			break;
+
+		case '>=':
+			if(L >= R){
+				return true
+			}
+			else{
+				return false
+			}
+			break;
+
+		case '<=':
+			if(L <= R){
+				return true
+			}
+			else{
+				return false
+			}
+			break;
 	}
 }
 
+function assessModification(left_value, modifier, right_value){
+	var L = parseInt(left_value)
+	var R = parseInt(right_value)
+	switch (modifier) {
+		case '=':
+			var ret = R
+			return ret
+			break;
+
+		case '+':
+			var ret = L + R
+			return ret
+			break;
+
+		case '-':
+			var ret = L - R
+			return ret
+			break;
+
+		case '*':
+			var ret = L * R
+			return ret
+			break;
+
+		case '/':
+			var ret = L / R
+			return ret
+			break;
+	}
+}
+
+
 function executeOutcomes(edge){
 	console.log("Executing outcomes")
-	console.log(project_project.characters[0])
-	outcomes = edge.json().data.outcomes
-	var character = project_project.characters[0]
-	for(var i = 0; i<outcomes.length; i++){
-		var currOut = outcomes[i]
-		switch (currOut.modifier) {
-			case '=':
-				character[currOut.stat] = parseInt(currOut.value)
-				break;
+		outcomes = edge.json().data.outcomes
+		for(var i = 0; i<outcomes.length; i++){
+			var currOut = outcomes[i]
+			var html = $.parseHTML(currOut.html)
 
-			case '+':
-				character[currOut.stat] = parseInt(character[currOut.stat]) + parseInt(currOut.value)
-				break;
+			var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
+			var modification = html[0].childNodes[2].childNodes[0].data
+			var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
+			var newValue = assessModification(attButton1_val,modification,attButton2_val)
 
-			case '-':
-				character[currOut.stat] = parseInt(character[currOut.stat]) - parseInt(currOut.value)
-				break;
-
-			case '*':
-				character[currOut.stat] = parseInt(character[currOut.stat]) * parseInt(currOut.value)
-				break;
-
-			case '/':
-				character[currOut.stat] = parseInt(character[currOut.stat]) / parseInt(currOut.value)
-				break;
+			var path = html[0].childNodes[1].childNodes[0].attributes[5].value
+			var att = gameAttributes_find(path)
+			att.value = newValue
+			console.log(attButton1_val + ' ' + modification + ' ' + attButton2_val + ' ' + newValue + ' ' + path)
+			console.log(html)
 		}
-	}
-	console.log(project_project.characters[0])
 }
 
 function progressStory(i)
@@ -370,7 +445,7 @@ function progressStory(i)
 	{
 		currentNode = outgoingEdges.eq(i).target();
 		//need to run edge outcomes here
-		//executeOutcomes(outgoingEdges.eq(i))
+		executeOutcomes(outgoingEdges.eq(i))
 		console.log("Now on node ", currentNode.data('id'));
 		parseNode();
 	}
