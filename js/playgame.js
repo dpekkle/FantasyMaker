@@ -110,6 +110,7 @@ function stylePage()
 	var text_cont = currentNode.data('textcontainers');
 	var dec_cont = currentNode.data('decisioncontainers');
 	var img_cont = currentNode.data('imgcontainers');
+	var vid_cont = currentNode.data('vidcontainers');
 	var output_cont = currentNode.data('outputcontainer');
 	var events_list = currentNode.data('events');
 
@@ -122,6 +123,11 @@ function stylePage()
 	for (var i = 0; i < img_cont.length; i++)
 	{
 		$('.playpage').append(img_cont[i].html);
+	}
+
+	for (var i = 0; i < vid_cont.length; i++)
+	{
+		$('.playpage').append(vid_cont[i].html);
 	}
 
 	for (var i = 0; i < dec_cont.length; i++)

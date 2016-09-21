@@ -59,16 +59,23 @@ function myModal()
 				for (var i = 0; i < fields.length; i++)
 				{
 					tar.append('<label for="' + i + '"> '+ fields[i].name + '</label>')
-					tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
+					if (fields[i].type == "number")
+						tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseInt(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">');
+					else
+						tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
 				}
 			},
 			complete: function()
 			{
 				tar.children('input').each(function(index) 
 				{
-					results.push($(this).val());
+					if ($(this).attr('type') == "number"){
+						console.log("We got a number entry");
+						results.push(parseInt($(this).val()));
+					}
+					else
+						results.push($(this).val());
 				});
-
 				mycallback(results);
 			}
 		});		

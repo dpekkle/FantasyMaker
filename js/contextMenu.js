@@ -2,6 +2,7 @@ goog.provide('contextMenu')
 goog.require('generalOverlay')
 goog.require('audio')
 goog.require('project')
+goog.require('prompts')
 
 //Right click context menus
 
@@ -11,8 +12,9 @@ function changeCSSinMenu(target, options, attribute, value)
 
 	if (target == '#pagecontainers')
 		$(target).css(attribute, value);
-	else
+	else{
 		options.$trigger.parent().siblings(target).css(attribute, value);
+	}
 }
 
 function bringEleToFront(element)
@@ -139,12 +141,22 @@ function generateContextMenu(container_type, template_menu_list)
 						"font-size":
 						{
 							"name": "Size",
-							"callback": function(key, options){
-								var size = prompt("Enter font size", "14");
-								if (size <= 50 && size >= 0)
-									return changeCSSinMenu(target_element, options, "font-size", size + "px");
-								else
-									return false;
+							"callback": function(key, options)
+							{
+								var ele = options.$trigger.parent().siblings(target_element);
+								myModal.prompt("Set font size", "Between 1 and 40", [{name: "Font-size", default: ele.css('font-size'), min: "1", max: "40", type: "number"}], function(results)
+								{
+									if(!myModal.confirm)
+										return;
+									var value = results[0];
+
+									if (value <= 40 && value >= 1)
+									{
+										ele.css('font-size', value);
+									}
+									else
+										return false;
+								});
 							}
 						},
 						"font-color":
@@ -168,27 +180,38 @@ function generateContextMenu(container_type, template_menu_list)
 							"name": "Opacity",
 							"callback": function(key, options)
 							{
-								var opacity = prompt("Enter an opacity from 0-100", "100");
-
-								if (opacity <= 100 && opacity >= 0)
-								{
-									opacity /= 100;
-
-									var colour = options.$trigger.parent().siblings(target_element).css('background-color');
-									if(colour.indexOf('a') == -1)
+								var ele = options.$trigger.parent().siblings(target_element);
+								var colour_string = ele.css('background-color');
+								var alpha;
+								if (colour_string.match(/rgba/))
+									alpha=colour_string.replace(/^.*,(.+)\)/,'$1')
+								else
+									alpha = 1;
+								myModal.prompt("Set Opacity", "Between 0 and 100", [{name: "Opacity", default: alpha*100, min: "0", max: "100", type: "number"}], function(results)
+								{									
+									if(!myModal.confirm)
+										return;
+									var opacity = parseFloat(results[0]);
+									if (opacity <= 100 && opacity >= 0)
 									{
-										//convert RGB to RGBA
-										colour = colour.replace(')', ', ' + opacity + ')').replace('rgb', 'rgba');
+										opacity /= 100;
+
+										var colour = ele.css('background-color');
+										if(colour.indexOf('a') == -1)
+										{
+											//convert RGB to RGBA
+											colour = colour.replace(')', ', ' + opacity + ')').replace('rgb', 'rgba');
+										}
+										else
+										{
+											//alter A component of RGBA
+											colour = colour.substr(0, colour.lastIndexOf(',')).concat(', ' + opacity + ')');
+										}
+										console.log("Current colour: ", colour);
+										ele.css('background-color', colour);
 									}
-									else
-									{
-										//alter A component of RGBA
-										colour = colour.substr(0, colour.lastIndexOf(',')).concat(', ' + opacity + ')');
-									}
-									console.log("Current colour: ", colour);
-									options.$trigger.parent().siblings(target_element).css('background-color', colour);
-								}
-								return false;
+									return false;
+								});
 							}
 						},
 					}
@@ -216,33 +239,41 @@ function generateContextMenu(container_type, template_menu_list)
 							//create a new template menu entry, storing the needed html
 							if (count < 100)
 							{
-								var name = prompt("Enter name for template");
-								template_menu_list["template" + project_project.template_menus.template_ID] =
-								{
-									"name": name,
-									"savedhtml": options.$trigger.parent().parent().children(target_element)[0].outerHTML, //goes for the editdiv
-									"callback": function(key, options){
-										//generate function callbacks for templates in load/delete dropdowns
-										if (options.$selected.parent().siblings('span').html() == "Load")
-										{
-											//load template
-											console.log("Loading: " + key);
-											//options.$trigger is the jquery object for the icon that triggers the menu
-											var element = options.$trigger.parent().parent().children(target_element);
+								var saved = options.$trigger.parent().parent().children(target_element)[0].outerHTML
 
-											//save inner content
-											var preserve_content = element.html();
-											//swap outer tag, including style stuff
-											element[0].outerHTML = template_menu_list[key].savedhtml;
-											options.$trigger.parent().parent().children(target_element).html(preserve_content);
-										}
-										else if (options.$selected.parent().siblings('span').html() == "Delete")
-										{
-											delete template_menu_list[key]
+								myModal.prompt("Create Container Template", "Saves the styles of a page to be loaded later", [{name: "Template", default: "", type: "text"}], function(results)
+								{
+									if(!myModal.confirm)
+										return;
+									var name = results[0];
+									template_menu_list["template" + project_project.template_menus.template_ID] =
+									{
+										"name": name,
+										"savedhtml": saved, //goes for the editdiv
+										"callback": function(key, options){
+											//generate function callbacks for templates in load/delete dropdowns
+											if (options.$selected.parent().siblings('span').html() == "Load")
+											{
+												//load template
+												console.log("Loading: " + key);
+												//options.$trigger is the jquery object for the icon that triggers the menu
+												var element = options.$trigger.parent().parent().children(target_element);
+
+												//save inner content
+												var preserve_content = element.html();
+												//swap outer tag, including style stuff
+												element[0].outerHTML = template_menu_list[key].savedhtml;
+												options.$trigger.parent().parent().children(target_element).html(preserve_content);
+											}
+											else if (options.$selected.parent().siblings('span').html() == "Delete")
+											{
+												console.log("Delete: " + key);
+												delete template_menu_list[key]
+											}
 										}
 									}
-								}
-								project_project.template_menus.template_ID++;
+									project_project.template_menus.template_ID++;
+								});
 							}
 						}},
 						"load":{
@@ -296,30 +327,35 @@ function generateContextMenu(container_type, template_menu_list)
 				"URL":
 				{
 					"name":"Change URL",
-					"callback": function(key, options){
-						var imgurl = prompt("Enter new URL for image", "http://");
-						if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
-						{
-							$.ajax(
+					"callback": function(key, options)
+					{
+						var ele = options.$trigger.parent().siblings(target_element);
+						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results){
+							if(!myModal.confirm)
+								return;
+							var imgurl = results[0];
+							if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
 							{
-								url: imgurl, //or your url
-								success: function(data)
+								$.ajax(
 								{
-									//Replace URL
-									var parent = options.$trigger.parent().siblings(target_element);
-									var copy = parent.parent();
+									url: imgurl, //or your url
+									success: function(data)
+									{
+										//Replace URL
+										var parent = ele;
+										var copy = parent.parent();
 
-									parent.remove();
+										parent.remove();
 
-									copy.append(html_string);
-								},
-								error: function(data)
-								{
-									alert('URL: ' + imgurl + ' does not exist');
-								},
-							})
-						}
-
+										copy.append(html_string);
+									},
+									error: function(data)
+									{
+										alert('URL: ' + imgurl + ' does not exist');
+									},
+								})
+							}
+						});
 					}
 				},
 				"delete": {"name": "Delete", "icon": "delete", "callback" : function(key, options){
@@ -362,30 +398,35 @@ function generateContextMenu(container_type, template_menu_list)
 				"URL":
 				{
 					"name":"Change URL",
-					"callback": function(key, options){
-						var imgurl = prompt("Enter new URL for video", "http://");
-						if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
-						{
-							$.ajax(
+					"callback": function(key, options)
+					{
+						var ele = options.$trigger.parent().siblings(target_element);
+						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results){
+							if(!myModal.confirm)
+								return;
+							var imgurl = results[0];
+							if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
 							{
-								url: imgurl, //or your url
-								success: function(data)
+								$.ajax(
 								{
-									//Replace URL
-									var parent = options.$trigger.parent().siblings(target_element);
-									var copy = parent.parent();
+									url: imgurl, //or your url
+									success: function(data)
+									{
+										//Replace URL
+										var parent = ele;
+										var copy = parent.parent();
 
-									parent.remove();
+										parent.remove();
 
-									copy.append(html_string);
-								},
-								error: function(data)
-								{
-									alert('URL: ' + imgurl + ' does not exist');
-								},
-							})
-						}
-
+										copy.append(html_string);
+									},
+									error: function(data)
+									{
+										alert('URL: ' + imgurl + ' does not exist');
+									},
+								})
+							}
+						});
 					}
 				},
 				"delete": {"name": "Delete", "icon": "delete", "callback" : function(key, options){
@@ -448,13 +489,11 @@ function generateContextMenu(container_type, template_menu_list)
 					var $this = this;
 					// export states to data store
 					$.contextMenu.getInputValues(opt, $this.data());
-					// this basically dumps the input commands' values to an object
-					// like {name: "foo", yesno: true, radio: "3", &hellip;}
-					//change values based on selects
 					$(target_element).css("border-style", $this.data().Style);
 					if ($this.data().resolution != null)
 					{
-						$(target_element).css("flex", "0 0 " + $this.data().resolution.split('a')[1]);
+						$(target_element).css("width", $this.data().resolution.split('a')[1]);
+						$(target_element).css("flex", "0 0 " + $this.data().resolution.split('a')[1]); //needed for pageoverlay flexbox behaviour
 						$(target_element).css("height", $this.data().resolution.split('a')[2]);
 					}
 					// $('#edit-page-toolbar').css("height", $this.data().resolution.split('a')[2]);
@@ -523,21 +562,34 @@ function border_menu_entry(target_element)
 			"Corners":
 			{
 				"name": "Rounded Corners", "callback": function(key, options){
-					var size = prompt("Enter a number from 0 (square)  to 12 (fully rounded)", "5");
-					if (size <= 12 && size >= 0)
-						return changeCSSinMenu(target_element, options, "border-radius", size + "px");
-					else
-						return false;
+
+					var ele = options.$trigger.parent().siblings(target_element);
+					myModal.prompt("Corner rounding", "Square is 0, the higher the rounder. Results may vary.", [{name: "Rounding pixels", default: parseInt(ele.css("border-radius")), min: "0", max: "1000", type: "number"}], function(results)
+					{
+						if(!myModal.confirm)
+							return;
+						var size = results[0];
+						if (size <= 1000 && size >= 0)
+							return ele.css("border-radius", size + "px");
+						else
+							return false;
+					});
 				}
 			},
 			"Thickness":
 			{
 				"name": "Border Width", "callback": function(key, options){
-					var size = prompt("Enter a number from 0 up", "2");
-					if (size <= 100 && size >= 0)
-						return changeCSSinMenu(target_element, options, "border-width", size + "px");
-					else
-						return false;
+					var ele = options.$trigger.parent().siblings(target_element);
+					myModal.prompt("Border Width", "Any value between 1 and 40. To hide set border style to 'none'", [{name: "Thickness pixels", default: parseInt(ele.css("border-width")), min: "1", max: "40", type: "number"}], function(results)
+					{
+						if(!myModal.confirm)
+							return;
+						var size = results[0];
+						if (size <= 40 && size >= 1)
+							return ele.css("border-width", size + "px");
+						else
+							return false;
+					});
 				}
 			},
 		}
