@@ -2,6 +2,7 @@ goog.provide('pageOverlay')
 goog.require('generalOverlay')
 goog.require('contextMenu')
 goog.require('dragDrop') //for page dimensions
+goog.require('prompts')
 
 var show_handles = true;
 
@@ -104,45 +105,51 @@ function addImageContainer()
 {
 	//ask user for URL
 	var html_string;
-	var imgurl = prompt("Enter image url", "http://i.imgur.com/V7vuv85.png");
-	var position = genPageCenterHTML(300, 220);
-	
-	//check if valid image
-	if (imgurl != null )
+
+	myModal.prompt("Add image", "Directly link a jpeg|jpg|gif|png", [{name: "Image URL", default: "http://", type: "text"}], function(results)
 	{
-		html_string = "<div class='img-container drag-element' style='position:absolute; " + position + "'>";
-
-		var valid = checkImageURL(imgurl, "img");
-		if (valid)
-			html_string += valid;
-		else
+		if (!myModal.confirm)
 			return;
+		var imgurl = results[0];
 
-		html_string += "</div>"	
-
-		$.ajax(
+		var position = genPageCenterHTML(300, 220);
+		//check if valid image
+		if (imgurl != null )
 		{
-			url: imgurl, //or your url
-			success: function(data)
-			{
-				//Create a new draggable div to hold the image containers	
-				var size = $(".img-container").length;	
-				var new_container = htmlToElements(html_string);
+			html_string = "<div class='img-container drag-element' style='position:absolute; " + position + "'>";
 
-				$("#pagecontainers").append(new_container);
-				$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));	
+			var valid = checkImageURL(imgurl, "img");
+			if (valid)
+				html_string += valid;
+			else
+				return;
 
-				bringContainerToFront($("pagecontainers div.img-container:last"));
-				if (!show_handles)
-					$('.handlecontainer').hide();
-				bindHandleSelection();
-			},
-			error: function(data)
+			html_string += "</div>"	
+
+			$.ajax(
 			{
-				alert('URL: ' + imgurl + ' does not exist');
-			},
-		})
-	}	
+				url: imgurl, //or your url
+				success: function(data)
+				{
+					//Create a new draggable div to hold the image containers	
+					var size = $(".img-container").length;	
+					var new_container = htmlToElements(html_string);
+
+					$("#pagecontainers").append(new_container);
+					$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));	
+
+					bringContainerToFront($("pagecontainers div.img-container:last"));
+					if (!show_handles)
+						$('.handlecontainer').hide();
+					bindHandleSelection();
+				},
+				error: function(data)
+				{
+					alert('URL: ' + imgurl + ' does not exist');
+				},
+			})
+		}			
+	});
 }
 
 function addVideoContainer()

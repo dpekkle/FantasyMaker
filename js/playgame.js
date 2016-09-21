@@ -152,13 +152,6 @@ function stylePage()
 
 	$(".playpage").children().attr('contenteditable','false');
 	$(".playpage").children().children().attr('contenteditable','false');
-
-	//handle events
-	for (var i = 0; i < events_list.length; i++)
-	{
-
-	}
-
 }
 
 function parseControl(sourceNode, outgoingEdges)
