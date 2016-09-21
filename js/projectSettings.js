@@ -98,4 +98,5 @@ function projectSettings_closeOverlay(){
 
 function projectSettings_deleteProject(username,projName){
   $.when(http_deleteProject(username,projName)).done(projectSettings_populateProjectsList(username))
+  Materialize.toast("Project '" + projName + "' Deleted", 3000, 'rounded')
 }
