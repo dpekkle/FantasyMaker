@@ -127,7 +127,10 @@ function stylePage()
 	for (var i = 0; i < dec_cont.length; i++)
 	{
 		// we will need to check visibility conditions when deciding to add a decision container to a page
-		$('.playpage').append(dec_cont[i].html);
+		if(assessEdge(currentNode.outgoers("[name='" + dec_cont[i].name + "']").id())){
+			$('.playpage').append(dec_cont[i].html);
+		}
+
 	}
 
 	$('.playpage').append(output_cont);

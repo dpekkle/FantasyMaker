@@ -660,30 +660,33 @@ $(function(){
 			 items: {}
 		 }
 
-		 options.items['type1'] = {
-			 name: 'Compare Two Attributes',
-			 callback: function(key, options){
-				 setComparisonType('type1',$trigger.attr('id'))
+		 if( !$trigger.hasClass('outcome') ){
+			 options.items['type1'] = {
+				 name: 'Compare Two Attributes',
+				 callback: function(key, options){
+					 setComparisonType('type1',$trigger.attr('id'))
+				 }
+			 }
+
+			 options.items['type2'] = {
+				 name: 'Compare Statement and Attribute',
+				 callback: function(key, options){
+					 setComparisonType('type2',$trigger.attr('id'))
+				 }
+			 }
+
+			 options.items['type3'] = {
+				 name: 'Compare Two Statements',
+				 callback: function(key, options){
+					 setComparisonType('type3',$trigger.attr('id'))
+				 }
+			 }
+			 options.items['sep'] = {
+				 name: '----------------------------------------------',
+				 disabled: true
 			 }
 		 }
 
-		 options.items['type2'] = {
-			 name: 'Compare Statement and Attribute',
-			 callback: function(key, options){
-				 setComparisonType('type2',$trigger.attr('id'))
-			 }
-		 }
-
-		 options.items['type3'] = {
-			 name: 'Compare Two Statements',
-			 callback: function(key, options){
-				 setComparisonType('type3',$trigger.attr('id'))
-			 }
-		 }
-		 options.items['sep'] = {
-			 name: '----------------------------------------------',
-			 disabled: true
-		 }
 
 		 var spl = $trigger.attr('id').split('_')
 		 var name
@@ -722,7 +725,7 @@ $(function(){
 
  function addAttributeToContextMenu(att,options,trigger,parent){
 
-	 if(att.children.length > 0){	//if attribute has a chlid
+	 if(att.is_leaf === false){	//if attribute has no value ( !leaf )
 		 //add attribute to list
 		 options.items[att.name] = {
 			 name: att.name,
@@ -735,7 +738,7 @@ $(function(){
 			 addAttributeToContextMenu(next,options.items[att.name],trigger,att.name)
 		 }
 	 }
-	 else{ //if attribute has no chlid
+	 else{ //if attribute has value (leaf)
 		 options.items[att.name] = {
 			 name: att.name,
 			 callback: function(key,option){
@@ -745,54 +748,77 @@ $(function(){
 	 }
  }
 
+ function generateConditionContextMenu(trigger){
+	 var options = {
+		 callback: function(key, options) {
+
+		 },
+		 items: {}
+	 };
+
+	 //if(trigger.hasClass('condition-context-menu')) {
+
+		 //add all game attributes
+		 if (trigger.hasClass('game-attributes')) {
+			 //if there are attributes in proj
+			 if(Object.keys(project_project.gameAttributes).length > 0){
+				 for(var key in project_project.gameAttributes){
+					// add characters option
+					var att = gameAttributes_find(key)
+					addAttributeToContextMenu(att,options,trigger,'')
+				}
+			 }
+			 else{
+				 options.items.err = {
+					 name: 'No attributes available',
+					 disabled: true
+				 }
+			 }
+		 }
+
+
+		 if(trigger.hasClass('numbers')){
+				// add value option
+				options.items.specValue = {
+					name: "Specific Value",
+					callback: function(key,options){
+						handleSelection(key,trigger.attr('id'))
+						//numberSelected($trigger.attr("id"))
+					}
+				}
+
+				// add rand option
+				options.items.randValue = {
+					name: "Random Value",
+					callback: function(key,option){
+						handleSelection(key,trigger.attr('id'))
+						//randomSelected($trigger.attr("id"))
+					}
+				}
+			}
+	 //}
+	 /*
+	 else {
+		 options.items.bar = {name: "bar"};
+	 }
+	 */
+
+	 return options;
+ }
+
  $.contextMenu({
    selector: ".condition-context-menu",
 	 trigger: 'left',
    build: function($trigger) {
-     var options = {
-       callback: function(key, options) {
-         var m = "clicked: " + key;
-         window.console && console.log(m) || alert(m);
-       },
-       items: {}
-     };
+     return generateConditionContextMenu($trigger)
+   }
+ });
 
-     if ($trigger.hasClass('condition-context-menu')) {
-
-			 //add all game attributes
-			 if ($trigger.hasClass('game-attributes')) {
-				 for(var key in project_project.gameAttributes){
-	 				// add characters option
-	 				var att = gameAttributes_find(key)
-	 				addAttributeToContextMenu(att,options,$trigger,'')
-	 			}
-			 }
-
-
-			 if($trigger.hasClass('numbers')){
-  				// add value option
-  				options.items.specValue = {
-  					name: "Specific Value",
-  					callback: function(key,options){
-							handleSelection(key,$trigger.attr('id'))
-  						//numberSelected($trigger.attr("id"))
-  					}
-  				}
-
-  				// add rand option
-  				options.items.randValue = {
-  					name: "Random Value",
-  					callback: function(key,option){
-							handleSelection(key,$trigger.attr('id'))
-  						//randomSelected($trigger.attr("id"))
-  					}
-  				}
-  			}
-     } else {
-       options.items.bar = {name: "bar"};
-     }
-
-     return options;
+ $.contextMenu({
+   selector: ".condition-context-menu-right",
+	 trigger: 'right',
+   build: function($trigger) {
+     return generateConditionContextMenu($trigger)
    }
  });
 
@@ -964,7 +990,7 @@ $(function(){
 
 
  	var html = '<div id="'+id +'" class="input-field">'+
- 							'<input placeholder="Enter Value" id="'+id+'_inputField' +'" type="number" class="input-field condition-context-menu game-attributes numbers">'+
+ 							'<input placeholder="Enter Value" id="'+id+'_inputField' +'" type="number" class="input-field condition-context-menu-right game-attributes numbers">'+
  							'</div>'
  	//$('#comparisonButton').after(html)
  	$('#' + clickedItemID).replaceWith(html)
@@ -1038,10 +1064,10 @@ $(function(){
  function generateAttributeButton(id,classes,mode){
 	 var ret
 	 if(mode === 'NO_COL'){
-		 ret = '<div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-position="bottom" data-delay="50" data-tooltip=""></div>'
+		 ret = '<div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div>'
 	 }
 	 else{
-		 ret = '<div class="col s2"><div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-position="bottom" data-delay="50" data-tooltip=""></div></div>'
+		 ret = '<div class="col s2"><div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div></div>'
 	 }
 	 return ret
  }
@@ -1052,7 +1078,13 @@ $(function(){
  }
 
  function generateSettingsButton(id){
-	 var ret = '<div class="col s1"><div id="' + id + '_settings'+ '" class="condition-settings-context-menu condition-settings-button"><a class="btn-floating btn waves-effect waves-light gray"><i class="material-icons">settings</i></a></div></div>'
+	 var ret
+	 if(id.split('_')[0] === 'newOutcome' || id.split('_')[0] === 'exOutcome'){
+		 ret = '<div class="col s1"><div id="' + id + '_settings'+ '" class="condition-settings-context-menu outcome condition-settings-button"><a class="btn-floating waves-effect waves-light gray"><i class="material-icons">settings</i></a></div></div>'
+	 }
+	 else{
+		 var ret = '<div class="col s1"><div id="' + id + '_settings'+ '" class="condition-settings-context-menu condition-settings-button"><a class="btn-floating waves-effect waves-light gray"><i class="material-icons">settings</i></a></div></div>'
+	 }
 	 return ret
  }
 
@@ -1113,17 +1145,26 @@ function findFirstLeafPath(path){
 
 
  function initAttributeButton(id){
-	 for(var key in project_project.gameAttributes){
-		 var path = findFirstLeafPath(key)
-		 if(path !== undefined){
-			 var att = gameAttributes_find(path)
-			 $('#'+id).text(att.name)
-			 $('#'+id).attr('path',path)
-			 updateTooltip(id,path)
+	 if(Object.keys(project_project.gameAttributes).length > 0){
+		 for(var key in project_project.gameAttributes){
+			 var path = findFirstLeafPath(key)
+			 if(path !== undefined){
+				 var att = gameAttributes_find(path)
+				 $('#'+id).text(att.name)
+				 $('#'+id).attr('path',path)
+				 updateTooltip(id,path)
 
-			 return
+				 return
+			 }
 		 }
 	 }
+	 else{
+		 $('#'+id).text('...........')
+		 $('#'+id).attr('path','')
+		 $('#' + id).attr('data-tooltip',"There are no attributes in your project. <br> Add attributes via the 'Attributes' button. ")
+		 $('#'+id).tooltip({delay: 50});
+	 }
+
  }
 
  function updateTooltip(id,path){
