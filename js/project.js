@@ -60,10 +60,10 @@ function project_createNewProject(){
 }
 
 //Add top level attribute directly under gameAttributes
-function project_addTopGameAttribute(name){
+function project_addTopGameAttributeFolder(name){
 	var attID = generateID();
 	project_project["gameAttributes"][attID] = new GameAttribute(null, null, name, attID, false);
-	var newAttributeHTML = '<li class="' + attID  + ' margin"><a onclick="gameAttributes_display('+ '\'' + attID + '\'' + ')">' + name + '</a><ul id="' + attID + '-inner_list"></ul></li>';
+	var newAttributeHTML = '<li class="' + attID  + '-list-element margin pointer"><a onclick="gameAttributes_display('+ '\'' + attID + '\'' + ')">' + name + '</a><ul id="' + attID + '-inner_list"></ul></li>';
 	$('#attributes-list').append(newAttributeHTML);
 	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path);
 }

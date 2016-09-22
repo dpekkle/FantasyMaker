@@ -1,0 +1,37 @@
+#attributes-modal{
+    overflow-y: hidden;
+}
+
+.pane{
+    height: 90%;
+}
+
+.pane .card-content{
+    overflow-y: scroll;
+    height: 80%
+}
+
+.pane .card{
+    height:85%;
+}
+
+.pane .card-action{
+    height: 20%;
+    padding: 3%;
+}
+
+.card-action .float-bottom{
+    bottom:0;
+    position: absolute;
+    margin-bottom: 5px;
+}
+
+.attributes-list{
+    height: 90%;
+    overflow-y: scroll;
+}
+
+.pointer:hover{
+    cursor: pointer;
+
+}

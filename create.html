@@ -18,6 +18,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/attributes.css" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 
@@ -127,7 +128,7 @@
 		<div class="modal-content">
 			<div class="row max-height">
 				<!-- List Pane -->
-				<div class="col m2 pos-relative box-border" style="height: 100%;">
+				<div class="col m2 pos-relative attributes-list">
 					<h4>Attributes</h4> <br/>
 					<ul id="attributes-list"></ul>
 					<a id="new-top-level-button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="showAddTopLevelInput();"><i class="medium material-icons">library_add</i></a>
@@ -144,70 +145,72 @@
 					<!-- Attribute/Folder Title -->
 					<div class="row">
 						<div class="col m12">
-							<h4 id="attribute-detail-title">Attribute Name</h4>
+							<h4 class="current-attribute-name"></h4>
 						</div>
 					</div>
 					<div class="row max-height">
-						<!-- Sub-Folder Pane -->
-						<div class="pane col m6 max-height pos-relative box-border">
-							<h5 class="bottom-border">Folders</h5>
-							<a id="new-folder-button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick=""><i class="medium material-icons">add</i></a>
-						</div>
-						<!-- Values Pane -->
-						<div class="pane col m6 max-height pos-relative box-border">
-							<h5 class="bottom-border">Values</h5>
-							<a id="new-value-button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick=""><i class="medium material-icons">add</i></a>
-							<br/>
-							<ul id="values-list" class="collapsible" data-collapsible="accordion">
+						<!-- Folders Pane -->
+						<div class="pane col m6 pos-relative">
+							<div class="card white darken-2 max-height">
+								<div class="card-content">
+									<span class="card-title">Folders</span>
+									<div id="folders-list" class="collection">
 
-							</ul>
-						</div>
+									</div>
+								</div>
+								<div class="card-action">
+									<div class="col m12 float-bottom" id="add_folder_input_container" style="display: none">
+										<div class="input-field col m7">
+											<input id="new_folder_name_input" type="text" class="new-attribute-input validate" data-path="">
+											<label for="new_folder_name_input">Folder Name</label>
+										</div>
+										<div class="col m2 float-bottom float-right offset-m10">
+											<a class="btn-floating btn-small waves-effect waves-light green" id="add-folder-confirm"><i class="small material-icons">done</i></a>
+										</div>
+									</div>
+									<a id="add_folder_input_container_show_button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_showInput('add_folder_input_container')" style="display: none"><i class="medium material-icons">add</i></a>
+								</div>
+							</div>
+							</div>
+
+						<!-- Attributes Pane -->
+							<div class="pane col m6 pos-relative">
+							<div class="card darken-2 max-height">
+								<div class="card-content">
+									<span class="card-title">Values</span>
+									<ul id="values-list" class="collapsible" data-collapsible="accordion">
+
+									</ul>
+								</div>
+								<div class="card-action">
+									<a id="add_attribute_input_container_show_button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_showInput('add_attribute_input_container')" style="display:none;"><i class="medium material-icons">add</i></a>
+									<div class="row float-bottom" id="add_attribute_input_container" style="display: none">
+										<div class="input-field col m3">
+											<input id="new_attribute_name_input" type="text" class="new-attribute-input validate" data-path="">
+											<label for="new_attribute_name_input">Attribute Name</label>
+										</div>
+										<div class="input-field col m2">
+											<input id="new_attribute_value_input" type="number" class="new-attribute-input validate" data-path="">
+											<label for="new_attribute_value_input">Value</label>
+										</div>
+										<div class="input-field col m2">
+											<input id="new_attribute_min_input" type="number" class="new-attribute-input validate" data-path="">
+											<label for="new_attribute_min_input">Min Value</label>
+										</div>
+										<div class="input-field col m2">
+											<input id="new_attribute_max_input" type="number" class="new-attribute-input validate" data-path="">
+											<label for="new_attribute_max_input">Max Value</label>
+										</div>
+
+										<div class="col m2 float-bottom float-right offset-m10">
+											<a class="btn-floating btn-small waves-effect waves-light green" id="add-attribute-confirm"><i class="small material-icons">done</i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+								</div>
 					</div>
 
-<!--
-					<div id="attribute-detail-card" class="card-panel blue-grey">
-						<div id="attribute-detail">
-							<div id="attribute-detail-header"  class="row">
-								<div class="row">
-
-								</div>
-							</div>
-							<div class="row float-bottom">
-								<div class="col m2 s3 value-class-row-style"><h5>Values</h5></div>
-								<div class="col m2 s2 value-class-row-style"><a class="btn-floating btn-small waves-effect waves-light red" id="new-value-button" onclick="showAddValueInput()"><i class="material-icons">add</i></a></div>
-								<div class="col m7 s7" id="new-value-container">
-									<div class="input-field col s6">
-										<input id="add-value-name" type="text" class="validate add-value" data-path="">
-										<label for="add-value-name">Value Name</label>
-									</div>
-									<div class="input-field col s4">
-										<input id="add-value-data" type="number" class="validate add-value" data-path="">
-										<label for="add-value-data">Value</label>
-									</div>
-								</div>
-							</div>
-							<div class="row chips-container">
-								<div class="col m12" id="values-chips-container">
-									<ul id="attribute-detail-value-list"></ul>
-								</div>
-							</div>
-							<div class="row float-bottom">
-								<div class="col m2 s3 value-class-row-style"><h5>Sub-Classes</h5></div>
-								<div class="col m2 s2 value-class-row-style"><a class="btn-floating btn-small waves-effect waves-light red" id="new-class-button" onclick="showAddClassInput()"><i class="material-icons">add</i></a></div>
-								<div class="col m7 s7" id="new-class-container">
-									<div class="input-field col s6">
-										<input id="add-class-name" type="text" class="validate" data-path="">
-										<label for="add-class-name">Class Name</label>
-									</div>
-								</div>
-							</div>
-							<div class="row chips-container">
-								<div class="col m12" id="classes-chips-container">
-									<ul id="attribute-detail-class-list"></ul>
-								</div>
-							</div>
-						</div>
-						<!-- <span class="white-text" style="margin-top: 50%; margin-bottom: 50%;">Click On An Attribute!</span> -->
 					</div>
 				</div>
 			</div>

@@ -1,10 +1,14 @@
 goog.provide('gameAttributes')
 goog.require('project')
 
-function GameAttribute(parent_path, parent_level, name, attID, is_leaf, value){
+function GameAttribute(parent_path, parent_level, name, attID, is_leaf, value, minValue, maxValue){
     this.name = name;
     this.is_leaf = is_leaf;
     this.value = value;
+    this.maxValue = maxValue;
+    this.minValue = minValue;
+    this.parentPath = parent_path;
+    this.id = attID;
     if(parent_path != null){
         this.level = parent_level + 1;
         this.path = parent_path + "_" + attID;
@@ -13,28 +17,28 @@ function GameAttribute(parent_path, parent_level, name, attID, is_leaf, value){
         this.path = attID;
         this.level = 0;
     }
-    this.children = [];
+    this.childrenArray = [];
 
 }
 
-function gameAttributes_addAttributeValue(parent_path, child_name, value) {
-    gameAttributes_addChild(parent_path, child_name, true, value);
+function gameAttributes_addAttribute(parent_path, child_name, value, minValue, maxValue) {
+    gameAttributes_addChild(parent_path, child_name, true, value, minValue, maxValue);
 }
 
-function gameAttributes_addAttributeClass(parent_path, child_name) {
+function gameAttributes_addAttributeFolder(parent_path, child_name) {
     gameAttributes_addChild(parent_path, child_name, false);
 }
 
-function gameAttributes_addChild(parent_path, child_name, is_leaf, value){
+function gameAttributes_addChild(parent_path, child_name, is_leaf, value, minValue, maxValue){
     console.log("New Child: " + child_name);
     //find parent to add child to
     var parent = gameAttributes_find(parent_path);
     var newID = generateID();
 
-    parent[newID] = new GameAttribute(parent.path, parent.level, child_name, newID, is_leaf, value);
+    parent[newID] = new GameAttribute(parent.path, parent.level, child_name, newID, is_leaf, value, minValue, maxValue);
     var child = parent[newID];
 
-    parent.children.push(newID);
+    parent.childrenArray.push(newID);
     console.log("New Nested attribute added under: " + parent.path);
     console.log("New Attribute ID: " + newID);
 
@@ -42,9 +46,9 @@ function gameAttributes_addChild(parent_path, child_name, is_leaf, value){
     var newAttributeHTML;
     var pathString = "\'" + child.path + "\'";
     if (is_leaf)
-        newAttributeHTML = '<li class="' + newID  + ' margin"><a onclick="gameAttributes_display(' + pathString + ')">' + child_name + '</a></li>';
+        newAttributeHTML = '<li class="' + child.path  + '-list-element margin"><a class="' + child.path + '-name" onclick="gameAttributes_display(' + pathString + ')">' + child_name + '</a></li>';
     else
-        newAttributeHTML = '<li class="' + newID  + ' margin"><a onclick="gameAttributes_display(' + pathString + ')">' + child_name + '</a><ul id="' + child.path + '-inner_list"></ul></li>';
+        newAttributeHTML = '<li class="' + child.path  + '-list-element margin pointer"><a class="' + child.path + '-name" onclick="gameAttributes_display(' + pathString + ')">' + child_name + '</a><ul id="' + child.path + '-inner_list"></ul></li>';
 
     $('#' + parent.path + '-inner_list').append(newAttributeHTML);
 }
@@ -59,29 +63,69 @@ function gameAttributes_find(s_path){
     return attObj;
 }
 
-function gameAttributes_update(s_path, name, value){
+
+//used to update attribute from html
+function gameAttribute_edit(s_path){
+    var name = $('#' + s_path + '-name-input');
+    var value = $('#' + s_path + '-value-input');
+    var minValue = $('#' + s_path + '-min-value-input');
+    var maxValue = $('#' + s_path + '-max-value-input');
+
+
+    //Todo - make sure values are valid
+
+    var editObj = gameAttributes_update(s_path, name.val(), value.val(), minValue.val(), maxValue.val());
+
+    gameAttributes_display(editObj.parentPath);
+}
+
+
+//this method is used to update the attribute's value from anywhere
+function gameAttributes_update(s_path, name, value, minVal, maxVal){
 
     var attObj = gameAttributes_find(s_path);
 
-    attObj.name = name;
-    attObj.value = value;
+    if(name!=null&&name!='')
+    {attObj.name = name; $('.' + attObj.path +'-name').text(name);}
+
+    if(value!=null&&name!='')
+        attObj.value = value;
+
+    if(minVal!=null&&name!='')
+        attObj.minValue = minVal;
+
+    if(maxVal!=null&&name!='')
+        attObj.maxValue = maxVal;
 
     console.log(attObj + " Updated");
+
+
+
+    return attObj;
 }
 
 function gameAttributes_delete(s_path){
+
     path = s_path.split("_");
 
     var attObj = project_project["gameAttributes"];
+    //stop at parent of attribute to be deleted
     for(var i=0; i<path.length-1; i++){
         attObj = attObj[path[i]];
     }
 
     console.log(attObj);
-    console.log("Deleting - " + path[path.length-1]);
+    console.log("Deleting - " + attObj[path[path.length-1]].path);
+
+    $('.' + attObj[path[path.length-1]].path + '-list-element').remove();
+
+    attObj[childrenArray].splice($.inArray(attObj[path[path.length-1]].id, attObj[childrenArray]), 1);
+    
     attObj[path[path.length-1]] = null;
     delete  attObj[path[path.length-1]];
-    //TODO - WARN USER CHILDREN WILL BE DELETED
+
+
+    //TODO - WARN USER CHILDRENArray WILL BE DELETED, REMOVE FROM CHILDRENArray ARRAY
 
 }
 
@@ -96,97 +140,65 @@ function gameAttributes_display(s_path){
     //var attributeTitle = $('#attribute-detail-title');
     //var classList = $('#attribute-detail-class-list');
     var valueList = $('#values-list');
-    var addClassInput = $('#add-class-name');
-    var addValueNameInput = $('#add-value-name');
-    var addValueDataInput = $('#add-value-data');
+    var folderList = $('#folders-list');
+    var attributeTitle = $('.current-attribute-name');
 
-    //clear old html
-   // classList.empty();
-    valueList.empty();
-    //attributeTitle.text(" ");
-    //attributeTitle.text(attribute.name)
+    console.log(s_path);
+    $('.new-attribute-input').attr('data-path', s_path);
+    $('#add_attribute_input_container_show_button').show();
+    $('#add_folder_input_container_show_button').show();
+
 
     //TODO - UPDATE ATTRIBUTE NAME
     if (attribute.is_leaf){
-        //$('#attribute-detail').show();
-      //TODO - DISPLAY VALUE HTML w/ FORM TO UPDATE
+        //TODO Prompt to update?
     }else{
-        //$('#attribute-detail').show();
+        //clear html of old attribute
+        valueList.empty();
+        folderList.empty();
 
-        //Bind current attribute path to the input fields
-        //addClassInput.attr('data-path', attribute.path);
-        //addValueDataInput.attr('data-path', attribute.path);
-        //addValueNameInput.attr('data-path', attribute.path);
+        attributeTitle.text(attribute.name);
 
         var i;
-        var childrenArray = attribute.children;
-       for(i=0; i<childrenArray.length; i++){
-            if(attribute[childrenArray[i]].is_leaf){
-                var childObj = attribute[childrenArray[i]];
-                $.ajax({
-                    url: "attribute_partial.html",
-                    success: function (data) {
-                       if(valueList.append(data))
-                           console.log($('#temp_title_id').id);
-                    },
-                    dataType: 'html'
-                });
+        var childObj;
+       for(i=0; i<attribute.childrenArray.length; i++){
+           childObj = attribute[attribute.childrenArray[i]];
+            if(childObj.is_leaf){
 
+                var attributeRowString = ''
+                    + '<li class="'+ childObj.path +'-list-element">'
+                    + '<div class="collapsible-header"><span class="' + childObj.path + '-name">' + childObj.name + '</span>&nbsp;&nbsp;Init Value:<span id="'+ childObj.path +'-value">' + childObj.value + '</span>&nbsp;&nbsp;Min:<span id="' + childObj.path+ '-max-value">' + childObj.minValue + '</span>&nbsp;&nbsp;Max:<span id="' + childObj.path+ '-max-value">' + childObj.maxValue + '</span></div>'
+                    +  '<div class="collapsible-body">'
+                    +      '<div class="row pos-relative" >'
+                    +          '<div class="input-field col m3" >'
+                    +              '<input id="' + childObj.path + '-name-input" type="text" class="update-attribute-input validate" data-path="' + childObj.path + '">'
+                    +              '<label for="' + childObj.path + '-name-input">Name</label>'
+                    +          '</div>'
+                    +          '<div class="input-field col m2">'
+                    +              '<input id="' + childObj.path + '-value-input" type="number" class="update-attribute-input validate" data-path="' + childObj.path + '">'
+                    +              '<label for="' + childObj.path + '-value-input"> Value</label>'
+                    +          '</div>'
+                    +          '<div class="input-field col m2">'
+                    +              '<input id="' + childObj.path + '-min-value-input" type="number" class="update-attribute-input validate" data-path="' + childObj.path + '">'
+                    +              '<label for="' + childObj.path + '-min-value-input">Min Value</label>'
+                    +          '</div>'
+                    +          '<div class="input-field col m2">'
+                    +              '<input id="' + childObj.path + '-max-value-input" type="number" class="update-attribute-input validate" data-path="' + childObj.path + '">'
+                    +              '<label for="' + childObj.path + '-min-value-input">Max Value</label>'
+                    +          '</div>'
+                    +          '<div class="col m3 float-bottom float-right offset-m9">'
+                    +             '<a class="btn-floating btn-small waves-effect waves-light green update-button" id="'+ childObj.path+'-update-button" data-path="'+ childObj.path+'" onclick="gameAttribute_edit(' + '\'' + childObj.path+ '\'' +')" ><i class="small material-icons">done</i></a>'
+                    +              '&nbsp;'
+                    +              '<a class="btn-floating btn-small waves-effect waves-light red delete-button" id="'+ childObj.path+'-delete-button" data-path="'+ childObj.path+'" onclick="gameAttributes_delete(' + '\'' + childObj.path+ '\'' +')"><i class="small material-icons">delete</i></a>'
+                    +          '</div>'
+                    +      '</div>'
+                    +  '</div>'
+                    +    '</li>';
 
-                //grab all temporary ID'ed elements to update
-                var tempTitle = $('#temp_title_id');
-                var tempInitVal = $('#temp_init_value_id');
-                var tempMaxVal = $('#temp_max_value_id');
-                var tempNameInput = $('#temp_name_edit_input');
-                var tempNameInputLabel = $('#temp_name_edit_input_label');
-                var tempInitValInput = $('#temp_init_val_edit_input');
-                var tempInitValInputLabel = $('#temp_init_val_edit_input_label');
-                var tempMaxValInput = $('#temp_max_val_edit_input');
-                var tempMaxValInputLabel = $('#temp_max_val_edit_input_label');
-                var tempUpdateButton = $('#temp_update_button');
-                var tempDeleteButton = $('#temp_delete_button');
-
-
-                //template of attribute/value list element has been loaded, update the temporary IDs and fields
-                //Update Title & Value Fields
-                console.log(childObj.name);
-                //console.log(tempTitle).attr(id));
-                tempTitle.text(childObj.name);
-                tempTitle.attr('id', '' + childObj + '-display-name');
-
-                tempInitVal.text(childObj.value); //TODO - Change to init Value
-                tempInitVal.id = childObj + '-display-init-val';
-
-                //tempMaxVal.text(childObj.value); //TODO - Change to max Value
-                //tempMaxVal.id = childObj + '-display-max-val';
-
-                //Update Input Field ID's, Labels, & data-path attributes
-                tempNameInputLabel.attr('for', '' + childObj + '-edit-name-input');
-                tempNameInput.data('path', childObj.path);
-                tempNameInput.id = childObj + '-edit-name-input';
-
-                tempInitValInputLabel.attr('for', '' + childObj + '-edit-init-input');
-                tempInitValInput.data('path', childObj.path);
-                tempInitValInput.id = childObj + '-edit-init-input';
-
-                tempMaxValInputLabel.attr('for', '' + childObj + '-edit-max-input');
-                tempMaxValInput.data('path', childObj.path);
-                tempMaxValInput.id = childObj + '-edit-max-input';
-
-                //Update buttons
-                tempUpdateButton.data('path', childObj.path);
-                //tempUpdateButton.onclick(updateAttribute());
-                tempUpdateButton.id = childObj + '-update';
-
-                tempDeleteButton.data('path', childObj.path);
-                //tempDeleteButton.click(deleteAttribute());
-                tempDeleteButton.id = childObj + '-delete'
-
-
+                valueList.append(attributeRowString);
             }
-              //  valueList.append('<div class="chip" onclick="gameAttributes_display('+ '\'' + attribute[childrenArray[i]].path + '\'' +')">' + attribute[childrenArray[i]].name + ': ' + attribute[childrenArray[i]].value + '</div>'); //TODO - ADD LINK TO ATTRIBUTE OR EDIT BUTTON
-            //else
-                //classList.append('<div class="chip" onclick="gameAttributes_display('+ '\'' + attribute[childrenArray[i]].path + '\'' +')">' + attribute[childrenArray[i]].name + '</div>');
+              else
+                folderList.append('<a class="collection-item pointer" onclick="gameAttributes_display('+ '\'' + childObj.path + '\'' + ')">' + childObj.name +'</a>');
        }
     }
 }
@@ -200,8 +212,6 @@ function generateID()
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     return text;
 }
-
-
 
 //Auxiliary Methods for Saving/Loading List HTML
 function saveListHTML(){
@@ -223,7 +233,7 @@ function showAddValueInput(){
     $('#new-value-container').show();
 }
 
-function showAddClassInput(){
+function showAddFolderInput(){
     $('#new-class-button').parent().hide();
     $('#new-class-container').show();
 }
@@ -235,7 +245,7 @@ $("#add-class-name").keypress(function(event) {
         var class_name_input =$('#add-class-name');
         //--
 
-        gameAttributes_addAttributeClass(class_name_input.attr('data-path'), class_name_input.val());
+        gameAttributes_addAttributeFolder(class_name_input.attr('data-path'), class_name_input.val());
 
         //Clear Fields
         class_name_input.val("");
@@ -252,7 +262,7 @@ $(".add-value").keypress(function(event) {
     if (event.which == 13) {
         var value_name_input =$('#add-value-name');
         var value_data_input = $('#add-value-data');
-        gameAttributes_addAttributeValue(value_name_input.attr('data-path'), value_name_input.val(), value_data_input.val());
+        gameAttributes_addAttribute(value_name_input.attr('data-path'), value_name_input.val(), value_data_input.val());
 
         //Clear Fields
         value_data_input.val("");
@@ -272,7 +282,7 @@ $("#add-top-level-name").keypress(function(event) {
         var class_name_input =$('#add-top-level-name');
         //--
 
-       project_addTopGameAttribute(class_name_input.val());
+       project_addTopGameAttributeFolder(class_name_input.val());
 
         //Clear Fields
         class_name_input.val("");
@@ -281,6 +291,41 @@ $("#add-top-level-name").keypress(function(event) {
         $('#new-top-level-container').hide();
     }
 });
+
+
+
+
+$('#add-attribute-confirm').click(function () {
+
+    var nameInput = $('#new_attribute_name_input');
+    var valueInput = $('#new_attribute_value_input');
+    var minValueInput = $('#new_attribute_min_input');
+    var maxValueInput = $('#new_attribute_max_input');
+    gameAttributes_addAttribute(nameInput.attr('data-path'), nameInput.val(), valueInput.val(), minValueInput.val(), maxValueInput.val());
+    $('#add_attribute_input_container').hide();
+    $('#add_attribute_input_container_show_button').show();
+    nameInput.val('');
+    valueInput.val('');
+    minValueInput.val('');
+    maxValueInput.val('');
+
+    gameAttributes_display(nameInput.attr('data-path'));
+
+
+});
+
+
+$('#add-folder-confirm').click(function () {
+
+    var nameInput = $('#new_folder_name_input');
+    gameAttributes_addAttributeFolder(nameInput.attr('data-path'), nameInput.val());
+    $('#add_folder_input_container').hide();
+    $('#add_folder_input_container_show_button').show();
+    nameInput.val('');
+
+    gameAttributes_display(nameInput.attr('data-path'));
+});
+
 
 //temporary function for dealing with button click
 //TODO - Clean up
@@ -295,5 +340,10 @@ function temp_add_top_level() {
 
     $('#new-top-level-button').show();
     $('#new-top-level-container').hide();
+}
+
+function gameAttributes_showInput(inputContainer){
+    $('#' + inputContainer).show();
+    $('#' + inputContainer + '_show_button').hide();
 }
 

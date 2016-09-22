@@ -2,4 +2,7 @@
 D:\Users\Russell\Repositories\FantasyMaker\js>del ".\dev.min.js" 
 
 D:\Users\Russell\Repositories\FantasyMaker\js>java -jar compiler.jar --js *.js --jscomp_off=uselessCode --js_output_file dev.min.js 
-^C
+
+D:\Users\Russell\Repositories\FantasyMaker\js>timeout 20 
+
+Waiting for 20 seconds, press a key to continue ...^CTerminate batch job (Y/N)? 
