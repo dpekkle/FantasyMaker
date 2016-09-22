@@ -119,7 +119,7 @@ function gameAttributes_delete(s_path){
 
     $('.' + attObj[path[path.length-1]].path + '-list-element').remove();
 
-    attObj[childrenArray].splice($.inArray(attObj[path[path.length-1]].id, attObj[childrenArray]), 1);
+    attObj.childrenArray.splice($.inArray(attObj[path[path.length-1]].id, attObj.childrenArray), 1);
 
     attObj[path[path.length-1]] = null;
     delete  attObj[path[path.length-1]];
@@ -145,6 +145,7 @@ function gameAttributes_display(s_path){
 
     console.log(s_path);
     $('.new-attribute-input').attr('data-path', s_path);
+    $('.new-folder-input').attr('data-path', s_path);
     $('#add_attribute_input_container_show_button').show();
     $('#add_folder_input_container_show_button').show();
 
@@ -214,13 +215,14 @@ function generateID()
 }
 
 //Auxiliary Methods for Saving/Loading List HTML
-function saveListHTML(){
+function gameAttributes_saveAttributes(){
     project_project["attributeHTML"] = $('#attributes-list').html();
 }
 
-function loadListHTML(){
+function gameAttributes_loadAttributes(){
     $('#attributes-list').html(project_project["attributeHTML"]);
 }
+
 
 //TODO - COLLATE INTO ONE METHOD
 function showAddTopLevelInput(){
@@ -293,14 +295,29 @@ $("#add-top-level-name").keypress(function(event) {
 });
 
 
-
-
+/* Click Events and Methods for adding attributes/values */
 $('#add-attribute-confirm').click(function () {
 
+    gameAttributes_addAttributeFromHtml();
+
+});
+
+$('.new-attribute-input').keypress(function (event) {
+    if(event.which == 13) {
+        gameAttributes_addAttributeFromHtml();
+    }
+
+});
+
+
+function gameAttributes_addAttributeFromHtml(){
     var nameInput = $('#new_attribute_name_input');
     var valueInput = $('#new_attribute_value_input');
     var minValueInput = $('#new_attribute_min_input');
     var maxValueInput = $('#new_attribute_max_input');
+
+    //TODO - MAKE SURE THERE ARE NO NULL VALUES
+
     gameAttributes_addAttribute(nameInput.attr('data-path'), nameInput.val(), valueInput.val(), minValueInput.val(), maxValueInput.val());
     $('#add_attribute_input_container').hide();
     $('#add_attribute_input_container_show_button').show();
@@ -311,21 +328,35 @@ $('#add-attribute-confirm').click(function () {
 
     gameAttributes_display(nameInput.attr('data-path'));
 
+}
 
-});
 
+/* Click Events and Methods for adding attribute folders */
 
 $('#add-folder-confirm').click(function () {
 
+    gameAttributes_addFolderFromHtml();
+
+});
+
+$('.new-folder-input').keypress(function (event) {
+    if (event.which == 13){
+        gameAttributes_addFolderFromHtml();
+    }
+});
+
+function gameAttributes_addFolderFromHtml(){
     var nameInput = $('#new_folder_name_input');
+
+    //TODO - VALIDATE THAT INPUT IS NOT NULL
+
     gameAttributes_addAttributeFolder(nameInput.attr('data-path'), nameInput.val());
     $('#add_folder_input_container').hide();
     $('#add_folder_input_container_show_button').show();
     nameInput.val('');
 
     gameAttributes_display(nameInput.attr('data-path'));
-});
-
+}
 
 //temporary function for dealing with button click
 //TODO - Clean up
