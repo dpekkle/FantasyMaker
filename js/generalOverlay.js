@@ -55,7 +55,6 @@ function openEditConnectionOverlay(element){
 
 	populateEdgeOverlay(selected.json()); // pass edge as json obj to populate overlay
 
-	//TODO (Russell) - Fix this method to properly populate connection edit overlay
 }
 
 function openEditControlOverlay(element){
@@ -66,6 +65,22 @@ function openEditControlOverlay(element){
 
 	$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));
 	populateControlOverlay(selected);
+}
+
+function openAttributesOverlay()
+{
+	$('#attributes-modal').openModal(
+		{
+			dismissible: true,
+			ready: function () {
+				gameAttributes_loadAttributes();
+			},
+			complete: function () {
+				gameAttributes_saveAttributes();
+			}
+
+	});
+
 }
 
 function openAudioOverlay()

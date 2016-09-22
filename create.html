@@ -161,7 +161,7 @@
 								<div class="card-action">
 									<div class="col m12 float-bottom" id="add_folder_input_container" style="display: none">
 										<div class="input-field col m8">
-											<input id="new_folder_name_input" type="text" class="new-attribute-input validate" data-path="">
+											<input id="new_folder_name_input" type="text" class="new-folder-input validate" data-path="">
 											<label for="new_folder_name_input">Folder Name</label>
 										</div>
 										<div class="col m2 float-bottom float-right offset-m9">
@@ -274,7 +274,7 @@
 							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
 							<button class="connectionmode btn" onclick=changeState(this)>Edge</button><br/>
 							<hr/>
-							<a class="waves-effect waves-light btn modal-trigger" href="#attributes-modal">Attributes</a>
+							<a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
 							<br/>
 							<a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a>
 							<br/>
