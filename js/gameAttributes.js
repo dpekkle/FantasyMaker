@@ -120,7 +120,7 @@ function gameAttributes_delete(s_path){
     $('.' + attObj[path[path.length-1]].path + '-list-element').remove();
 
     attObj[childrenArray].splice($.inArray(attObj[path[path.length-1]].id, attObj[childrenArray]), 1);
-    
+
     attObj[path[path.length-1]] = null;
     delete  attObj[path[path.length-1]];
 
@@ -241,7 +241,7 @@ function showAddFolderInput(){
 
 $("#add-class-name").keypress(function(event) {
     if (event.which == 13) {
-        
+
         var class_name_input =$('#add-class-name');
         //--
 
@@ -333,7 +333,7 @@ function temp_add_top_level() {
     var class_name_input =$('#add-top-level-name');
     //--
 
-    project_addTopGameAttribute(class_name_input.val());
+    project_addTopGameAttributeFolder(class_name_input.val());
 
     //Clear Fields
     class_name_input.val("");
@@ -346,4 +346,3 @@ function gameAttributes_showInput(inputContainer){
     $('#' + inputContainer).show();
     $('#' + inputContainer + '_show_button').hide();
 }
-

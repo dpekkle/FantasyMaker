@@ -188,7 +188,7 @@ function generateContextMenu(container_type, template_menu_list)
 								else
 									alpha = 1;
 								myModal.prompt("Set Opacity", "Between 0 and 100", [{name: "Opacity", default: alpha*100, min: "0", max: "100", type: "number"}], function(results)
-								{									
+								{
 									if(!myModal.confirm)
 										return;
 									var opacity = parseFloat(results[0]);
@@ -785,8 +785,8 @@ $(function(){
 		 }
 
 		 //add attributes children to list
-		 for(var i = 0; i<att.children.length; i++){
-			 var next = gameAttributes_find(att.path + "_" + att.children[i])
+		 for(var i = 0; i<att.childrenArray.length; i++){
+			 var next = gameAttributes_find(att.path + "_" + att.childrenArray[i])
 			 addAttributeToContextMenu(next,options.items[att.name],trigger,att.name)
 		 }
 	 }
@@ -813,6 +813,7 @@ $(function(){
 		 //add all game attributes
 		 if (trigger.hasClass('game-attributes')) {
 			 //if there are attributes in proj
+			 console.log(project_project)
 			 if(Object.keys(project_project.gameAttributes).length > 0){
 				 for(var key in project_project.gameAttributes){
 					// add characters option
@@ -1182,8 +1183,8 @@ $(function(){
 function findFirstLeafPath(path){
 	var att = gameAttributes_find(path)
 	if(att.is_leaf === false){
-		for(var i = 0; i<att.children.length; i++){
-			var temp = findFirstLeafPath(path + '_' + att.children[i])
+		for(var i = 0; i<att.childrenArray.length; i++){
+			var temp = findFirstLeafPath(path + '_' + att.childrenArray[i])
 			if(temp !== undefined){
 				return temp
 			}
