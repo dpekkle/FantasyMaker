@@ -52,7 +52,7 @@ function project_createNewProject(){
 	if($('#projName').val()){
 		project_project = initEmptyProject('Admin',$('#projName').val())
 		cy.elements().remove()
-		$.when(http_save(project_project)).done(projectSettings_closeOverlay(),$('#UI_projName').text('Project: ' + project_project.projectName))
+		$.when(http_save(project_project)).done(projectSettings_closeOverlay(),$('#UI_projName').text('Project: ' + project_project.projectName),resizeCanvas())
 	}
 }
 

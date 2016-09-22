@@ -232,6 +232,41 @@
 		</div>
 	</div>
 
+	<!-- ui for project settings(nav bar) -->
+	<div id="loginHtml" class="">
+		<div class="row">
+			<div class="col s1"><p></p></div>
+			<div class="col s10">
+				<h2 id="login_title"style="color: #ee6e73;" class="center-align">Login</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class=" input-field col s1"><p></p></div>
+			<div class=" input-field col s2">
+				<h4 id="login_label"style="color: #ee6e73;">Username: </h4>
+			</div>
+			<div class="input-field col s3">
+				<input placeholder="Enter Username" id="login_username" type="email" class="input-field">
+			</div>
+		</div>
+		<div class="row">
+			<div class=" input-field col s1"><p></p></div>
+			<div class=" input-field col s2">
+				<h4 id="pwd_label"style="color: #ee6e73;">Password: </h4>
+			</div>
+			<div class="input-field col s3">
+				<input placeholder="Enter Password" id="login_pwd" type="password" class="input-field">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s5"><p></p></div>
+			<div class="col s2">
+				<a class="btn" id="login_button" onclick="projectSettings_login()">Submit</a>
+			</div>
+			<div class="col s5"><p></p></div>
+		</div>
+	</div>
+
 	<!-- modal for creating new projects -->
 	<div id="newProject-modal" class="modal" >
 		<div class="modal-content">
@@ -243,7 +278,7 @@
 	          <label for="projName">Project Name</label>
 	        </div>
 					<div class="col s1">
-						<a id="projNameAcceptButton" class="condition-settings-button btn-floating btn waves-effect waves-light gray disabled" onclick="project_createNewProject()"><i class="material-icons">done</i></a>
+						<a id="projNameAcceptButton" class="condition-settings-button btn-floating waves-effect waves-light gray disabled" onclick="project_createNewProject()"><i class="material-icons">done</i></a>
 					</div>
 				</div>
 			</form>
@@ -251,7 +286,7 @@
 	</div>
 
 	<!-- Main Content -->
-	<div id="mainContent" class="container-fluid">
+	<div id="mainContent" class="container-fluid hide">
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
 				<ul class="tabs" id="tabheadings">

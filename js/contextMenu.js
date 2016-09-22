@@ -839,7 +839,7 @@ $(function(){
 						//numberSelected($trigger.attr("id"))
 					}
 				}
-
+				/*
 				// add rand option
 				options.items.randValue = {
 					name: "Random Value",
@@ -848,6 +848,7 @@ $(function(){
 						//randomSelected($trigger.attr("id"))
 					}
 				}
+				*/
 			}
 	 //}
 	 /*

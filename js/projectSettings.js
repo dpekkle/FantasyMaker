@@ -73,28 +73,55 @@ function projectSettings_generateProjectCard2(name){
 }
 
 function showProjectSettings(){
-  if($('#mainContent').hasClass('hide')){
-    $('#projectMain').addClass('hide')
-    $('#mainContent').removeClass('hide')
+  $('#loginHtml').addClass('hide')
+
+
+  if(!$('#mainContent').hasClass('hide')){
+    $('#mainContent').addClass('hide')
   }
+
+  if($('#projectMain').hasClass('hide')){
+    $('#projectMain').removeClass('hide')
+  }
+  /*
   else{
     $('#projectMain_title').text("Admin's Projects")
     projectSettings_populateProjectsList("Admin")
     $('#mainContent').addClass('hide')
     $('#projectMain').removeClass('hide')
   }
+  */
 }
 
 function showMainContent(){
   $('#projectMain').addClass('hide')
   $('#mainContent').removeClass('hide')
-
 }
 
 function projectSettings_closeOverlay(){
   $('#projName').val("")
   $.when($('#newProject-modal').closeModal()).done(showMainContent())
 }
+
+function  hideLogin(){
+  $('#loginHtml').addClass('hide')
+}
+
+
+function projectSettings_login(){
+	var username = $('#login_username').val()
+	var password = $('#login_pwd').val()
+	if(username === "admin" && password === "admin"){
+    projectSettings_populateProjectsList("Admin")
+    $('#projectMain_title').text("Admin's Projects")
+    showProjectSettings()
+    resizeCanvas();
+	}
+  else{
+    Materialize.toast("Invalid login details.", 3000, 'rounded')
+  }
+}
+
 
 function projectSettings_deleteProject(username,projName){
   $.when(http_deleteProject(username,projName)).done(projectSettings_populateProjectsList(username))

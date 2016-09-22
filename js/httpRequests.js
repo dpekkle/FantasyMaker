@@ -74,6 +74,8 @@ function http_load(projName){
 				}
 			}
 			Materialize.toast("Project '" + project_project.projectName + "' Loaded", 3000, 'rounded')
+			resizeCanvas();
+
 
 		},
 		contenttype: "application/json"
