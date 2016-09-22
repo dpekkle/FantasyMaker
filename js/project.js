@@ -6,35 +6,28 @@ goog.require('projectSettings')
 
 console.log("Entering project.js");
 
-/*
-var project_project = project_createNewProject();
 
+//var project_project = project_createNewProject();
+
+/*
 project_updateProject(); //set up by default
 defaultState();
 project_updateProject(); //set up by deafult
 */
-var project_project = project_createNewProject();
+var project_project = initEmptyProject('none','none')
 defaultState();
 
 //add template_menu_lists from contextMenu.js
 //add gridmode and showhandles bools
 //add page_templates from pageTemplates.js
 
-function project_createNewProject(){
-	var projName
-	if($('#projName').val()){
-		projName = $('#projName').val()
-	}
-	else{
-		projName = "none"
-	}
-
+function initEmptyProject(username,projName){
 	var newProj = {
 		"project_templates":
 		{
 			"Default":
 			{
-				pagestyle: "width:800px; height:600px; 	border: 3px solid #BBBBBB",
+				pagestyle: "width: 800px; flex: 0 0 800px; height:600px; 	border: 3px solid #BBBBBB",
 				outputcontainer: "",
 				imgcontainers: [],
 				vidcontainers: [],
@@ -45,18 +38,22 @@ function project_createNewProject(){
 		"template_menus": new templateMenuObj(),
 		"audio": new audioObj(),
 
-		"projectOwner" : "Admin",
+		"projectOwner" : username,
 		"projectName" : projName,
 		"graph" : [],
 		"gameAttributes" : {},
 		"attributesHTML" : "",
 		"resolution" : {"x": 1000, "y": 800}
 	};
+	return newProj
+}
 
-	project_project = newProj
-	cy.elements().remove()
-	$.when(http_save(project_project)).done(projectSettings_closeOverlay())
-	return newProj;
+function project_createNewProject(){
+	if($('#projName').val()){
+		project_project = initEmptyProject('Admin',$('#projName').val())
+		cy.elements().remove()
+		$.when(http_save(project_project)).done(projectSettings_closeOverlay(),$('#UI_projName').text('Project: ' + project_project.projectName))
+	}
 }
 
 //Add top level attribute directly under gameAttributes

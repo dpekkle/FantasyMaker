@@ -110,6 +110,7 @@ function stylePage()
 	var text_cont = currentNode.data('textcontainers');
 	var dec_cont = currentNode.data('decisioncontainers');
 	var img_cont = currentNode.data('imgcontainers');
+	var vid_cont = currentNode.data('vidcontainers');
 	var output_cont = currentNode.data('outputcontainer');
 	var events_list = currentNode.data('events');
 
@@ -124,10 +125,18 @@ function stylePage()
 		$('.playpage').append(img_cont[i].html);
 	}
 
+	for (var i = 0; i < vid_cont.length; i++)
+	{
+		$('.playpage').append(vid_cont[i].html);
+	}
+
 	for (var i = 0; i < dec_cont.length; i++)
 	{
 		// we will need to check visibility conditions when deciding to add a decision container to a page
-		$('.playpage').append(dec_cont[i].html);
+		if(assessEdge(currentNode.outgoers("[name='" + dec_cont[i].name + "']").id())){
+			$('.playpage').append(dec_cont[i].html);
+		}
+
 	}
 
 	$('.playpage').append(output_cont);
@@ -149,13 +158,6 @@ function stylePage()
 
 	$(".playpage").children().attr('contenteditable','false');
 	$(".playpage").children().children().attr('contenteditable','false');
-
-	//handle events
-	for (var i = 0; i < events_list.length; i++)
-	{
-
-	}
-
 }
 
 function parseControl(sourceNode, outgoingEdges)

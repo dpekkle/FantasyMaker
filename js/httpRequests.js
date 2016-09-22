@@ -1,8 +1,10 @@
 goog.provide('httpRequests')
 goog.require('initCanvas')
+//goog.require('pageTemplates')
 //goog.require('project')
 
 console.log("Enter httpRequests.js")
+
 
 
 function http_save(project_project){
@@ -19,7 +21,10 @@ function http_save(project_project){
 		data: {
 			"save" : JSON.stringify(project_project),
 		},
-		success: function(data) { console.log("Graph Saved") },
+		success: function(data) {
+			console.log("Graph Saved")
+			Materialize.toast("Project '" + project_project.projectName + "' Saved", 3000, 'rounded')
+		},
 		contenttype: "application/json"
 	});
 
@@ -48,7 +53,11 @@ function http_load(projName){
 			delete data[0]._id; //remove mongos _id attribute
 
 			project_project = data[0];
-			console.log(project_project)
+			//console.log(project_project)
+			//console.info(project_project.project_templates.Default)
+			//selected_page_template = project_project.project_templates.Default;
+
+			$('#UI_projName').text('Project: ' + project_project.projectName)
 
 			//for all elements in data
 			for(var i = 0; i<data[0].graph.length; i++){
@@ -64,6 +73,7 @@ function http_load(projName){
 					cy.add(data[0].graph[i]);
 				}
 			}
+			Materialize.toast("Project '" + project_project.projectName + "' Loaded", 3000, 'rounded')
 
 		},
 		contenttype: "application/json"

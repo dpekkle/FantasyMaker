@@ -2,6 +2,7 @@ goog.provide('pageOverlay')
 goog.require('generalOverlay')
 goog.require('contextMenu')
 goog.require('dragDrop') //for page dimensions
+goog.require('prompts')
 
 var show_handles = true;
 
@@ -104,92 +105,101 @@ function addImageContainer()
 {
 	//ask user for URL
 	var html_string;
-	var imgurl = prompt("Enter image url", "http://i.imgur.com/V7vuv85.png");
-	var position = genPageCenterHTML(300, 220);
-	
-	//check if valid image
-	if (imgurl != null )
+
+	myModal.prompt("Add image", "Directly link a jpeg|jpg|gif|png", [{name: "Image URL", default: "http://i.imgur.com/ZeUPvbP.jpg", type: "text"}], function(results)
 	{
-		html_string = "<div class='img-container drag-element' style='position:absolute; " + position + "'>";
-
-		var valid = checkImageURL(imgurl, "img");
-		if (valid)
-			html_string += valid;
-		else
+		if (!myModal.confirm)
 			return;
-
-		html_string += "</div>"	
-
-		$.ajax(
+		var imgurl = results[0];
+		var position = genPageCenterHTML(300, 220);
+		//check if valid image
+		if (imgurl != null )
 		{
-			url: imgurl, //or your url
-			success: function(data)
-			{
-				//Create a new draggable div to hold the image containers	
-				var size = $(".img-container").length;	
-				var new_container = htmlToElements(html_string);
+			html_string = "<div class='img-container drag-element' style='position:absolute; " + position + "'>";
 
-				$("#pagecontainers").append(new_container);
-				$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));	
+			var valid = checkImageURL(imgurl, "img");
+			if (valid)
+				html_string += valid;
+			else
+				return;
 
-				bringContainerToFront($("pagecontainers div.img-container:last"));
-				if (!show_handles)
-					$('.handlecontainer').hide();
-				bindHandleSelection();
-			},
-			error: function(data)
+			html_string += "</div>"	
+
+			$.ajax(
 			{
-				alert('URL: ' + imgurl + ' does not exist');
-			},
-		})
-	}	
+				url: imgurl, //or your url
+				success: function(data)
+				{
+					//Create a new draggable div to hold the image containers	
+					var size = $(".img-container").length;	
+					var new_container = htmlToElements(html_string);
+
+					$("#pagecontainers").append(new_container);
+					$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));	
+
+					bringContainerToFront($("pagecontainers div.img-container:last"));
+					if (!show_handles)
+						$('.handlecontainer').hide();
+					bindHandleSelection();
+				},
+				error: function(data)
+				{
+					alert('URL: ' + imgurl + ' does not exist');
+				},
+			})
+		}			
+	});
 }
 
 function addVideoContainer()
 {
 	//ask user for URL
 	var html_string;
-	var vidurl = prompt("Enter video url", "http://i.imgur.com/6aSJo9b.gifv");
-	var position = genPageCenterHTML(300, 220);
-	
-	//check if valid image
-	if (vidurl != null )
+
+	myModal.prompt("Add Video", "Supports links to .webm, .mp4, .gifv and (soon) youtube", [{name: "Video URL", default: "http://i.imgur.com/6aSJo9b.gifv", type: "text"}], function(results)
 	{
-		html_string = "<div class='vid-container drag-element' style='position:absolute; " + position + "'>"
-		
-		var valid = checkImageURL(vidurl, "vid");
-		if (valid)
-			html_string += valid;
-		else
+		if (!myModal.confirm)
 			return;
-
-		html_string += "</div>"	
-
-		$.ajax(
+		var vidurl = results[0];
+		var position = genPageCenterHTML(300, 220);
+		//check if valid image
+		if (vidurl != null )
 		{
-			url: vidurl, //or your url
-			success: function(data)
-			{
-				//Create a new draggable div to hold the image containers	
-				var size = $(".vid-container").length;	
-				var new_container = htmlToElements(html_string);
+			html_string = "<div class='vid-container drag-element' style='position:absolute; " + position + "'>"
+			
+			var valid = checkImageURL(vidurl, "vid");
+			if (valid)
+				html_string += valid;
+			else
+				return;
 
-				$("#pagecontainers").append(new_container);
-				$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));	
+			html_string += "</div>"	
 
-				bringContainerToFront($("pagecontainers div.vid-container:last"));
-				if (!show_handles)
-					$('.handlecontainer').hide();
-				bindHandleSelection();
-			},
-			error: function(data)
+			$.ajax(
 			{
-				alert('URL: ' + vidurl + ' does not exist');
-			},
-		})
-	}	
+				url: vidurl, //or your url
+				success: function(data)
+				{
+					//Create a new draggable div to hold the image containers	
+					var size = $(".vid-container").length;	
+					var new_container = htmlToElements(html_string);
+
+					$("#pagecontainers").append(new_container);
+					$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));	
+
+					bringContainerToFront($("pagecontainers div.vid-container:last"));
+					if (!show_handles)
+						$('.handlecontainer').hide();
+					bindHandleSelection();
+				},
+				error: function(data)
+				{
+					alert('URL: ' + vidurl + ' does not exist');
+				},
+			})
+		}	
+	});
 }
-
 
 /*** ADD CONTAINER HELPERS ***/
 function checkImageURL(imgurl, type)
@@ -430,7 +440,7 @@ function populatePageOverlay(selected)
 	for (var j = 0; j < vid_cont.length; j++)
 	{
 		$("#pagecontainers").append(vid_cont[j].html);
-		$("#pagecontainers div.img-container:last").prepend(genHandleHTML("vid", vid_cont[j].name));
+		$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", vid_cont[j].name));
 	}
 
 	//load event list
@@ -520,7 +530,8 @@ function savePage(selected)
 
 	//update containers
 	selected.data('pagestyle', $('#pagecontainers').attr("style"));
-	selected.data('outputcontainer', $('.output-container').outerHTML);
+	if ($('#pagecontainers .output-container').length)
+		selected.data('outputcontainer', $('.output-container')[0].outerHTML);
 
 	var text_container_array = [];
 	$('#pagecontainers').children("div[class^='text-container']").each(function (index) {
@@ -545,6 +556,7 @@ function savePage(selected)
 			};
 		img_container_array.push(newcontainer);
 	});
+	console.log(img_container_array);
 	selected.data('imgcontainers', img_container_array);
 
 	var vid_container_array = [];
@@ -557,7 +569,8 @@ function savePage(selected)
 			};
 		vid_container_array.push(newcontainer);
 	});
-	selected.data('imgcontainers', img_container_array);
+	console.log(vid_container_array);
+	selected.data('vidcontainers', vid_container_array);
 
 	//decisions
 	$('#pagecontainers').children("div[class^='decision-container']").each(function (index) {
