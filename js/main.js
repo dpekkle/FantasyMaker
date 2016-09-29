@@ -5,6 +5,8 @@ goog.require('generalOverlay')
 goog.require('hotkeys')
 goog.require('playGame')
 goog.require('audio')
+goog.require('projectSettings')
+
 
 console.log("Enter main.js version 0.5.0")
 

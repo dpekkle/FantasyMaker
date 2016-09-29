@@ -3,11 +3,11 @@ div {
     margin: 0px;
 }
 
-.drag-container {
+/*.drag-container {
 		height: 100%;
 		width: 100%;
 		display: block;
-}
+}*/
 
 #form-container {
     position: relative; 
@@ -16,6 +16,7 @@ div {
 }
 
 .drag-element{
+	position: relative;
 	z-index: 50; /*Room on either side to increment/decrement	containers*/
 }
 
@@ -26,14 +27,6 @@ div {
 
 .drag-element.dropped{
     border: 1px solid #000000;
-}
-
-#drop-container {
-    position: relative; 
-    border: 2px dashed #ff0000;
-    height: 500px;
-    margin-top: 1em;
-    pointer-events:none; /*removes the possibility on drop-container blocking an image*/
 }
 
 .text-area{
