@@ -31,7 +31,7 @@
 
 #screenwrapper{
 	width: 70%;
-	height: 90%;
+	height: 100%;
     overflow: auto;
 	border: 3px solid #BBBBBB;
 	padding: 15px;
