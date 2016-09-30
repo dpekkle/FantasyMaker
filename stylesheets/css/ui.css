@@ -228,3 +228,8 @@ li.margin { margin-left: 10px; }
   width:90%;
 }
 
+#toast-container {
+  top: auto !important;
+  bottom: 10%;
+}
+

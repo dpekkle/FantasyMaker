@@ -1,5 +1,6 @@
 goog.provide('projectSettings')
 goog.require('httpRequests')
+goog.require("prompts")
 
 
 //on input event for create project button, enables done button on input
@@ -98,15 +99,36 @@ function showMainContent(){
   $('#mainContent').removeClass('hide')
 }
 
-function projectSettings_closeOverlay(){
-  $('#projName').val("")
-  $.when($('#newProject-modal').closeModal()).done(showMainContent())
+function projectSettings_openOverlay(){
+      myModal.prompt("Create New Project", "You should manually save this project once you've created it to ensure that you can access it from any computer.", 
+      [{name: "Project Title", default: "", type: "text"}], 
+      function(results)
+      {
+        if(!myModal.confirm)
+          return;
+        var projname = results[0];
+        project_createNewProject(projname);
+        showMainContent();
+      },
+      function(results) //this is the verification function
+      {
+        console.log("Verifying ", results[0]);
+        if (results[0] == "")
+        {
+          console.log("Project name empty");
+          return false;
+        }   
+        else
+        {
+          console.log("Project name succesfully verified");
+          return true;
+        }
+      });
 }
 
 function  hideLogin(){
   $('#loginHtml').addClass('hide')
 }
-
 
 function projectSettings_login(){
 	var username = $('#login_username').val()

@@ -48,12 +48,10 @@ function initEmptyProject(username,projName){
 	return newProj
 }
 
-function project_createNewProject(){
-	if($('#projName').val()){
-		project_project = initEmptyProject('Admin',$('#projName').val())
-		cy.elements().remove()
-		$.when(http_save(project_project)).done(projectSettings_closeOverlay(), projectSettings_populateProjectsList("Admin"),$('#UI_projName').text('Project: ' + project_project.projectName),resizeCanvas())
-	}
+function project_createNewProject(projectname){
+	project_project = initEmptyProject('Admin', projectname)
+	cy.elements().remove()
+	$.when(http_save(project_project)).done(projectSettings_populateProjectsList("Admin"),$('#UI_projName').text('Project: ' + project_project.projectName),resizeCanvas())
 }
 
 //Add top level attribute directly under gameAttributes

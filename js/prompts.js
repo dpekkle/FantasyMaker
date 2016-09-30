@@ -9,12 +9,18 @@ goog.provide("prompts")
 
 //  *** use this function ***
 
-//		myModal.prompt("Modal Title", [{name: "Enter image url", default: "http://i.imgur.com/V7vuv85.png", type: "text"}], function(results){
-//			if(!myModal.confirm)
-//				return;
-//			var imgurl = results[0];
-// 			codeToHandle(imgurl)
-//		});
+//		myModal.prompt("Modal Title", "Modal Description", [{name: "Enter image url", default: "http://i.imgur.com/V7vuv85.png", type: "text"}], 
+//			function(results){
+//				if(!myModal.confirm)
+//					return;
+//				var imgurl = results[0];
+// 				codeToHandle(imgurl)
+//			},
+//			function(results){
+//				if (results[0] == "Something I Dont want as Input"){return false;}
+//        		else { return true;}
+//			}
+//		);
 
 // *** the second variable of myModal.prompt can handle multiple fields
 
@@ -24,28 +30,74 @@ goog.provide("prompts")
 function myModal()
 {
 	this.confirm = false;
+	this.validated = true;
+	this.verifyFunction = null;
+	this.callbackFunction = null;
+
 	this.init = function()
 	{
 		$("body").append( '<div id="prompt-modal" class=" modal">'
 							+ '<div class="modal-content">'
 							+ '</div>'
 							+ '<div class="modal-footer">'
-      						  + '<a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat onclick="myModal.setconfirm(true)">Cancel</a>'
-      						  + '<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" onclick="myModal.setconfirm(true)">Confirm</a>'
+      						  + '<a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat onclick="myModal.evaluateModal(false)">Cancel</a>'
+      						  + '<a href="#!" class=" modal-action waves-effect waves-green btn-flat" onclick="myModal.evaluateModal(true)">Confirm</a>'
     						+ '</div>'
 						  + '</div>');
 
 	};
-	this.setconfirm = function(bool)
+
+	this.evaluateModal = function(bool)
 	{
 		console.log("Button pressed");
 		this.confirm = bool;
+		var results = [];
+
+		if (this.confirm)
+		{
+			//grab user input
+			$('#prompt-modal .modal-content').children('input').each(function(index) 
+			{
+				if ($(this).attr('type') == "number"){
+					console.log("We got a number entry");
+					results.push(parseInt($(this).val()));
+				}
+				else
+					results.push($(this).val());
+			});
+			//verify user input
+			if(this.verifyFunction !== null)
+			{
+				//we need to check verify
+				if(this.verifyFunction(results))
+				{
+					this.callbackFunction(results)
+					$('#prompt-modal').closeModal();
+				}
+			}
+			//or just trust the data if no verification function defined
+			else
+			{
+				this.callbackFunction(results);
+				$('#prompt-modal').closeModal();
+
+			}
+		}
+		else //cancel or some other click
+		{
+			$('#prompt-modal').closeModal();
+		}
 	}
 
-	this.prompt = function(title, description, fields, mycallback)
+	this.prompt = function(title, description, fields, mycallback, myverify)
 	{
 		var tar = $('#prompt-modal .modal-content');
-		var results = [];
+
+		if (myverify !== undefined)
+		{
+			this.verifyFunction = myverify;
+		}
+		this.callbackFunction = mycallback;
 
 		$('#prompt-modal').openModal(
 		{
@@ -67,16 +119,11 @@ function myModal()
 			},
 			complete: function()
 			{
-				tar.children('input').each(function(index) 
-				{
-					if ($(this).attr('type') == "number"){
-						console.log("We got a number entry");
-						results.push(parseInt($(this).val()));
-					}
-					else
-						results.push($(this).val());
-				});
-				mycallback(results);
+				this.confirm = false;
+				this.validated = true;
+				this.verifyFunction = null;
+				this.callbackFunction = null;
+				tar.html("");
 			}
 		});		
 	}
