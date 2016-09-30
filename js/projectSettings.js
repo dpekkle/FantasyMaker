@@ -97,6 +97,7 @@ function showProjectSettings(){
 function showMainContent(){
   $('#projectMain').addClass('hide')
   $('#mainContent').removeClass('hide')
+  resizeCanvas();
 }
 
 function projectSettings_openOverlay(){
@@ -104,8 +105,6 @@ function projectSettings_openOverlay(){
       [{name: "Project Title", default: "", type: "text"}], 
       function(results)
       {
-        if(!myModal.confirm)
-          return;
         var projname = results[0];
         project_createNewProject(projname);
         showMainContent();
@@ -137,7 +136,6 @@ function projectSettings_login(){
     projectSettings_populateProjectsList("Admin")
     $('#projectMain_title').text("Admin's Projects")
     showProjectSettings()
-    resizeCanvas();
 	}
   else{
     Materialize.toast("Invalid login details.", 3000, 'rounded')

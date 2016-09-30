@@ -11,8 +11,6 @@ goog.provide("prompts")
 
 //		myModal.prompt("Modal Title", "Modal Description", [{name: "Enter image url", default: "http://i.imgur.com/V7vuv85.png", type: "text"}], 
 //			function(results){
-//				if(!myModal.confirm)
-//					return;
 //				var imgurl = results[0];
 // 				codeToHandle(imgurl)
 //			},
@@ -97,6 +95,11 @@ function myModal()
 		{
 			this.verifyFunction = myverify;
 		}
+		else
+		{
+			this.verifyFunction = null;
+		}
+
 		this.callbackFunction = mycallback;
 
 		$('#prompt-modal').openModal(
