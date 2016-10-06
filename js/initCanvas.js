@@ -24,6 +24,7 @@ var cy = cytoscape({
 
 	// appearance for elements in canvas, similar to CSS
 	style: [
+		// broad types of elements
 		{
 			selector: 'node',
 			style: {
@@ -53,25 +54,12 @@ var cy = cytoscape({
 				'width': 4,
 				'target-arrow-shape': 'triangle',
 				'line-color': '#90caf9',
-				'target-arrow-color': '#89b9e8',
+				'target-arrow-color': '#90caf9',
 				'curve-style': 'bezier',
 				'line-style': 'solid',
 			}
 		},
-		{
-			selector: ':parent',
-			style:{
-				'label': 'data(name)',
-				'shape': 'roundrectangle',
-				'background-color': '#DDD',
-		        'padding-top': '10px',
-		        'padding-left': '10px',
-		        'padding-bottom': '10px',
-		        'padding-right': '10px',
-		        'text-valign': 'top',
-		        'text-halign': 'center',
-			}
-		},
+		
 		// node classes
 		{
 			selector: '.page',
@@ -80,20 +68,12 @@ var cy = cytoscape({
 				'background-color': '#aaaaaa',
 
 			}		
-		},		
-		{
-			selector: '.jump',
-			style:{
-				'shape': 'diamond',
-				'background-color': '#FFBB89',
-
-			}		
 		},
 		{
 			selector: '.control',
 			style:{
 				'shape': 'ellipse',
-				'background-color': '#7E9ED8',
+				'background-color': '#5c6bc0',
 			}
 			
 		},
@@ -101,7 +81,7 @@ var cy = cytoscape({
 			selector: '.source_node',
 			style:{
 				'border-width': 7,
-				'border-color': '#90caf9', //same as the edges!
+				'border-color': '#9dbaea', //same as the edges!
 				'transition-duration': '0.1s',
 			}
 		},

@@ -66,7 +66,7 @@ $(document).ready(function()
 			}
 			else if (e.which >= 49 && e.which <= 58) //top number keys 1-0
 			{
-				if ($('.dropdown-content.active').length == 0)
+				if ($('#pagetemplates').css('display') == "none")
 				{
 					if (e.which == 49) //1
 					{
@@ -78,20 +78,12 @@ $(document).ready(function()
 					}
 					else if (e.which == 51) //3
 					{
-						$('.jumpmode').trigger('click');
-					}
-					else if (e.which == 52) //4
-					{
 						$('.connectionmode').trigger('click');
-					}
-					else if (e.which == 53) //5
-					{
-						$('.prebuilt').trigger('click');
 					}
 				}
 				else //choose a template for adding page node 
 				{
-					$('.dropdown-content.active li a').eq(e.which-49).trigger('click');
+					$('#pagetemplates li a').eq(e.which-49).trigger('click');
 				}
 			}
 

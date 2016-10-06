@@ -21,9 +21,6 @@ defaultState();
 //add gridmode and showhandles bools
 //add page_templates from pageTemplates.js
 
-
-
-
 function initEmptyProject(username,projName){
 	var newProj = {
 		"project_templates":
