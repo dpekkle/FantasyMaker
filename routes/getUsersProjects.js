@@ -1,15 +1,18 @@
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');
+var jwtauth = require('./jwtAuth.js')
 var serverPath = 'mongodb://localhost/';
 
 module.exports = function(app){
 
-   app.get('/getUsersProjects',function(req,res){
+   app.get('/getUsersProjects',jwtauth,function(req,res){
+     console.log('getUsersProjects entered')
 		//console.log("getProject GET request received");
 
 		//add name of project to url for db connection
-		console.log(req.query.username)
+    //console.log(req.body)
+    //console.log(req.query)
 		var url = serverPath + req.query.username;
 
 
@@ -24,27 +27,14 @@ module.exports = function(app){
     		// collInfos is an array of collection info objects that look like:
     		// { name: 'test', options: {} }
 				var names = []
-				for(var i = 0; i<colNames.length-1; i++){ //last element in colNames is system.indexes
-					names.push(colNames[i])
+				for(var i = 0; i<colNames.length; i++){ //last element in colNames is system.indexes
+          if(colNames[i].name !== 'system.indexes' && colNames[i].name !== 'user_details'){
+            	names.push(colNames[i])
+          }
+
 				}
 				res.json(names)
 			});
-
-			/*
-			var collection = db.collections(function(err,cols){
-				console.log(cols)
-			}); //get save file based on projectName
-			*/
-
-
-			//retreive all data in save file
-			/*
-			collection.find().toArray(function(err, results){
-				//operation complete
-				db.close();
-				res.json(results); //return results
-			});
-			*/
 
 		  }
 		});

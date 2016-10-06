@@ -1,19 +1,20 @@
 goog.provide('httpRequests')
 goog.require('initCanvas')
+goog.require('users')
 //goog.require('pageTemplates')
 //goog.require('project')
 
 console.log("Enter httpRequests.js")
 
 
+function http_redirectHome(){
+	window.location = 'http://localhost:3000/create.html'
+}
 
 function http_save(project_project){
 	console.log("save");
-	console.log(project_project)
 
-	//project_createNewProject();
-	//project_updateProject();
-
+	http_addTokenToHeader()
 	//jquery ajax post request
 	return $.ajax({
 		type: 'POST',
@@ -22,8 +23,10 @@ function http_save(project_project){
 			"save" : JSON.stringify(project_project),
 		},
 		success: function(data) {
-			console.log("Graph Saved")
-			Materialize.toast("Project '" + project_project.projectName + "' Saved", 3000, 'rounded')
+			if(http_handleAuth(data)){
+				console.log("Graph Saved")
+				Materialize.toast("Project '" + project_project.projectName + "' Saved", 3000, 'rounded')
+			}
 		},
 		contenttype: "application/json"
 	});
@@ -32,8 +35,11 @@ function http_save(project_project){
 }
 
 function http_load(projName){
+	//projName is expected to be project name with whitespace
+	projName = projName.split('_').join(' ')
 	console.log("Load");
 
+	http_addTokenToHeader()
 	//remove all elements from graph
 	var col = cy.elements();
 	cy.remove( col );
@@ -42,40 +48,35 @@ function http_load(projName){
 	$.ajax({
 		url: '/getProject',
 		data: {
-			"projectOwner" : "Admin",
+			"projectOwner" : users_getUsername(),
 			"projectName" : projName,
 		},
 		cache: false,
 		type: 'GET',
 		success: function(data) {
 			//console.log(JSON.stringify(data));
+			if(http_handleAuth(data)){
+				delete data[0]._id; //remove mongos _id attribute
+				project_project = data[0];
+				$('#UI_projName').text('Project: ' + project_project.projectName)
 
-			delete data[0]._id; //remove mongos _id attribute
+				//for all elements in data
+				for(var i = 0; i<data[0].graph.length; i++){
+					//check if element is an edge
+					if(data[0].graph[i].group == "edges"){
+						//add edge to graph
+						var newEdge = cy.add(data[0].graph[i]);
+						//add event listener to edge
+						newEdge.on('tap', function(event){this.select();});
 
-			project_project = data[0];
-			//console.log(project_project)
-			//console.info(project_project.project_templates.Default)
-			//selected_page_template = project_project.project_templates.Default;
-
-			$('#UI_projName').text('Project: ' + project_project.projectName)
-
-			//for all elements in data
-			for(var i = 0; i<data[0].graph.length; i++){
-				//check if element is an edge
-				if(data[0].graph[i].group == "edges"){
-					//add edge to graph
-					var newEdge = cy.add(data[0].graph[i]);
-					//add event listener to edge
-					newEdge.on('tap', function(event){this.select();});
-
+					}
+					else{
+						cy.add(data[0].graph[i]);
+					}
 				}
-				else{
-					cy.add(data[0].graph[i]);
-				}
+				Materialize.toast("Project '" + project_project.projectName + "' Loaded", 3000, 'rounded')
+				resizeCanvas();
 			}
-			Materialize.toast("Project '" + project_project.projectName + "' Loaded", 3000, 'rounded')
-			resizeCanvas();
-
 
 		},
 		contenttype: "application/json"
@@ -83,6 +84,7 @@ function http_load(projName){
 }
 
 function http_getUsersProjects(username,ret){
+	http_addTokenToHeader()
 	return $.ajax({
 		url: '/getUsersProjects',
 		data: {
@@ -91,21 +93,30 @@ function http_getUsersProjects(username,ret){
 		cache: false,
 		type: 'GET',
 		success: function(data) {
-			console.log(data)
-			ret.names = data
+			if(http_handleAuth(data)){
+				//console.log('GETUSERSRESULTS')
+				//console.log(data)
+				ret.names = data
+				for(var i = 0; i<ret.names.length; i++){
+					//console.log('GETUSERSRESULTS PROCESSING')
+					//console.log(ret.names[i].name)
+					ret.names[i].name = ret.names[i].name.split('_').join(' ')
+					//console.log(ret.names[i].name)
+				}
+			}
+			console.log('getUsersProjects loaded')
 		},
 		contenttype: "application/json"
 	});
 }
 
 function http_deleteProject(username,projName){
-	console.log("Delete project");
-
-	//project_createNewProject();
-	//project_updateProject();
+	//projName is expected to be project name with whitespace
+	projName = projName.split('_').join(' ')
+	//console.log("Delete project");
+	http_addTokenToHeader()
 
 	//jquery ajax post request
-	console.log(username + " " + projName)
 	return $.ajax({
 		type: 'POST',
 		url: '/deleteProject',
@@ -113,7 +124,12 @@ function http_deleteProject(username,projName){
 			"username" : username,
 			"projName" : projName
 		},
-		success: function(data) { console.log(data) },
+		success: function(data) {
+			if(http_handleAuth(data)){
+				//console.log(data)
+				console.log('project deleted')
+			}
+		},
 		contenttype: "application/json"
 	});
 
@@ -121,50 +137,67 @@ function http_deleteProject(username,projName){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function http_delete(elemList){
-	console.log("Delete");
-	//alert(JSON.stringify(elemList));
-
-	//jquery ajax post request
-	$.ajax({
+function http_signUp(newUser,ret){
+	return $.ajax({
+		url: '/signUp',
+		data: {
+			"data" : newUser
+		},
+		cache: false,
 		type: 'POST',
-		url: 'php/delete.php', //FantasyMaker/php/save.php
-		data: JSON.stringify(elemList), //pass all elements of graph as string
-		success: function(data) { /*alert(data); */},
-		contentType: "application/json"
+		success: function(data) {
+			if(http_handleAuth(data)){
+				ret = data
+			}
+		},
+		contenttype: "application/json"
 	});
-
 }
 
-//function to package a projects information into the correct JSON structure for database storage.
-function http_packageProject(uname,graph,statTypes){
+function http_login(uname,pwd,ret){
+	return $.ajax({
+		url: '/login',
+		data: {
+			"uname" : uname,
+			"pwd" : pwd
+		},
+		cache: false,
+		type: 'POST',
+		success: function(data) {
+			console.log('LOGIN RES:')
+			console.log(data)
+			ret.data = data
+		},
+		contenttype: "application/json"
+	});
+}
 
-	var jsonObj = {
-		"username" : uname,
-		"graph": [],
-		"statTypes" : []
+//examines response from server for authentication validation
+function http_handleAuth(res){
+	console.log('server returned' + res)
+	if(res === 'EXPIRED' || res === 'NO_TOKEN'){
+		if(res === 'EXPIRED'){
+			console.log('http_handleAuth(): Token is expired')
+		}
+		else{
+			console.log('http_handleAuth(): No Token')
+		}
+
+		users_flushToken() //remove anyexpired tokens
+		http_redirectHome()
+		return false
 	}
+	return true
+}
 
-	jsonObj.graph = graph;
-	jsonObj.statTypes = statTypes;
-
-	return jsonObj;
+function http_addTokenToHeader(){
+	var token = window.localStorage.getItem('token');
+	if (token) {
+		var tok = JSON.parse(token).token
+	  $.ajaxSetup({
+	    headers: {
+	      'x-access-token': tok
+	    }
+	  });
+	}
 }

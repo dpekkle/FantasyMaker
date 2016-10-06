@@ -3,6 +3,7 @@ goog.require('initCanvas');
 goog.require('states')
 goog.require('httpRequests')
 goog.require('projectSettings')
+goog.require('users')
 
 console.log("Entering project.js");
 
@@ -49,11 +50,15 @@ function initEmptyProject(username,projName){
 }
 
 function project_createNewProject(){
-	if($('#projName').val()){
-		project_project = initEmptyProject('Admin',$('#projName').val())
-		cy.elements().remove()
-		$.when(http_save(project_project)).done(projectSettings_closeOverlay(), projectSettings_populateProjectsList("Admin"),$('#UI_projName').text('Project: ' + project_project.projectName),resizeCanvas())
-	}
+	myModal.prompt("Create New Project", "Enter the name of your new project", [{name: "Project Name", default: "", type: "text"}], function(results){
+			if(!myModal.confirm) //don't run if cancel clicked
+				return;
+
+				project_project = initEmptyProject(users_getUsername(),results[0].trim())
+				cy.elements().remove()
+				$.when(http_save(project_project)).done($('#UI_projName').text('Project: ' + project_project.projectName),showMainContent(),http_getUsersProjects(users_getUsername(),projectSettings_userProjectsNames))
+
+		});
 }
 
 //Add top level attribute directly under gameAttributes
@@ -86,4 +91,87 @@ function project_updateProject(){
 function project_saveProject(){
 	project_updateProject()
 	http_save(project_project)
+}
+
+function project_showMainContent(){
+	if(!$('#projectMain').hasClass('hide')){
+		$('#projectMain').addClass('hide')
+	}
+
+	if($('#mainContent').hasClass('hide')){
+		$('#mainContent').removeClass('hide')
+	}
+}
+
+function project_login(){
+	myModal.prompt("Login", "Login as an existing user.", [{name: "Username", default: "", type: "text"},{name: "Password", default: "", type: "password"}], function(results){
+			if(!myModal.confirm) //don't run if cancel clicked
+				return;
+				var res = {
+					"data" : {}
+				}
+				$.when(http_login(results[0],results[1],res)).done(function(){
+
+					if(res.data !== 'INVALID_USERNAME' || res.data !== 'INVALID_PASSWORD' || res.data !== 'SERVER_ERR'){
+						users_flushToken()
+						window.localStorage.setItem('token', JSON.stringify(res.data))
+						project_successfulLogin()
+					}
+					else{
+						console.log('invalid credentials')
+					}
+				})
+
+		});
+}
+
+function project_successfulLogin(){
+	console.log(users_getUsername() + ' logged in')
+	$('#login_button').hide()
+	$('#signup_button').hide()
+	$('#project_button').removeClass('hide')
+	$('#profile_button').removeClass('hide')
+	$('#settings_button').removeClass('hide')
+	$('#profile_button').text(users_getUsername())
+	$("#profile_button").dropdown();
+	Materialize.toast("Welcome back " + users_getUsername() + "!", 3000, 'rounded')
+}
+
+function project_signUp(){
+	myModal.prompt("Sign Up", "Sign up as a new user.", [{name: "Username", default: "", type: "email"},{name: "Password", default: "", type: "password"},{name: "Confirm Password", default: "", type: "password"}], function(results){
+			if(!myModal.confirm) //don't run if cancel clicked
+				return;
+			if(results[0] !== undefined && results[1] !== undefined && results[2] !== undefined && results[1] === results[2]){
+				var newUser = users_generateNewUser()
+				newUser.username = results[0]
+				newUser.password = results[1]
+				var ret = ''
+				$.when(http_signUp(newUser,ret)).done(function(ret){
+					if(ret === 'VALID'){
+						Materialize.toast("User '" + results[0] + "' Created", 3000, 'rounded')
+					}
+					else{
+						Materialize.toast("User '" + results[0] + "' already exists", 3000, 'rounded')
+					}
+				})
+			}
+		});
+}
+
+function project_logOut(){
+	myModal.prompt("Log Out", "Are you sure you wish to log out? unsaved progress may be lost.",[],function(results){
+			if(!myModal.confirm) //don't run if cancel clicked
+				return;
+
+			console.log(users_getUsername() + ' logged out')
+			$('#project_button').addClass('hide')
+			$('#profile_button').addClass('hide')
+			$('#settings_button').addClass('hide')
+			$('#login_button').show()
+			$('#signup_button').show()
+			$('#profile_button').text('')
+			users_flushToken()
+			http_redirectHome()
+
+		});
 }

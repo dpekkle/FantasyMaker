@@ -15,6 +15,13 @@ function Logger(){
     return this.data
   }
 
+  this.controlOutputHTML = function(){
+    var html =  '<h4>Control Node Output</h4>'+
+                this.outputAsArray()+
+                '</div>'
+    return html
+  }
+
 }
 
 var logger = new Logger()

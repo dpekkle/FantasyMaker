@@ -1,80 +1,171 @@
 goog.provide('projectSettings')
 goog.require('httpRequests')
+goog.require('users')
+
+var projectSettings_activePage = 1
+var projectSettings_amtPages = 1
+var projectSettings_userProjectsNames = {
+  "names" : []
+}
 
 
-//on input event for create project button, enables done button on input
-$('#projName').on('input',function(){
-  if( $('#projName').val() ){
-      $('#projNameAcceptButton').removeClass('disabled')
-  }
-  else{
-    if( !$('#projNameAcceptButton').hasClass('disabled') ){
-      $('#projNameAcceptButton').addClass('disabled')
-    }
-  }
-})
+function projectSettings_populateProjectsList(username,pageNumber){
+  //console.log('Looking up projects made by ' + username)
+  console.log('populateProjectsList called')
+  $('#projectsList1').empty()
+  $('#projectsList2').empty()
 
-function projectSettings_populateProjectsList(username){
-  console.log('Looking up projects made by ' + username)
-  $('#projectsList').empty()
+
+
   //obj to pass by reference with
+  /*
   var obj = {
     "names" : [] //will hold names of users projects
   }
-  $.when(http_getUsersProjects(username,obj)).done(function(){
-    console.log(obj.names)
-    for(var i = 0; i<obj.names.length; i++){
-      if(obj.names[i].name !== 'system.indexes'){
-        $('#projectsList').append(projectSettings_generateProjectCard(obj.names[i].name))
-      }
-    }
-  });
+  */
+  //if(refresh === true){
+    //console.log('MODIFIED...RELOADING')
+    //$.when(http_getUsersProjects(username,projectSettings_userProjectsNames)).done(function(){
+      //if(obj.names !== 'EXPIRED'){
+        projectSettings_populateProjectPage(projectSettings_userProjectsNames,pageNumber)
+        /*
+        $.when(projectSettings_populateProjectPage(projectSettings_userProjectsNames,pageNumber)).done(function(){
+          //projectSettings_userProjectsNames = obj
+        })
+        */
+
+      //}
+    //});
+  //}
+  /*
+  else{
+    console.log('NOT MODIFIED')
+    projectSettings_populateProjectPage(projectSettings_userProjectsNames,pageNumber)
+  }
+  */
+
 }
 
+function projectSettings_populateProjectPage(obj,pageNumber){
+  if(obj.names.length === 0){
+    console.log('projectSettings_populateProjectPage() error: projNames[] is null')
+  }
+  //IF OBJ != NULL?????
+
+  //empty paginations
+  $('.pp').remove()
+
+  //define amount of pages users projects take up
+  projectSettings_amtPages = Math.ceil(obj.names.length / 4)
+  //console.log("Amt pages: " + projectSettings_amtPages + ' ' + obj.names.length / 4)
+
+  //add pagination pages to ui
+  var pages = ''
+  for(var i = 1; i<=projectSettings_amtPages; i++){
+    var id = 'pp_' + i
+    if($('#'+id).length === 0){
+      if(i === pageNumber){
+        pages += '<li id="' + id + '" class="active pp"><a onclick=projectSettings_switchPage('+i+')>'+i+'</a></li>'
+      }
+      else{
+        pages += '<li id="' + id + '" class="waves-effect pp"><a onclick=projectSettings_switchPage('+i+')>'+i+'</a></li>'
+      }
+    }
+
+  }
+  $('#projectsPaginationLeft').after(pages)
+
+  if(projectSettings_activePage === 1 && projectSettings_amtPages > projectSettings_activePage){
+    //console.log('page one')
+    projectSettings_disableLeftPagination()
+    projectSettings_enableRightPagination()
+  }
+  else if(projectSettings_activePage === 1 && projectSettings_amtPages === projectSettings_activePage){
+    projectSettings_disableLeftPagination()
+    projectSettings_disableRightPagination()
+  }
+  else if(projectSettings_activePage === projectSettings_amtPages){
+    //console.log('last page')
+    projectSettings_disableRightPagination()
+    projectSettings_enableLeftPagination()
+  }
+  else{
+    //console.log('middle page')
+    projectSettings_enableLeftPagination()
+    projectSettings_enableRightPagination()
+  }
+
+  //find start index based on page number
+  var start
+  var end
+  if(pageNumber === 1){
+    end = 4
+  }
+  else{
+    end = pageNumber * 4
+  }
+  start = end - 4
+  //find end based on start index
+  //var end = start + 4
+  if(end > obj.names.length){
+    end = obj.names.length
+  }
+
+  //console.log(start + ' ' + end)
+  //add project cards to UI
+  for(var i = start; i<end; i++){
+    //console.log("adding: " + i + ' ' + obj.names[i].name)
+
+      if($('#projectsList1 li').length < 2){
+          //console.log(obj.names[i].name + " to list 1")
+        $('#projectsList1').append(projectSettings_generateProjectCard(obj.names[i].name))
+      }
+      else{
+        //console.log(obj.names[i].name + " to list 2")
+        $('#projectsList2').append(projectSettings_generateProjectCard(obj.names[i].name))
+      }
+  }
+}
+
+
+
 function projectSettings_generateProjectCard(name){
-    var html =   '<li><div class="row">'+
-                    '<div class="col s1"><p></p></div>'+
-                '<div class="card small hoverable col s4" style="height: 80%;">' +
-                  //  '<div class="card-image waves-effect waves-block waves-light">'+
-                    //  '<img class="activator" src="http://www.planetware.com/photos-large/CH/switzerland-matterhorn.jpg">'+
-                    //'</div>'+
-                    '<div class="card-content">'+
-                      '<span class="card-title activator grey-text text-darken-4">'+name+'<i class="material-icons right">more_vert</i></span>'+
-                      '<p><a href="#" class="btn" onclick=http_load('+ "'" +name + "'" + '),showMainContent()>Load</a></p>'+
-                    '</div>'+
-                    '<div class="card-reveal" >'+
-                      '<span class="card-title grey-text text-darken-4">'+name+'<i class="material-icons right">close</i></span>'+
-                      '<p>Date Created: </p>'+
-                      '<p>Last Modified: </p>'+
-                      '<a class="btn-floating btn-small waves-effect waves-light red" onclick=projectSettings_deleteProject('+ "'"+'Admin'+"','"+ name + "'" + ')><i class="small material-icons">delete</i></a>'+
-                    '</div>'+
-                  '</div></div></li>'
+    //cannot pass whitespace names into onclick functions, replace whitespace w/ '_'
+    var proj = name.split(' ').join('_')
+    var html =   '<li>'+
+                    //'<div class="row">'+
+                      '<div class="col s1"><p></p></div>'+
+                      '<div class="card hoverable col s4" style="height: 200px;">' +
+                        //  '<div class="card-image waves-effect waves-block waves-light">'+
+                          //  '<img class="activator" src="http://www.planetware.com/photos-large/CH/switzerland-matterhorn.jpg">'+
+                          //'</div>'+
+                          '<div class="card-content">'+
+                            '<span class="card-title activator grey-text text-darken-4" style="position: relative;">'+name+'<i class="material-icons right">more_vert</i></span>'+
+                            '<div class="row"><p>filler1</p></div>'+
+                            '<div class="row"><p>filler2</p></div>'+
+                            '<div class="row" >' +
+                              '<a href="#" class="btn col s8 offset-s2" onclick=http_load('+ "'" +proj + "'" + '),project_showMainContent()>Load</a>'+
+                            '</div>'+
+                          '</div>'+
+                          '<div class="card-reveal" >'+
+                            '<span class="card-title grey-text text-darken-4">'+name+'<i class="material-icons right">close</i></span>'+
+                            '<p>Date Created: </p>'+
+                            '<p>Last Modified: </p>'+
+                            '<a class="btn-floating btn-small waves-effect waves-light red" onclick=projectSettings_deleteProject('+ "'"+users_getUsername()+"','"+ proj + "'" + ')><i class="small material-icons">delete</i></a>'+
+                          '</div>'+
+                        '</div>'+
+                      //'</div>'+
+                  '</li>'
     return html
 }
 
-function projectSettings_generateProjectCard2(name){
-  var html = '<div class="col s2">'+
-              '<h2 class="header">'+name+'</h2>'+
-              '<div class="card horizontal">'+
-                '<div class="card-image">'+
-                  '<img src="http://www.planetware.com/photos-large/CH/switzerland-matterhorn.jpg">'+
-                '</div>'+
-                '<div class="card-stacked">'+
-                  '<div class="card-content">'+
-                    '<p>I am a very simple card. I am good at containing small bits of information.</p>'+
-                  '</div>'+
-                  '<div class="card-action">'+
-                    '<a href="#">load</a>'+
-                  '</div>'+
-                '</div>'+
-              '</div>'+
-            '</div>'
-  return html
-}
-
 function showProjectSettings(){
-  $('#loginHtml').addClass('hide')
-
+  projectSettings_activePage = 1
+  $.when(http_getUsersProjects(users_getUsername(),projectSettings_userProjectsNames)).done(function(){
+    console.log(projectSettings_userProjectsNames)
+    projectSettings_populateProjectsList(users_getUsername(),1)
+  })
+//  projectSettings_populateProjectsList(users_getUsername(),1)
 
   if(!$('#mainContent').hasClass('hide')){
     $('#mainContent').addClass('hide')
@@ -83,47 +174,89 @@ function showProjectSettings(){
   if($('#projectMain').hasClass('hide')){
     $('#projectMain').removeClass('hide')
   }
-  /*
-  else{
-    $('#projectMain_title').text("Admin's Projects")
-    projectSettings_populateProjectsList("Admin")
-    $('#mainContent').addClass('hide')
-    $('#projectMain').removeClass('hide')
-  }
-  */
 }
 
 function showMainContent(){
-  $('#projectMain').addClass('hide')
-  $('#mainContent').removeClass('hide')
+  projectSettings_activePage = 1
+  //projectSettings_populateProjectsList(users_getUsername(),1)
+
+  if($('#mainContent').hasClass('hide')){
+    $('#mainContent').removeClass('hide')
+  }
+
+  if(!$('#projectMain').hasClass('hide')){
+    $('#projectMain').addClass('hide')
+  }
+  resizeCanvas()
 }
 
-function projectSettings_closeOverlay(){
-  $('#projName').val("")
-  $.when($('#newProject-modal').closeModal()).done(showMainContent())
+function projectSettings_switchPage(page,elem){
+
+  //check is there is a page left or right
+  if(page < 0 || $(elem).hasClass('disabled')){
+    console.log('button disabled')
+    return
+  }
+
+  $('#pp_' + projectSettings_activePage).removeClass('active')
+  $('#pp_' + projectSettings_activePage).addClass('waves-effect')
+  $('#pp_' + page).removeClass('waves-effect')
+  $('#pp_' + page).addClass('active')
+  projectSettings_activePage = page
+
+  console.log(projectSettings_activePage + ' ' + projectSettings_amtPages)
+  //enable/disable left/right pagination buttons
+
+
+  projectSettings_populateProjectsList(users_getUsername(),page)
 }
 
-function  hideLogin(){
-  $('#loginHtml').addClass('hide')
+function projectSettings_enableLeftPagination(){
+  if( $('#projectsPaginationLeft').hasClass('disabled') ){
+    $('#projectsPaginationLeft').addClass('waves-effect')
+    $('#projectsPaginationLeft').removeClass('disabled')
+  }
 }
 
+function projectSettings_disableLeftPagination(){
+  if( !$('#projectsPaginationLeft').hasClass('disabled') ){
+    $('#projectsPaginationLeft').addClass('disabled')
+    $('#projectsPaginationLeft').removeClass('waves-effect')
+  }
+}
 
-function projectSettings_login(){
-	var username = $('#login_username').val()
-	var password = $('#login_pwd').val()
-	if(username === "admin" && password === "admin"){
-    projectSettings_populateProjectsList("Admin")
-    $('#projectMain_title').text("Admin's Projects")
-    showProjectSettings()
-    resizeCanvas();
-	}
-  else{
-    Materialize.toast("Invalid login details.", 3000, 'rounded')
+function projectSettings_enableRightPagination(){
+  if( $('#projectsPaginationRight').hasClass('disabled') ){
+    $('#projectsPaginationRight').addClass('waves-effect')
+    $('#projectsPaginationRight').removeClass('disabled')
+  }
+}
+
+function projectSettings_disableRightPagination(){
+  if( !$('#projectsPaginationRight').hasClass('disabled') ){
+    $('#projectsPaginationRight').addClass('disabled')
+    $('#projectsPaginationRight').removeClass('waves-effect')
   }
 }
 
 
+
+
+
+
+
 function projectSettings_deleteProject(username,projName){
-  $.when(http_deleteProject(username,projName)).done(projectSettings_populateProjectsList(username))
-  Materialize.toast("Project '" + projName + "' Deleted", 3000, 'rounded')
+  projectSettings_activePage = 1
+  //obj to pass by reference with
+  /*
+  var obj = {
+    "names" : [] //will hold names of users projects
+  }
+  */
+  $.when(http_deleteProject(username,projName)).done(function(){
+    $.when(http_getUsersProjects(username,projectSettings_userProjectsNames)).done(function(){
+      projectSettings_populateProjectsList(username,1)
+      Materialize.toast("Project '" + projName + "' Deleted", 3000, 'rounded')
+    })
+  })
 }

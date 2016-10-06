@@ -4,6 +4,7 @@ goog.provide('playGame')
 goog.require('project')
 goog.require('audio')
 goog.require('events')
+goog.require('logger')
 
 
 
@@ -55,11 +56,13 @@ function prepareForGame()
 		//clear assets
 		$('#playwindow #audioplayerlist').html('');
 
+
 		var audio_assets = project_project.audio.getAsset();
 		for (var i = 0; i < audio_assets.length; i++)
 		{
 			audio_assets[i].loadAudio();
 		}
+
 		project_project.audio.changed = false;
 	}
 }
@@ -69,10 +72,12 @@ function wipeGame()
 	project_project.audio.loaded = 0;
 
 	//clear page
+
 	for (var i = 0; i < project_project.audio.getAsset().length; i++)
 	{
 		project_project.audio.assets[i].stopAudio();
 	}
+	
 
 	$('.playpage').html('');
 	$('.playpage').attr('style', '');
@@ -140,6 +145,7 @@ function stylePage()
 	}
 
 	$('.playpage').append(output_cont);
+	$('.output-container').children().append(logger.controlOutputHTML())
 
 	//give decisions on click behaviour
 	$('.playpage').children("div[class^='decision-container']").each(function(index)
@@ -203,6 +209,7 @@ function parseControl(sourceNode, outgoingEdges)
 			logger.log("All edges from control node " + sourceNode.json().data.name + " have evaluated false. Following default fail edge...")
 		}
 
+		logger.log("Progressing through edge " + cy.edges("[id='" + nextNodeID + "']").json().data.name)
 		if(nextNodeIndex !== -1){
 			console.log(logger.outputAsArray())
 			progressStory(nextNodeIndex)
@@ -304,9 +311,9 @@ function assessCondition(condition){
 
 		console.log(attButton1_val + ' ' + modification + ' ' + attButton2_val + ' ' + pivot + ' ' + rhs)
 		var ret = assessComparison(lhs,pivot,rhs)
-		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + ' ' + modification + ' ' +
-								getAttributeText(html[0].childNodes[3].childNodes[0]) + ' ' + pivot + ' ' + getAttributeText(html[0].childNodes[5].childNodes[0]) +
-								' is ' +  boolToString(ret))
+		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + modification + ' ' +
+								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') ' + pivot + ' ' + getAttributeText(html[0].childNodes[5].childNodes[0]) +
+								'('+rhs+')' +' is ' +  boolToString(ret))
 		return ret
 
 	}
@@ -325,9 +332,9 @@ function assessCondition(condition){
 		console.log(attButton1_val + ' ' + mod1 + ' ' + attButton2_val + ' ' + pivot + ' ' + attButton3_val + ' ' + mod2 + ' ' + attButton4_val )
 		console.log(assessComparison(lhs,pivot,rhs))
 		var ret = assessComparison(lhs,pivot,rhs)
-		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + ' ' + mod1 + ' ' +
-								getAttributeText(html[0].childNodes[3].childNodes[0]) + ' ' + pivot + ' ' + getAttributeText(html[0].childNodes[5].childNodes[0]) +
-								mod2 + ' ' + getAttributeText(html[0].childNodes[7].childNodes[0]) + ' is '+ boolToString(ret))
+		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + mod1 + ' ' +
+								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') ' + pivot + ' ' + getAttributeText(html[0].childNodes[5].childNodes[0]) +
+								'('+attButton3_val+')' + mod2 + ' ' + getAttributeText(html[0].childNodes[7].childNodes[0]) + '('+attButton4_val+')'+ ' is '+ boolToString(ret))
 		return ret
 	}
 
@@ -341,6 +348,13 @@ function getAttributeValue(childNode){
 		//button is an input feild
 		console.log(childNode.childNodes[0].value)
 		return parseFloat(childNode.childNodes[0].value)
+
+	}
+	else if(childNode.id.split('_')[3] === 'randValue'){
+		console.log('GENERATING RANDOM NUMBER')
+		var min = parseFloat(childNode.attributes.min.value)
+		var max = parseFloat(childNode.attributes.max.value)
+		return Math.floor(Math.random() * (max - min + 1)) + min;
 
 	}
 	else{
@@ -358,6 +372,9 @@ function getAttributeText(childNode){
 		console.log(childNode.childNodes[0].value)
 		return childNode.childNodes[0].value
 
+	}
+	else if(childNode.id.split('_')[3] === 'randValue'){
+		return "a random number"
 	}
 	else{
 		var path = childNode.attributes.path.value.split('_')
@@ -384,8 +401,8 @@ function getAttributeText(childNode){
 }
 
 function assessComparison(left_value, comparison, right_value){
-	var L = parseInt(left_value)
-	var R = parseInt(right_value)
+	var L = parseFloat(left_value)
+	var R = parseFloat(right_value)
 	switch (comparison) {
 		case '=':
 			if(L === R){

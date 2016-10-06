@@ -810,6 +810,20 @@ $(function(){
 
 	 //if(trigger.hasClass('condition-context-menu')) {
 
+	 	if (trigger.hasClass('random')){
+			//trigger is a random button
+			options.items.setRandRange = {
+				name: "Set Random Number Range",
+				callback: function(key,options){
+					setRandomNumberRange(trigger.attr('id'))
+				}
+			}
+			options.items['sep'] = {
+				name: '----------------------------------------------',
+				disabled: true
+			}
+		}
+
 		 //add all game attributes
 		 if (trigger.hasClass('game-attributes')) {
 			 //if there are attributes in proj
@@ -839,7 +853,7 @@ $(function(){
 						//numberSelected($trigger.attr("id"))
 					}
 				}
-				/*
+
 				// add rand option
 				options.items.randValue = {
 					name: "Random Value",
@@ -848,7 +862,7 @@ $(function(){
 						//randomSelected($trigger.attr("id"))
 					}
 				}
-				*/
+
 			}
 	 //}
 	 /*
@@ -1051,9 +1065,48 @@ $(function(){
  }
 
  function randomSelected(clickedItemID){
+	 var spl = clickedItemID.split('_')
+	var newID
+	if(spl[0] === 'newCondition'){
+		 newID = spl[0] + '_' +spl[1] + '_' + 'randValue' + '_' + spl[3] + '_' + spl[4]
+		 var html = generateRandomButton(newID)
+		 $('#' + spl[0] + '_' +spl[1] + '_' + spl[2] + '_' + spl[3] + '_' + spl[4]).replaceWith(html)
+	}
+	else if(spl[0] === 'exCondition'){
+		 newID = spl[0] + '_' + spl[1] + '_' + spl[2] + '_randValue_' + spl[4] + '_' + spl[5]
+		 var html = generateRandomButton(newID)
+		 $('#' + spl[0] + '_' + spl[1] + '_' + spl[2] + '_' + spl[3] + '_' + spl[4] + '_' + spl[5]).replaceWith(html)
+	}
+	else if(spl[0] === 'newOutcome'){
+		newID = spl[0] + '_' +spl[1] + '_' + 'randValue' + '_' + spl[3]
+		var html = generateRandomButton(newID)
+		$('#' + spl[0] + '_' +spl[1] + '_' + spl[2] + '_' + spl[3]).replaceWith(html)
+	}
+	else if(spl[0] === 'exOutcome'){
+		newID = spl[0] + '_' + spl[1] + '_' + spl[2] + '_randValue_' + spl[4]
+		var html = generateRandomButton(newID)
+		$('#' + spl[0] + '_' + spl[1] + '_' + spl[2] + '_' + spl[3] + '_' + spl[4]).replaceWith(html)
+	}
 
+		$('#' + newID).tooltip({delay: 50});
  }
 
+function setRandomNumberRange(clickedItemID){
+	myModal.prompt("Set Random Number Range", "Set the minimum and maximum values to be generated", [{name: "Minimum", default: parseFloat($('#' + clickedItemID).attr('min')), type: "number"},{name: "Maximum", default: parseFloat($('#' + clickedItemID).attr('max')), type: "number"}], function(results){
+			if(!myModal.confirm) //don't run if cancel clicked
+				return;
+
+			if(results[0] <= results[1]){
+				$('#' + clickedItemID).attr('min',results[0])
+				$('#' + clickedItemID).attr('max',results[1])
+				$('#' + clickedItemID).attr('data-tooltip','Minimum: ' + results[0] + '<br>Maximum: ' + results[1])
+				$('#' + clickedItemID).tooltip({delay: 50});
+			}
+			else{
+				Materialize.toast('Invalid range. Min must be less than max.', 4000)
+			}
+		});
+}
 
 
  function generateCondition_type1(id){
@@ -1140,6 +1193,11 @@ $(function(){
 		 var ret = '<div class="col s1"><div id="' + id + '_settings'+ '" class="condition-settings-context-menu condition-settings-button"><a class="btn-floating waves-effect waves-light gray"><i class="material-icons">settings</i></a></div></div>'
 	 }
 	 return ret
+ }
+
+ function generateRandomButton(id){
+	 var html = '<div id="' + id + '" class="condition-context-menu random game-attributes numbers attribute-button tooltipped" max="100" min="0" data-html="true" data-position="bottom" data-delay="50" data-tooltip="Minimum: 0<br>Maximum: 100">Random Number</div>'
+	 return html
  }
 
  function setComparisonType(type,id){
