@@ -288,28 +288,7 @@ function generateContextMenu(container_type, template_menu_list)
 									{
 										"name": name,
 										"savedhtml": saved, 
-										"callback": function(key, options)
-										{
-												//generate function callbacks for templates in load/delete dropdowns
-												if (options.$selected.parent().siblings('span').html() == "Load")
-												{
-													//load template
-													console.log("Loading: " + key);
-													//options.$trigger is the jquery object for the icon that triggers the menu
-													var element = options.$trigger.parent().parent().children(target_element);
-
-													//save inner content
-													var preserve_content = element.html();
-													//swap outer tag, including style stuff
-													element[0].outerHTML = template_menu_list[key].savedhtml;
-													options.$trigger.parent().parent().children(target_element).html(preserve_content);
-												}
-												else if (options.$selected.parent().siblings('span').html() == "Delete")
-												{
-													console.log("Delete: " + key);
-													delete template_menu_list[key]
-												}
-										}
+										"callback": generateTemplateCallback(target_element, template_menu_list)									
 									}
 									project_project.template_menus.template_ID++;
 								});
