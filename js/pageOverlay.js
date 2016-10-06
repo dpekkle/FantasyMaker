@@ -333,7 +333,7 @@ function genPageCenterHTML(elew, eleh, iter)
 	if (y > project_project.resolution.y)
 		y = project_project.resolution.y;
 	
-	//return "transform: translate(" + x + "px, " + y + "px);' data-x='" + x + "' data-y='" + y;
+	return "transform: translate(" + x + "px, " + y + "px);' data-x='" + x + "' data-y='" + y;
 }
 
 /*** MODIFY CONTAINERS ***/

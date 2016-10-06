@@ -21,14 +21,13 @@ defaultState();
 //add template_menu_lists from contextMenu.js
 //add gridmode and showhandles bools
 //add page_templates from pageTemplates.js
-
 function initEmptyProject(username,projName){
 	var newProj = {
 		"project_templates":
 		{
 			"Default":
 			{
-				pagestyle: "width: 800px; flex: 0 0 800px; height:600px; 	border: 3px solid #BBBBBB",
+				pagestyle: "width: 800px; flex: 0 0 800px; height:600px; border: 3px solid black",
 				outputcontainer: "",
 				imgcontainers: [],
 				vidcontainers: [],
@@ -50,6 +49,7 @@ function initEmptyProject(username,projName){
 }
 
 function project_createNewProject(){
+	/*
 	myModal.prompt("Create New Project", "Enter the name of your new project", [{name: "Project Name", default: "", type: "text"}], function(results){
 			if(!myModal.confirm) //don't run if cancel clicked
 				return;
@@ -57,7 +57,30 @@ function project_createNewProject(){
 				project_project = initEmptyProject(users_getUsername(),results[0].trim())
 				cy.elements().remove()
 				$.when(http_save(project_project)).done($('#UI_projName').text('Project: ' + project_project.projectName),showMainContent(),http_getUsersProjects(users_getUsername(),projectSettings_userProjectsNames))
+		});
+*/
 
+		myModal.prompt("Create New Project", "You should manually save this project once you've created it to ensure that you can access it from any computer.",
+		[{name: "Project Title", default: "", type: "text"}],
+		function(results)
+		{
+			project_project = initEmptyProject(users_getUsername(),results[0].trim())
+			cy.elements().remove()
+			$.when(http_save(project_project)).done($('#UI_projName').text('Project: ' + project_project.projectName),showMainContent(),http_getUsersProjects(users_getUsername(),projectSettings_userProjectsNames))
+		},
+		function(results) //this is the verification function
+		{
+			console.log("Verifying ", results[0]);
+			if (results[0] == "")
+			{
+				console.log("Project name empty");
+				return false;
+			}
+			else
+			{
+				console.log("Project name succesfully verified");
+				return true;
+			}
 		});
 }
 

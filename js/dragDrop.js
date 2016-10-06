@@ -45,9 +45,6 @@ function setInteractions()
 			  endOnly: false,
 			  elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
 			},
-			// enable autoScroll
-			autoScroll: true,
-
 			onstart: function(event){
 				console.log("Started dragging");
 			},
@@ -89,6 +86,8 @@ function resizeMoveListener(event)
 	// update the element's dimensions
 	tar.style.width  = checkBounds(tar.parentNode.getAttribute('data-x'), event.rect.width, $('#pagecontainers').width()) + 'px';
 	tar.style.height = checkBounds(tar.parentNode.getAttribute('data-y'), event.rect.height, $('#pagecontainers').height()) + 'px';
+//	$(tar).parent('.drag-element').width(tar.style.width);
+
 }
 
 function checkBounds(offset, dimension, limit)

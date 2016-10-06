@@ -146,8 +146,6 @@ function generateContextMenu(container_type, template_menu_list)
 								var ele = options.$trigger.parent().siblings(target_element);
 								myModal.prompt("Set font size", "Between 1 and 40", [{name: "Font-size", default: ele.css('font-size'), min: "1", max: "40", type: "number"}], function(results)
 								{
-									if(!myModal.confirm)
-										return;
 									var value = results[0];
 
 									if (value <= 40 && value >= 1)
@@ -189,8 +187,6 @@ function generateContextMenu(container_type, template_menu_list)
 									alpha = 1;
 								myModal.prompt("Set Opacity", "Between 0 and 100", [{name: "Opacity", default: alpha*100, min: "0", max: "100", type: "number"}], function(results)
 								{
-									if(!myModal.confirm)
-										return;
 									var opacity = parseFloat(results[0]);
 									if (opacity <= 100 && opacity >= 0)
 									{
@@ -243,8 +239,6 @@ function generateContextMenu(container_type, template_menu_list)
 
 								myModal.prompt("Create Container Template", "Saves the styles of a page to be loaded later", [{name: "Template", default: "", type: "text"}], function(results)
 								{
-									if(!myModal.confirm)
-										return;
 									var name = results[0];
 									template_menu_list["template" + project_project.template_menus.template_ID] =
 									{
@@ -330,9 +324,8 @@ function generateContextMenu(container_type, template_menu_list)
 					"callback": function(key, options)
 					{
 						var ele = options.$trigger.parent().siblings(target_element);
-						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results){
-							if(!myModal.confirm)
-								return;
+						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results)
+						{
 							var imgurl = results[0];
 							if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
 							{
@@ -401,9 +394,8 @@ function generateContextMenu(container_type, template_menu_list)
 					"callback": function(key, options)
 					{
 						var ele = options.$trigger.parent().siblings(target_element);
-						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results){
-							if(!myModal.confirm)
-								return;
+						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results)
+						{
 							var imgurl = results[0];
 							if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
 							{
@@ -564,32 +556,32 @@ function border_menu_entry(target_element)
 				"name": "Rounded Corners", "callback": function(key, options){
 
 					var ele = options.$trigger.parent().siblings(target_element);
-					myModal.prompt("Corner rounding", "Square is 0, the higher the rounder. Results may vary.", [{name: "Rounding pixels", default: parseInt(ele.css("border-radius")), min: "0", max: "1000", type: "number"}], function(results)
-					{
-						if(!myModal.confirm)
-							return;
-						var size = results[0];
-						if (size <= 1000 && size >= 0)
-							return ele.css("border-radius", size + "px");
-						else
-							return false;
-					});
+					if (target_element == "#pagecontainers")
+						ele = $(target_element);
+						myModal.prompt("Corner rounding", "Square is 0, the higher the rounder. Results may vary.", [{name: "Rounding pixels", default: parseInt(ele.css("border-radius")), min: "0", max: "1000", type: "number"}], function(results)
+						{
+							var size = results[0];
+							if (size <= 1000 && size >= 0)
+								return ele.css("border-radius", size + "px");
+							else
+								return false;
+						});
 				}
 			},
 			"Thickness":
 			{
 				"name": "Border Width", "callback": function(key, options){
 					var ele = options.$trigger.parent().siblings(target_element);
-					myModal.prompt("Border Width", "Any value between 1 and 40. To hide set border style to 'none'", [{name: "Thickness pixels", default: parseInt(ele.css("border-width")), min: "1", max: "40", type: "number"}], function(results)
-					{
-						if(!myModal.confirm)
-							return;
-						var size = results[0];
-						if (size <= 40 && size >= 1)
-							return ele.css("border-width", size + "px");
-						else
-							return false;
-					});
+					if (target_element == "#pagecontainers")
+						ele = $(target_element);
+						myModal.prompt("Border Width", "Any value between 1 and 40. To hide set border style to 'none'", [{name: "Thickness pixels", default: parseInt(ele.css("border-width")), min: "1", max: "40", type: "number"}], function(results)
+						{
+							var size = results[0];
+							if (size <= 40 && size >= 1)
+								return ele.css("border-width", size + "px");
+							else
+								return false;
+						});
 				}
 			},
 		}

@@ -25,16 +25,26 @@
 /*	height: 600px;
 */	min-width: 280px;
 	max-width: 560px;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#screenwrapper{
+	width: 70%;
+	height: 100%;
+    overflow: auto;
+	border: 3px solid #BBBBBB;
+	padding: 15px;
 }
 
 #pagecontainers{
-/*	width: 800px; these are initialised as default in pageTemplates
+/*	width: 800px; these are initialised as default in project
 	height: 700px;
 */	
 	flex: 0 0 800px;
 	margin: auto;
-
+	position: relative; /*this actually makes children, i.e. drag containers, position relatively to their parent - even though they are position absolute */
+	/* http://stackoverflow.com/questions/477834/div-with-scroll-and-content-with-absolute-positions */
 }
 
 .eventspanetitle{

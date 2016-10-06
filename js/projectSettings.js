@@ -1,5 +1,6 @@
 goog.provide('projectSettings')
 goog.require('httpRequests')
+goog.require("prompts")
 goog.require('users')
 
 var projectSettings_activePage = 1
@@ -10,47 +11,16 @@ var projectSettings_userProjectsNames = {
 
 
 function projectSettings_populateProjectsList(username,pageNumber){
-  //console.log('Looking up projects made by ' + username)
   console.log('populateProjectsList called')
   $('#projectsList1').empty()
   $('#projectsList2').empty()
-
-
-
-  //obj to pass by reference with
-  /*
-  var obj = {
-    "names" : [] //will hold names of users projects
-  }
-  */
-  //if(refresh === true){
-    //console.log('MODIFIED...RELOADING')
-    //$.when(http_getUsersProjects(username,projectSettings_userProjectsNames)).done(function(){
-      //if(obj.names !== 'EXPIRED'){
-        projectSettings_populateProjectPage(projectSettings_userProjectsNames,pageNumber)
-        /*
-        $.when(projectSettings_populateProjectPage(projectSettings_userProjectsNames,pageNumber)).done(function(){
-          //projectSettings_userProjectsNames = obj
-        })
-        */
-
-      //}
-    //});
-  //}
-  /*
-  else{
-    console.log('NOT MODIFIED')
-    projectSettings_populateProjectPage(projectSettings_userProjectsNames,pageNumber)
-  }
-  */
-
+  projectSettings_populateProjectPage(projectSettings_userProjectsNames,pageNumber)
 }
 
 function projectSettings_populateProjectPage(obj,pageNumber){
   if(obj.names.length === 0){
     console.log('projectSettings_populateProjectPage() error: projNames[] is null')
   }
-  //IF OBJ != NULL?????
 
   //empty paginations
   $('.pp').remove()
@@ -165,7 +135,6 @@ function showProjectSettings(){
     console.log(projectSettings_userProjectsNames)
     projectSettings_populateProjectsList(users_getUsername(),1)
   })
-//  projectSettings_populateProjectsList(users_getUsername(),1)
 
   if(!$('#mainContent').hasClass('hide')){
     $('#mainContent').addClass('hide')
@@ -178,7 +147,6 @@ function showProjectSettings(){
 
 function showMainContent(){
   projectSettings_activePage = 1
-  //projectSettings_populateProjectsList(users_getUsername(),1)
 
   if($('#mainContent').hasClass('hide')){
     $('#mainContent').removeClass('hide')
@@ -204,9 +172,7 @@ function projectSettings_switchPage(page,elem){
   $('#pp_' + page).addClass('active')
   projectSettings_activePage = page
 
-  console.log(projectSettings_activePage + ' ' + projectSettings_amtPages)
-  //enable/disable left/right pagination buttons
-
+  //console.log(projectSettings_activePage + ' ' + projectSettings_amtPages)
 
   projectSettings_populateProjectsList(users_getUsername(),page)
 }
@@ -239,20 +205,14 @@ function projectSettings_disableRightPagination(){
   }
 }
 
+function projectSettings_openOverlay(){
+    
 
-
-
-
-
+}
 
 function projectSettings_deleteProject(username,projName){
   projectSettings_activePage = 1
-  //obj to pass by reference with
-  /*
-  var obj = {
-    "names" : [] //will hold names of users projects
-  }
-  */
+
   $.when(http_deleteProject(username,projName)).done(function(){
     $.when(http_getUsersProjects(username,projectSettings_userProjectsNames)).done(function(){
       projectSettings_populateProjectsList(username,1)

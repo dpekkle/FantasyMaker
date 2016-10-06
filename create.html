@@ -26,12 +26,9 @@
 	</head>
 
 	<body>
-
-
-		<ul id="profileDropdown" class="dropdown-content">
-		  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
-		</ul>
-
+	<ul id="profileDropdown" class="dropdown-content">
+	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
+	</ul>
 	<nav>
 		<div class="nav-wrapper">
 			<a href="#" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
@@ -45,12 +42,12 @@
 		</div>
 	</nav>
 
-
-
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
 			<div class="modal-content" style="padding-top: 40px" >
-				<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
+				<div id = "screenwrapper">
+					<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
+					</div>
 				</div>
 				<div class = "toolbar" id="edit-page-toolbar">
 					<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
@@ -244,6 +241,10 @@
 			</div>
 			<div class="col s1">
 				<a onclick=project_createNewProject() class="btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);"><i class="material-icons">add</i></a>
+				<!--<button class = "btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);" onclick="projectSettings_openOverlay()">
+					<i class="material-icons">add</i>
+				</button>
+			-->
 			</div>
 		</div>
 		<!--<div class="row">-->
@@ -256,15 +257,9 @@
 
 			<ul class="pagination center-align">
 				<li id="projectsPaginationLeft" class="disabled" onclick="projectSettings_switchPage(projectSettings_activePage - 1,this)"><a ><i class="material-icons">chevron_left</i></a></li>
-		    <!--<li class="active"><a href="#!">1</a></li>
-		    <li class="waves-effect"><a href="#!">2</a></li>
-		    <li class="waves-effect"><a href="#!">3</a></li>
-		    <li class="waves-effect"><a href="#!">4</a></li>
-		    <li class="waves-effect"><a href="#!">5</a></li>
-			-->
+
 		    <li id="projectsPaginationRight" class="waves-effect" onclick="projectSettings_switchPage(projectSettings_activePage + 1,this)"><a><i class="material-icons">chevron_right</i></a></li>
 			</ul>
-		<!--</div>-->
 	</div>
 
 
