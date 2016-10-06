@@ -250,7 +250,7 @@
 				<h4 id="login_label"style="color: #ee6e73;">Username: </h4>
 			</div>
 			<div class="input-field col s3">
-				<input placeholder="Enter Username" id="login_username" type="email" class="input-field">
+				<input placeholder="Enter Username" id="login_username" type="email" class="input-field" value="admin">
 			</div>
 		</div>
 		<div class="row">
@@ -259,7 +259,7 @@
 				<h4 id="pwd_label"style="color: #ee6e73;">Password: </h4>
 			</div>
 			<div class="input-field col s3">
-				<input placeholder="Enter Password" id="login_pwd" type="password" class="input-field">
+				<input placeholder="Enter Password" id="login_pwd" type="password" class="input-field" value="admin">
 			</div>
 		</div>
 		<div class="row">
@@ -311,7 +311,13 @@
 								<li><a onclick="chooseNodeTemplate('Default');">Default</a></li>
 							</ul>
 							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
+							<button class="jumpmode btn" onclick=changeState(this)>Jump Node</button><br/>
 							<button class="connectionmode btn" onclick=changeState(this)>Edge</button><br/>
+							<button class="prebuilt dropdown-button btn" href='#' onclick=changeState(this) data-activates='prebuilts'>Prebuilt Structure</button><br/>
+							<ul id='prebuilts' class='dropdown-content'>
+								<li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
+								<li><a  onclick='choosePrebuilt("Store")'>Store</a></li>
+							</ul>
 							<hr/>
 							<a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
 							<br/>
@@ -325,6 +331,7 @@
 								<li><a onclick="layout_driver('Grid');">Grid</a></li>
 								<li><a onclick="layout_driver('Circle');">Circle</a></li>
 								<li><a onclick="layout_driver('Spread');">Spread</a></li>
+								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
 							</ul>
 							<hr/>
 							<button class="savebutton btn" onclick=project_saveProject()>Save</button><br/>
@@ -369,6 +376,7 @@
 	<script src="js/lib/jquery-2.2.2.min.js"></script>
 	<script defer src="js/lib/cytoscape.min.js"></script>
 	<script defer src="js/lib/cytoscape-panzoom.js"></script>
+	<script defer src="js/lib/cytoscape-cose-bilkent.js"></script>
 	<script defer src="js/lib/materialize.min.js"></script>
 	<script defer src="js/lib/stable-interact.min.js"></script>
 	<script defer src="js/lib/jquery.contextMenu.min.js"></script>
