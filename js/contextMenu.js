@@ -53,6 +53,51 @@ $("#ColourPicker2").spectrum({
 
 // *********** THESE WILL NEED TO BE ATTRIBUTES FOR THE PROJECT ************************
 
+function generateTemplateCallback(target_element, template_menu_list)
+{
+	return function(key, options)
+	{
+		//generate function callbacks for templates in load/delete dropdowns
+		if (options.$selected.parent().siblings('span').html() == "Load")
+		{
+			//load template
+			console.log("Loading: " + key);
+			//options.$trigger is the jquery object for the icon that triggers the menu
+			var element = options.$trigger.parent().parent().children(target_element);
+
+			//save inner content
+			var preserve_content = element.html();
+			//swap outer tag, including style stuff
+			element[0].outerHTML = template_menu_list[key].savedhtml;
+			options.$trigger.parent().parent().children(target_element).html(preserve_content);
+		}
+		else if (options.$selected.parent().siblings('span').html() == "Delete")
+		{
+			console.log("Delete: " + key);
+			delete template_menu_list[key]
+		}
+	}
+}
+
+function loadTemplateMenuObj()
+{
+	$.each(project_project.template_menus.text_template_menu_list, function(){
+		this.callback = generateTemplateCallback(".editdiv", project_project.template_menus.text_template_menu_list);
+	});
+	$.each(project_project.template_menus.decision_template_menu_list, function(){
+		this.callback = generateTemplateCallback(".editdiv", project_project.template_menus.decision_template_menu_list);
+	});
+	$.each(project_project.template_menus.image_template_menu_list, function(){
+		this.callback = generateTemplateCallback(".editdiv", project_project.template_menus.image_template_menu_list);
+	});
+	$.each(project_project.template_menus.video_template_menu_list, function(){
+		this.callback = generateTemplateCallback(".editdiv", project_project.template_menus.video_template_menu_list);
+	});
+	$.each(project_project.template_menus.page_template_menu_list, function(){
+		this.callback = generateTemplateCallback(".editdiv", project_project.template_menus.page_template_menu_list);
+	});
+}
+
 function templateMenuObj()
 {
 	this.template_ID = 0;
@@ -99,12 +144,10 @@ $.contextMenu.types.color = function(item, opt, root) {
 function generateContextMenu(container_type, template_menu_list)
 {
 	//choose target element
-	if (container_type == "text" || container_type == "output")
+	if (container_type == "text" || container_type == "output" || container_type == "img" || container_type == "vid")
 		var target_element = '.editdiv';
 	else if (container_type == "decision")
 		var target_element = '.editdec';
-	else if (container_type == "img" || container_type == "vid")
-		var target_element = '.editdiv';
 	else if (container_type == "page")
 		var target_element = '#pagecontainers';
 
@@ -232,6 +275,7 @@ function generateContextMenu(container_type, template_menu_list)
 								count++;
 								console.log("conflict with template IDs")
 							}
+
 							//create a new template menu entry, storing the needed html
 							if (count < 100)
 							{
@@ -243,28 +287,8 @@ function generateContextMenu(container_type, template_menu_list)
 									template_menu_list["template" + project_project.template_menus.template_ID] =
 									{
 										"name": name,
-										"savedhtml": saved, //goes for the editdiv
-										"callback": function(key, options){
-											//generate function callbacks for templates in load/delete dropdowns
-											if (options.$selected.parent().siblings('span').html() == "Load")
-											{
-												//load template
-												console.log("Loading: " + key);
-												//options.$trigger is the jquery object for the icon that triggers the menu
-												var element = options.$trigger.parent().parent().children(target_element);
-
-												//save inner content
-												var preserve_content = element.html();
-												//swap outer tag, including style stuff
-												element[0].outerHTML = template_menu_list[key].savedhtml;
-												options.$trigger.parent().parent().children(target_element).html(preserve_content);
-											}
-											else if (options.$selected.parent().siblings('span').html() == "Delete")
-											{
-												console.log("Delete: " + key);
-												delete template_menu_list[key]
-											}
-										}
+										"savedhtml": saved,
+										"callback": generateTemplateCallback(target_element, template_menu_list)
 									}
 									project_project.template_menus.template_ID++;
 								});

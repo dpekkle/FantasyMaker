@@ -5,7 +5,7 @@ goog.provide('audio')
 
 function audioAsset(name, id, link, type)
 {
-	this.name = "Audio " + id + ": " + name;
+	this.name = name;
 	this.id = id;
 	this.type = type;
 	this.link = link;
@@ -161,7 +161,7 @@ function audioObj()
 		if (id != undefined)
 		{
 			var entry = this.assets[id];
-			htmlstring += "<li id='" + entry.id + "''>Name: " + entry.name + "<br>Link: " + entry.link + "</li>"
+			htmlstring += "<li id='" + entry.id + "''>" + entry.name + "<br>" + entry.link + "</li>"
 			return htmlstring
 		}
 		else
@@ -275,4 +275,20 @@ function audioObj()
 	{
 		this.assets[id].addEvent();
 	}
+}
+
+function loadAudioObject(loadobj)
+{
+	var object = new audioObj();
+
+	object.selected_audio = loadobj.selected_audio;
+	object.unique_id = 0; //used for unique ids, different to array length
+	object.loaded = loadobj.loaded;
+	object.changed = loadobj.changed;
+
+	for (var i = 0; i < loadobj.assets.length; i++)
+	{
+		object.addAsset(loadobj.assets[i].name, loadobj.assets[i].link);
+	}
+	return object;
 }

@@ -6,6 +6,9 @@ states = {
 	CONNECTING: 1, //i.e. connecting two nodes with an edge
 	NEWPAGE: 2, // adding a new page node
 	NEWCONTROL: 3, // adding a new control node
+	NEWJUMP: 4,
+	NEWFIGHT: 5,
+	NEWSTORE: 6,
 };
 
 current_state = states.DEFAULT;
@@ -50,9 +53,17 @@ function changeState(caller)
 	{
 		current_state = states.NEWPAGE;
 	}
-	else if ($(caller).hasClass('controlmode') && current_state != states.NEWCONTROL)
+	else if ($(caller).hasClass('controlmode'))
 	{
 		current_state = states.NEWCONTROL;
+	}	
+	else if ($(caller).hasClass('jumpmode'))
+	{
+		current_state = states.NEWJUMP;
+	}	
+	else if ($(caller).hasClass('prebuilt'))
+	{
+		//handled by chooseprebuilt
 	}	
 	else if ($(caller).hasClass('deletebutton'))
 	{
@@ -67,5 +78,17 @@ function changeState(caller)
 	{
 		current_state = states.DEFAULT;	
 		$(caller).removeClass('activebutton');
+	}
+}
+
+function choosePrebuilt(prebuilt)
+{
+	if (prebuilt == "Fight")
+	{
+		current_state = states.NEWFIGHT;
+	}
+	else if (prebuilt == "Store")
+	{
+		current_state = states.NEWSTORE;
 	}
 }

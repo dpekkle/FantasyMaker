@@ -54,10 +54,15 @@ function http_load(projName){
 		cache: false,
 		type: 'GET',
 		success: function(data) {
-			//console.log(JSON.stringify(data));
 			if(http_handleAuth(data)){
 				delete data[0]._id; //remove mongos _id attribute
 				project_project = data[0];
+
+				//database does not store methods, so we need to create new audioobj initialising it with the stored values - Danni
+				project_project.audio = loadAudioObject(project_project.audio)
+				loadTemplateMenuObj();
+
+
 				$('#UI_projName').text('Project: ' + project_project.projectName)
 
 				//for all elements in data
@@ -135,7 +140,6 @@ function http_deleteProject(username,projName){
 
 
 }
-
 
 function http_signUp(newUser,ret){
 	return $.ajax({
