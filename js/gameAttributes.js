@@ -1,5 +1,5 @@
-goog.provide('gameAttributes')
-goog.require('project')
+goog.provide('gameAttributes');
+goog.require('project');
 
 function GameAttribute(parent_path, parent_level, name, attID, is_leaf, value, minValue, maxValue){
     this.name = name;
@@ -18,7 +18,6 @@ function GameAttribute(parent_path, parent_level, name, attID, is_leaf, value, m
         this.level = 0;
     }
     this.childrenArray = [];
-
 }
 
 function gameAttributes_addAttribute(parent_path, child_name, value, minValue, maxValue) {
@@ -26,31 +25,43 @@ function gameAttributes_addAttribute(parent_path, child_name, value, minValue, m
 }
 
 function gameAttributes_addAttributeFolder(parent_path, child_name) {
-    gameAttributes_addChild(parent_path, child_name, false);
+        gameAttributes_addChild(parent_path, child_name, false);
 }
 
 function gameAttributes_addChild(parent_path, child_name, is_leaf, value, minValue, maxValue){
-    console.log("New Child: " + child_name);
-    //find parent to add child to
-    var parent = gameAttributes_find(parent_path);
     var newID = generateID();
-
-    parent[newID] = new GameAttribute(parent.path, parent.level, child_name, newID, is_leaf, value, minValue, maxValue);
-    var child = parent[newID];
-
-    parent.childrenArray.push(newID);
-    console.log("New Nested attribute added under: " + parent.path);
-    console.log("New Attribute ID: " + newID);
-
-    //no need for inner list if the node is a leaf
     var newAttributeHTML;
-    var pathString = "\'" + child.path + "\'";
-    if (is_leaf)
-        newAttributeHTML = '<li class="' + child.path  + '-list-element margin"><a class="' + child.path + '-name" onclick="gameAttributes_display(' + pathString + ')">' + child_name + '</a></li>';
+    console.log(parent_path);
+    if(parent_path!="TOP_LEVEL") {
+        console.log("New Child: " + child_name);
+        //find parent to add child to
+        var parent = gameAttributes_find(parent_path);
+        console.log(parent);
+        parent[newID] = new GameAttribute(parent.path, parent.level, child_name, newID, is_leaf, value, minValue, maxValue);
+        var child = parent[newID];
+        parent.childrenArray.push(newID);
+        console.log("New Nested attribute added under: " + parent.path);
+        console.log("New Attribute ID: " + newID);
+        //no need for inner list if the node is a leaf
+        var pathString = "\'" + child.path + "\'";
+        if (is_leaf){
+            newAttributeHTML = '<li class="' + child.path + '-list-element margin"><a class="' + child.path + '-name" onclick="gameAttributes_display(' + pathString + ')">' + child_name + '</a></li>';
+            $('#' + parent.path + '-inner_list').append(newAttributeHTML);
+        }
+        else {
+            newAttributeHTML = '<li id="'+ child.id +'-list-element" class="' + child.path + '-list-element margin pointer"><a class="' + child.path + '-name" onclick="gameAttributes_display(' + pathString + ')">' + child_name + '</a><ul id="' + child.path + '-inner_list"></ul></li>';
+            $('#' + parent.path + '-inner_list').append(newAttributeHTML);
+            //CollapsibleLists.applyTo(document.getElementById(child.id + '-list-element'));
+        }
+        gameAttributes_display(parent.path);
+    }
     else
-        newAttributeHTML = '<li class="' + child.path  + '-list-element margin pointer"><a class="' + child.path + '-name" onclick="gameAttributes_display(' + pathString + ')">' + child_name + '</a><ul id="' + child.path + '-inner_list"></ul></li>';
-
-    $('#' + parent.path + '-inner_list').append(newAttributeHTML);
+    {
+        project_project["gameAttributes"][newID] = new GameAttribute(null, null, child_name, newID, false);
+        newAttributeHTML = '<li class="' + newID  + '-list-element margin pointer"><a onclick="gameAttributes_display('+ '\'' + newID + '\'' + ')">' + child_name + '</a><ul id="' + newID + '-inner_list"></ul></li>';
+        $('#attributes-list').append(newAttributeHTML);
+        console.log("new top level attribute added: " + project_project["gameAttributes"][newID].path);
+    }
 }
 
 //navigate to attribute from provided path
@@ -63,7 +74,6 @@ function gameAttributes_find(s_path){
     return attObj;
 }
 
-
 //used to update attribute from html
 function gameAttribute_edit(s_path){
     var name = $('#' + s_path + '-name-input');
@@ -72,13 +82,10 @@ function gameAttribute_edit(s_path){
     var maxValue = $('#' + s_path + '-max-value-input');
 
 
-    //Todo - make sure values are valid
-
     var editObj = gameAttributes_update(s_path, name.val(), value.val(), minValue.val(), maxValue.val());
 
     gameAttributes_display(editObj.parentPath);
 }
-
 
 //this method is used to update the attribute's value from anywhere
 function gameAttributes_update(s_path, name, value, minVal, maxVal){
@@ -88,18 +95,16 @@ function gameAttributes_update(s_path, name, value, minVal, maxVal){
     if(name!=null&&name!='')
     {attObj.name = name; $('.' + attObj.path +'-name').text(name);}
 
-    if(value!=null&&name!='')
         attObj.value = value;
-
-    if(minVal!=null&&name!='')
         attObj.minValue = minVal;
-
-    if(maxVal!=null&&name!='')
         attObj.maxValue = maxVal;
 
     console.log(attObj + " Updated");
 
-
+    //Update Attribute HTML element
+    $('#' + attObj.id + '-value').text(value);
+    $('#' + attObj.id + '-min-value').text(minVal);
+    $('#' + attObj.id + '-max-value').text(maxVal);
 
     return attObj;
 }
@@ -125,10 +130,7 @@ function gameAttributes_delete(s_path){
     delete  attObj[path[path.length-1]];
 
 
-    //TODO - WARN USER CHILDRENArray WILL BE DELETED, REMOVE FROM CHILDRENArray ARRAY
-
 }
-
 
 //display attribute in side panel
 function gameAttributes_display(s_path){
@@ -147,7 +149,12 @@ function gameAttributes_display(s_path){
     $('.new-attribute-input').attr('data-path', s_path);
     $('.new-folder-input').attr('data-path', s_path);
     $('#add_attribute_input_container_show_button').show();
-    $('#add_folder_input_container_show_button').show();
+    var add_folder_button = $('#add_sub_folder_button');
+    add_folder_button.show();
+    add_folder_button.attr('data-path', s_path);
+    var add_attribute_button = $('#add_attribute_values_button');
+    add_attribute_button.show();
+    add_attribute_button.attr('data-path', s_path);
 
 
     //TODO - UPDATE ATTRIBUTE NAME
@@ -157,9 +164,7 @@ function gameAttributes_display(s_path){
         //clear html of old attribute
         valueList.empty();
         folderList.empty();
-
         attributeTitle.text(attribute.name);
-
         var i;
         var childObj;
        for(i=0; i<attribute.childrenArray.length; i++){
@@ -168,34 +173,22 @@ function gameAttributes_display(s_path){
 
                 var attributeRowString = ''
                     + '<li class="'+ childObj.path +'-list-element">'
-                    + '<div class="collapsible-header"><span class="' + childObj.path + '-name">' + childObj.name + '</span>&nbsp;&nbsp;Init Value:<span id="'+ childObj.path +'-value">' + childObj.value + '</span>&nbsp;&nbsp;Min:<span id="' + childObj.path+ '-max-value">' + childObj.minValue + '</span>&nbsp;&nbsp;Max:<span id="' + childObj.path+ '-max-value">' + childObj.maxValue + '</span></div>'
+                    + '<div class="collapsible-header"><span class="' + childObj.path + '-name">' + childObj.name + '</span></div>'
                     +  '<div class="collapsible-body">'
-                    +      '<div class="row pos-relative" >'
-                    +          '<div class="input-field col m3" >'
-                    +              '<input id="' + childObj.path + '-name-input" type="text" class="update-attribute-input validate" data-path="' + childObj.path + '">'
-                    +              '<label for="' + childObj.path + '-name-input">Name</label>'
+                    +      '<div class="row pos-relative " style="height: 50px;" >'
+                    +          '<div class="col m2 attribute_float-bottom pos-absolute">'
+                    +              '<span>Value: <span id="'+ childObj.id +'-value">' + childObj.value + '</span></span>'
                     +          '</div>'
-                    +          '<div class="input-field col m2">'
-                    +              '<input id="' + childObj.path + '-value-input" type="number" class="update-attribute-input validate" data-path="' + childObj.path + '">'
-                    +              '<label for="' + childObj.path + '-value-input"> Value</label>'
+                    +          '<div class="col m4 offset-m2 attribute_float-bottom pos-absolute">'
+                    +              '<span>Value Range: <span id="' + childObj.id +'-min-value">' + childObj.minValue + '</span> to <span id="' + childObj.id + '-max-value">' + childObj.maxValue + '</span></span>'
                     +          '</div>'
-                    +          '<div class="input-field col m2">'
-                    +              '<input id="' + childObj.path + '-min-value-input" type="number" class="update-attribute-input validate" data-path="' + childObj.path + '">'
-                    +              '<label for="' + childObj.path + '-min-value-input">Min Value</label>'
-                    +          '</div>'
-                    +          '<div class="input-field col m2">'
-                    +              '<input id="' + childObj.path + '-max-value-input" type="number" class="update-attribute-input validate" data-path="' + childObj.path + '">'
-                    +              '<label for="' + childObj.path + '-min-value-input">Max Value</label>'
-                    +          '</div>'
-                    +          '<div class="col m3 float-bottom float-right offset-m9">'
-                    +             '<a class="btn-floating btn-small waves-effect waves-light green update-button" id="'+ childObj.path+'-update-button" data-path="'+ childObj.path+'" onclick="gameAttribute_edit(' + '\'' + childObj.path+ '\'' +')" ><i class="small material-icons">done</i></a>'
-                    +              '&nbsp;'
+                    +          '<div class="col m3 offset-m9 attribute_float-bottom pos-absolute">'
                     +              '<a class="btn-floating btn-small waves-effect waves-light red delete-button" id="'+ childObj.path+'-delete-button" data-path="'+ childObj.path+'" onclick="gameAttributes_delete(' + '\'' + childObj.path+ '\'' +')"><i class="small material-icons">delete</i></a>'
+                    +              '<a class="btn-floating btn-small waves-effect waves-light blue edit-button" id="'+ childObj.path+'-edit-button" data-path="' + childObj.path + '" onclick="gameAttributes_openEditAttributeModal(this)"><i class="small material-icons">mode_edit</i></a> '
                     +          '</div>'
                     +      '</div>'
                     +  '</div>'
                     +    '</li>';
-
                 valueList.append(attributeRowString);
             }
               else
@@ -223,42 +216,6 @@ function gameAttributes_loadAttributes(){
     $('#attributes-list').html(project_project["attributeHTML"]);
 }
 
-
-//TODO - COLLATE INTO ONE METHOD
-function showAddTopLevelInput(){
-    $('#new-top-level-button').hide();
-    $('#new-top-level-container').show();
-}
-
-function showAddValueInput(){
-    $('#new-value-button').parent().hide();
-    $('#new-value-container').show();
-}
-
-function showAddFolderInput(){
-    $('#new-class-button').parent().hide();
-    $('#new-class-container').show();
-}
-
-
-$("#add-class-name").keypress(function(event) {
-    if (event.which == 13) {
-
-        var class_name_input =$('#add-class-name');
-        //--
-
-        gameAttributes_addAttributeFolder(class_name_input.attr('data-path'), class_name_input.val());
-
-        //Clear Fields
-        class_name_input.val("");
-
-        //update display panel
-        gameAttributes_display(class_name_input.attr('data-path'));
-
-        $('#new-class-button').parent().show();
-        $('#new-class-container').hide();
-    }
-});
 
 $(".add-value").keypress(function(event) {
     if (event.which == 13) {
@@ -358,22 +315,101 @@ function gameAttributes_addFolderFromHtml(){
     gameAttributes_display(nameInput.attr('data-path'));
 }
 
-//temporary function for dealing with button click
-//TODO - Clean up
-function temp_add_top_level() {
-    var class_name_input =$('#add-top-level-name');
-    //--
-
-    project_addTopGameAttributeFolder(class_name_input.val());
-
-    //Clear Fields
-    class_name_input.val("");
-
-    $('#new-top-level-button').show();
-    $('#new-top-level-container').hide();
+function gameAttributes_openAddFolderModal(elementID)
+{
+    myModal.prompt("Add an Attribute Folder", "Folders contain attribute values and other attribute folders. Use them to help organise your attributes.",
+        [{name: "New Folder Name", default: "", type: "text"}],
+        function(results)
+        {
+            //callback function
+            var folder_name = results[0];
+            gameAttributes_addAttributeFolder($(elementID).attr('data-path'), folder_name);
+        },
+        function(results)
+        {
+            //this is the verification function, it will occur before the callback
+            //if true then callback is called
+            //if false then the window will not close, and the callback will not fire
+            console.log("Verifying ", results[0]);
+            if (results[0] == "")
+            {
+                console.log("No Folder name entered");
+                Materialize.toast('Please enter a folder name', 3000, 'rounded');
+                return false;
+            }
+            else
+            {
+                console.log("Folder name successfully verified");
+                return true;
+            }
+        });
 }
 
-function gameAttributes_showInput(inputContainer){
-    $('#' + inputContainer).show();
-    $('#' + inputContainer + '_show_button').hide();
+function gameAttributes_openAddAttributeModal(elementID)
+{
+    myModal.prompt("Add an Attribute", "Attributes have values, minimum values, maximum value.",
+        [{name: "Attribute Name", default: "", type: "text"}, {name: "Attribute Value", default: "0", type: "number"},  {name: "Minimum Value", default: "", type: "number"}, {name: "Maximum Value", default: "", type: "number"}],
+        function(results)
+        {
+            //callback function
+
+            gameAttributes_addAttribute( $(elementID).attr('data-path'), results[0], results[1], results[2], results[3]);
+        },
+        function(results)
+        {
+            //this is the verification function, it will occur before the callback
+            //if true then callback is called
+            //if false then the window will not close, and the callback will not fire
+            console.log("Verifying ", results[0]);
+            var verified = true;
+            if (results[0] == "")
+            {
+                console.log("No Folder name entered");
+                Materialize.toast('Please enter an attribute name', 3000, 'rounded');
+                verified = false;
+            }
+
+            if(results[1] < results[2] || results[1] > results[3] || results[2]>results[3])
+            {
+                console.log("Illegal attribute values");
+                Materialize.toast("Conflicting Attribute Values", 3000, 'rounded');
+                verified = false;
+            }
+
+                return verified;
+        });
+}
+
+function gameAttributes_openEditAttributeModal(elementID)
+{
+    var editObject = gameAttributes_find($(elementID).attr('data-path'));
+    myModal.prompt("Update " + editObject.name, "Update the fields below",
+        [{name: "Attribute Name", default: editObject.name, type: "text"}, {name: "Attribute Value", default: editObject.value, type: "number"},  {name: "Minimum Value", default: editObject.minValue, type: "number"}, {name: "Maximum Value", default: editObject.maxValue, type: "number"}],
+        function(results)
+        {
+            //callback function
+            gameAttributes_update( $(elementID).attr('data-path'), results[0], results[1], results[2], results[3]);
+        },
+        function(results)
+        {
+            //this is the verification function, it will occur before the callback
+            //if true then callback is called
+            //if false then the window will not close, and the callback will not fire
+            console.log("Verifying ", results[0]);
+            var verified = true;
+            if (results[0] == "")
+            {
+                console.log("No Attribute name entered");
+                Materialize.toast('Please enter an attribute name', 3000, 'rounded');
+                verified = false;
+            }
+
+            if(results[1] < results[2] || results[1] > results[3] || results[2]>results[3] || (results[2]||results[3]) == "")
+            {
+                console.log("Illegal attribute values");
+                Materialize.toast("Conflicting Attribute Values", 3000, 'rounded');
+                verified = false;
+            }
+            return verified;
+        });
 }

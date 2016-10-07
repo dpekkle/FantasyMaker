@@ -49,10 +49,12 @@ function initEmptyProject(username,projName){
 }
 
 function project_createNewProject(projectname){
-	project_project = initEmptyProject('Admin', projectname)
+	project_project = initEmptyProject('Admin', projectname);
 	cy.elements().remove()
 	$.when(http_save(project_project)).done(projectSettings_populateProjectsList("Admin"),$('#UI_projName').text('Project: ' + project_project.projectName),resizeCanvas())
 }
+
+
 
 //Add top level attribute directly under gameAttributes
 function project_addTopGameAttributeFolder(name){

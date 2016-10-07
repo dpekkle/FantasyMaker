@@ -132,14 +132,14 @@
 				<!-- List Pane -->
 				<div class="col m2 pos-relative attributes-list">
 					<h4>Attributes</h4> <br/>
-					<ul id="attributes-list"></ul>
-					<a id="new-top-level-button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="showAddTopLevelInput();"><i class="medium material-icons">library_add</i></a>
+					<ul id="attributes-list" class="collapsibleList"></ul>
+					<a id="new-top-level-button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_openAddFolderModal(this);" data-path="TOP_LEVEL"><i class="medium material-icons">library_add</i></a>
 					<div class="col m12 s12 float-bottom" id="new-top-level-container">
 						<div class="input-field col m12">
 							<input id="add-top-level-name" type="text" class="validate">
 							<label for="add-top-level-name">Folder Name</label>
 						</div>
-						<a class="waves-effect waves-teal btn-flat col m12 s12" onclick="temp_add_top_level()">Add Folder</a>
+						<a class="waves-effect waves-teal btn-flat col m12 s12" >Add Folder</a>
 				</div>
 				</div>
 
@@ -170,7 +170,7 @@
 											<a class="btn-floating btn-small waves-effect waves-light green" id="add-folder-confirm"><i class="small material-icons">done</i></a>
 										</div>
 									</div>
-									<a id="add_folder_input_container_show_button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_showInput('add_folder_input_container')" style="display: none"><i class="medium material-icons">add</i></a>
+									<a id="add_sub_folder_button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_openAddFolderModal(this)" style="display: none" data-path=""><i class="medium material-icons">add</i></a>
 								</div>
 							</div>
 							</div>
@@ -185,7 +185,7 @@
 									</ul>
 								</div>
 								<div class="card-action">
-									<a id="add_attribute_input_container_show_button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_showInput('add_attribute_input_container')" style="display:none;"><i class="medium material-icons">add</i></a>
+									<a id="add_attribute_values_button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_openAddAttributeModal(this)" style="display:none;" data-path=""><i class="medium material-icons">add</i></a>
 									<div class="row float-bottom" id="add_attribute_input_container" style="display: none">
 										<div class="input-field col m3">
 											<input id="new_attribute_name_input" type="text" class="new-attribute-input validate" data-path="">
@@ -203,7 +203,6 @@
 											<input id="new_attribute_max_input" type="number" class="new-attribute-input validate" data-path="">
 											<label for="new_attribute_max_input">Max Value</label>
 										</div>
-
 										<div class="col m2 float-bottom float-right offset-m10">
 											<a class="btn-floating btn-small waves-effect waves-light green" id="add-attribute-confirm"><i class="small material-icons">done</i></a>
 										</div>
@@ -330,7 +329,6 @@
 							<button class="savebutton btn" onclick=project_saveProject()>Save</button><br/>
 							<hr/>
 							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
-
 							<button class="btn modal-trigger editbutton" style = "display:none;" data-target="page-modal">Edit Page</button>
 							<button class="btn modal-trigger editbutton" style = "display:none;" data-target="connection-modal">Edit Edge</button>
 							<button class="btn modal-trigger editbutton" style = "display:none;" data-target="control-modal">Edit Control</button>
@@ -342,14 +340,12 @@
 						<div class="col s12" id="playwindow">
 							<div class = "playpage">
 							</div>
-
 							<div id="loader"></div>
 							<button class="progressbutton button" style='float:right;' onclick=progressStory(0)>Continue</button>
 							<div id = "audioplayerlist">
 								<!-- fills with audio elements for each sound to play -->
 							</div>
 							<div id = "videoplayer"></div>
-
 						</div>
 					</div>
 					<div id="Character" class="tab-pane fade">
@@ -358,7 +354,6 @@
 						</div>
 						</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -370,6 +365,7 @@
 	<script defer src="js/lib/cytoscape.min.js"></script>
 	<script defer src="js/lib/cytoscape-panzoom.js"></script>
 	<script defer src="js/lib/materialize.min.js"></script>
+	<script defer src="js/lib/CollapsibleLists.compressed.js"></script>
 	<script defer src="js/lib/stable-interact.min.js"></script>
 	<script defer src="js/lib/jquery.contextMenu.min.js"></script>
 	<script defer src="js/lib/jquery.ui.position.min.js"></script>

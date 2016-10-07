@@ -1,0 +1,19 @@
+nav{
+    background-color: #1E2328;
+    border-bottom: 0px;
+    color: white;
+}
+
+h1, h2, p{
+    color: white;
+    font-family: 'Raleway'
+}
+
+nav .nav-mobile>li>a{
+    color: white;
+}
+
+nav .nav-mobile>ul>li>a:hover{
+    color: #00FEBC;
+}
+

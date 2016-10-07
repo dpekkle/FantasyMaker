@@ -5,19 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Fantasymaker : ">
 
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/bootstrap.min.css"/>
-		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/frontpage.css">
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/gameBrowser.css">
     <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
     <title>FantasyMaker</title>
   </head>
   <body>
-  	<h1>Browse Games</h1>
-  	<!-- Top bar same as index.html? maybe with sign in, profile, settings etc... -->
-  	<div id='categories'>
-  		<!-- Some top or side bar to choose what sort of games to view, top games, educational, fantasy... -->
-  	</div>
-  	<div id='gamestable'>
-  		<!-- 4 x 5 list of games, separate pages to see more. game has a screen shot, title, author, description, link -->
-  	</div>
+<nav>
+  <div class="nav-wrapper">
+      <a href="#" class="left brand-logo">&nbsp; &nbsp; FantasyMaker</a>
+      <ul id="nav-mobile" class="right">
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Create</a></li>
+          <li><a href="#">Settings</a></li>
+      </ul>
+  </div>
+</nav>
+  <div class="row row-centered" id="games-list">
+
+  </div>
   </body>
+  <script src="js/lib/jquery-2.2.2.min.js"></script>
+    <script defer src="js/gameBrowser.js"></script>
+
 </html>

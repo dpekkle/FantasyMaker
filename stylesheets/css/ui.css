@@ -36,6 +36,11 @@ body {
 	font-family: helvetica;
 	font-size: 14px;
 }
+nav{
+	background-color: #1E2328;
+	border-bottom: 0px;
+	color: white;
+}
 
 
 .btn{
