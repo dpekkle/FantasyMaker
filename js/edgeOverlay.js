@@ -113,6 +113,9 @@ function saveEdge(selectedEdge, mode){
 						$('#' + 'newCondition_' + i + '_specValue_s1_2_inputField').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s1_2_inputField')
 						$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s1_2_inputField').attr('value',$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s1_2_inputField').val())
 					}
+					else if($('#' + 'newCondition_' + i + '_randValue_s1_2').length > 0){
+						$('#' + 'newCondition_' + i + '_randValue_s1_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_randValue_s1_2')
+					}
 
 					$('#' + 'newCondition_' + i + '_pivot').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_pivot')
 
@@ -126,6 +129,9 @@ function saveEdge(selectedEdge, mode){
 						$('#' + 'newCondition_' + i + '_specValue_s2_1_inputField').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_1_inputField')
 						$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_1_inputField').attr('value',$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_1_inputField').val())
 					}
+					else if($('#' + 'newCondition_' + i + '_randValue_s2_1').length > 0){
+						$('#' + 'newCondition_' + i + '_randValue_s2_1').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_randValue_s2_1')
+					}
 
 					$('#' + 'newCondition_' + i + '_compMenu_s2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_compMenu_s2')
 
@@ -138,6 +144,9 @@ function saveEdge(selectedEdge, mode){
 						$('#' + 'newCondition_' + i + '_specValue_s2_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_2')
 						$('#' + 'newCondition_' + i + '_specValue_s2_2_inputField').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_2_inputField')
 						$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_2_inputField').attr('value',$('#' + 'exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_2_inputField').val())
+					}
+					else if($('#' + 'newCondition_' + i + '_randValue_s2_2').length > 0){
+						$('#' + 'newCondition_' + i + '_randValue_s2_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_randValue_s2_2')
 					}
 
 					newCond.html = $('#' + 'exCondition_' + newCond.edge + '_' + newCond.id).html()
@@ -165,6 +174,7 @@ function saveEdge(selectedEdge, mode){
 					$('#' + 'newOutcome_' + i + '_specValue_2').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2')
 					$('#' + 'newOutcome_' + i + '_specValue_2_inputField').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField')
 					$('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField').attr('value',$('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField').val())
+					$('#' + 'newOutcome_' + i + '_randValue_2').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_randValue_2')
 
 					newOut.html = $('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id).html()
 
@@ -232,6 +242,10 @@ function edgeOverlay_addExistingCondition(listID, cond){
 	$('#'+id + '_attButton_s1_2').tooltip({delay: 50});
 	$('#'+id + '_attButton_s2_1').tooltip({delay: 50});
 	$('#'+id + '_attButton_s2_2').tooltip({delay: 50});
+	$('#'+id + '_randValue_s1_2').tooltip({delay: 50});
+	$('#'+id + '_randValue_s2_1').tooltip({delay: 50});
+	$('#'+id + '_randValue_s2_2').tooltip({delay: 50});
+
 
 	//do fancy animation
 	$('#' + id).hide(0,function(){
@@ -251,6 +265,7 @@ function edgeOverlay_addExistingOutcome(listID, out){
 
 	$('#'+id + '_attButton_1').tooltip({delay: 50});
 	$('#'+id + '_attButton_2').tooltip({delay: 50});
+	$('#'+id + '_randValue_2').tooltip({delay: 50});
 
 	//do fancy animation
 	$('#' + id).hide(0,function(){

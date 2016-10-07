@@ -7,13 +7,6 @@ goog.require('projectSettings')
 console.log("Entering project.js");
 
 
-//var project_project = project_createNewProject();
-
-/*
-project_updateProject(); //set up by default
-defaultState();
-project_updateProject(); //set up by deafult
-*/
 var project_project = initEmptyProject('none','none')
 defaultState();
 
@@ -56,14 +49,14 @@ function project_createNewProject(projectname){
 
 
 
-//Add top level attribute directly under gameAttributes
+/*//Add top level attribute directly under gameAttributes
 function project_addTopGameAttributeFolder(name){
 	var attID = generateID();
 	project_project["gameAttributes"][attID] = new GameAttribute(null, null, name, attID, false);
 	var newAttributeHTML = '<li class="' + attID  + '-list-element margin pointer"><a onclick="gameAttributes_display('+ '\'' + attID + '\'' + ')">' + name + '</a><ul id="' + attID + '-inner_list"></ul></li>';
 	$('#attributes-list').append(newAttributeHTML);
 	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path);
-}
+}*/
 
 
 function project_updateProject(){

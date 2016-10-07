@@ -9,7 +9,7 @@ goog.provide("prompts")
 
 //  *** use this function ***
 
-//		myModal.prompt("Modal Title", "Modal Description", [{name: "Enter image url", default: "http://i.imgur.com/V7vuv85.png", type: "text"}], 
+//		myModal.prompt("Modal Title", "Modal Description", [{name: "Enter image url", default: "http://i.imgur.com/V7vuv85.png", type: "text"}],
 //			function(results){
 //				var imgurl = results[0];
 // 				codeToHandle(imgurl)
@@ -54,11 +54,11 @@ function myModal()
 		if (this.confirm)
 		{
 			//grab user input
-			$('#prompt-modal .modal-content').children('input').each(function(index) 
+			$('#prompt-modal .modal-content').children('input').each(function(index)
 			{
 				if ($(this).attr('type') == "number"){
 					console.log("We got a number entry");
-					results.push(parseInt($(this).val()));
+					results.push(parseFloat($(this).val()));
 				}
 				else
 					results.push($(this).val());
@@ -101,24 +101,37 @@ function myModal()
 		}
 
 		this.callbackFunction = mycallback;
+		
+		tar.html('');
+		tar.append('<h3 style="text-align:center;">' + title + '</h3>');
+		tar.append('<p>' + description + '<p>')
+		for (var i = 0; i < fields.length; i++)
+		{
+			tar.append('<label for="' + i + '"> '+ fields[i].name + '</label>')
+			if (fields[i].type == "number")
+				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseInt(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">');
+			else
+				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
+		}
+
+		tar.html('');
+		tar.append('<h3 style="text-align:center;">' + title + '</h3>');
+		tar.append('<p>' + description + '<p>')
+		for (var i = 0; i < fields.length; i++)
+		{
+			tar.append('<label for="' + i + '"> '+ fields[i].name + '</label>')
+			if (fields[i].type == "number")
+				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseFloat(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">');
+			else
+				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
+		}
 
 		$('#prompt-modal').openModal(
 		{
 			dismissible: false,
 			//callback for when overlay is triggered from html
-			ready: function() 
+			ready: function()
 			{
-				tar.html('');
-				tar.append('<h3 style="text-align:center;">' + title + '</h3>');
-				tar.append('<p>' + description + '<p>')
-				for (var i = 0; i < fields.length; i++)
-				{
-					tar.append('<label for="' + i + '"> '+ fields[i].name + '</label>')
-					if (fields[i].type == "number")
-						tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseInt(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">');
-					else
-						tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
-				}
 			},
 			complete: function()
 			{
@@ -128,11 +141,10 @@ function myModal()
 				this.callbackFunction = null;
 				tar.html("");
 			}
-		});		
+		});
 	}
 
 }
 
 var myModal = new myModal();
 myModal.init();
-

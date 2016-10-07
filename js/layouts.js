@@ -95,6 +95,48 @@ var grid_layout = {
   stop: undefined // callback on layoutstop
 };
 
+var cose_bilkent = {
+  name: 'cose-bilkent',
+  // Called on `layoutready`
+  ready: function () {
+  },
+  // Called on `layoutstop`
+  stop: function () {
+  },
+  // Whether to fit the network view after when done
+  fit: true,
+  // Padding on fit
+  padding: 10,
+  // Whether to enable incremental mode
+  randomize: true,
+  // Node repulsion (non overlapping) multiplier
+  nodeRepulsion: 4500,
+  // Ideal edge (non nested) length
+  idealEdgeLength: 120,
+  // Divisor to compute edge forces
+  edgeElasticity: 0.45,
+  // Nesting factor (multiplier) to compute ideal edge length for nested edges
+  nestingFactor: 0.1,
+  // Gravity force (constant)
+  gravity: 0.25,
+  // Maximum number of iterations to perform
+  numIter: 2500,
+  // For enabling tiling
+  tile: true,
+  // Type of layout animation. The option set is {'during', 'end', false}
+  animate: 'end',
+  // Represents the amount of the vertical space to put between the zero degree members during the tiling operation(can also be a function)
+  tilingPaddingVertical: 10,
+  // Represents the amount of the horizontal space to put between the zero degree members during the tiling operation(can also be a function)
+  tilingPaddingHorizontal: 10,
+  // Gravity range (constant) for compounds
+  gravityRangeCompound: 1.5,
+  // Gravity force (constant) for compounds
+  gravityCompound: 4.0,
+  // Gravity range (constant)
+  gravityRange: 3.8
+};
+
 var breadth_first_layout = {
   name: 'breadthfirst',
 
@@ -135,10 +177,10 @@ function cleanup_node_labels(element)
 	
 	//cleanup the displayed name for each label
 	var i = 1;
-	for (i; i < cy.nodes().size(); i++)
+	for (i; i < cy.nodes().difference(':parent').size(); i++)
 	{
-		cy.nodes()[i].style('label', i+1);
-		cy.nodes()[i].data('name', i+1);		
+		cy.nodes().difference(':parent')[i].style('label', i+1);
+		cy.nodes().difference(':parent').data('name', i+1);		
 	}
 }
 
@@ -202,6 +244,8 @@ function layout_driver(sel)
 		options = concentric_layout;
 	else if (type == "Spread")
 		options = cose_layout;
+  else if (type == "Smart Spread")
+    options = cose_bilkent;
 	
 	if (options !== null)
 		change_layout(options);

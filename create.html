@@ -26,16 +26,22 @@
 	</head>
 
 	<body>
+	<ul id="profileDropdown" class="dropdown-content">
+	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
+	</ul>
 	<nav>
 		<div class="nav-wrapper">
 			<a href="#" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="#" onclick=showProjectSettings()>Project</a></li>
-				<li><a href="#">Profile</a></li>
-				<li><a href="#">Settings</a></li>
+				<li><a id="login_button" href="#" class="" onclick=project_login()>Login</a></li>
+				<li><a id="signup_button" href="#" class="" onclick=project_signUp()>Sign Up</a></li>
+				<li><a id="project_button" href="#" class="hide" onclick=showProjectSettings()>Project</a></li>
+				<li><a id="settings_button" href="#" class="hide" >Settings</a></li>
+				<li><a id="profile_button" class="dropdown-button hide" href="#!" data-activates="profileDropdown"><i class="material-icons right">arrow_drop_down</i></a></li>
 			</ul>
 		</div>
 	</nav>
+
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
 			<div class="modal-content" style="padding-top: 40px" >
@@ -75,15 +81,23 @@
 	</div>
 
 	<!-- Control Edit Overlay (Materialize) -->
-	<div id="control-modal" class="modal modal-fixed-footer" >
+	<div id="control-modal" class="modal modal-fixed-footer card" >
 		<div class="modal-content">
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
-			<h4>Control Node</h4> <br/>
-			<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
+			<div class=""style="overflow-y: auto;" >
+				<span class="card-title activator grey-text text-darken-4">Control Node</span>
+				<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
+			</div>
+		</div>
+		<div class="card-reveal">
+			<span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+			<p>Here is some more information about this product that is only revealed once clicked on.</p>
 		</div>
 		<div class="modal-footer">
+			<span class="activator btn-floating waves-effect waves-light gray"><i class="material-icons">live_help</i></span>
 		</div>
 	</div>
+
 
 	<!-- Connection Edit Overlay (Materialize) -->
 	<div id="connection-modal" class="modal modal-fixed-footer">
@@ -225,71 +239,30 @@
 				<h2 id="projectMain_title"style="color: #ee6e73;"></h2>
 			</div>
 			<div class="col s1">
-				<button class = "btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);" onclick="projectSettings_openOverlay()">
+				<a onclick=project_createNewProject() class="btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);"><i class="material-icons">add</i></a>
+				<!--<button class = "btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);" onclick="projectSettings_openOverlay()">
 					<i class="material-icons">add</i>
 				</button>
+			-->
 			</div>
 		</div>
-		<div class="row">
-			<ul id="projectsList"></ul>
-		</div>
+		<!--<div class="row">-->
+			<div class="row">
+				<ul id="projectsList1"></ul>
+			</div>
+			<div class="row">
+				<ul id="projectsList2"></ul>
+			</div>
+			<ul class="pagination center-align">
+				<li id="projectsPaginationLeft" class="disabled" onclick="projectSettings_switchPage(projectSettings_activePage - 1,this)"><a ><i class="material-icons">chevron_left</i></a></li>
+
+		    <li id="projectsPaginationRight" class="waves-effect" onclick="projectSettings_switchPage(projectSettings_activePage + 1,this)"><a><i class="material-icons">chevron_right</i></a></li>
+			</ul>
 	</div>
 
-	<!-- ui for project settings(nav bar) -->
-	<div id="loginHtml" class="">
-		<div class="row">
-			<div class="col s1"><p></p></div>
-			<div class="col s10">
-				<h2 id="login_title"style="color: #ee6e73;" class="center-align">Login</h2>
-			</div>
-		</div>
-		<div class="row">
-			<div class=" input-field col s1"><p></p></div>
-			<div class=" input-field col s2">
-				<h4 id="login_label"style="color: #ee6e73;">Username: </h4>
-			</div>
-			<div class="input-field col s3">
-				<input placeholder="Enter Username" id="login_username" type="email" class="input-field">
-			</div>
-		</div>
-		<div class="row">
-			<div class=" input-field col s1"><p></p></div>
-			<div class=" input-field col s2">
-				<h4 id="pwd_label"style="color: #ee6e73;">Password: </h4>
-			</div>
-			<div class="input-field col s3">
-				<input placeholder="Enter Password" id="login_pwd" type="password" class="input-field">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s5"><p></p></div>
-			<div class="col s2">
-				<a class="btn" id="login_button" onclick="projectSettings_login()">Submit</a>
-			</div>
-			<div class="col s5"><p></p></div>
-		</div>
-	</div>
-
-	<!-- modal for creating new projects -->
-	<div id="newProject-modal" class="modal" >
-		<div class="modal-content">
-			<h4 class="center-align">Create New Project</h4>
-			<form class="col s12">
-				<div class="row">
-					<div class="input-field col s11">
-	          <input id="projName" type="text" class="validate">
-	          <label for="projName">Project Name</label>
-	        </div>
-					<div class="col s1">
-						<a id="projNameAcceptButton" class="condition-settings-button btn-floating waves-effect waves-light gray disabled" onclick="project_createNewProject()"><i class="material-icons">done</i></a>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
 
 	<!-- Main Content -->
-	<div id="mainContent" class="container-fluid hide">
+	<div id="mainContent" class="container-fluid">
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
 				<ul class="tabs" id="tabheadings">
@@ -310,7 +283,13 @@
 								<li><a onclick="chooseNodeTemplate('Default');">Default</a></li>
 							</ul>
 							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
+							<button class="jumpmode btn" onclick=changeState(this)>Jump Node</button><br/>
 							<button class="connectionmode btn" onclick=changeState(this)>Edge</button><br/>
+							<button class="prebuilt dropdown-button btn" href='#' onclick=changeState(this) data-activates='prebuilts'>Prebuilt Structure</button><br/>
+							<ul id='prebuilts' class='dropdown-content'>
+								<li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
+								<li><a  onclick='choosePrebuilt("Store")'>Store</a></li>
+							</ul>
 							<hr/>
 							<a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
 							<br/>
@@ -324,6 +303,7 @@
 								<li><a onclick="layout_driver('Grid');">Grid</a></li>
 								<li><a onclick="layout_driver('Circle');">Circle</a></li>
 								<li><a onclick="layout_driver('Spread');">Spread</a></li>
+								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
 							</ul>
 							<hr/>
 							<button class="savebutton btn" onclick=project_saveProject()>Save</button><br/>
@@ -364,6 +344,7 @@
 	<script src="js/lib/jquery-2.2.2.min.js"></script>
 	<script defer src="js/lib/cytoscape.min.js"></script>
 	<script defer src="js/lib/cytoscape-panzoom.js"></script>
+	<script defer src="js/lib/cytoscape-cose-bilkent.js"></script>
 	<script defer src="js/lib/materialize.min.js"></script>
 	<script defer src="js/lib/CollapsibleLists.compressed.js"></script>
 	<script defer src="js/lib/stable-interact.min.js"></script>
