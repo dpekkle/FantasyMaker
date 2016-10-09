@@ -42,7 +42,8 @@ module.exports = function(req, res, next) {
     }
   } else {
     console.log('jwtAuth: No token')
-    res.send('NO_TOKEN')
+    next()
+    //res.send('NO_TOKEN')
     //next();
   }
 };
