@@ -7,14 +7,7 @@ goog.require('users')
 
 console.log("Entering project.js");
 
-
-//var project_project = project_createNewProject();
-
-/*
-project_updateProject(); //set up by default
-defaultState();
-project_updateProject(); //set up by deafult
-*/
+//initialise cytoscape etc
 var project_project = initEmptyProject('none','none')
 defaultState();
 
@@ -41,6 +34,17 @@ function initEmptyProject(username,projName){
 
 		"projectOwner" : username,
 		"projectName" : projName,
+		"dateCreated" : "",
+		"lastModified" : "",
+		"published" : true,
+
+		//game browser attributes
+		"title" : projName,
+		"author" : username,
+		"description" : "No description available.",
+		"imageLink" : "",
+		"gameLink" : 'http://fmgamemaker.tk/play/' + username + '/' + projName,
+
 		"graph" : [],
 		"gameAttributes" : {},
 		"attributesHTML" : "",
@@ -50,16 +54,6 @@ function initEmptyProject(username,projName){
 }
 
 function project_createNewProject(){
-	/*
-	myModal.prompt("Create New Project", "Enter the name of your new project", [{name: "Project Name", default: "", type: "text"}], function(results){
-			if(!myModal.confirm) //don't run if cancel clicked
-				return;
-
-				project_project = initEmptyProject(users_getUsername(),results[0].trim())
-				cy.elements().remove()
-				$.when(http_save(project_project)).done($('#UI_projName').text('Project: ' + project_project.projectName),showMainContent(),http_getUsersProjects(users_getUsername(),projectSettings_userProjectsNames))
-		});
-*/
 
 		myModal.prompt("Create New Project", "You should manually save this project once you've created it to ensure that you can access it from any computer.",
 		[{name: "Project Title", default: "", type: "text"}],
@@ -94,7 +88,7 @@ function project_addTopGameAttributeFolder(name){
 	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path);
 }
 
-
+/*
 function project_updateProject(){
 
 	//instantiate a new project if projectName has not been set
@@ -111,6 +105,7 @@ function project_updateProject(){
 	}
 
 }
+*/
 
 function project_saveProject(){
 	project_updateProject()
@@ -162,7 +157,7 @@ function project_successfulLogin(){
 }
 
 function project_signUp(){
-	
+
 	myModal.prompt("Sign Up", "Sign up as a new user.", [{name: "Username", default: "", type: "email"},{name: "Password", default: "", type: "password"},{name: "Confirm Password", default: "", type: "password"}], function(results){
 			if(!myModal.confirm) //don't run if cancel clicked
 				return;

@@ -31,8 +31,15 @@ module.exports = function(app){
           }
           else{
             collection.insert(req.body.data,function(){
-              console.log('new user created')
-              res.send('VALID')
+
+							var data = {
+								"name" : req.body.data.username
+							}
+							addToSysUsers(data,function(){
+								console.log('new user created')
+								db.close()
+	              res.send('VALID')
+							})
             })
           }
 
@@ -42,4 +49,29 @@ module.exports = function(app){
 		});
 
 	});
+}
+
+function addToSysUsers(data,callback){
+	var url = serverPath + 'SYSTEM_USERS'
+	MongoClient.connect(url, function (err, db) {
+		if (err) {
+			console.log('Unable to connect to SYSTEM_USERS.');
+			callback()
+		} else {
+			var collection = db.collection("SYSTEM_USERS",function(err,collection){
+				if(err){
+					console.log('addToSysUsers() error:')
+					console.log(err)
+					callback()
+				}
+				else{
+					collection.insert(data,function(){
+						console.log('user added to SYSTEM_USERS')
+						db.close()
+						callback()
+					})
+				}
+			})
+		}
+	})
 }

@@ -11,6 +11,7 @@ require('./routes/signUp')(app);
 require('./routes/login')(app);
 require('./routes/play')(app);
 require('./routes/playAuth')(app);
+require('./routes/getAllUsersProjects')(app)
 
 //serve static files from current folder
 app.use(express.static(__dirname + "/"));

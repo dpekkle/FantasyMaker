@@ -194,6 +194,26 @@ function http_handleAuth(res){
 	return true
 }
 
+function http_getProjectsForBrowser(ret){
+	http_addTokenToHeader()
+	return $.ajax({
+		url: '/getAllUsersProjects',
+		cache: false,
+		type: 'GET',
+		success: function(data) {
+			if(http_handleAuth(data)){
+				//console.log('GETUSERSRESULTS')
+				//console.log(data)
+				//console.log(data)
+				ret = data
+			}
+			//console.log('getAllUsersProjects loaded')
+		},
+		contenttype: "application/json"
+	});
+}
+
+
 function http_addTokenToHeader(){
 	var token = window.localStorage.getItem('token');
 	if (token) {

@@ -1,4 +1,5 @@
 @echo on
-del ".\dev.min.js"
-java -jar compiler.jar --js *.js --jscomp_off=uselessCode --js_output_file dev.min.js
+del ".\main\dev.min.js"
+set files=.\main\*.js .\play\playgame.js
+java -jar compiler.jar --js %files% --jscomp_off=uselessCode --js_output_file .\main\dev.min.js
 timeout 20
