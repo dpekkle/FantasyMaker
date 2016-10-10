@@ -92,6 +92,8 @@ var cy = cytoscape({
 		{
 			selector: '.hidden',
 			style:{
+				'opacity': '0',
+				//'visibility': 'hidden'
 			}
 		},
 		// node classes

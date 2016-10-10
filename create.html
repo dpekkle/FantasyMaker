@@ -19,6 +19,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/attributes.css" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/playpage.css" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 
@@ -45,12 +46,12 @@
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
 			<div class="modal-content" style="padding-top: 40px" >
-				<div id = "screenwrapper">
+				<div class = "screenwrapper">
 					<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
 					</div>
 				</div>
 				<div class = "toolbar" id="edit-page-toolbar">
-					<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
+					<i class = "fa fa-times fa-2x modal-close" style="float:right; transform-origin: top right;" ></i>
 
 					<h5 id="pagename">Design Page: </h5>
 					<hr/>
@@ -288,7 +289,7 @@
 							<button class="prebuilt dropdown-button btn" href='#' onclick=changeState(this) data-activates='prebuilts'>Prebuilt Structure</button><br/>
 							<ul id='prebuilts' class='dropdown-content'>
 								<li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
-								<li><a  onclick='choosePrebuilt("Store")'>Store</a></li>
+								<li><a onclick='choosePrebuilt("Store")'>Store</a></li>
 							</ul>
 							<hr/>
 							<a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
@@ -317,16 +318,15 @@
 						</div>
 					</div>
 					<div id="Play" class="tab-pane fade">
-						<div class="col s12" id="playwindow">
-							<div class = "playpage">
-							</div>
+						<button class="progressbutton btn" onclick=progressStory(0)>Continue</button>
+						<div id="playwindow">
 							<div id="loader"></div>
-							<button class="progressbutton button" style='float:right;' onclick=progressStory(0)>Continue</button>
 							<div id = "audioplayerlist">
 								<!-- fills with audio elements for each sound to play -->
 							</div>
 							<div id = "videoplayer"></div>
-						</div>
+							<div class = "playpage">
+							</div>
 					</div>
 					<div id="Character" class="tab-pane fade">
 						<div class="container">
