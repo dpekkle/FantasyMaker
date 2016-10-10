@@ -43,7 +43,12 @@ function openEditPageOverlay(element){
 
 	//update contents of page view
 	if (selected.hasClass('page'))
+	{
 		populatePageOverlay(selected);
+		$('#pagecontainers').width(project_project.resolution.x);
+		$('#pagecontainers').height(project_project.resolution.y);
+		resizePageContainerDiv();
+	}
 }
 
 function openEditConnectionOverlay(element){
@@ -54,7 +59,6 @@ function openEditConnectionOverlay(element){
 		var selected = cy.$(':selected')[0];
 
 	populateEdgeOverlay(selected.json()); // pass edge as json obj to populate overlay
-
 }
 
 function openEditControlOverlay(element){
@@ -208,4 +212,32 @@ function htmlToElements(html)
 	var template = document.createElement('template');
 	template.innerHTML = html;
 	return template.content.childNodes;
+}
+
+/*** Scale the display to match ***/
+function resizePageContainerDiv()
+{
+	$('#pagecontainers').width(project_project.resolution.x);
+	$('#pagecontainers').height(project_project.resolution.y);
+
+	var scale;
+
+	if (!$('#page-modal').hasClass('open'))
+		return;
+
+	var w = $('.screenwrapper').width();
+	var h = $('.screenwrapper').height();
+	var inner_w = $('#pagecontainers').width();
+	var inner_h = $('#pagecontainers').height();
+	// don't make resolution larger than the set resolution
+	// if (w > inner_w && h > inner_h)
+	// {
+	// 	$('#pagecontainers').css({'transform': ''});
+	// 	return;
+	// }
+	scale = Math.min(w/inner_w, h/inner_h);
+
+	$('#pagecontainers').css({'transform': 'scale(' + scale + ')'});
+	$('#pagecontainers').css({'-ms-transform': 'scale(' + scale + ')'});
+	$('#pagecontainers').css({'-webkit-transform': 'scale(' + scale + ')'});
 }

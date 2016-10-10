@@ -2,6 +2,7 @@ goog.provide('hotkeys')
 goog.require('initCanvas')
 goog.require('states')
 goog.require('generalOverlay')
+goog.require('prompts')
 
 var nodes_to_clone;
 
@@ -58,11 +59,8 @@ $(document).ready(function()
 			else if (e.which == 27) //escape
 			{
 				console.log("Press escape!");
-				if (!$('.modal').hasClass('open'))
-				{
-					defaultState();
-					cy.$(':selected').unselect();
-				}
+				defaultState();
+				cy.$(':selected').unselect();
 			}
 			else if (e.which >= 49 && e.which <= 58) //top number keys 1-0
 			{
@@ -115,6 +113,13 @@ $(document).ready(function()
 				}
 
 			}
+		}
+		else if ($('#prompt-modal').hasClass('open'))
+		{
+			if (e.which == 13)
+				myModal.evaluateModal(true)
+			else if (e.which == 27)
+				myModal.evaluateModal(false);
 		}
 	});
 });

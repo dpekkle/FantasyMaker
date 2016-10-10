@@ -321,12 +321,8 @@ function genHandleHTML(containertype, id)
 
 function genPageCenterHTML(elew, eleh, iter)
 {
-	project_project.resolution.x;
-	project_project.resolution.y;
-
-	var x = (project_project.resolution.x-elew)/2;
-	var y = (project_project.resolution.y-eleh)/2;
-
+	var x = (parseFloat(project_project.resolution.x)-elew)/2;
+	var y = (parseFloat(project_project.resolution.y)-eleh)/2;
 
 	if (iter >= 0)
 		y += 30*iter;
@@ -408,7 +404,6 @@ function bringContainerToFront(element)
 function populatePageOverlay(selected)
 {
 	$('#pagename').html('Design Page: ' + selected.data('name'));
-
 	//load any previously saved info
 	$("#pagecontainers").append('<a style="float:right" class="pagemenu btn-floating waves-effect waves-light gray"><i class="material-icons">settings</i></a>');
 
@@ -617,4 +612,21 @@ function savePage(selected)
 	$('#pagecontainers').html('');
 	$('#eventspane').html('');
 	selected_event = null;
+}
+
+/*** Scale the display to match ***/
+function resizePageContainerDiv()
+{
+	if (!$('#page-modal').hasClass('open'))
+		return;
+	console.log("Resizing page container div")
+	var w = $('.screenwrapper').width();
+	var h = $('.screenwrapper').height();
+	var scale;
+	var inner_w = $('#pagecontainers').width();
+	var inner_h = $('#pagecontainers').height();
+
+	scale = Math.min(w/inner_w, h/inner_h);
+
+	$('#pagecontainers').css({'transform': 'scale(' + scale + ')'});
 }

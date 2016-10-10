@@ -8,7 +8,141 @@ console.log("Enter canvasEvents.js")
 
 source_node = null;
 
-//tap event has concurrency differences between touchscreen and mouse in chrome
+//dragging orphan nodes into parents
+cy.on('tapend', ':orphan', function(event)
+{
+	var node = event.cyTarget;
+	var mouse = event.cyRenderedPosition;
+
+	cy.$(':parent').each(function(i, ele)
+	{
+		if (ele !== node)
+		{
+			//check if in the bounding box
+			var pos = ele.renderedBoundingBox();
+			console.log(pos);
+			if (mouse.x > pos.x1 && mouse.x < pos.x2)
+			{
+				if (mouse.y > pos.y1 && mouse.y < pos.y2)
+				{
+					console.log("Move ", node.id(), " into ", ele.id());
+					node.move({
+						parent: ele.id()
+					});
+				}
+			}
+		}
+	});
+});
+
+cy.on('taphold', ':parent', function(event)
+{
+	//prevent dragging/repositioning parent node until it's done expanding
+	if(parent.children().animated())
+		return;
+});
+
+//colapse/expand compound nodes
+cy.on('tap', ':parent', function(event)
+{
+	cy.$(':selected').unselect();
+	if (this.hasClass('collapsed'))
+	{
+		expand(this);
+		this.descendants().outgoers('edge').removeClass('hidden');
+	}
+	else if (this.hasClass('expanded'))
+	{
+		collapse(this);
+		//also hide all the edges that connect nodes, edges connecting a child to a compound child will remain otherwise
+		this.descendants().outgoers('edge').addClass('hidden');
+	}
+})
+
+function expand(parent)
+{
+	var parent_position = parent.position();
+
+	if (parent.hasClass('collapsed'))
+	{
+		parent.children().each( function(i, ele)
+		{
+			ele.stop(false, true);
+			var dx = this.data('displacement').x;
+			var dy = this.data('displacement').y;
+			console.log(dx);
+			console.log(dy);
+			ele.animate({
+					position: 
+				  	{ 
+				  		x: parent_position.x + dx, 
+				  		y: parent_position.y + dy
+				  	},
+				  	style:
+				  	{
+				  		opacity: 1,
+				  	},
+				}, 
+				{
+					duration: 500
+				});
+			ele.removeClass('hidden');
+
+		});
+		parent.removeClass('collapsed');
+		parent.addClass('expanded');
+	}
+	// //recursively expand children
+	// parent.children(':parent').each(function(i, ele){
+	// 	expand(ele);
+	// })
+
+}
+
+function collapse(parent)
+{
+
+	//if(parent.children().animated())
+		//return;
+		
+	//recursively collapse children
+	// parent.children(':parent').each(function(i, ele){
+	// 	collapse(ele);
+	// })
+
+	var parent_position = parent.position();
+
+	if (parent.hasClass('expanded'))
+	{
+		parent.children().each( function(i, ele)
+		{
+			ele.stop(false, true);
+			var rel = ele.relativePosition();
+			ele.data('displacement', rel);
+			ele.animate({
+					position: 
+				  	{ 
+				  		x: parent_position.x, 
+				  		y: parent_position.y
+				  	},
+				  	style:
+				  	{
+				  		opacity: 0,
+				  	},
+					complete: function(){
+						ele.addClass('hidden');
+
+					}
+				}, 
+				{
+					duration: 500
+				});
+		})
+		parent.addClass('collapsed');
+		parent.removeClass('expanded');
+	}
+
+}
 
 cy.on('tap', ':selected', function(event)
 {
@@ -196,7 +330,11 @@ function createFight(event)
 	fight_collection = cy.add([
 		{
 			data: { id: 'fightparent' + fight, name: "Fight"},
+			classes: "expanded",
 			group: "nodes",
+			style:{
+				'z-index': fight,
+			}
 		},
 		{	//start node
 			data:
@@ -288,16 +426,16 @@ function createFight(event)
 			var dy = this.data('displacement').y;
 			console.log(dx);
 			console.log(dy);
-
+			fight_collection[index].stop(false, true);
 			fight_collection[index].animate({
-				  renderedPosition: { x: event.cyRenderedPosition.x + dx, y: event.cyRenderedPosition.y + dy},
+				  position: { x: event.cyPosition.x + dx, y: event.cyPosition.y + dy},
 				}, {
 				  duration: 500
 				});
-
 		}
 	});
-	
 	current_state = states.NEWFIGHT;
+	cy.$('#fightparent' + fight).select();
 
 }
+

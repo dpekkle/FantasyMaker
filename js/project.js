@@ -28,7 +28,7 @@ function initEmptyProject(username,projName){
 		{
 			"Default":
 			{
-				pagestyle: "width: 800px; flex: 0 0 800px; height:600px; border: 3px solid black",
+				pagestyle: "width: 800px; height:600px; border: 3px solid black",
 				outputcontainer: "",
 				imgcontainers: [],
 				vidcontainers: [],
@@ -44,7 +44,7 @@ function initEmptyProject(username,projName){
 		"graph" : [],
 		"gameAttributes" : {},
 		"attributesHTML" : "",
-		"resolution" : {"x": 1000, "y": 800}
+		"resolution" : {"x": 800, "y": 600}
 	};
 	return newProj
 }

@@ -60,7 +60,7 @@ function setInteractions()
 	interact('.resize-element')
 		.resizable({
 			snap: snap_options,
-			edges: { left: true, right: true, bottom: true, top: false},
+			edges: { left: false, right: true, bottom: true, top: false},
 			onmove: resizeMoveListener
 		});
 }
@@ -82,31 +82,49 @@ function toggleGridMode()
 
 function resizeMoveListener(event)
 {
-	var tar = event.target;
-	// update the element's dimensions
-	tar.style.width  = checkBounds(tar.parentNode.getAttribute('data-x'), event.rect.width, $('#pagecontainers').width()) + 'px';
-	tar.style.height = checkBounds(tar.parentNode.getAttribute('data-y'), event.rect.height, $('#pagecontainers').height()) + 'px';
-//	$(tar).parent('.drag-element').width(tar.style.width);
+	//get scale of drop container
+	//see http://stackoverflow.com/questions/5603615/get-the-scale-value-of-an-element
+	var container = $('#pagecontainers')[0];
+	var scaleX = container.getBoundingClientRect().width / container.offsetWidth;
+	var scaleY = container.getBoundingClientRect().height / container.offsetHeight;
 
+	//apply transform
+	var target = event.target;
+	var x = event.rect.width/scaleX;
+	var y = event.rect.height/scaleY;
+
+	//get data-x offsets of container
+	offset_left = target.parentNode.getAttribute('data-x');
+	offset_top  = target.parentNode.getAttribute('data-y');
+
+	x = checkBounds(offset_left, x, $('#pagecontainers').width())
+	y = checkBounds(offset_top, y, $('#pagecontainers').height())
+
+	target.style.width  = x + 'px';
+	target.style.height = y + 'px';
 }
 
 function checkBounds(offset, dimension, limit)
 {
 	offset = (parseFloat(offset) || 0);
-	console.log("Check " + offset + " + " + dimension)
 	if (offset + dimension > limit)
 	{
-		dimension  = limit - offset
+		//larger than container
+		dimension = limit - offset
 	}
 	return dimension;
-}  
+}
   
 function dragMoveListener (event) 
 {
+	var container = $('#pagecontainers')[0];
+	var scaleX = container.getBoundingClientRect().width / container.offsetWidth;
+	var scaleY = container.getBoundingClientRect().height / container.offsetHeight;
+
 	var target = event.target;
 	// keep the dragged position in the data-x/data-y attributes
-	var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-	var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+	var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx / scaleX;
+	var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy / scaleY;
 
 	// translate the element
 	target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
@@ -117,43 +135,4 @@ function dragMoveListener (event)
 }
 
 window.dragMoveListener = dragMoveListener;
-
-//When we resize the browser window it can sometimes make elements out of bounds, so we need to resize or translate them to stay in the "play screen" div
-function modalBounds()
-{
-	// if ($('#page-modal').hasClass("open"))
-	// {
-	// 	$('.drag-element').each(function()
-	// 	{
-	// 		//recalculate bounds
-	// 		var tar = $(this);
-	// 		update width and height, could also update position
-
-	// 		tar.width(checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width()));
-	// 		tar.height(checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height()));
-
-
-
-	// 		these numbers are all wrong, but the calls are right i believe
-	// 		var x1 = checkBounds(tar.parent().attr('data-x'), tar.width(), $('#pagecontainers').width());
-	// 		var y1 = checkBounds(tar.parent().attr('data-y'), tar.height(), $('#pagecontainers').height());
-
-	// 	    tar.css("webkitTransform", 'translate(' + x1 + 'px, ' + y1 + 'px)');
-	// 	    tar.css("transform", 'translate(' + x1 + 'px, ' + y1 + 'px)');
-
-	// 	    // update the position attributes
-	// 	    tar.attr('data-x', x1);
-	// 	    tar.attr('data-y', y1);
-	// 	})
-	// }
-}
-
-//listener for resizing the window
-var doit;
-window.onresize = function()
-{
-  clearTimeout(doit);
-  doit = setTimeout(modalBounds, 300);
-};
-
 
