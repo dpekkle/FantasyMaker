@@ -37,6 +37,10 @@ function projectSettings_prepThenNavToProjects(project_project){
 
   }
 
+  if(project_project.projectName !== 'none'){
+    nav_isProject = true
+  }
+
 
   $.when(projectSettings_prepareProjectsPage()).done(nav_toProjects())
 }
