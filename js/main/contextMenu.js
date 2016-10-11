@@ -508,9 +508,13 @@ function generateContextMenu(container_type, template_menu_list)
 					$(target_element).css("border-style", $this.data().Style);
 					if ($this.data().resolution != null)
 					{
-						$(target_element).css("width", $this.data().resolution.split('a')[1]);
-						$(target_element).css("flex", "0 0 " + $this.data().resolution.split('a')[1]); //needed for pageoverlay flexbox behaviour
-						$(target_element).css("height", $this.data().resolution.split('a')[2]);
+						var w = $this.data().resolution.split('a')[1];
+						var h = $this.data().resolution.split('a')[2];
+						$(target_element).css("width", w);
+						$(target_element).css("height", h);
+						project_project.resolution.x = w;
+						project_project.resolution.y = h;
+						resizePageContainerDiv();						
 					}
 					// $('#edit-page-toolbar').css("height", $this.data().resolution.split('a')[2]);
 

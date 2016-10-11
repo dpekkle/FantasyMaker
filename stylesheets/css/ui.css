@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 .playpage{
 	margin: auto;
 	position: absolute;
@@ -6,8 +6,6 @@
 	right: 0;
 	margin-top: 30px;
 }
-=======
->>>>>>> origin/gh-pages
 
 #contextMenu {
   position: absolute;
@@ -327,3 +325,6 @@ li.margin { margin-left: 10px; }
 	left: 57%;
 
 }
+=======
+}
+>>>>>>> origin/gh-pages
