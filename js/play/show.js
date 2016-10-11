@@ -1,8 +1,15 @@
+goog.provide('show')
+
+
 $(document).ready()
 {
   console.log($.cookie("FM_playUsername"))
 	console.log($.cookie("FM_playProject"))
-  getProject()
+  $.when(getProject()).done(function(){
+    prepareForGame()
+    $('#loader').hide()
+    $('.progressbutton').show();
+  })
 }
 
 function getProject(){
@@ -10,14 +17,17 @@ function getProject(){
   var proj = $.cookie("FM_playProject")
   //console.log(uname + ' ' + proj)
   $.when(authenticate()).done(function(){
-    load(uname,proj)
+    $.when(load(uname,proj)).done(function(){
+      http_setupCy()
+      return
+    })
   })
 }
 
 function load(username,projName){
   addTokenToHeader()
 	//get graph data from server
-	$.ajax({
+	return $.ajax({
 		url: '/getProject',
 		data: {
 			"projectOwner" : username,
@@ -38,7 +48,7 @@ function load(username,projName){
       else{
         delete data[0]._id; //remove mongos _id attribute
   			console.log(data)
-        $('#data').text(JSON.stringify(data[0]))
+        project_project = data[0]
       }
 		},
 		contenttype: "application/json"

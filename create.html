@@ -35,7 +35,7 @@
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 				<li><a id="login_button" href="#" class="" onclick=project_login()>Login</a></li>
 				<li><a id="signup_button" href="#" class="" onclick=project_signUp()>Sign Up</a></li>
-				<li><a id="project_button" href="#" class="hide" onclick=showProjectSettings()>Project</a></li>
+				<li><a id="project_button" href="#" class="hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
 				<li><a id="settings_button" href="#" class="hide" >Settings</a></li>
 				<li><a id="profile_button" class="dropdown-button hide" href="#!" data-activates="profileDropdown"><i class="material-icons right">arrow_drop_down</i></a></li>
 			</ul>
@@ -231,38 +231,113 @@
 			</div>
 		</div>
 
-	<!-- ui for project settings(nav bar) -->
-	<div id="projectMain" class="hide">
-		<div class="row">
-			<div class="col s1"><p></p></div>
-			<div class="col s10">
-				<h2 id="projectMain_title"style="color: #ee6e73;"></h2>
-			</div>
-			<div class="col s1">
-				<a onclick=project_createNewProject() class="btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);"><i class="material-icons">add</i></a>
-				<!--<button class = "btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);" onclick="projectSettings_openOverlay()">
-					<i class="material-icons">add</i>
-				</button>
-			-->
+		<div id="requestLogin" class="login-container">
+			<img class="login-img" src="/images/banner_image.jpg">
+			<div class = "login-rounded-panel">
+	    	<div class="login-header" >
+					<h1 class="center-align">
+						<span class="login-text-white">Welcome to Fantasy</span><span class="login-text-green">Maker</span>
+						<span class="login-text-white">Creator!</span>
+					</h1>
+					<div class="login-options">
+						<a href="#"><div onclick=project_signUp()><h2 class="login-signup login-text-green center-align">Sign Up</h2></div></a>
+						<h2 class="login-or login-text-white center-align">Or</h2>
+						<a href="#"><div onclick=project_login()><h2 class="login-login login-text-green center-align">Log In</h2></div></a>
+					</div>
+				</div>
 			</div>
 		</div>
-		<!--<div class="row">-->
-			<div class="row">
-				<ul id="projectsList1"></ul>
-			</div>
-			<div class="row">
-				<ul id="projectsList2"></ul>
-			</div>
-			<ul class="pagination center-align">
-				<li id="projectsPaginationLeft" class="disabled" onclick="projectSettings_switchPage(projectSettings_activePage - 1,this)"><a ><i class="material-icons">chevron_left</i></a></li>
 
-		    <li id="projectsPaginationRight" class="waves-effect" onclick="projectSettings_switchPage(projectSettings_activePage + 1,this)"><a><i class="material-icons">chevron_right</i></a></li>
-			</ul>
+
+	<div id="projects" class="hide">
+		<div id="currentProject" class="hide" style="padding: 20px;">
+			<table class="highlight bordered">
+				<h4 id="currentProject_header"></h4>
+	        <thead>
+	          <tr>
+	              <th data-field=""></th>
+	          </tr>
+	        </thead>
+
+	        <tbody>
+	          <tr>
+	            <td >Title</td>
+	            <td id="currentProject_title"></td>
+	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyTitle()"><i class="small material-icons">mode_edit</i></a></td>
+	          </tr>
+	          <tr>
+	            <td>Author</td>
+	            <td id="currentProject_author"></td>
+	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyAuthor()"><i class="small material-icons">mode_edit</i></a></td>
+	          </tr>
+	          <tr>
+	            <td>Description</td>
+	            <td id="currentProject_desc"></td>
+	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyDesc()"><i class="small material-icons">mode_edit</i></a></td>
+	          </tr>
+						<tr>
+	            <td>Published</td>
+	            <td>
+								<a id="currentProject_gameLink" href="" target="_blank" ></a>
+								<a id="currentProject_noGameLink" style="color: black;">No</a>
+									<div class="right">
+									  <div class="switch">
+									    <label><input type="checkbox" id="pubSwitch"><span class="lever"></span></label>
+									  </div>
+									</div>
+							</td>
+							<td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyPublished()" ><i class="small material-icons">mode_edit</i></a></td>
+
+	          </tr>
+						<tr>
+	            <td>Browser Image</td>
+	            <td id="currentProject_imageLink"></td>
+	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyImage()"><i class="small material-icons">mode_edit</i></a></td>
+	          </tr>
+						<tr>
+	            <td>Date Created</td>
+	            <td id="currentProject_dateCreated"></td>
+	            <td><a class="btn-floating btn-small waves-effect waves-light teal disabled"  ><i class="small material-icons">mode_edit</i></a></td>
+	          </tr>
+						<tr>
+	            <td>Last Modified</td>
+	            <td id="currentProject_lastModified"></td>
+	            <td><a class="btn-floating btn-small waves-effect waves-light teal disabled" id=""><i class="small material-icons">mode_edit</i></a></td>
+	          </tr>
+	        </tbody>
+	      </table>
+				<div class="row" style="padding-top: 15px;">
+					<div class="col s4 offset-s4">
+						<button class="btn" onclick="nav_toMain()">Resume Current Project</button>
+					</div>
+				</div>
+		</div>
+		<div class="divider"></div>
+		<div>
+			<div class="row ">
+				<div class="col s1"><p></p></div>
+				<div class="col s10">
+					<h2 id="projects_title"style="color: #ee6e73;">Load Project</h2>
+				</div>
+				<div class="col s1">
+					<a onclick=project_createNewProject() class="btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);"><i class="material-icons">add</i></a>
+				</div>
+			</div>
+				<div class="row">
+					<ul id="projectsList1"></ul>
+				</div>
+				<div class="row">
+					<ul id="projectsList2"></ul>
+				</div>
+				<ul class="pagination center-align">
+					<li id="projectsPaginationLeft" class="disabled" onclick="projectSettings_switchPage(projectSettings_activePage - 1,this)"><a ><i class="material-icons">chevron_left</i></a></li>
+			    <li id="projectsPaginationRight" class="waves-effect" onclick="projectSettings_switchPage(projectSettings_activePage + 1,this)"><a><i class="material-icons">chevron_right</i></a></li>
+				</ul>
+		</div>
 	</div>
 
-
 	<!-- Main Content -->
-	<div id="mainContent" class="container-fluid">
+	<div id="mainContent" class="container-fluid hide">
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
 				<ul class="tabs" id="tabheadings">
@@ -312,6 +387,8 @@
 							<button class="btn modal-trigger editbutton" style = "display:none;" data-target="page-modal">Edit Page</button>
 							<button class="btn modal-trigger editbutton" style = "display:none;" data-target="connection-modal">Edit Edge</button>
 							<button class="btn modal-trigger editbutton" style = "display:none;" data-target="control-modal">Edit Control</button>
+
+
 							<br/>
 							<br/>
 						</div>

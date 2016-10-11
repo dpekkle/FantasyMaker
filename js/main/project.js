@@ -4,9 +4,11 @@ goog.require('states')
 goog.require('httpRequests')
 goog.require('projectSettings')
 goog.require('users')
+goog.require('navigation')
 
 console.log("Entering project.js");
 
+var host = 'http://localhost:3000/'
 //initialise cytoscape etc
 var project_project = initEmptyProject('none','none')
 defaultState();
@@ -34,16 +36,16 @@ function initEmptyProject(username,projName){
 
 		"projectOwner" : username,
 		"projectName" : projName,
-		"dateCreated" : "",
-		"lastModified" : "",
-		"published" : true,
+		"dateCreated" : project_getCurrentTime(),
+		"lastModified" : project_getCurrentTime(),
+		"published" : false,
 
 		//game browser attributes
 		"title" : projName,
 		"author" : username,
 		"description" : "No description available.",
-		"imageLink" : "",
-		"gameLink" : 'http://fmgamemaker.tk/play/' + username + '/' + projName,
+		"imageLink" : "No URL provided",
+		"gameLink" : host + 'play/' + username + '/' + projName,
 
 		"graph" : [],
 		"gameAttributes" : {},
@@ -55,28 +57,53 @@ function initEmptyProject(username,projName){
 
 function project_createNewProject(){
 
-		myModal.prompt("Create New Project", "You should manually save this project once you've created it to ensure that you can access it from any computer.",
-		[{name: "Project Title", default: "", type: "text"}],
-		function(results)
-		{
-			project_project = initEmptyProject(users_getUsername(),results[0].trim())
-			cy.elements().remove()
-			$.when(http_save(project_project)).done($('#UI_projName').text('Project: ' + project_project.projectName),showMainContent(),http_getUsersProjects(users_getUsername(),projectSettings_userProjectsNames))
-		},
-		function(results) //this is the verification function
-		{
-			console.log("Verifying ", results[0]);
-			if (results[0] == "")
-			{
-				console.log("Project name empty");
-				return false;
-			}
-			else
-			{
-				console.log("Project name succesfully verified");
-				return true;
-			}
+		myModal.prompt("Create New Project", "", [{name: "Project Name", default: "", type: "text"}],
+				function(results){
+
+				},
+				function(results){
+					if (results[0] == "")
+					{
+						myModal.warning("Project name cannot be empty");
+					}
+					else
+					{
+						var ret1 = {
+							"names" : []
+						}
+						$.when(http_getUsersProjects(users_getUsername(),ret1)).done(function(){
+
+							for(var i = 0; i<ret1.names.length; i++){
+								if(results[0].trim() === ret1.names[i].name){
+									myModal.warning('You already have a project named ' + ret1.names[i].name + '. Please choose another name.')
+									return
+								}
+							}
+
+							project_project = initEmptyProject(users_getUsername(),results[0].trim())
+							cy.elements().remove()
+							var ret2 = {
+								"data" : []
+							}
+							$.when(http_save(project_project,ret2)).done(function(){
+								if(ret2.data === true){
+									Materialize.toast("Project '" + project_project.projectName + "' created!", 3000, 'rounded')
+									$('#prompt-modal').closeModal();
+									$('#UI_projName').text('Project: ' + project_project.projectName)
+									nav_toMain()
+									http_getUsersProjects(users_getUsername(),projectSettings_userProjects)
+
+								}
+								else{
+									Materialize.toast("Failed to create project. Please log in again.", 3000, 'rounded')
+								}
+
+							})
+
+						})
+					}
 		});
+
 }
 
 //Add top level attribute directly under gameAttributes
@@ -88,160 +115,102 @@ function project_addTopGameAttributeFolder(name){
 	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path);
 }
 
-/*
-function project_updateProject(){
-
-	//instantiate a new project if projectName has not been set
-	if(project_project.projectOwner == "none"){
-		console.log("Creating new project");
-		project_project.projectOwner = "Admin";
-		project_project.projectName = "newDemo";
-		project_project.graph = cy.elements().jsons();
-
-	}
-	else{
-		console.log("Updating project...");
-		project_project.graph = cy.elements().jsons();
-	}
-
-}
-*/
-
 function project_saveProject(){
-	project_updateProject()
-	http_save(project_project)
+	//project_updateProject()
+	project_project.graph = cy.elements().jsons();
+	project_project.lastModified = project_getCurrentTime()
+	var ret0 = {
+		'data' : false
+	}
+	$.when(http_save(project_project,ret0)).done(function(){
+		if(ret0.data === true){
+			Materialize.toast("Saved project", 3000, 'rounded')
+		}
+		else{
+			Materialize.toast("Failed to save project. Please log in again.", 3000, 'rounded')
+		}
+	})
+
 }
 
-function project_showMainContent(){
-	if(!$('#projectMain').hasClass('hide')){
-		$('#projectMain').addClass('hide')
-	}
 
-	if($('#mainContent').hasClass('hide')){
-		$('#mainContent').removeClass('hide')
-	}
-}
 
 function project_login(){
-	myModal.prompt("Login", "Login as an existing user.", [{name: "Username", default: "", type: "text"},{name: "Password", default: "", type: "password"}], function(results){
-			if(!myModal.confirm) //don't run if cancel clicked
-				return;
-				var res = {
-					"data" : {}
-				}
-				$.when(http_login(results[0],results[1],res)).done(function(){
 
-					if(res.data !== 'INVALID_USERNAME' || res.data !== 'INVALID_PASSWORD' || res.data !== 'SERVER_ERR'){
-						users_flushToken()
-						window.localStorage.setItem('token', JSON.stringify(res.data))
-						project_successfulLogin()
-					}
-					else{
-						console.log('invalid credentials')
-					}
-				})
+		myModal.prompt("Log In", "Log in and continue creating!", [{name: "Username", default: "", type: "text"},{name: "Password", default: "", type: "password"}],
+				function(results){
 
+				},
+				function(results){
+					var res = {
+						"data" : {}
+					}
+					$.when(http_login(results[0],results[1],res)).done(function(){
+
+						if(res.data !== 'INVALID_USERNAME' && res.data !== 'INVALID_PASSWORD' && res.data !== 'SERVER_ERR'){
+							project_successfulLogin(res)
+						}
+						else{
+							myModal.warning('Login details were invalid. Please try again.')
+						}
+					})
 		});
 }
 
-function project_successfulLogin(){
-	console.log(users_getUsername() + ' logged in')
-	$('#login_button').hide()
-	$('#signup_button').hide()
-	$('#project_button').removeClass('hide')
-	$('#profile_button').removeClass('hide')
-	$('#settings_button').removeClass('hide')
-	$('#profile_button').text(users_getUsername())
-	$("#profile_button").dropdown();
+function project_successfulLogin(res){
+	users_flushToken()
+	window.localStorage.setItem('token', JSON.stringify(res.data))
+	$('#prompt-modal').closeModal();
 	Materialize.toast("Welcome back " + users_getUsername() + "!", 3000, 'rounded')
+	console.log(users_getUsername() + ' logged in')
+	$('#profile_button').text(users_getUsername())
+	projectSettings_prepThenNavToProjects(project_project)
 }
 
 function project_signUp(){
 
-	myModal.prompt("Sign Up", "Sign up as a new user.", [{name: "Username", default: "", type: "email"},{name: "Password", default: "", type: "password"},{name: "Confirm Password", default: "", type: "password"}], function(results){
-			if(!myModal.confirm) //don't run if cancel clicked
-				return;
-			if(results[0] !== undefined && results[1] !== undefined && results[2] !== undefined && results[1] === results[2]){
-				var newUser = users_generateNewUser()
-				newUser.username = results[0]
-				newUser.password = results[1]
-				var ret = ''
-				$.when(http_signUp(newUser,ret)).done(function(ret){
-					if(ret === 'VALID'){
-						Materialize.toast("User '" + results[0] + "' Created", 3000, 'rounded')
-					}
-					else{
-						Materialize.toast("User '" + results[0] + "' already exists", 3000, 'rounded')
-					}
-				})
-			}
-		});
+		myModal.prompt("Sign Up", "Become a game creator with FantasyMaker!", [{name: "Username", default: "", type: "email"},{name: "Password", default: "", type: "password"},{name: "Confirm Password", default: "", type: "password"}],
+				function(results){
 
-		/*
-		myModal.prompt("Sign Up", "Become a game creator with FantasyMaker!",
-		[{name: "Username", default: "", type: "email"},{name: "Password", default: "", type: "password"},{name: "Confirm Password", default: "", type: "password"}],
-		function(results)
-		{
-			//on success
-			if(!myModal.confirm) //don't run if cancel clicked
-				return;
-		},
-		function(results) //this is the verification function
-		{
-			console.log("Verifying ", results);
-			if(results[0] !== '' && results[1] !== '' && results[2] !== '' && results[1] === results[2]){
-				var newUser = users_generateNewUser()
-				newUser.username = results[0]
-				newUser.password = results[1]
-				var ret = ''
-				$.when(http_signUp(newUser,ret)).done(function(ret){
-					if(ret === 'VALID'){
-						Materialize.toast("User '" + results[0] + "' Created", 3000, 'rounded')
-						return true
-					}
-					else{
-						Materialize.toast("User '" + results[0] + "' already exists", 3000, 'rounded')
-						return false
-					}
-				})
-			}
-			else{
-				return false
-			}
-		});
-		*/
+					},
+					function(results){
+						if(results[0] === '' || results[1] === '' || results[2] ===''){
+							myModal.warning('All fields must be filed out.')
+							return false
+						}
+						else if(results[1] !== results[2]){
+							myModal.warning('Your password and confirmation password do not match.')
+							return false
+						}
+						else{
+							var newUser = users_generateNewUser()
+							newUser.username = results[0]
+							newUser.password = results[1]
+							var ret = ''
+							$.when(http_signUp(newUser,ret)).done(function(ret){
+								if(ret === 'VALID'){
+									Materialize.toast("Welcome to FantasyMaker " + results[0] + ".", 3000, 'rounded')
+									$('#prompt-modal').closeModal();
+								}
+								else{
+									myModal.warning('That username has already been taken. Please try another username')
+								}
+							})
+						}
+				});
 }
 
 function project_logOut(){
-	/*
-	myModal.prompt("Log Out", "Are you sure you wish to log out? unsaved progress may be lost.",[],function(results){
-			if(!myModal.confirm) //don't run if cancel clicked
-				return;
 
-			console.log(users_getUsername() + ' logged out')
-			$('#project_button').addClass('hide')
-			$('#profile_button').addClass('hide')
-			$('#settings_button').addClass('hide')
-			$('#login_button').show()
-			$('#signup_button').show()
-			$('#profile_button').text('')
-			users_flushToken()
-			http_redirectHome()
-
-		});
-		*/
 		myModal.prompt("Log Out", "Are you sure you wish to log out? unsaved progress may be lost.",
 		[],
 		function(results)
 		{
 			console.log(users_getUsername() + ' logged out')
-			$('#project_button').addClass('hide')
-			$('#profile_button').addClass('hide')
-			$('#settings_button').addClass('hide')
-			$('#login_button').show()
-			$('#signup_button').show()
-			$('#profile_button').text('')
+
+			nav_toLogin()
 			users_flushToken()
+			project_project = initEmptyProject('none','none')
 			http_redirectHome()
 		},
 		function(results) //this is the verification function
@@ -251,25 +220,140 @@ function project_logOut(){
 		});
 }
 
-/*
-myModal.prompt("title", "desc",
-[{name: "feild 1", default: "", type: "text"}],
-function(results)
-{
-	//on success
-},
-function(results) //this is the verification function
-{
-	console.log("Verifying ", results[0]);
-	if (results[0] == "")
-	{
-		console.log("Project name empty");
-		return false;
+function project_getCurrentTime(){
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	return dd + '-' + mm + '-' + yyyy
+}
+
+function project_modifyTitle(){
+	myModal.prompt("Modify Project Title", "Change the title of your project. This will appear as the name of your project in the game browser.", [{name: "Title", default: project_project.title, type: "text"}],
+			function(results){
+				project_project.title = results[0]
+				$('#currentProject_title').text(project_project.title)
+				project_saveProject()
+			},
+			function(results){
+				if(results[0] === ''){
+					myModal.warning('Title field cannot be empty.')
+					return false
+				}
+				return true
+			}
+	);
+}
+
+function project_modifyAuthor(){
+	myModal.prompt("Modify Project Author", "Change the author of your project. This will appear as the name of your project in the game browser.", [{name: "Author", default: project_project.author, type: "text"}],
+			function(results){
+				project_project.author = results[0]
+				$('#currentProject_author').text(project_project.author)
+				project_saveProject()
+			},
+			function(results){
+				if(results[0] === ''){
+					myModal.warning('Author field cannot be empty.')
+					return false
+				}
+				return true
+			}
+	);
+}
+
+function project_modifyImage(){
+	myModal.prompt("Modify Project Image", "Change the image that appears with your project in the game browser.", [{name: "URL", default: project_project.imageLink, type: "text"}],
+			function(results){
+				project_project.imageLink = results[0]
+				$('#currentProject_imageLink').text(project_project.imageLink)
+				project_saveProject()
+			},
+			function(results){
+				if(results[0] === ''){
+					myModal.warning('URL field cannot be empty.')
+					return false
+				}
+				return true
+			}
+	);
+}
+
+//onclick handler for published switch
+$( "#pubSwitch" ).click(function() {
+
+	event.preventDefault()
+  if($('#pubSwitch').prop('checked')){
+		res = 'You have enabled publishing on your project.'
+			+' A published project will be viewable to the world through the game browser. '
+			+' Click the edit button next to the toggle switch to pusblish this project.'
 	}
-	else
-	{
-		console.log("Project name succesfully verified");
-		return true;
+	else{
+		res = 'You have disabled publishing on your project.'
+			+ ' People will no longer be able to play your game through the game browser.'
 	}
+	myModal.prompt("Publish Project", res, [],
+			function(results){
+				console.log(myModal.confirm)
+
+				var chk = $('#pubSwitch').prop('checked')
+				project_project.published = !chk
+				if(project_project.published){
+					$('#currentProject_gameLink').text(project_project.gameLink)
+					$('#currentProject_gameLink').attr('href',project_project.gameLink)
+					$('#currentProject_gameLink').attr('href',project_project.gameLink)
+					$('#currentProject_gameLink').show()
+					$('#currentProject_noGameLink').hide()
+					project_updatePublishedHtml(true)
+					project_saveProject()
+					$('#pubSwitch').prop('checked',true)
+				}
+				else{
+					project_updatePublishedHtml(false)
+					$('#currentProject_gameLink').hide()
+					$('#currentProject_noGameLink').show()
+					project_saveProject()
+					$('#pubSwitch').prop('checked',false)
+				}
+
+			},
+			function(results){
+				return true
+			}
+	);
 });
-*/
+
+function project_modifyDesc(){
+	myModal.prompt("Modify Project Description", "Change the description of your game that appears with your project in the game browser.", [{name: "Description", default: project_project.description, type: "text"}],
+			function(results){
+				project_project.description = results[0]
+				$('#currentProject_desc').text(project_project.description)
+				project_saveProject()
+			},
+			function(results){
+				if(results[0] === ''){
+					myModal.warning('Description field cannot be empty.')
+					return false
+				}
+				return true
+			}
+	);
+}
+
+function project_updatePublishedHtml(published){
+  if(published === true){
+    pubHTML =   '<div id="'+project_project.projectName+ '_pub' +'">'
+                + '<p style="color: green;">Published</p>'
+                +   '<p>Link to play game:'
+                +   '<span><a href="'+project_project.gameLink+'" target="_blank">'+project_project.gameLink+'</a></span>'
+                + '</p>'
+                +'</div>'
+  }
+  else{
+    var pubExpl = 'Load your project and view the settings tab to publish your project for the world to see!'
+    pubHTML = '<p id="'+project_project.projectName+ '_pub' +'" class="pubTT tooltipped" data-position="bottom" data-delay="50" data-tooltip="'+pubExpl+'" style="color: red;">Project is not published</p>'
+  }
+  $('#' + project_project.projectName + '_pub').replaceWith(pubHTML)
+  $('.pubTT').tooltip({delay: 50});
+
+}
