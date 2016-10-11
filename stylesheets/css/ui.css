@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .playpage{
 	margin: auto;
 	position: absolute;
@@ -5,6 +6,8 @@
 	right: 0;
 	margin-top: 30px;
 }
+=======
+>>>>>>> origin/gh-pages
 
 #contextMenu {
   position: absolute;
@@ -24,8 +27,6 @@
 	border: 3px solid #BBBBBB;
 	padding-left:0px;
 }
-
-
 
 #sidebar{
 	height: 90vh;
@@ -237,7 +238,6 @@ li.margin { margin-left: 10px; }
   top: auto !important;
   bottom: 10%;
 }
-
 .login-container{
 	position: relative;
 	max-height: 95vh;

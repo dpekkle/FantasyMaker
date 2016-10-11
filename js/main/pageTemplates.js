@@ -27,6 +27,9 @@ function createPageTemplate()
 
 function chooseNodeTemplate(sel)
 {
+	$('.pagemode').addClass('activebutton');
+	current_state = states.NEWPAGE;
+
 	selected_page_template = project_project.project_templates[sel];
 	$('.pagemode').html("Page Node (" + sel + ")")
 	console.log("Select template: " + sel)

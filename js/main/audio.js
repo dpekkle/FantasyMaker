@@ -153,7 +153,7 @@ function audioObj()
 	this.unique_id = 0; //used for unique ids, different to array length
 	this.assets = [];
 	this.loaded = 0;
-	this.changed = true;
+	this.changed = false;
 
 	this.getAssetAsModalList = function(id)
 	{
@@ -221,31 +221,38 @@ function audioObj()
 
 	this.addAssetButton = function()
 	{
-		var link = prompt("Enter youtube link");
-		if (link == null){
-			console.log("Link cannot be empty")
-			return;
-		}
-		var name = prompt("Give audio a name");
-		if (name == null){
-			console.log("Name cannot be empty")
-			return;
-		}
-		this.addAsset(name, link);
-		$('#audiolist li').on('click', function(event) {
-			event.preventDefault();
-			$('#audiolist li').removeClass('highlighted');
-			$(this).toggleClass('highlighted');
-			project_project.audio.selected_audio = $(this).attr('id');
-		});
-
+		var audio_obj = this;
+		myModal.prompt("Add audio assett", "Supports youtube links that allow embedding", [{name: "Name", default: "", type: "text"}, {name: "Link", default:"https://www.youtube.com/watch?v=4vKmEmY8ZD8", type: "text"}],
+			function(results){
+				var name = results[0];
+				var link = results[1];
+				$('#audiolist li').on('click', function(event) {
+					event.preventDefault();
+					$('#audiolist li').removeClass('highlighted');
+					$(this).toggleClass('highlighted');
+					project_project.audio.selected_audio = $(this).attr('id');
+				});
+			},
+			function(results){
+				if (results[0] == "" || results[0] == null){return false;}
+				else if (results[1] == "" || results[1] == null){return false;}
+				else if (audio_obj.addAsset(results[0], results[1]))
+				{ 
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		);
 	}
 
 	this.addAsset = function(name, link)
 	{
 		//parse URL for type
 		var type = this.parseType(link);
-		if (type != "error")
+		if (type !== "error")
 		{
 			this.changed = true;
 			this.assets[this.assets.length] = new audioAsset(name, this.unique_id, link, type);
@@ -253,11 +260,12 @@ function audioObj()
 			$('#audiolist').html('');
 			$('#audiolist').append(this.getAssetAsModalList());
 			this.unique_id++;
-
+			return true;
 		}
 		else
 		{
 			console.log("Failed to add asset")
+			return false;
 		}
 	}
 	this.parseType = function(link)
@@ -284,11 +292,18 @@ function loadAudioObject(loadobj)
 	object.selected_audio = loadobj.selected_audio;
 	object.unique_id = 0; //used for unique ids, different to array length
 	object.loaded = loadobj.loaded;
-	object.changed = loadobj.changed;
-
-	for (var i = 0; i < loadobj.assets.length; i++)
+	
+	if (loadobj.assets.length == 0)
 	{
-		object.addAsset(loadobj.assets[i].name, loadobj.assets[i].link);
+		object.changed = false;
+	}
+	else
+	{
+		object.changed = true;
+		for (var i = 0; i < loadobj.assets.length; i++)
+		{
+			object.addAsset(loadobj.assets[i].name, loadobj.assets[i].link);
+		}
 	}
 	return object;
 }

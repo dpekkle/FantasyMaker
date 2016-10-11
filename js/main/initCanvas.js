@@ -49,7 +49,6 @@ var cy = cytoscape({
 				'text-border-opacity' : 1,
 				'text-border-color' : '#90caf9',
 				'text-border-width' : 2,
-
 				'width': 4,
 				'target-arrow-shape': 'triangle',
 				'line-color': '#90caf9',
@@ -64,12 +63,37 @@ var cy = cytoscape({
 				'label': 'data(name)',
 				'shape': 'roundrectangle',
 				'background-color': '#DDD',
+				'backgroun-opacity': '1',
 		        'padding-top': '10px',
 		        'padding-left': '10px',
 		        'padding-bottom': '10px',
 		        'padding-right': '10px',
-		        'text-valign': 'top',
 		        'text-halign': 'center',
+		        'text-valign': 'top',
+		        'text-events': 'yes',
+		        //'events': 'no',
+				'text-border-opacity' : 1,
+		        'text-border-color': 'black',
+		        'text-border-width': '2px',
+		        'transition-property': 'text-valign',
+		        'transition-duration': '0.8s'
+			},
+		},
+		{
+			selector: '.expanded',
+			style:{
+			}
+		},
+		{
+			selector: '.collapsed',
+			style:{
+			}
+		},
+		{
+			selector: '.hidden',
+			style:{
+				'opacity': '0',
+				//'visibility': 'hidden'
 			}
 		},
 		// node classes
@@ -121,6 +145,8 @@ var cy = cytoscape({
 				'width': 40,
 				'height': 40,
 				'background-color': '#9deaa6',
+				'padding-left' : '2px',
+				'padding-right' : '2px',
 			}
 		},
 		{
@@ -185,6 +211,7 @@ var cy = cytoscape({
 });
 
 cy.panzoom();
+
 resizeCanvas();
 
 console.log("Canvas done")

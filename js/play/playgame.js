@@ -110,7 +110,7 @@ function stylePage()
 	//clear page
 	$('.playpage').html('');
 	$('.playpage').attr("style", currentNode.data('pagestyle'));
-
+	resizePlayPage();
 	//load page data
 	var text_cont = currentNode.data('textcontainers');
 	var dec_cont = currentNode.data('decisioncontainers');
@@ -560,3 +560,32 @@ function stripDraggable(str)
 	var newstr = str.replace(/drag-element/g, "");
 	return newstr;
 }
+
+function resizePlayPage()
+{
+	$('.playpage').width(project_project.resolution.x);
+	$('.playpage').height(project_project.resolution.y);
+	var scale;
+
+
+	var y = $(window).height();		//want total height of the page
+	var buffer = $('#tabheadings').outerHeight() + $('.nav-wrapper').outerHeight() + $('.progressbutton').outerHeight();
+
+	$('#playwindow').css('height', y-buffer); //tabs at top are 42;
+
+	var w = $('#playwindow').width();
+	var h = $('#playwindow').height();
+	var inner_w = $('.playpage').width();
+	var inner_h = $('.playpage').outerHeight();	
+
+	scale = Math.min(w/inner_w, h/inner_h);
+
+	$('.playpage').css({'transform': 'scale(' + scale + ')'});
+	$('.playpage').css({'-ms-transform': 'scale(' + scale + ')'});
+	$('.playpage').css({'-webkit-transform': 'scale(' + scale + ')'});
+
+}
+
+$(window).resize(resizePlayPage);
+
+

@@ -5,6 +5,7 @@ goog.require('httpRequests')
 goog.require('generalOverlay')
 goog.require('layouts')
 goog.require('controlOverlay')
+goog.require('pageOverlay')
 
 function removeElement()
 {
@@ -130,6 +131,9 @@ function resizeCanvas()
 
 	console.log("We resized, width: " +	x + " height: " + y);
 	cy.resize();
+
+	//also rescale pageoverlay stuff
+	resizePageContainerDiv();
 }
 
 $(window).resize(resizeCanvas);

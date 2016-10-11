@@ -33,6 +33,7 @@ function exitStates()
 	}	
 	$("#sidebar .btn").removeClass('activebutton')	
 	$('.pagemode').html("Page Node");
+	cy.$(':parent').selectify();
 
 }
 
@@ -45,25 +46,26 @@ function changeState(caller)
 	if ($(caller).hasClass('connectionmode') && current_state != states.CONNECTING)
 	{
 		current_state = states.CONNECTING;
+		cy.$(':selected').unselect();
+		cy.$(':parent').unselectify();
 		cy.boxSelectionEnabled( false ); //dont want to select multiple nodes when connecting	
 		source_node = null;
-		cy.$(':selected').unselect();
 	}
-	else if ($(caller).hasClass('pagemode'))
+	else if ($(caller).hasClass('pagemode') && current_state != states.NEWPAGE)
 	{
-		current_state = states.NEWPAGE;
+		exitStates(); //we only want clicking the list element to actually change the state
 	}
-	else if ($(caller).hasClass('controlmode'))
+	else if ($(caller).hasClass('controlmode') && current_state != states.NEWCONTROL)
 	{
 		current_state = states.NEWCONTROL;
 	}	
-	else if ($(caller).hasClass('jumpmode'))
+	else if ($(caller).hasClass('jumpmode')  && current_state != states.NEWJUMP)
 	{
 		current_state = states.NEWJUMP;
 	}	
-	else if ($(caller).hasClass('prebuilt'))
+	else if ($(caller).hasClass('prebuilt')  && current_state != states.NEWFIGHT && current_state != states.NEWSTORE)
 	{
-		//handled by chooseprebuilt
+		exitStates();
 	}	
 	else if ($(caller).hasClass('deletebutton'))
 	{
@@ -82,7 +84,9 @@ function changeState(caller)
 }
 
 function choosePrebuilt(prebuilt)
-{
+{	
+	$('.prebuilt').addClass('activebutton');
+
 	if (prebuilt == "Fight")
 	{
 		current_state = states.NEWFIGHT;
