@@ -5,9 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Fantasymaker : ">
 
+
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
-		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/gameBrowser.css">
-    <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/gameBrowser.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <title>FantasyMaker</title>
   </head>
   <body>
@@ -15,30 +17,31 @@
   <div class="nav-wrapper">
       <a href="#" class="left brand-logo">&nbsp; &nbsp; FantasyMaker</a>
       <ul id="nav-mobile" class="right">
-          <li><a href="#">Profile</a></li>
           <li><a href="#">Create</a></li>
-          <li><a href="#">Settings</a></li>
       </ul>
   </div>
 </nav>
 
-<div id="main-content">
 
-  <div class="heading row">
-      <div class="col m2 offset-m1">
+
+  <div class="heading row z-depth-2">
+      <div class="col m2 offset-m1 s12">
         <img id="header-logo" src='images/icon_play2.png'/>
       </div>
-      <div class="col m3">
+      <div class="col m3 s12">
           <h1>Game Browser</h1>
       </div>
   </div>
+<div id="main-content">
   <div class="row row centered" id="recommended-games-list">
     <h2>Recommended Games</h2>
-      <hr/>
+      <div class="horizontal-rule"></div>
 
 
   </div>
   <div class="row row-centered" id="all-games-list">
+      <h2>Published Games</h2>
+      <div class="horizontal-rule"></div>
 
   </div>
 
@@ -54,6 +57,13 @@
             </div>
         </div>
     </div>
+    <footer id="footer" class="page-footer z-depth-2">
+    <div class="container">
+        <span class="accent-color">
+            Built by Dev 17
+        </span>
+    </div>
+    </footer>
   </body>
   <script src="js/lib/jquery-2.2.2.min.js"></script>
   <script defer src="js/browser/browser.min.js"></script>
