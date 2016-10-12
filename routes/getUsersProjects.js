@@ -3,6 +3,8 @@ var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');
 var jwtauth = require('./jwtAuth.js')
 var serverPath = 'mongodb://localhost/';
+var getProjectAttributes = require('./getProjectAttributes.js')
+var Async = require('async')
 
 module.exports = function(app){
 
@@ -26,14 +28,34 @@ module.exports = function(app){
 			db.listCollections().toArray(function(err, colNames){
     		// collInfos is an array of collection info objects that look like:
     		// { name: 'test', options: {} }
-				var names = []
+				var all = {
+          'projects' : []
+        }
 				for(var i = 0; i<colNames.length; i++){ //last element in colNames is system.indexes
           if(colNames[i].name !== 'system.indexes' && colNames[i].name !== 'user_details'){
-            	names.push(colNames[i])
+            var proj = {
+              'projName' : colNames[i].name
+            }
+            console.log(proj)
+            all.projects.push(proj)
           }
-
 				}
-				res.json(names)
+
+        Async.each(all.projects,
+          // 2nd param is the function that each item is passed to
+          function(item, callback){
+            // Call an asynchronous function, often a save() to DB
+            getProjectAttributes.getProjectAttributes(item,false,req.query.username,function(){
+              callback()
+            })
+          },
+          // 3rd param is the function to call when everything's done
+          function(err){
+            // All tasks are done now
+            console.log(all)
+            res.json(all)
+          }
+        );
 			});
 
 		  }

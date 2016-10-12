@@ -30,7 +30,7 @@ function gameBrowser_loadUsers(){
   var res = {
     "data" : {} //stores the results of the http request temporarily
   }
-  $.when(browser_httpRequests_getProjectsForBrowser(res)).done(function(){
+  $.when(browser_httpRequests_getProjectsForBrowser(res,true)).done(function(){
     gameBrowser_allProjects = res.data //copy http response to gameBrowser_allProjects
     console.log(gameBrowser_allProjects)
   })

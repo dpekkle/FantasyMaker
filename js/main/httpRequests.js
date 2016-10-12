@@ -1,6 +1,7 @@
 goog.provide('httpRequests')
 goog.require('initCanvas')
 goog.require('users')
+goog.require('navigation')
 //goog.require('pageTemplates')
 //goog.require('project')
 
@@ -9,10 +10,12 @@ console.log("Enter httpRequests.js")
 
 function http_redirectHome(){
 	window.location = 'http://localhost:3000/create.html'
+	//users_flushToken()
+	//nav_toLogin()
+
 }
 
-function http_save(project_project){
-	console.log("save");
+function http_save(project_project,ret){
 
 	http_addTokenToHeader()
 	//jquery ajax post request
@@ -24,8 +27,11 @@ function http_save(project_project){
 		},
 		success: function(data) {
 			if(http_handleAuth(data)){
-				console.log("Graph Saved")
-				Materialize.toast("Project '" + project_project.projectName + "' Saved", 3000, 'rounded')
+				ret.data = true
+			}
+			else{
+				ret.data = false
+				console.log(data)
 			}
 		},
 		contenttype: "application/json"
@@ -37,7 +43,6 @@ function http_save(project_project){
 function http_load(projName){
 	//projName is expected to be project name with whitespace
 	projName = projName.split('_').join(' ')
-	console.log("Load");
 
 	http_addTokenToHeader()
 	//remove all elements from graph
@@ -88,6 +93,30 @@ function http_load(projName){
 	});
 }
 
+function http_setupCy(){
+	//database does not store methods, so we need to create new audioobj initialising it with the stored values - Danni
+	//project_project.audio = loadAudioObject(project_project.audio)
+	//loadTemplateMenuObj();
+
+
+	//$('#UI_projName').text('Project: ' + project_project.projectName)
+
+	//for all elements in data
+	for(var i = 0; i<project_project.graph.length; i++){
+		//check if element is an edge
+		if(project_project.graph[i].group == "edges"){
+			//add edge to graph
+			var newEdge = cy.add(project_project.graph[i]);
+			//add event listener to edge
+			newEdge.on('tap', function(event){this.select();});
+
+		}
+		else{
+			cy.add(project_project.graph[i]);
+		}
+	}
+}
+
 function http_getUsersProjects(username,ret){
 	http_addTokenToHeader()
 	return $.ajax({
@@ -101,15 +130,21 @@ function http_getUsersProjects(username,ret){
 			if(http_handleAuth(data)){
 				//console.log('GETUSERSRESULTS')
 				//console.log(data)
-				ret.names = data
-				for(var i = 0; i<ret.names.length; i++){
-					//console.log('GETUSERSRESULTS PROCESSING')
-					//console.log(ret.names[i].name)
-					ret.names[i].name = ret.names[i].name.split('_').join(' ')
-					//console.log(ret.names[i].name)
+
+				if(data.projects.length > 0){
+					ret.projects = data.projects
+					/*
+					ret.names = data
+					for(var i = 0; i<ret.names.length; i++){
+						//console.log('GETUSERSRESULTS PROCESSING')
+						//console.log(ret.names[i].name)
+						ret.names[i].name = ret.names[i].name.split('_').join(' ')
+						//console.log(ret.names[i].name)
+					}
+					*/
 				}
+				console.log(data)
 			}
-			console.log('getUsersProjects loaded')
 		},
 		contenttype: "application/json"
 	});
@@ -132,7 +167,6 @@ function http_deleteProject(username,projName){
 		success: function(data) {
 			if(http_handleAuth(data)){
 				//console.log(data)
-				console.log('project deleted')
 			}
 		},
 		contenttype: "application/json"
@@ -168,8 +202,6 @@ function http_login(uname,pwd,ret){
 		cache: false,
 		type: 'POST',
 		success: function(data) {
-			console.log('LOGIN RES:')
-			console.log(data)
 			ret.data = data
 		},
 		contenttype: "application/json"
@@ -178,7 +210,6 @@ function http_login(uname,pwd,ret){
 
 //examines response from server for authentication validation
 function http_handleAuth(res){
-	console.log('server returned' + res)
 	if(res === 'EXPIRED' || res === 'NO_TOKEN'){
 		if(res === 'EXPIRED'){
 			console.log('http_handleAuth(): Token is expired')

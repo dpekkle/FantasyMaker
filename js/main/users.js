@@ -16,6 +16,10 @@ function users_getUsername(){
   return 'INVALID'
 }
 
+function users_setToken(data){
+  $.when(window.localStorage.setItem('token', JSON.stringify(data))).done()
+}
+
 function users_flushToken(){
   window.localStorage.setItem('token','')
 }

@@ -1,10 +1,13 @@
 goog.provide('browser_httpRequests')
 goog.require('users')
 
-function browser_httpRequests_getProjectsForBrowser(ret){
+function browser_httpRequests_getProjectsForBrowser(ret,pub){
 	//browser_httpRequests_addTokenToHeader()
 	return $.ajax({
 		url: '/getAllUsersProjects',
+		data: {
+			'published' : pub,
+		},
 		cache: false,
 		type: 'GET',
 		success: function(data) {

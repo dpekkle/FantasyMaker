@@ -3,12 +3,19 @@ var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');
 var jwtauth = require('./jwtAuth.js')
 var Async = require('async')
+var getProjectAttributes = require('./getProjectAttributes.js')
 var serverPath = 'mongodb://localhost/';
 
 module.exports = function(app){
 
    app.get('/getAllUsersProjects',function(req,res){
      console.log('getAllUsersProjects entered')
+     console.log(req.query)
+     if(req.query.published === undefined){
+       console.log('getAllUsersProjects() error: query.published undefined.' )
+       res.send('INVALID')
+       return
+     }
      var ret = {
        "users" : []
      }
@@ -20,7 +27,7 @@ module.exports = function(app){
             // Call an asynchronous function, often a save() to DB
             getUsersProjectNames(item,function (){ //add all projects from each user to array
               // Async call is done, alert via callback
-              getAllUsersProjects(item,function(){
+              getAllUsersProjects(item,req.query.published,function(){
                 outer_callback();
               })
 
@@ -29,8 +36,21 @@ module.exports = function(app){
           // 3rd param is the function to call when everything's done
           function(err){
             // All tasks are done now
-            console.log(ret)
-            res.json(ret)
+            var allProjs = []
+            for(var i = 0; i<ret.users.length; i++){
+              var projects = ret.users[i].projects
+              if(projects.length > 0){
+                for(var a=0; a<projects.length; a++){
+                  var proj = projects[a]
+                  if(proj.hasOwnProperty('author')){
+                    allProjs.push(ret.users[i].projects[a])
+                  }
+                }
+              }
+
+            }
+            console.log(allProjs)
+            res.json(allProjs)
           }
         );
 
@@ -105,13 +125,13 @@ function getUsersProjectNames(user,callback){
 }
 
 //gets all data about a users project
-function getAllUsersProjects(user,callback){
+function getAllUsersProjects(user,pub,callback){
   var url = serverPath + user.name
   Async.each(user.projects,
     // 2nd param is the function that each item is passed to
     function(item, callback){
       // Call an asynchronous function, often a save() to DB
-      getProjectAttributes(item,user.name,function(){
+      getProjectAttributes.getProjectAttributes(item,pub,user.name,function(){
         // Async call is done, alert via callback
         callback();
       });
@@ -125,6 +145,7 @@ function getAllUsersProjects(user,callback){
 
 }
 
+/*
 //gets the requires attributes from a users project
 function getProjectAttributes(project,username,callback){
   //connect to db
@@ -167,3 +188,4 @@ function getProjectAttributes(project,username,callback){
    }
   });
 }
+*/

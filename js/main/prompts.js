@@ -101,7 +101,7 @@ function myModal()
 		}
 
 		this.callbackFunction = mycallback;
-		
+
 		tar.html('');
 		tar.append('<h3 style="text-align:center;">' + title + '</h3>');
 		tar.append('<p>' + description + '<p>')
@@ -109,14 +109,14 @@ function myModal()
 		{
 			tar.append('<label for="' + i + '"> '+ fields[i].name + '</label>')
 			if (fields[i].type == "number")
-				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseInt(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">');
+				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseFloat(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">');
 			else
 				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
 		}
 
 		tar.html('');
 		tar.append('<h3 style="text-align:center;">' + title + '</h3>');
-		tar.append('<p>' + description + '<p>')
+		tar.append('<p id="promptDesc">' + description + '<p>')
 		for (var i = 0; i < fields.length; i++)
 		{
 			tar.append('<label for="' + i + '"> '+ fields[i].name + '</label>')
@@ -142,6 +142,11 @@ function myModal()
 				tar.html("");
 			}
 		});
+	}
+
+	this.warning = function(text){
+		$('#promptDesc').text(text)
+		$('#promptDesc').css('color', 'red')
 	}
 
 }

@@ -12,6 +12,11 @@ module.exports = function(app){
 		//add name of project to url for db connection
 		var url = serverPath + req.query.projectOwner;
 
+    if(req.query.projectOwner === undefined || req.query.projectName === undefined){
+      console.log('getProject(): query is undefined')
+      return('EXPIRED')
+    }
+
 		//connect to db
 		MongoClient.connect(url, function (err, db) {
 		  if (err) {
