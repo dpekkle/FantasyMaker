@@ -16,4 +16,32 @@ nav .nav-mobile>li>a{
 nav .nav-mobile>ul>li>a:hover{
     color: #00FEBC;
 }
+.heading {
+    background: url('../../images/banner_image.jpg');
+    display: block;
+    height: 350px;
+    background-size: cover;
+    margin-bottom: 0px;
+}
 
+#header-logo{
+    height: 250px;
+    margin-top: 50px;
+}
+
+h1{
+    margin-top: 150px;
+}
+
+body{
+    background-color: #1E2328;
+}
+
+.main-content{
+    display: none;
+}
+
+.card-image{
+    background-color: #1E2328;
+    height: 240px;
+}
