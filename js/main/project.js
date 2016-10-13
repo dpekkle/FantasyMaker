@@ -49,6 +49,7 @@ function initEmptyProject(username,projName){
 
 		"graph" : [],
 		"gameAttributes" : {},
+		"gameInventory" : {},
 		"attributesHTML" : "",
 		"resolution" : {"x": 1000, "y": 800}
 	};
@@ -97,13 +98,10 @@ function project_createNewProject(){
 								else{
 									Materialize.toast("Failed to create project. Please log in again.", 3000, 'rounded')
 								}
-
 							})
-
 						})
 					}
 		});
-
 }
 
 //Add top level attribute directly under gameAttributes

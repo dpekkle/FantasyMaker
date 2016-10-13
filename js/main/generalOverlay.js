@@ -87,6 +87,22 @@ function openAttributesOverlay()
 
 }
 
+function openInventoryDefinitionOverlay()
+{
+	$('#inventory-definition-modal').openModal(
+		{
+			dismissible: true,
+			ready: function(){
+				
+			},
+			complete: function(){
+
+			}
+		}
+	)
+}
+
+
 function openAudioOverlay()
 {
 	console.log("Audio overlay opened")

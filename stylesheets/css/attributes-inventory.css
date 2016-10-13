@@ -43,3 +43,14 @@
     bottom:0;
 }
 
+/* INVENTORY DEFINITION MODAL CSS */
+
+#inventory-definition-modal{
+    width: 650px;
+    height: 75%;
+}
+
+.scroll-y{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

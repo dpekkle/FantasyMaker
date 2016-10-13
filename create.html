@@ -18,7 +18,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/attributes.css" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/attributes-inventory.css" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/playpage.css" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
@@ -232,6 +232,21 @@
 			</div>
 		</div>
 
+	<!-- Inventory Modal -->
+	<div id="inventory-definition-modal" class=" modal">
+		<div class="modal-content">
+			<div class="row max-height scroll-y">
+				<h2>Inventory Items</h2>
+				<p>Define items available in your game</p>
+				<ul class="collapsible inventory-list" data-collapsible="accordion">
+
+
+				</ul>
+				</div>
+			<a class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameInventory_openDefineItemOverlay()"><i class="material-icons">add</i></a>
+			</div>
+		</div>
+
 		<div id="requestLogin" class="login-container">
 			<img class="login-img" src="/images/banner_image.jpg">
 			<div class = "login-rounded-panel">
@@ -241,9 +256,9 @@
 						<span class="login-text-white">Creator!</span>
 					</h1>
 					<div class="login-options">
-						<a href="#"><div onclick=project_signUp()><h2 class="login-signup login-text-green center-align">Sign Up</h2></div></a>
+						<a href="#"><div onclick="project_signUp()"><h2 class="login-signup login-text-green center-align">Sign Up</h2></div></a>
 						<h2 class="login-or login-text-white center-align">Or</h2>
-						<a href="#"><div onclick=project_login()><h2 class="login-login login-text-green center-align">Log In</h2></div></a>
+						<a href="#"><div onclick="project_login()"><h2 class="login-login login-text-green center-align">Log In</h2></div></a>
 					</div>
 				</div>
 			</div>
@@ -321,7 +336,7 @@
 					<h2 id="projects_title"style="color: #ee6e73;">Load Project</h2>
 				</div>
 				<div class="col s1">
-					<a onclick=project_createNewProject() class="btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);"><i class="material-icons">add</i></a>
+					<a onclick="project_createNewProject()" class="btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);"><i class="material-icons">add</i></a>
 				</div>
 			</div>
 				<div class="row">
@@ -368,6 +383,7 @@
 							</ul>
 							<hr/>
 							<a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
+							<a class="waves-effect waves-light btn" onclick="openInventoryDefinitionOverlay()">Inventory</a>
 							<br/>
 							<a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a>
 							<br/>
@@ -416,6 +432,7 @@
 	</div>
 	</div>
 </div>
+
 	</body>
 	<script src="js/lib/queue.js"></script>
 	<script src="js/lib/jquery-2.2.2.min.js"></script>
