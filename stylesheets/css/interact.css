@@ -29,6 +29,10 @@ div {
     border: 1px solid #000000;
 }
 
+.resize-child{
+	overflow: hidden;
+}
+
 .text-area{
 	width: auto;
 	height: auto;

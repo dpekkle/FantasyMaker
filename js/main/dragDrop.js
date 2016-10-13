@@ -63,6 +63,12 @@ function setInteractions()
 			edges: { left: false, right: true, bottom: true, top: false},
 			onmove: resizeMoveListener
 		});
+	interact('.resize-child')
+		.resizable({
+			snap: snap_options,
+			edges: { left: false, right: true, bottom: true, top: false},
+			onmove: resizeChildMoveListener
+		});
 }
 
 setInteractions();
@@ -102,6 +108,32 @@ function resizeMoveListener(event)
 
 	target.style.width  = x + 'px';
 	target.style.height = y + 'px';
+}
+
+function resizeChildMoveListener(event) //for youtube iframe resizing
+{
+	//get scale of drop container
+	//see http://stackoverflow.com/questions/5603615/get-the-scale-value-of-an-element
+	var container = $('#pagecontainers')[0];
+	var scaleX = container.getBoundingClientRect().width / container.offsetWidth;
+	var scaleY = container.getBoundingClientRect().height / container.offsetHeight;
+
+	//apply transform
+	var target = event.target;
+	var x = event.rect.width/scaleX;
+	var y = event.rect.height/scaleY;
+
+	//get data-x offsets of container
+	offset_left = target.parentNode.getAttribute('data-x');
+	offset_top  = target.parentNode.getAttribute('data-y');
+
+	x = checkBounds(offset_left, x, $('#pagecontainers').width())
+	y = checkBounds(offset_top, y, $('#pagecontainers').height())
+
+	target.style.width  = x + 'px';
+	target.style.height = y + 'px';
+	target.firstChild.width  = x - 4 - 2 * parseFloat(getComputedStyle(target).getPropertyValue('border-left-width'));
+	target.firstChild.height = y - 8 - 2 * parseFloat(getComputedStyle(target).getPropertyValue('border-top-width'));
 }
 
 function checkBounds(offset, dimension, limit)

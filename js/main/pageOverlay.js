@@ -156,7 +156,7 @@ function addVideoContainer()
 	//ask user for URL
 	var html_string;
 
-	myModal.prompt("Add Video", "Supports links to .webm, .mp4, .gifv and (soon) youtube", [{name: "Video URL", default: "http://i.imgur.com/6aSJo9b.gifv", type: "text"}], function(results)
+	myModal.prompt("Add Video", "Supports links to .webm, .mp4, .gifv and (soon) youtube", [{name: "Video URL", default: "https://www.youtube.com/watch?v=4vKmEmY8ZD8", type: "text"}], function(results)
 	{
 		if (!myModal.confirm)
 			return;
@@ -168,6 +168,7 @@ function addVideoContainer()
 			html_string = "<div class='vid-container drag-element' style='position:absolute; " + position + "'>"
 			
 			var valid = checkImageURL(vidurl, "vid");
+			console.log("Valid: ", valid)
 			if (valid)
 				html_string += valid;
 			else
@@ -205,6 +206,7 @@ function addVideoContainer()
 function checkImageURL(imgurl, type)
 {
 	var html_string = "";
+	var ytreg = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
 
 	//image url?
 	if (imgurl == "")
@@ -216,12 +218,57 @@ function checkImageURL(imgurl, type)
 	{
 		html_string		+=		"<img class='editdiv resize-element' src=" + imgurl + "></img>"
 	}
-	//video url?
+	//webm video
 	else if (imgurl.match(/\.(webm)$/) != null && type == "vid")
 	{
 		html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
 		html_string		+=	"<source src= \"" + imgurl + "\"type='video/webm'></source>"
 		html_string 	+= 	"</video>"
+	}
+	//youtube
+	else if (imgurl.match(ytreg) ? RegExp.$1 : false && type == "vid")
+	{
+		var yt_id = imgurl.match(ytreg) ? RegExp.$1 : false;
+		var div_id = "youtube_video_" + yt_id;
+		if ($(div_id).length !== 0)
+		{
+			//youtube video alreay exists
+			return;
+		}
+		
+		var position = genPageCenterHTML(300, 220);
+		html_string = "<div class='vid-container drag-element' style='position:absolute; " + position + "'>"
+		html_string += "<div class='editdiv resize-child'>"
+
+		html_string += "<div id='" + div_id + "'></div></div></div>";
+
+		var size = $(".vid-container").length;	
+		var new_container = htmlToElements(html_string);
+
+		$("#pagecontainers").append(new_container);
+		$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));	
+
+		bringContainerToFront($("pagecontainers div.vid-container:last"));
+		if (!show_handles)
+			$('.handlecontainer').hide();
+		bindHandleSelection();
+
+		console.log("videoID:", yt_id);
+
+		new YT.Player(div_id, {
+		  origin: 'https://www.youtube.com',
+		  height: '220',
+		  width: '300',
+		  playerVars: { 'autoplay': 1, 'controls': 1 }, //not needed with playVideo call
+		  videoId: yt_id,
+		  events: {
+		  	'onError': function(event){
+		  		this.destroy(); 
+		  	},
+		  }
+		});		
+		$(div_id).addClass('resize-element');	
+		return false; //break ajax call
 	}
 	//gifv video
 	else if (imgurl.match(/\.(gifv|mp4)$/) != null && type == "vid")

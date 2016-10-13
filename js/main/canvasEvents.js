@@ -7,33 +7,65 @@ goog.require('pageTemplates')
 console.log("Enter canvasEvents.js")
 
 source_node = null;
+held_node = null;
+
+cy.on('tapstart', 'node', function(event)
+{
+	//sometimes tapend fires on a different element than the one we dragged due to z-axis issues.
+	held_node = event.cyTarget;
+});
 
 //dragging orphan nodes into parents
-cy.on('tapend', ':orphan', function(event)
+cy.on('tapend', function(event)
 {
-	var node = event.cyTarget;
+	if (held_node == null)
+		return;
+
+	console.log("Check for dropping into parents:" , cy.$(':parent').length)
+	var group = cy.$(':parent:orphan')
 	var mouse = event.cyRenderedPosition;
 
-	cy.$(':parent').each(function(i, ele)
+	testobj = {"added": false, "parent": "none"};
+
+	checkCompoundBounds(group, mouse, testobj);
+
+	console.log("Finished: ", testobj)
+	if (testobj.added)
 	{
-		if (ele !== node)
+		if (testobj.parent !== held_node.parent().id())
 		{
-			//check if in the bounding box
-			var pos = ele.renderedBoundingBox();
-			console.log(pos);
-			if (mouse.x > pos.x1 && mouse.x < pos.x2)
+			console.log("Move ", held_node.id(), " into ", ele.id());
+			held_node.move({
+			 	parent: testobj.parent,
+			});
+		}
+	}
+	held_node = null
+
+});
+
+function checkCompoundBounds(compounds, mouse, testobj)
+{
+	compounds.forEach(function(ele)
+	{
+		var pos = ele.renderedBoundingBox();
+		//check if in the bounding box
+		if (mouse.x > pos.x1 && mouse.x < pos.x2)
+		{
+			if (mouse.y > pos.y1 && mouse.y < pos.y2)
 			{
-				if (mouse.y > pos.y1 && mouse.y < pos.y2)
+				if (held_node !== ele)
 				{
-					console.log("Move ", node.id(), " into ", ele.id());
-					node.move({
-						parent: ele.id()
-					});
+					//held_node was dropped here
+					testobj.added = true;
+					testobj.parent = ele.id();
+					//check if dropped in any of the children
+					checkCompoundBounds(ele.children(':parent').difference(ele), mouse, testobj);
 				}
 			}
 		}
-	});
-});
+	})
+}
 
 cy.on('taphold', ':parent', function(event)
 {
@@ -53,42 +85,64 @@ cy.on('tap', ':parent', function(event)
 	}
 	else if (this.hasClass('expanded'))
 	{
+		this.descendants().each( function(i, ele)
+		{
+			if (ele.parent().hasClass('expanded'))
+			{
+				var x = ele.position().x;
+				var y = ele.position().y;
+				var rel = {x: x, y: y};
+				console.log("Save position for: ", ele.id(), " at: ", rel)
+				ele.data('displacement', rel);		
+			}
+		});
+
 		collapse(this);
+
 		//also hide all the edges that connect nodes, edges connecting a child to a compound child will remain otherwise
+
 		this.descendants().outgoers('edge').addClass('hidden');
 	}
 })
 
 function expand(parent)
 {
+	console.log("Expand:", parent.id());
 	var parent_position = parent.position();
 
 	if (parent.hasClass('collapsed'))
 	{
-		parent.children().each( function(i, ele)
+		parent.descendants().each( function(i, ele)
 		{
 			ele.stop(false, true);
 			var dx = this.data('displacement').x;
 			var dy = this.data('displacement').y;
-			console.log(dx);
-			console.log(dy);
+			console.log(ele.id(), "X: ", + dx, "Y: ", dy);
 			ele.animate({
 					position: 
 				  	{ 
-				  		x: parent_position.x + dx, 
-				  		y: parent_position.y + dy
+				  		x: dx, 
+				  		y: dy
 				  	},
 				  	style:
 				  	{
 				  		opacity: 1,
 				  	},
+				  	complete: function()
+					{
+						if (ele.isParent())
+						{
+							ele.removeClass('collapsed');
+							ele.addClass('expanded');
+						}
+				  	}
 				}, 
 				{
 					duration: 500
 				});
 			ele.removeClass('hidden');
-
 		});
+
 		parent.removeClass('collapsed');
 		parent.addClass('expanded');
 	}
@@ -101,24 +155,17 @@ function expand(parent)
 
 function collapse(parent)
 {
+	console.log("Collapse:", parent.id());
 
-	//if(parent.children().animated())
-		//return;
-		
-	//recursively collapse children
-	// parent.children(':parent').each(function(i, ele){
-	// 	collapse(ele);
-	// })
-
+	if (parent.animated())
+		return;
 	var parent_position = parent.position();
 
 	if (parent.hasClass('expanded'))
 	{
-		parent.children().each( function(i, ele)
+		parent.descendants().each( function(i, ele)
 		{
 			ele.stop(false, true);
-			var rel = ele.relativePosition();
-			ele.data('displacement', rel);
 			ele.animate({
 					position: 
 				  	{ 
@@ -129,9 +176,14 @@ function collapse(parent)
 				  	{
 				  		opacity: 0,
 				  	},
-					complete: function(){
+					complete: function()
+					{
 						ele.addClass('hidden');
-
+						if (ele.isParent())
+						{
+							ele.addClass('collapsed');
+							ele.removeClass('expanded');
+						}
 					}
 				}, 
 				{
@@ -141,7 +193,6 @@ function collapse(parent)
 		parent.addClass('collapsed');
 		parent.removeClass('expanded');
 	}
-
 }
 
 cy.on('tap', ':selected', function(event)
@@ -159,7 +210,10 @@ cy.on('tap', function(event)
 	
 	if (evtTarget === cy)
 		cy.$(':selected').unselect(); //touch screen doesn't seem to do this by default
-	
+	else
+	{
+		return;
+	}
 	if (current_state === states.CONNECTING)
 	{
 		// method to "deselect" a source node for connections

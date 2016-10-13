@@ -160,6 +160,7 @@ function stylePage()
 	$(".playpage .handlecontainer").hide(); // can't drag without a handle
 
 	$(".playpage").children().removeClass('resize-element');
+	$(".playpage").children().removeClass('resize-child'); //for youtube videos
 	$(".playpage").children().children().removeClass('resize-element');
 
 	$(".playpage").children().attr('contenteditable','false');

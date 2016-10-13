@@ -63,7 +63,7 @@ var cy = cytoscape({
 				'label': 'data(name)',
 				'shape': 'roundrectangle',
 				'background-color': '#DDD',
-				'backgroun-opacity': '1',
+				'background-opacity': '1',
 		        'padding-top': '10px',
 		        'padding-left': '10px',
 		        'padding-bottom': '10px',
