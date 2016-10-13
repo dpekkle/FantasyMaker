@@ -44,12 +44,19 @@ body {
 }
 #main-content{
     display: none;
+    min-height: 600px;
 }
+
+.loading-content{
+    margin-bottom: 25%;
+}
+
+
 
 .horizontal-rule{
     background-color: white;
     height: 2px;
-    width: 45%;
+    width: 100%;
     margin-bottom: 10px;
 }
 
@@ -80,3 +87,43 @@ body {
 .accent-color{
     color: #00FEBC;
 }
+
+
+/* SEARCH BAR STYLING */
+
+/* label color */
+.input-field label {
+    color: #FFFFFF;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: #00FEBC;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #00FEBC;
+    box-shadow: 0 1px 0 0 #00FEBC;
+}
+/* valid color */
+.input-field input[type=text].valid {
+    border-bottom: 1px solid #FFFFFF;
+    box-shadow: 0 1px 0 0 #FFF;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #00FEBC;
+}
+
+.input-field .prefix{
+    color: #FFFFFF;
+}
+
+.input-field input[type=text]{
+    color: #FFF;
+}
+
+.btn:hover{
+    background-color: #00FEBC;
+}
+
+/* END SEARCH BAR STYLING */

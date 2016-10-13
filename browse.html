@@ -4,13 +4,11 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="description" content="Fantasymaker : ">
-
-
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
+      <link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
       <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/gameBrowser.css">
-
-    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-    <title>FantasyMaker</title>
+      <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <title>FantasyMaker</title>
   </head>
   <body>
 <nav>
@@ -33,25 +31,42 @@
       </div>
   </div>
 <div id="main-content">
-  <div class="row row centered" id="recommended-games-list">
-    <h2>Recommended Games</h2>
-      <div class="horizontal-rule"></div>
+  <div class="row row centered">
+      <div class = "row">
+        <div class="col m5 s12">
+            <h2>Recommended Games</h2>
+            <div class="horizontal-rule"></div>
+        </div>
+      </div>
+        <div class="row" id="recommended-games-list">
 
-
+        </div>
   </div>
-  <div class="row row-centered" id="all-games-list">
-      <h2>Published Games</h2>
-      <div class="horizontal-rule"></div>
+  <div class="row row-centered">
+      <div class="row">
+        <div class="col m5 s12">
+            <h2>Published Games</h2>
+            <div class="horizontal-rule"></div>
+        </div>
 
+           <div class="ui-widget input-field col m4 offset-m3 s12" style="margin-top: 60px;"> <!-- User Name Search Input -->
+                <i class="material-icons prefix">search</i>
+               <input id="search-bar" type="text" class="autocomplete"/>
+               <label for="search-bar">Filter By Username</label>
+           </div>
+      </div>
+      <div class="row" id="all-games-list">
+
+      </div>
   </div>
 
     </div>
 
-    <div class="loading-content">
+    <div class="loading-content  row">
         <div class="col m6 offset-m3"><h1> Loading Games</h1></div>
         <br/>
 
-        <div class="col m6 offset-m3">
+        <div class="col m5 offset-m3">
             <div class="progress">
                 <div class="indeterminate"></div>
             </div>
@@ -66,6 +81,7 @@
     </footer>
   </body>
   <script src="js/lib/jquery-2.2.2.min.js"></script>
+  <script defer src="js/lib/materialize.min.js"></script>
   <script defer src="js/browser/browser.min.js"></script>
 
 </html>
