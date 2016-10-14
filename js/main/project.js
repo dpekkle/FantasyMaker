@@ -5,10 +5,11 @@ goog.require('httpRequests')
 goog.require('projectSettings')
 goog.require('users')
 goog.require('navigation')
+goog.require('host')
 
 console.log("Entering project.js");
 
-var host = 'http://localhost:3000/'
+//var host = 'http://localhost:3000/'
 //initialise cytoscape etc
 var project_project = initEmptyProject('none','none')
 defaultState();
@@ -45,7 +46,7 @@ function initEmptyProject(username,projName){
 		"author" : username,
 		"description" : "No description available.",
 		"imageLink" : "No URL provided",
-		"gameLink" : host + 'play/' + username + '/' + projName,
+		"gameLink" : host_play() + username + '/' + projName,
 
 		"graph" : [],
 		"gameAttributes" : {},

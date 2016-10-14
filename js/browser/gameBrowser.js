@@ -34,9 +34,9 @@ function gameBrowser_loadUsers(){
     +  $.when(browser_httpRequests_getProjectsForBrowser(res,true)).done(function(){
         gameBrowser_allProjects = res.data; //copy http response to gameBrowser_allProjects
         console.log(gameBrowser_allProjects);
-        gameBrowser_displayAllGames(gameBrowser_allProjects);
+      //  gameBrowser_displayAllGames(gameBrowser_allProjects);
 
-        /*
+
         //old way of retrieving projects
          for(var u = 0; u < gameBrowser_allProjects.users.length; u++){
             for (var p = 0; p < gameBrowser_allProjects.users[u].projects.length; p++){
@@ -45,7 +45,7 @@ function gameBrowser_loadUsers(){
 
             }//iterate through user's projects
         } //iterate through users
-         */
+         
         $('.loading-content').hide();
         $('#main-content').show();
 
@@ -140,4 +140,3 @@ $("#search-bar").on("input",function(e){
 
     }
 });
-
