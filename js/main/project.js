@@ -69,17 +69,20 @@ function project_createNewProject(){
 					}
 					else
 					{
-						var ret1 = {
-							"names" : []
-						}
+						var ret1 = {}
 						$.when(http_getUsersProjects(users_getUsername(),ret1)).done(function(){
-
-							for(var i = 0; i<ret1.names.length; i++){
-								if(results[0].trim() === ret1.names[i].name){
-									myModal.warning('You already have a project named ' + ret1.names[i].name + '. Please choose another name.')
-									return
+							console.log('RET')
+							console.log(ret1)
+							if(ret1.hasOwnProperty('projects')){
+								for(var i = 0; i<ret1.projects.length; i++){
+									if(results[0].trim() === ret1.projects[i].projName){
+										myModal.warning('You already have a project named ' + ret1.projects[i].projName + '. Please choose another name.')
+										return
+									}
 								}
 							}
+
+
 
 							project_project = initEmptyProject(users_getUsername(),results[0].trim())
 							cy.elements().remove()

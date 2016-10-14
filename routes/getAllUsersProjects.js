@@ -36,6 +36,7 @@ module.exports = function(app){
           // 3rd param is the function to call when everything's done
           function(err){
             // All tasks are done now
+            /*
             var allProjs = []
             for(var i = 0; i<ret.users.length; i++){
               var projects = ret.users[i].projects
@@ -47,10 +48,33 @@ module.exports = function(app){
                   }
                 }
               }
-
             }
-            console.log(allProjs)
-            res.json(allProjs)
+            */
+
+            //remove any unpublished games
+            for(var i = 0; i<ret.users.length; i++){
+              var projects = ret.users[i].projects
+              if(projects.length > 0){
+                for(var a=0; a<projects.length; a++){
+                  var proj = projects[a]
+                  if(!proj.hasOwnProperty('author')){
+                    //project is not published, remove.
+                    ret.users[i].projects.splice(a,1)
+                  }
+                }
+              }
+            }
+
+            //remove any users with no published games
+            for(var i = 0; i<ret.users.length; i++){
+              if(ret.users[i].projects.length === 0){
+                ret.users.splice(i,1)
+              }
+            }
+
+
+            console.log(ret)
+            res.json(ret)
           }
         );
 
