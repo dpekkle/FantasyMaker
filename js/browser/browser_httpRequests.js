@@ -1,5 +1,6 @@
 goog.provide('browser_httpRequests')
 goog.require('users')
+goog.require('host')
 
 function browser_httpRequests_getProjectsForBrowser(ret,pub){
 	//browser_httpRequests_addTokenToHeader()
@@ -51,5 +52,5 @@ function browser_httpRequests_handleAuth(res){
 }
 
 function browser_httpRequests_redirectHome(){
-	window.location = 'http://localhost:3000/create.html'
+	window.location = host_create()
 }

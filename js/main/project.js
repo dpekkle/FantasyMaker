@@ -5,10 +5,11 @@ goog.require('httpRequests')
 goog.require('projectSettings')
 goog.require('users')
 goog.require('navigation')
+goog.require('host')
 
 console.log("Entering project.js");
 
-var host = 'http://localhost:3000/'
+//var host = 'http://localhost:3000/'
 //initialise cytoscape etc
 var project_project = initEmptyProject('none','none')
 defaultState();
@@ -45,7 +46,7 @@ function initEmptyProject(username,projName){
 		"author" : username,
 		"description" : "No description available.",
 		"imageLink" : "No URL provided",
-		"gameLink" : host + 'play/' + username + '/' + projName,
+		"gameLink" : host_play() + username + '/' + projName,
 
 		"graph" : [],
 		"gameAttributes" : {},
@@ -69,17 +70,20 @@ function project_createNewProject(){
 					}
 					else
 					{
-						var ret1 = {
-							"names" : []
-						}
+						var ret1 = {}
 						$.when(http_getUsersProjects(users_getUsername(),ret1)).done(function(){
-
-							for(var i = 0; i<ret1.names.length; i++){
-								if(results[0].trim() === ret1.names[i].name){
-									myModal.warning('You already have a project named ' + ret1.names[i].name + '. Please choose another name.')
-									return
+							console.log('RET')
+							console.log(ret1)
+							if(ret1.hasOwnProperty('projects')){
+								for(var i = 0; i<ret1.projects.length; i++){
+									if(results[0].trim() === ret1.projects[i].projName){
+										myModal.warning('You already have a project named ' + ret1.projects[i].projName + '. Please choose another name.')
+										return
+									}
 								}
 							}
+
+
 
 							project_project = initEmptyProject(users_getUsername(),results[0].trim())
 							cy.elements().remove()

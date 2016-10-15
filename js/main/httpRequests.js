@@ -2,6 +2,7 @@ goog.provide('httpRequests')
 goog.require('initCanvas')
 goog.require('users')
 goog.require('navigation')
+goog.require('host')
 //goog.require('pageTemplates')
 //goog.require('project')
 
@@ -9,7 +10,7 @@ console.log("Enter httpRequests.js")
 
 
 function http_redirectHome(){
-	window.location = 'http://localhost:3000/create.html'
+	window.location = host_create()
 	//users_flushToken()
 	//nav_toLogin()
 
