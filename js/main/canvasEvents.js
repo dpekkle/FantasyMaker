@@ -6,6 +6,7 @@ goog.require('pageTemplates')
 
 console.log("Enter canvasEvents.js")
 
+compound_group_num = 0;
 source_node = null;
 held_node = null;
 
@@ -15,18 +16,19 @@ cy.on('tapstart', 'node', function(event)
 	held_node = event.cyTarget;
 });
 
-//dragging orphan nodes into parents
+//dragging nodes into parents
 cy.on('tapend', function(event)
 {
 	if (held_node == null)
 		return;
 
 	console.log("Check for dropping into parents:" , cy.$(':parent').length)
-	var group = cy.$(':parent:orphan')
+	var group = cy.$(':parent:orphan.expanded')
 	var mouse = event.cyRenderedPosition;
 
 	testobj = {"added": false, "parent": "none"};
 
+	//check if we placed it into a parent
 	checkCompoundBounds(group, mouse, testobj);
 
 	console.log("Finished: ", testobj)
@@ -34,7 +36,7 @@ cy.on('tapend', function(event)
 	{
 		if (testobj.parent !== held_node.parent().id())
 		{
-			console.log("Move ", held_node.id(), " into ", ele.id());
+			console.log("Move ", held_node.id(), " into ", testobj.parent);
 			held_node.move({
 			 	parent: testobj.parent,
 			});
@@ -59,8 +61,8 @@ function checkCompoundBounds(compounds, mouse, testobj)
 					//held_node was dropped here
 					testobj.added = true;
 					testobj.parent = ele.id();
-					//check if dropped in any of the children
-					checkCompoundBounds(ele.children(':parent').difference(ele), mouse, testobj);
+					//held_node was dropped into a compound node, but we need to check for nested compound nodes within
+					checkCompoundBounds(ele.children(':parent.expanded').difference(ele), mouse, testobj);
 				}
 			}
 		}
@@ -75,7 +77,7 @@ cy.on('taphold', ':parent', function(event)
 });
 
 //colapse/expand compound nodes
-cy.on('tap', ':parent', function(event)
+cy.on('tap', ':parent:selected', function(event)
 {
 	cy.$(':selected').unselect();
 	if (this.hasClass('collapsed'))
@@ -237,7 +239,7 @@ cy.on('tap', function(event)
 			{
 				data:
 				{ 
-					name: cy.nodes().difference(':parent').size() + 1, 
+					name: cy.nodes('.page, .control').size() + 1, 
 					pagestyle: selected_page_template.pagestyle,
 					outputcontainer: selected_page_template.outputcontainer,
 					imgcontainers: selected_page_template.imgcontainers,
@@ -267,7 +269,7 @@ cy.on('tap', function(event)
 			cy.add(
 			{
 				data: { 
-					name: cy.nodes().difference(':parent').size() + 1, 
+					name: cy.nodes('.page, .control').size() + 1, 
 					priorityList: [],	//list to store order in which edges are assessed during gameplay
 					defaultFailEdge: "none"
 				},
@@ -284,10 +286,25 @@ cy.on('tap', function(event)
 			cy.add(
 			{
 				data: { 
-					name: cy.nodes().difference(':parent').size() + 1, 
+					name: "Jump " + (cy.nodes('.jump').size() + 1),
 					trigger: "none",
 				},
 				classes: "jump",
+				group: "nodes",
+				renderedPosition: event.cyRenderedPosition,
+			})
+		}		
+	}
+	else if (current_state === states.NEWJUMPEND)
+	{
+		if (evtTarget === cy) //tap on background
+		{		
+			cy.add(
+			{
+				data: { 
+					trigger: "none",
+				},
+				classes: "jumpend",
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
 			})
@@ -307,15 +324,57 @@ cy.on('tap', function(event)
 			cy.add(
 			{
 				data: { 
-					name: cy.nodes().difference(':parent').size() + 1, 
-					title: "Store",
+					name: "Group", 
 				},
-				classes: "jump",
+				classes: "expanded",
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
+			},
+			{
+
 			})
 		}		
 	}
+	else if (current_state === states.NEWEMPTY)
+	{
+		if (evtTarget === cy) //tap on background
+		{		
+			empty_collection = cy.add([
+				{
+					data: { 
+						id: "Emptyparent" + cy.nodes(':parent').size() + 1,
+						name: "Group", 
+					},
+					classes: "expanded",
+					group: "nodes",
+				},
+				{
+					data:
+					{
+						displacement: {x: 0, y: 0},
+						parent: "Emptyparent" + cy.nodes(':parent').size() + 1,
+						name: cy.nodes('.page, .control').size() + 1, 
+						pagestyle: selected_page_template.pagestyle,
+						outputcontainer: selected_page_template.outputcontainer,
+						imgcontainers: selected_page_template.imgcontainers,
+						vidcontainers: selected_page_template.vidcontainers,
+						textcontainers: selected_page_template.textcontainers,
+						decisioncontainers: [],
+						events: [],
+						eventspane: '<div class= "eventscontainer">'
+							+		'<span class="eventspanetitle eventname" style="text-align:center; font-size: 16px;">Asset</span>'
+							+		'<span class="eventspanetitle eventtype" style="text-align:center; font-size: 16px;">Event</span>'
+							+		'<span class="eventspanetitle eventtrigger" style="text-align:center; font-size: 16px;">Trigger</span>'
+							+		'</div>',
+					},
+					classes: "page",
+					group: "nodes",
+					renderedPosition: event.cyRenderedPosition,
+				}
+			])
+		}		
+	}
+
 })
 
 cy.on('select', function(event)
@@ -369,8 +428,6 @@ cy.on('unselect', function(event)
 	}
 })
 
-var fight = 0;
-var fight_collection;
 function createFight(event)
 {
 	var xy = event.cyRenderedPosition;
@@ -380,22 +437,21 @@ function createFight(event)
 	if (cy.elements('.page').size() === 0)
 		empty_graph = true;
 	
-	fight++;
-	fight_collection = cy.add([
+	var fight_collection = cy.add([
 		{
-			data: { id: 'fightparent' + fight, name: "Fight"},
+			data: { id: 'fightparent' + cy.nodes(':parent').size() + 1, name: "Fight"},
 			classes: "expanded",
 			group: "nodes",
 			style:{
-				'z-index': fight,
+				'z-index': cy.nodes(':parent').size() + 1,
 			}
 		},
 		{	//start node
 			data:
 			{
 				displacement: {x: 0, y: 0},
-				parent: 'fightparent' + fight,
-				name: cy.nodes().difference(':parent').size() + 1, 
+				parent: 'fightparent' + cy.nodes(':parent').size() + 1,
+				name: cy.nodes('.page, .control').size() + 1, 
 				pagestyle: selected_page_template.pagestyle,
 				outputcontainer: selected_page_template.outputcontainer,
 				imgcontainers: selected_page_template.imgcontainers,
@@ -417,8 +473,8 @@ function createFight(event)
 			data:
 			{ 
 				displacement: {x: -40, y: 100},
-				parent: 'fightparent' + fight,
-				name: cy.nodes().difference(':parent').size() + 2, 
+				parent: 'fightparent' + cy.nodes(':parent').size() + 1,
+				name: cy.nodes('.page, .control').size() + 2, 
 				pagestyle: selected_page_template.pagestyle,
 				outputcontainer: selected_page_template.outputcontainer,
 				imgcontainers: selected_page_template.imgcontainers,
@@ -440,8 +496,8 @@ function createFight(event)
 			data:
 			{ 
 				displacement: {x: 40, y: 100},
-				parent: 'fightparent' + fight,
-				name: cy.nodes().difference(':parent').size() + 3, 
+				parent: 'fightparent' + cy.nodes(':parent').size() + 1,
+				name: cy.nodes('.page, .control').size() + 3, 
 				pagestyle: selected_page_template.pagestyle,
 				outputcontainer: selected_page_template.outputcontainer,
 				imgcontainers: selected_page_template.imgcontainers,
@@ -489,7 +545,7 @@ function createFight(event)
 		}
 	});
 	current_state = states.NEWFIGHT;
-	cy.$('#fightparent' + fight).select();
+	cy.$('#fightparent' + cy.nodes(':parent').size() + 1).select();
 
 }
 

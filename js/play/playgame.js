@@ -73,8 +73,10 @@ function wipeGame()
 
 	//clear page
 
+	//reset all audio
 	for (var i = 0; i < project_project.audio.getAsset().length; i++)
 	{
+		project_project.audio.assets[i].setVolume(100);
 		project_project.audio.assets[i].stopAudio();
 	}
 	

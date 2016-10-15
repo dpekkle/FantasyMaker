@@ -49,6 +49,7 @@ function projectSettings_prepThenNavToMain(projName){
   $.when(http_load(projName)).done(function(){
     nav_isProject = true
     resizeCanvas()
+    defaultState();
     nav_toMain()
     projectSettings_activePage = 1
   })

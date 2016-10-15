@@ -137,7 +137,6 @@ function project_login(){
 
 		myModal.prompt("Log In", "Log in and continue creating!", [{name: "Username", default: "", type: "text"},{name: "Password", default: "", type: "password"}],
 				function(results){
-
 				},
 				function(results){
 					var res = {
@@ -149,7 +148,7 @@ function project_login(){
 							project_successfulLogin(res)
 						}
 						else{
-							myModal.warning('Login details were invalid. Please try again.')
+							myModal.warning("Login details were invalid. Please try again.");
 						}
 					})
 		});

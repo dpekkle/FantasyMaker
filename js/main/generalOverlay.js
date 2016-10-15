@@ -36,10 +36,9 @@ function openEditPageOverlay(element){
 	if (element === null)
 	{
 		var selected = cy.$(':selected')[0];
+		$("#pagetoolbar").show();
+		$("#pagename").text("Page " + element.data('name'));
 	}
-
-	if (element === null)
-		overlayToolbar(selected);
 
 	//update contents of page view
 	if (selected.hasClass('page'))
@@ -128,27 +127,6 @@ function openAudioOverlay()
 	});
 }
 
-function overlayToolbar(element)
-{
-	//display control info on selection
-	if (element.hasClass('control'))
-	{
-		$("#controltoolbar").show();
-		$("#controlname").text("control " + element.data('id'));
-	}
-	//display page info on selection
-	else if (element.hasClass('page'))
-	{
-		$("#pagetoolbar").show();
-		$("#pagename").text("Page " + element.data('name'));
-	}
-	else if (element.isEdge()) //will probably need checks for each type of edge
-	{
-		$("#connectiontoolbar").show();
-		$("#connectionname").text("Connection " + element.data('name'));
-	}
-}
-
 function closeOverlay(element)
 {
 	//save the contents of the page to the associated page
@@ -189,10 +167,15 @@ function showOverlayLinks(element) //"edit page" button etc..
 {
 	$(".editbutton").hide();
 
+	if (element.isNode())
+	{
+		$('.editname').show();
+	}
 	if (element.hasClass('page'))
 	{
 		//show page edit button
 		$('button[data-target="page-modal"]').show();
+		$('.setstart').show();
 	}
 	else if (element.hasClass('control'))
 	{
@@ -207,9 +190,53 @@ function showOverlayLinks(element) //"edit page" button etc..
 	}
 	else if (element.hasClass('controledge'))
 	{
-		//show control edge button, slightly different to page-edge overlay
+		//show control edge button, slightly different to page-edge overlay?
 		$('button[data-target="connection-modal"]').show(); //change this link if you want a new overlay
 	}
+}
+function nameNode(element)
+{
+	myModal.prompt("Name Node", "Give a unique name to this entity", [{name: "Name", default: element.data('name'), type: "text"}],
+		function(results){
+			var name = results[0];
+			element.data('name', name);
+			element.addClass('named');
+		},
+		function(results){
+			var validated = true;
+			if (results[0] == "")
+			{
+				validated = false;
+			}
+			else
+			{
+				var type;
+				if (element.hasClass('jump'))
+					type = '.jump';
+				else if (element.hasClass('page') || element.hasClass('control'))
+					type = '.page, .control';
+				else if (element.isParent())
+					type = ':parent';
+
+				cy.nodes(type).each(function(i, ele)
+				{
+					if (element !== ele)
+					{
+						console.log("check ", results[0] + " against", ele.data('name'))
+						if (results[0] == ele.data('name'))
+						{
+							console.log("found duplicate")
+							validated = "Another node shares this name";
+						}
+					}
+					else
+					{
+					}
+				})
+			}
+       		return validated;
+		}
+	);
 }
 
 //Misc string and html auxillary functions

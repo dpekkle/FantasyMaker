@@ -54,23 +54,34 @@ function myModal()
 		if (this.confirm)
 		{
 			//grab user input
-			$('#prompt-modal .modal-content').children('input').each(function(index)
+			$('#prompt-modal .modal-content').children('.input-field').each(function(index)
 			{
-				if ($(this).attr('type') == "number"){
+				var tar = $(this).children('input');
+				if (tar.attr('type') == "number"){
 					console.log("We got a number entry");
-					results.push(parseFloat($(this).val()));
+					results.push(parseFloat(tar.val()));
 				}
 				else
-					results.push($(this).val());
+					results.push(tar.val());
 			});
 			//verify user input
 			if(this.verifyFunction !== null)
 			{
+				console.log("Results: ")
+				for (var i = 0; i < results.length; i++)
+				{
+					console.log(results[i]);
+				}
+				var text = this.verifyFunction(results);
 				//we need to check verify
-				if(this.verifyFunction(results))
+				if(text === true)
 				{
 					this.callbackFunction(results)
 					$('#prompt-modal').closeModal();
+				}
+				else if (text !== undefined) //asynchronous returns don't work
+				{
+					this.warning(text);
 				}
 			}
 			//or just trust the data if no verification function defined
@@ -102,29 +113,33 @@ function myModal()
 
 		this.callbackFunction = mycallback;
 
-		tar.html('');
-		tar.append('<h3 style="text-align:center;">' + title + '</h3>');
-		tar.append('<p>' + description + '<p>')
-		for (var i = 0; i < fields.length; i++)
-		{
-			tar.append('<label for="' + i + '"> '+ fields[i].name + '</label>')
-			if (fields[i].type == "number")
-				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseFloat(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">');
-			else
-				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
-		}
 
 		tar.html('');
-		tar.append('<h3 style="text-align:center;">' + title + '</h3>');
-		tar.append('<p id="promptDesc">' + description + '<p>')
+		var html_string = "";
+
+		html_string += ('<h3 style="text-align:center;">' + title + '</h3>');
+		html_string += ('<p id="promptDesc">' + description + '<p>')
 		for (var i = 0; i < fields.length; i++)
 		{
-			tar.append('<label for="' + i + '"> '+ fields[i].name + '</label>')
 			if (fields[i].type == "number")
-				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseFloat(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">');
+			{
+				html_string += ('<div class="input-field">')
+				html_string += ('<label for="' + i + '"> '+ fields[i].name + '</label>' 
+					+ '<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseFloat(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">')
+				html_string += ('</div>')
+			}
 			else
-				tar.append('<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
+			{
+				html_string += ('<div class="input-field">')
+				html_string += ('<label for="' + i + '"> '+ fields[i].name + '</label>' 
+					+ '<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
+				html_string += ('</div>')
+			}
 		}
+
+		tar.append(html_string);
+
+		$('#prompt-modal .modal-content input').eq(0).prop('autofocus', true)	
 
 		$('#prompt-modal').openModal(
 		{
@@ -132,6 +147,7 @@ function myModal()
 			//callback for when overlay is triggered from html
 			ready: function()
 			{
+				Materialize.updateTextFields();
 			},
 			complete: function()
 			{
@@ -145,8 +161,9 @@ function myModal()
 	}
 
 	this.warning = function(text){
-		$('#promptDesc').text(text)
 		$('#promptDesc').css('color', 'red')
+		if (text !== false)
+			$('#promptDesc').text(text)
 	}
 
 }

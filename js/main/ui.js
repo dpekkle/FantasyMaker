@@ -7,9 +7,17 @@ goog.require('layouts')
 goog.require('controlOverlay')
 goog.require('pageOverlay')
 
+function setStart()
+{
+	cy.$('.start').removeClass('start');
+	cy.$(':selected')[0].addClass('start');
+	cy.$(':selected')[0].removeClass('leaf');
+}
+
 function removeElement()
 {
 	element = cy.$(':selected')
+	parent = cy.$(':selected').parent();
 	if (!element.empty())
 	{
 		if (element.isNode())
@@ -22,9 +30,12 @@ function removeElement()
 					}
 				});
 			}
-			cleanup_node_labels(element);
+			if (!(element.hasClass('jump') || element.hasClass('jumpend')))
+				cleanup_node_labels(element);
+			else
+				cy.remove(element);
 		}
-		if (element.isEdge())
+		else if (element.isEdge())
 		{
 			//if multiple edges should loop through them all
 			if(element.hasClass('controledge')){
@@ -33,6 +44,16 @@ function removeElement()
 			cleanup_edge_labels(element);
 			style_end_nodes();
 		}
+
+		//delete compound parent if there's nothing left in it (or it looks like a normal node after)
+		if (!parent.empty())
+		{
+			if (parent.children().empty())
+			{
+				parent.remove();
+			}
+		}
+
 	}
 	$(".editbutton").hide();
 	$(".selectionbutton").hide(); //delete button
@@ -44,9 +65,12 @@ function createConnection(element)
 	{
 		if (source_node == null) //on first selection store source node for connection
 		{
-			source_node = element;
-			source_node.addClass("source_node"); //lets style the source node a bit?
-			console.log("Source node assigned as node", source_node.data('id'));
+			if (!element.hasClass('jumpend'))
+			{
+				source_node = element;
+				source_node.addClass("source_node"); //lets style the source node a bit?
+				console.log("Source node assigned as node", source_node.data('id'));
+			}
 		}
 		else
 		{
@@ -56,7 +80,18 @@ function createConnection(element)
 
 				var style = '';
 				var makeedge = true;
-				if (source_node.hasClass('control')) //control nodes only have two edges, a success and a fail fallback
+				if (element.hasClass('jump'))
+				{
+					//can't make an edge TO a jump start node
+					makeedge = false;
+				}
+				else if (source_node.hasClass('jump'))
+				{
+					style += 'jumpedge';
+					if (source_node.edgesTo('*').length != 0)
+						makeedge = false;
+				}
+				else if (source_node.hasClass('control')) //control nodes only have two edges, a success and a fail fallback
 				{
 
 					var edge_list = source_node.edgesTo('*');
@@ -85,7 +120,7 @@ function createConnection(element)
 							name: edge_label,
 							source: source_node.data('id'),
 							target: element.data('id'),
-							text: '<Decision text to display)>',
+							text: '',
 							conditions: [],
 							outcomes: []
 						},

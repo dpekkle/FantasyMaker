@@ -79,6 +79,20 @@ function eventManager()
 				console.log("Stop audio event: ", event.name);
 				audio_asset.stopAudio();
 			}
+			else if (event.action == "Fade Out")
+			{
+				console.log("Fade Out audio event: ", event.name);
+				audio_asset.fadeOutAudio();
+			}
+			else if (event.action == "Fade In")
+			{
+				console.log("Fade In audio event: ", event.name);
+				audio_asset.fadeInAudio();
+			}
+			else
+			{
+				console.log("Next audio event unknown")
+			}
 		}
 		else
 			console.log("Trying to run an event, but don't know what eventtype it is! ", event.eventtype);

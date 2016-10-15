@@ -1,5 +1,4 @@
 goog.provide('initCanvas')
-
 console.log("Enter initCanvas.js")
 
 
@@ -11,8 +10,6 @@ states = {
 	NEWPAGE: 2, // adding a new page node
 	NEWCONTROL: 3, // adding a new control node
 };
-
-current_state = states.DEFAULT;
 
 
 var cy = cytoscape({
@@ -31,7 +28,7 @@ var cy = cytoscape({
 				'text-opacity': 1,
 				'text-valign': 'center',
 				'text-halign': 'center',
-				
+		        'text-background-shape': 'roundrectangle',
 				'border-width': 2,
 				'border-color': 'black',
 				//makes changes to these properties an animation
@@ -68,6 +65,8 @@ var cy = cytoscape({
 		        'padding-left': '10px',
 		        'padding-bottom': '10px',
 		        'padding-right': '10px',
+		        'text-background-color': 'white',
+		        'text-background-opacity': 1,
 		        'text-halign': 'center',
 		        'text-valign': 'top',
 		        'text-events': 'yes',
@@ -78,6 +77,17 @@ var cy = cytoscape({
 		        'transition-property': 'text-valign',
 		        'transition-duration': '0.8s'
 			},
+		},
+		{
+			selector: '.named',
+			style:{
+				'label': 'data(name)',
+				'text-background-color': 'white',
+				'text-background-opacity': 1,
+				'text-border-opacity' : 1,
+			    'text-border-color': 'black',
+			    'text-border-width': '2px',
+			}
 		},
 		{
 			selector: '.expanded',
@@ -108,7 +118,29 @@ var cy = cytoscape({
 		{
 			selector: '.jump',
 			style:{
-				'shape': 'diamond',
+				'width': 35,
+				'height': 35,
+				'shape': 'polygon', //triangle
+				'shape-polygon-points': [0, -1, -1, 0.5, 1, 0.5],
+				'background-color': '#FFBB89',
+		        'text-background-color': 'white',
+		        'text-background-opacity': 1,
+		        'text-background-shape': 'roundrectangle',
+		        'text-halign': 'center',
+		        'text-valign': 'top',
+				'text-border-opacity' : 1,
+		        'text-border-color': 'black',
+		        'text-border-width': '2px',
+
+			}		
+		},
+		{
+			selector: '.jumpend',
+			style:{
+				'width': 35,
+				'height': 35,
+				'shape': 'polygon', // inverted triangle
+				'shape-polygon-points': [0, 1, -1, -0.5, 1, -0.5],
 				'background-color': '#FFBB89',
 
 			}		
@@ -141,7 +173,6 @@ var cy = cytoscape({
 		{
 			selector: '.start',
 			style:{
-				'label': 'Start',
 				'width': 40,
 				'height': 40,
 				'background-color': '#9deaa6',
@@ -152,14 +183,27 @@ var cy = cytoscape({
 		{
 			selector: '.leaf',
 			style:{
-				'shape': 'hexagon',
 				'width': 35,
 				'height': 35,
+				'shape': 'octagon',
 				'background-color': '#eacd9d',
 			}
 		},
 		
 		// edge classes
+		{
+			selector: '.jumpedge',
+			style: {	
+
+				'label': '',
+				'text-background-opacity' : 0,
+				'text-border-opacity' : 0,
+				'text-border-width' : 0,
+				'line-color': '#FFBB89',
+				'target-arrow-color': '#FFBB89',
+				'text-border-color' : '#FFBB89',
+			}			
+		},
 		{
 			selector: '.pageedge',
 			style: {

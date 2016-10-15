@@ -7,8 +7,10 @@ states = {
 	NEWPAGE: 2, // adding a new page node
 	NEWCONTROL: 3, // adding a new control node
 	NEWJUMP: 4,
-	NEWFIGHT: 5,
-	NEWSTORE: 6,
+	NEWJUMPEND: 5,
+	NEWEMPTY: 6,
+	NEWFIGHT: 7,
+	NEWSTORE: 8,
 };
 
 current_state = states.DEFAULT;
@@ -59,11 +61,15 @@ function changeState(caller)
 	{
 		current_state = states.NEWCONTROL;
 	}	
-	else if ($(caller).hasClass('jumpmode')  && current_state != states.NEWJUMP)
+	else if ($(caller).hasClass('jumpmode')  && current_state != states.NEWJUMP != states.NEWJUMP)
 	{
 		current_state = states.NEWJUMP;
 	}	
-	else if ($(caller).hasClass('prebuilt')  && current_state != states.NEWFIGHT && current_state != states.NEWSTORE)
+	else if ($(caller).hasClass('jumpmode')  && current_state != states.NEWJUMP && current_state != states.NEWJUMPEND)
+	{
+		exitStates();
+	}	
+	else if ($(caller).hasClass('prebuilt')  && current_state != states.NEWFIGHT && current_state != states.NEWSTORE && current_state != states.NEWEMPTY)
 	{
 		exitStates();
 	}	
@@ -87,12 +93,31 @@ function choosePrebuilt(prebuilt)
 {	
 	$('.prebuilt').addClass('activebutton');
 
-	if (prebuilt == "Fight")
+	if (prebuilt == "Empty")
+	{
+		current_state = states.NEWEMPTY;
+	}
+	else if (prebuilt == "Fight")
 	{
 		current_state = states.NEWFIGHT;
 	}
 	else if (prebuilt == "Store")
 	{
 		current_state = states.NEWSTORE;
+	}
+}
+
+function chooseJump(mode)
+{	
+	$('.jumpmode').addClass('activebutton');
+
+	if (mode == "Start")
+	{
+		current_state = states.NEWJUMP;
+	}
+
+	else if (mode == "End")
+	{
+		current_state = states.NEWJUMPEND;
 	}
 }

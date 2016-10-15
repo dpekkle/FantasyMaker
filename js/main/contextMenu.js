@@ -100,7 +100,6 @@ function loadTemplateMenuObj()
 
 function templateMenuObj()
 {
-	this.template_ID = 0;
 	this.text_template_menu_list = {} //shared with control output containers
 	this.decision_template_menu_list = {}
 	this.image_template_menu_list = {}
@@ -190,13 +189,16 @@ function generateContextMenu(container_type, template_menu_list)
 								myModal.prompt("Set font size", "Between 1 and 40", [{name: "Font-size", default: ele.css('font-size'), min: "1", max: "40", type: "number"}], function(results)
 								{
 									var value = results[0];
-
-									if (value <= 40 && value >= 1)
+									ele.css('font-size', value);
+								},
+								function(results)
+								{
+									if (results[0] <= 40 && results[0] >= 1)
 									{
-										ele.css('font-size', value);
+										return true;
 									}
 									else
-										return false;
+										return "Ensure number is between 1 and 40";
 								});
 							}
 						},
@@ -250,6 +252,16 @@ function generateContextMenu(container_type, template_menu_list)
 										ele.css('background-color', colour);
 									}
 									return false;
+								},
+								function(results)
+								{
+									if (results[0] <= 100 && results[0] >= 0)
+									{
+										return true;
+									}
+									else
+										return "Ensure number is between 0 and 100";
+
 								});
 							}
 						},
@@ -268,31 +280,45 @@ function generateContextMenu(container_type, template_menu_list)
 					{
 						"save":{"name": "Save As", "callback": function(key, options){
 							//ensure we dont have any issues with sharing template keys
-							var count = 0;
-							while (template_menu_list["template" + project_project.template_menus.template_ID] !== undefined && count < 100)
-							{
-								project_project.template_menus.template_ID++;
-								count++;
-								console.log("conflict with template IDs")
-							}
+							// var count = 0;
+							// while (template_menu_list["template" + project_project.template_menus.template_ID] !== undefined && count < 100)
+							// {
+							// 	project_project.template_menus.template_ID++;
+							// 	count++;
+							// 	console.log("conflict with template IDs")
+							// }
 
 							//create a new template menu entry, storing the needed html
-							if (count < 100)
-							{
-								var saved = options.$trigger.parent().parent().children(target_element)[0].outerHTML
+							var saved = options.$trigger.parent().parent().children(target_element)[0].outerHTML
 
-								myModal.prompt("Create Container Template", "Saves the styles of a page to be loaded later", [{name: "Template", default: "", type: "text"}], function(results)
+							myModal.prompt("Create Container Template", "Saves the style of this container (e.g. background colour), allowing you to load them into other containers", [{name: "Template", default: "", type: "text"}], function(results)
+							{
+								var name = results[0];
+								template_menu_list[name] =
 								{
-									var name = results[0];
-									template_menu_list["template" + project_project.template_menus.template_ID] =
-									{
-										"name": name,
-										"savedhtml": saved,
-										"callback": generateTemplateCallback(target_element, template_menu_list)
-									}
-									project_project.template_menus.template_ID++;
-								});
-							}
+									"name": name,
+									"savedhtml": saved,
+									"callback": generateTemplateCallback(target_element, template_menu_list)
+								}
+							},
+							function(results){
+								if (results[0] == "")
+								{
+									return "Can't be an empty name";
+								}
+									else if (results[0] == "Default")
+								{
+									return "Can't override Default";
+								}
+								else if (template_menu_list[results[0]] !== undefined)
+								{
+									return "A template with that name already exists"
+								}
+								else 
+								{ 
+									return true;
+								}
+							});
 						}},
 						"load":{
 							"name": "Load",
@@ -351,27 +377,31 @@ function generateContextMenu(container_type, template_menu_list)
 						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results)
 						{
 							var imgurl = results[0];
-							if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
+							$.ajax(
 							{
-								$.ajax(
+								url: imgurl, //or your url
+								success: function(data)
 								{
-									url: imgurl, //or your url
-									success: function(data)
-									{
-										//Replace URL
-										var parent = ele;
-										var copy = parent.parent();
+									//Replace URL
+									var parent = ele;
+									var copy = parent.parent();
 
-										parent.remove();
+									parent.remove();
 
-										copy.append(html_string);
-									},
-									error: function(data)
-									{
-										alert('URL: ' + imgurl + ' does not exist');
-									},
-								})
-							}
+									copy.append(html_string);
+								},
+								error: function(data)
+								{
+									alert('URL: ' + imgurl + ' does not exist');
+								},
+							})
+						},
+						function(results)
+						{
+							if (checkImageURL(results[0], container_type))
+								return true;
+							else
+								return results[0] + "not a valid URL"
 						});
 					}
 				},
@@ -442,6 +472,13 @@ function generateContextMenu(container_type, template_menu_list)
 									},
 								})
 							}
+						},
+						function(results)
+						{
+							if (checkImageURL(results[0], container_type))
+								return true;
+							else
+								return results[0] + "not a valid URL"
 						});
 					}
 				},
@@ -589,10 +626,15 @@ function border_menu_entry(target_element)
 						myModal.prompt("Corner rounding", "Square is 0, the higher the rounder. Results may vary.", [{name: "Rounding pixels", default: parseInt(ele.css("border-radius")), min: "0", max: "1000", type: "number"}], function(results)
 						{
 							var size = results[0];
+							ele.css("border-radius", size + "px");
+						},
+						function(results)
+						{
+							var size = results[0];
 							if (size <= 1000 && size >= 0)
-								return ele.css("border-radius", size + "px");
+								return true;
 							else
-								return false;
+								return "Ensure border radius greater than 0 and less than 1000"
 						});
 				}
 			},
@@ -605,10 +647,15 @@ function border_menu_entry(target_element)
 						myModal.prompt("Border Width", "Any value between 1 and 40. To hide set border style to 'none'", [{name: "Thickness pixels", default: parseInt(ele.css("border-width")), min: "1", max: "40", type: "number"}], function(results)
 						{
 							var size = results[0];
-							if (size <= 40 && size >= 1)
-								return ele.css("border-width", size + "px");
+							ele.css("border-width", size + "px");
+						},
+						function(results)
+						{
+							var size = results[0];
+							if (size <= 40 && size >= 0)
+								return true;
 							else
-								return false;
+								return "Ensure border width greater than 1 and less than 40"
 						});
 				}
 			},

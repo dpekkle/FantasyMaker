@@ -53,6 +53,77 @@ function audioAsset(name, id, link, type)
 		}
 	}
 
+	this.fadeOutAudio = function()
+	{
+		if (this.type == "youtube")
+		{
+			var start_volume = this.player.getVolume();
+			var end_volume = 0;
+			
+			var step = 0;
+			var max_steps = 50;
+
+			var interval = setInterval(function() 
+			{ 
+				//console.log("Fading out... ", volume);
+
+				if (step < max_steps && start_volume !== 0)
+				{				
+					step++;
+
+					var curve = 1 - Math.pow(1 - Math.pow((1 - step/max_steps), 2), 1.5);
+
+					console.log("curve value: ", start_volume*curve);
+					//set volume to curve
+					this.player.setVolume(start_volume*curve)
+				}
+				else 
+				{
+					clearInterval(interval);
+		   			this.player.stopVideo();
+					this.player.setVolume(start_volume)
+				}
+			}.bind(this, start_volume, step, max_steps), //set the interval 'this' scope for this.player
+			100); 
+		}
+	}
+
+	this.fadeInAudio = function()
+	{
+		if (this.type == "youtube")
+		{
+			var start_volume = 0;
+			var end_volume = this.player.getVolume();
+			
+			var step = 0;
+			var max_steps = 50;
+
+			this.player.playVideo();
+			this.player.setVolume(start_volume);
+
+			var interval = setInterval(function() 
+			{ 
+				//console.log("Fading out... ", volume);
+
+				if (step < max_steps)
+				{				
+					step++;
+
+					var curve = Math.pow(1 - Math.pow((1 - step/max_steps), 2), 1.5);
+
+					console.log("curve value: ", end_volume*curve);
+					//set volume to curve
+					this.player.setVolume(end_volume*curve)
+				}
+				else 
+				{
+					clearInterval(interval);
+				}
+			}.bind(this, end_volume, step, max_steps), //set the interval 'this' scope for this.player
+			100); 
+		}
+	}
+
 	this.createYoutubePlayer = function(videoId)
 	{
 		$('#playwindow #audioplayerlist').append("<div id = '" + "youtube" + this.id + "'></div>");
@@ -113,7 +184,7 @@ function audioAsset(name, id, link, type)
 		//add it to the page container's list of events
 		$('#eventspane').append("<div id = '" + this.id + "' class='audioevent eventscontainer'><span class = 'eventname flex-center-vertically'>" + this.name + "</span>"
 								+ "<span class = 'eventtype flex-center-vertically'><select>"
-								+ "<option value='Play'>Play</option><option value='Stop'>Stop</option><option value='Volume'>Volume</option></select><input class='setting' type='number' min = 0 max = 100 value = 100></span>" 
+								+ "<option value='Play'>Play</option><option value='Fade In'>Fade In</option><option value='Stop'>Stop</option><option value='Fade Out'>Fade Out</option><option value='Volume'>Volume</option></select><input class='setting' type='number' min = 0 max = 100 value = 100></span>" 
 								+ "<span class = 'eventtrigger'><input type='number' min = 0 value = 0></span></div>");
 			
 		this.eventListBehaviour();
@@ -234,14 +305,15 @@ function audioObj()
 				});
 			},
 			function(results){
-				if (results[0] == "" || results[0] == null){return false;}
-				else if (results[1] == "" || results[1] == null){return false;}
+				if (results[0] == "" || results[0] == null){return "Name can't be empty";}
+				else if (results[1] == "" || results[1] == null){return "URL can't be empty";}
 				else if (audio_obj.addAsset(results[0], results[1]))
 				{ 
 					return true;
 				}
 				else
 				{
+					return "Audio could not be added correctly, make sure it is in the form of a youtube link";
 					return false;
 				}
 			}

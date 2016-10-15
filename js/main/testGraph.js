@@ -6,6 +6,14 @@ goog.require('initCanvas')
 //does a depth first search with an arbitrary node, then if it visits every node we know it is connected
 //https://en.wikipedia.org/wiki/Connectivity_(graph_theory)#Computational_aspects
 
+function testJumpNodes()
+{
+
+	//test that each jump has a connected + matching jumpend
+
+	//test that each jumpend is connected to a matching jump
+}
+
 function checkValidGraph()
 {
 	var alertString = "";
@@ -34,15 +42,15 @@ function testConnectivity()
 {
 	var connected = false;
 	
-	var arbitrary_node = cy.$('node').first(); //get the "first" node (doesn't matter which)  in the collection of all nodes
-	var all_nodes = cy.$('node');
+	var arbitrary_node = cy.$('.start'); //get the "first" node (doesn't matter which)  in the collection of all nodes
+	var all_nodes = cy.$('.page, .control');
 	
 	console.log("Root node: " + arbitrary_node.data('id'))
 	
 	var connected_nodes = cy.collection(); //empty collection
 	connected_nodes = connected_nodes.add(arbitrary_node)	//add the root node
 	
-	var dfs = cy.elements().dfs(
+	var dfs = all_nodes.union(cy.$('edge')).dfs(
 	{
 		roots: arbitrary_node,
 		visit: function(i, depth, v)
@@ -53,6 +61,7 @@ function testConnectivity()
 		directed: true,
 	});
 	
+
 	console.log("Total nodes:" + all_nodes.size() + " Connected_nodes: " + connected_nodes.size())
 	
 	if (all_nodes.size() == connected_nodes.size())
