@@ -1,4 +1,4 @@
-goog.provide('conditionsConextMenu')
+goog.provide('conditionsContextMenu')
 goog.require('project')
 
 /**************************************************
