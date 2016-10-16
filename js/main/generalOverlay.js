@@ -170,28 +170,35 @@ function showOverlayLinks(element) //"edit page" button etc..
 	if (element.isNode())
 	{
 		$('.editname').show();
-	}
-	if (element.hasClass('page'))
-	{
-		//show page edit button
-		$('button[data-target="page-modal"]').show();
-		$('.setstart').show();
-	}
-	else if (element.hasClass('control'))
-	{
-		//show control eddit button
-		$('button[data-target="control-modal"]').show();
+		if (element.isChild())
+		{
+			$('.removeparent').show();
+		}
+		if (element.hasClass('page'))
+		{
+			//show page edit button
+			$('button[data-target="page-modal"]').show();
+			$('.setstart').show();
+		}
+		else if (element.hasClass('control'))
+		{
+			//show control eddit button
+			$('button[data-target="control-modal"]').show();
 
+		}
 	}
-	else if (element.hasClass('pageedge'))
+	else
 	{
-		//show page-edge edit button
-		$('button[data-target="connection-modal"]').show();
-	}
-	else if (element.hasClass('controledge'))
-	{
-		//show control edge button, slightly different to page-edge overlay?
-		$('button[data-target="connection-modal"]').show(); //change this link if you want a new overlay
+		if (element.hasClass('pageedge'))
+		{
+			//show page-edge edit button
+			$('button[data-target="connection-modal"]').show();
+		}
+		else if (element.hasClass('controledge'))
+		{
+			//show control edge button, slightly different to page-edge overlay?
+			$('button[data-target="connection-modal"]').show(); //change this link if you want a new overlay
+		}
 	}
 }
 function nameNode(element)
@@ -199,8 +206,8 @@ function nameNode(element)
 	myModal.prompt("Name Node", "Give a unique name to this entity", [{name: "Name", default: element.data('name'), type: "text"}],
 		function(results){
 			var name = results[0];
-			element.data('name', name);
 			element.addClass('named');
+			element.data('name', name);
 		},
 		function(results){
 			var validated = true;

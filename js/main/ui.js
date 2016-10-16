@@ -14,6 +14,13 @@ function setStart()
 	cy.$(':selected')[0].removeClass('leaf');
 }
 
+function removeParent()
+{
+	cy.$(':selected')[0].move({
+	 	parent: null,
+	});
+}
+
 function removeElement()
 {
 	element = cy.$(':selected')
