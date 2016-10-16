@@ -143,6 +143,13 @@ function project_login(){
 				function(results){
 				},
 				function(results){
+
+					results[0] = results[0].trim()
+					if(results[0].indexOf(' ') >= 0){
+						myModal.warning('You cannot have spaces in your username')
+						return false
+					}
+
 					var res = {
 						"data" : {}
 					}
@@ -175,12 +182,17 @@ function project_signUp(){
 
 					},
 					function(results){
+						results[0] = results[0].trim()
 						if(results[0] === '' || results[1] === '' || results[2] ===''){
 							myModal.warning('All fields must be filed out.')
 							return false
 						}
 						else if(results[1] !== results[2]){
 							myModal.warning('Your password and confirmation password do not match.')
+							return false
+						}
+						else if(results[0].indexOf(' ') >= 0){
+							myModal.warning('You cannot have spaces in your username')
 							return false
 						}
 						else{

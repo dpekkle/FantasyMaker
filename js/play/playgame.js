@@ -79,7 +79,7 @@ function wipeGame()
 		project_project.audio.assets[i].setVolume(100);
 		project_project.audio.assets[i].stopAudio();
 	}
-	
+
 
 	$('.playpage').html('');
 	$('.playpage').attr('style', '');
@@ -147,7 +147,16 @@ function stylePage()
 	}
 
 	$('.playpage').append(output_cont);
-	$('.output-container').children().append(logger.controlOutputHTML())
+
+	//append output container data based on maker or player mode
+	if($('.output-container').hasClass('player')){
+		$('.output-container').children().append(logger.playerOutput())
+	}
+	else if($('.output-container').hasClass('maker')){
+		$('.output-container').children().append(logger.makerOutput())
+	}
+	logger.flush()
+
 
 	//give decisions on click behaviour
 	$('.playpage').children("div[class^='decision-container']").each(function(index)
@@ -172,12 +181,21 @@ function stylePage()
 function parseControl(sourceNode, outgoingEdges)
 {
 
-		logger.flush()
+		//logger.flush()
+		var order = sourceNode.json().data.priorityList //get order in which to assess edges
 		//handle control stuff
 		//Todo - Check Inventory Items & Attributes
-		logger.log("At control node. possible edges are: " + sourceNode.json().data.priorityList)
+		var possibleEdges = ''
+		for(var i = 0; i<order.length; i++){
+			possibleEdges += cy.edges("[id='" + order[i] + "']").json().data.name
+			if(i !== order.length-1){
+				possibleEdges += ','
+			}
+		}
+	//	console.log(possibleEdges)
+		logger.log("At control node. possible edges are: " + possibleEdges)
 
-		var order = sourceNode.json().data.priorityList //get order in which to assess edges
+
 		var results = [] //stores the T/F results of assessing each condition on edge
 		var firstValidEdgeIndex = -1; //index of the first edge thats valid
 		for(var i = 0; i<order.length; i++){
@@ -214,7 +232,7 @@ function parseControl(sourceNode, outgoingEdges)
 
 		logger.log("Progressing through edge " + cy.edges("[id='" + nextNodeID + "']").json().data.name)
 		if(nextNodeIndex !== -1){
-			console.log(logger.outputAsArray())
+			//console.log(logger.outputAsArray())
 			progressStory(nextNodeIndex)
 		}
 		else{
@@ -285,8 +303,8 @@ function boolToString(bool){
 
 function assessCondition(condition){
 	var html = $.parseHTML(condition.html)
-	console.log('Assess Condition: ')
-	console.log(html)
+	//console.log('Assess Condition: ')
+	//console.log(html)
 
 	var type = html[0].attributes[1].value
 	if(type === '1'){
@@ -295,8 +313,8 @@ function assessCondition(condition){
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
 
 		//logger.log("Condition '" + )
-		console.log(attButton1_val + comparison + attButton2_val)
-		console.log()
+		//console.log(attButton1_val + comparison + attButton2_val)
+		//console.log()
 		var ret = assessComparison(attButton1_val,comparison,attButton2_val)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') '+comparison + ' ' +
 								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') is ' + boolToString(ret))
@@ -312,7 +330,7 @@ function assessCondition(condition){
 		var rhs = getAttributeValue(html[0].childNodes[5].childNodes[0])
 
 
-		console.log(attButton1_val + ' ' + modification + ' ' + attButton2_val + ' ' + pivot + ' ' + rhs)
+		//console.log(attButton1_val + ' ' + modification + ' ' + attButton2_val + ' ' + pivot + ' ' + rhs)
 		var ret = assessComparison(lhs,pivot,rhs)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + modification + ' ' +
 								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') ' + pivot + ' ' + getAttributeText(html[0].childNodes[5].childNodes[0]) +
@@ -332,8 +350,8 @@ function assessCondition(condition){
 		var mod2 = html[0].childNodes[6].childNodes[0].data
 		var attButton4_val = getAttributeValue(html[0].childNodes[7].childNodes[0])
 		var rhs = assessModification(attButton3_val,mod2,attButton4_val)
-		console.log(attButton1_val + ' ' + mod1 + ' ' + attButton2_val + ' ' + pivot + ' ' + attButton3_val + ' ' + mod2 + ' ' + attButton4_val )
-		console.log(assessComparison(lhs,pivot,rhs))
+		//console.log(attButton1_val + ' ' + mod1 + ' ' + attButton2_val + ' ' + pivot + ' ' + attButton3_val + ' ' + mod2 + ' ' + attButton4_val )
+		//console.log(assessComparison(lhs,pivot,rhs))
 		var ret = assessComparison(lhs,pivot,rhs)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + mod1 + ' ' +
 								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') ' + pivot + ' ' + getAttributeText(html[0].childNodes[5].childNodes[0]) +
@@ -349,12 +367,12 @@ function getAttributeValue(childNode){
 
 	if(childNode.id.split('_')[3] === 'specValue'){
 		//button is an input feild
-		console.log(childNode.childNodes[0].value)
+		//console.log(childNode.childNodes[0].value)
 		return parseFloat(childNode.childNodes[0].value)
 
 	}
 	else if(childNode.id.split('_')[3] === 'randValue'){
-		console.log('GENERATING RANDOM NUMBER')
+		//console.log('GENERATING RANDOM NUMBER')
 		var min = parseFloat(childNode.attributes.min.value)
 		var max = parseFloat(childNode.attributes.max.value)
 		return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -372,7 +390,7 @@ function getAttributeValue(childNode){
 function getAttributeText(childNode){
 	if(childNode.id.split('_')[3] === 'specValue'){
 		//button is an input feild
-		console.log(childNode.childNodes[0].value)
+		//console.log(childNode.childNodes[0].value)
 		return childNode.childNodes[0].value
 
 	}
@@ -381,19 +399,19 @@ function getAttributeText(childNode){
 	}
 	else{
 		var path = childNode.attributes.path.value.split('_')
-		console.log("PATH: ")
-		console.log(path)
+		//console.log("PATH: ")
+		//console.log(path)
 		var ret
 		var currPath
 		for(var i = 0; i<path.length; i++){
 			if(i === 0){
 				currPath = path[i]
-				console.log(currPath)
+				//console.log(currPath)
 				ret = gameAttributes_find(currPath).name
 			}
 			else{
 				currPath += '_' + path[i]
-				console.log(currPath)
+				//console.log(currPath)
 
 				ret += ' : ' + gameAttributes_find(currPath).name
 			}
@@ -504,28 +522,62 @@ function executeOutcomes(edge){
 			var html = $.parseHTML(currOut.html)
 			console.log(html)
 
-			var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
-			var modification = html[0].childNodes[2].childNodes[0].data
-			var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
-			var newValue = assessModification(attButton1_val,modification,attButton2_val)
+			var type = html[0].attributes[1].value
+			if(type === "Attribute Modification"){
+				var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
+				var modification = html[0].childNodes[2].childNodes[0].data
+				var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
+				var newValue = assessModification(attButton1_val,modification,attButton2_val)
 
-			var path = html[0].childNodes[1].childNodes[0].attributes.path.value
-			console.log('PATH: ' + path)
-			var att = gameAttributes_find(path)
-			att.value = newValue
+				var path = html[0].childNodes[1].childNodes[0].attributes.path.value
+				var att = gameAttributes_find(path)
 
-			logger.log('Outcome: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + modification +
-									' ' + getAttributeText(html[0].childNodes[3].childNodes[0]) + '(' + attButton2_val + ') ' )
-			logger.log('Attribute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + ' was modified to ' + newValue)
+				//evaluate atts mix/max values
+				if(newValue > att.maxValue){
+					logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its maximum value.')
+					att.value = att.maxValue
+				}
+				else if(newValue < att.minValue){
+					logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its minimum value.')
+					att.value = att.minValue
+				}
+				else{
+					att.value = newValue
+				}
 
-			//console.log(attButton1_val + ' ' + modification + ' ' + attButton2_val + ' ' + newValue + ' ' + path)
-			//console.log(html)
+				logger.log('Outcome: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + modification +
+										' ' + getAttributeText(html[0].childNodes[3].childNodes[0]) + '(' + attButton2_val + ') ' )
+				logger.log('Attribute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + ' was modified to ' + att.value)
+			}
+			else if(type === "Text-Attribute-Text"){
+				console.log('TEXT ATT TEXT:')
+				console.log('ONE: ' + getTextButtonValue(html[0].childNodes[1].childNodes[0]))
+				console.log('TWO: ' + getTextButtonValue(html[0].childNodes[3].childNodes[0]))
+
+				var textButton1_val = getTextButtonValue(html[0].childNodes[1].childNodes[0])
+				var attButton1_val = getAttributeValue(html[0].childNodes[2].childNodes[0])
+				var textButton2_val = getTextButtonValue(html[0].childNodes[3].childNodes[0])
+				logger.playerLog(textButton1_val + attButton1_val + textButton2_val)
+
+			}
+			else if(type === "Text"){
+				//console.log('TEXT: ')
+				//console.log(getTextButtonValue(html[0].childNodes[1].childNodes[0]))
+
+				var textButton1_val = getTextButtonValue(html[0].childNodes[1].childNodes[0])
+				logger.playerLog(textButton1_val)
+
+			}
 		}
 	}
 	else{
 		logger.log('Edge ' + edge.json().data.name + ' has no outcomes.')
 	}
 
+}
+
+function getTextButtonValue(childNode){
+	return childNode.attributes['data-tooltip'].value
 }
 
 function progressStory(i)
@@ -579,7 +631,7 @@ function resizePlayPage()
 	var w = $('#playwindow').width();
 	var h = $('#playwindow').height();
 	var inner_w = $('.playpage').width();
-	var inner_h = $('.playpage').outerHeight();	
+	var inner_h = $('.playpage').outerHeight();
 
 	scale = Math.min(w/inner_w, h/inner_h);
 
@@ -590,5 +642,3 @@ function resizePlayPage()
 }
 
 $(window).resize(resizePlayPage);
-
-

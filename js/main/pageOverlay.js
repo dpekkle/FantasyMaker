@@ -22,7 +22,7 @@ function toggleHandles()
 		$('.handlecontainer').show();
 		$('.handlemode').html("Handles: Shown")
 	}
-	else 
+	else
 	{
 		$('.handlecontainer').hide();
 		$('.handlemode').html("Handles: Hidden")
@@ -32,7 +32,7 @@ function toggleHandles()
 /*** ADD CONTAINERS ***/
 
 function addDecisionContainer(selected, i, text, name) //automatic process, not a user action
-{	
+{
 	/*	called when page overlay is opened if there exists an edge in cytoscape that is not yet in the 'decisioncontainers' data array
 		afterwards the entire array is loaded into the page overlay's div
 	*/
@@ -41,7 +41,7 @@ function addDecisionContainer(selected, i, text, name) //automatic process, not 
 	var html_string  =  "<div class = 'decision-container drag-element' style='position:absolute; z-index: " + bringContainerToFront('decision') + "; " + position + "'>"
 	html_string		+= 		"<div class = 'editdec decisionbutton drag-element resize-element' contenteditable=true>" + escapeHtml(text) + "</div>"
 	html_string 	+= 	"</div>"
-		
+
 	var container_array = selected.data('decisioncontainers');
 	var newcontainer = {
 		'name' : name,
@@ -54,21 +54,21 @@ function addDecisionContainer(selected, i, text, name) //automatic process, not 
 }
 
 function addOutputContainer()
-{	
+{
 	if(!$("#pagecontainers div.output-container:last").length) //only want 1 output container per page
 	{
 
 		//create the container and append it to the page
 		var position = genPageCenterHTML(300, 220);
-		var html_string  =  "<div class='output-container drag-element' style='position:absolute; " + position + "'>"
+		var html_string  =  "<div class='output-container maker drag-element' style='position:absolute; " + position + "'>"
 		html_string		+=		"<div class='editdiv resize-element' contenteditable=false ></div>"
 		html_string 	+= 	"</div>"
-		
+
 		var new_container = htmlToElements(html_string);
 
 		$("#pagecontainers").append(new_container);
-		$("#pagecontainers div.output-container:last").prepend(genHandleHTML("output", 0));	
-		
+		$("#pagecontainers div.output-container:last").prepend(genHandleHTML("output", 0));
+
 		bringContainerToFront($("pagecontainers div.output-container:last"));
 		if (!show_handles)
 			$('.handlecontainer').hide();
@@ -81,13 +81,13 @@ function addOutputContainer()
 }
 
 function addTextContainer()
-{	
+{
 	//create the container and append it to the page
 	var position = genPageCenterHTML(300, 220);
 	var html_string  =  "<div class='text-container drag-element' style='position:absolute; " + position + "'>"
 	html_string		+=		"<div class='editdiv resize-element' contenteditable=true ></div>"
 	html_string 	+= 	"</div>"
-	
+
 	var size = $(".text-container").length;
 	var new_container = htmlToElements(html_string);
 
@@ -123,19 +123,19 @@ function addImageContainer()
 			else
 				return;
 
-			html_string += "</div>"	
+			html_string += "</div>"
 
 			$.ajax(
 			{
 				url: imgurl, //or your url
 				success: function(data)
 				{
-					//Create a new draggable div to hold the image containers	
-					var size = $(".img-container").length;	
+					//Create a new draggable div to hold the image containers
+					var size = $(".img-container").length;
 					var new_container = htmlToElements(html_string);
 
 					$("#pagecontainers").append(new_container);
-					$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));	
+					$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));
 
 					bringContainerToFront($("pagecontainers div.img-container:last"));
 					if (!show_handles)
@@ -147,7 +147,7 @@ function addImageContainer()
 					alert('URL: ' + imgurl + ' does not exist');
 				},
 			})
-		}			
+		}
 	});
 }
 
@@ -166,7 +166,7 @@ function addVideoContainer()
 		if (vidurl != null )
 		{
 			html_string = "<div class='vid-container drag-element' style='position:absolute; " + position + "'>"
-			
+
 			var valid = checkImageURL(vidurl, "vid");
 			console.log("Valid: ", valid)
 			if (valid)
@@ -174,19 +174,19 @@ function addVideoContainer()
 			else
 				return;
 
-			html_string += "</div>"	
+			html_string += "</div>"
 
 			$.ajax(
 			{
 				url: vidurl, //or your url
 				success: function(data)
 				{
-					//Create a new draggable div to hold the image containers	
-					var size = $(".vid-container").length;	
+					//Create a new draggable div to hold the image containers
+					var size = $(".vid-container").length;
 					var new_container = htmlToElements(html_string);
 
 					$("#pagecontainers").append(new_container);
-					$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));	
+					$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));
 
 					bringContainerToFront($("pagecontainers div.vid-container:last"));
 					if (!show_handles)
@@ -198,7 +198,7 @@ function addVideoContainer()
 					alert('URL: ' + vidurl + ' does not exist');
 				},
 			})
-		}	
+		}
 	});
 }
 
@@ -235,18 +235,18 @@ function checkImageURL(imgurl, type)
 			//youtube video alreay exists
 			return;
 		}
-		
+
 		var position = genPageCenterHTML(300, 220);
 		html_string = "<div class='vid-container drag-element' style='position:absolute; " + position + "'>"
 		html_string += "<div class='editdiv resize-child'>"
 
 		html_string += "<div id='" + div_id + "'></div></div></div>";
 
-		var size = $(".vid-container").length;	
+		var size = $(".vid-container").length;
 		var new_container = htmlToElements(html_string);
 
 		$("#pagecontainers").append(new_container);
-		$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));	
+		$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));
 
 		bringContainerToFront($("pagecontainers div.vid-container:last"));
 		if (!show_handles)
@@ -263,27 +263,27 @@ function checkImageURL(imgurl, type)
 		  videoId: yt_id,
 		  events: {
 		  	'onError': function(event){
-		  		this.destroy(); 
+		  		this.destroy();
 		  	},
 		  }
-		});		
-		$(div_id).addClass('resize-element');	
+		});
+		$(div_id).addClass('resize-element');
 		return false; //break ajax call
 	}
 	//gifv video
 	else if (imgurl.match(/\.(gifv|mp4)$/) != null && type == "vid")
 	{
 		var i = imgurl.lastIndexOf('.gifv'); //relabeled mp4s apparently...
-		if (i != -1) 
+		if (i != -1)
 		{
 			imgurl = imgurl.substr(0, i) + ".mp4";
-			console.log("Regexed to: ", imgurl);	
+			console.log("Regexed to: ", imgurl);
 		}
 		html_string		+=	"<video preload='auto' autoplay='autoplay' loop='loop' class='editdiv resize-element'>"
 		html_string		+=	"<source src= \"" + imgurl + "\"type='video/mp4'></source>"
 		html_string 	+= 	"</video>"
 	}
-	else 
+	else
 	{
 		alert("Not a valid url");
 		return false;
@@ -351,7 +351,7 @@ function genHandleHTML(containertype, id)
 					+   '</a>');
 		html_string += "<div id = 'output" + id + "'" + "class = 'handle control-handle'>Output";
 		html_string += '</div>';
-		html_string += ('<a class="controlmenu btn-floating waves-effect waves-light red righticon">'
+		html_string += ('<a class="controlmenu controlmenu-context-menu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'
 					+   '</a>');
 	}
@@ -361,7 +361,7 @@ function genHandleHTML(containertype, id)
 		console.log("Unknown container type when generating handle for HTML");
 		return null;
 	}
-	
+
 	html_string += '</div>'; //handle container end tag
 	return html_string;
 }
@@ -375,7 +375,7 @@ function genPageCenterHTML(elew, eleh, iter)
 		y += 30*iter;
 	if (y > project_project.resolution.y)
 		y = project_project.resolution.y;
-	
+
 	return "transform: translate(" + x + "px, " + y + "px);' data-x='" + x + "' data-y='" + y;
 }
 
@@ -395,7 +395,7 @@ function removeContainer(containertype, id)
 
 		outgoingEdges = selected.outgoers().edges();
 
-		var i = 0; 			
+		var i = 0;
 		var found = false;
 
 		while (i < outgoingEdges.size() && !found)
@@ -436,7 +436,7 @@ function bringContainerToFront(element)
 			max = z;
 	});
 	max++;
-	
+
 	if (element == 'decision')
 		return max;
 	else
@@ -468,7 +468,7 @@ function populatePageOverlay(selected)
 		$("#pagecontainers").append(text_cont[j].html);
 		$("#pagecontainers div.text-container:last").prepend(genHandleHTML("text", text_cont[j].name));
 	}
-	
+
 	//create image containers
 	var img_cont = selected.data('imgcontainers');
 	for (var j = 0; j < img_cont.length; j++)
@@ -510,7 +510,7 @@ function populatePageOverlay(selected)
 		{
 			$('.eventtype .setting').last().show();
 		}
-		$('.eventscontainer').last().find('select').material_select();	
+		$('.eventscontainer').last().find('select').material_select();
 	}
 
 	//create decision buttons for the first time

@@ -164,7 +164,7 @@ function projectSettings_populateProjectPage(obj,pageNumber){
 
 function projectSettings_generateProjectCard(project){
     //cannot pass whitespace names into onclick functions, replace whitespace w/ '_'
-    var proj = project.projName.split(' ').join('_')
+    var proj = project.projName.split('_').join(' ')
     var pubHTML
     if(project.published === true){
       //var pubExpl = 'The world can view your project!'
@@ -188,19 +188,19 @@ function projectSettings_generateProjectCard(project){
                           //  '<img class="activator" src="http://www.planetware.com/photos-large/CH/switzerland-matterhorn.jpg">'+
                           //'</div>'+
                           '<div class="card-content">'+
-                            '<span class="card-title activator grey-text text-darken-4" style="position: relative;">'+project.projName+'<i class="material-icons right">more_vert</i></span>'+
+                            '<span class="card-title activator grey-text text-darken-4" style="position: relative;">'+proj+'<i class="material-icons right">more_vert</i></span>'+
                             '<div class="row"><p>Title: ' +project.title+ '</p></div>'+
                             '<div class="row"><p>Author: '+project.author+'</p></div>'+
                             '<div class="row" >' +
-                              '<a href="#" class="btn col s8 offset-s2" onclick=projectSettings_prepThenNavToMain('+ "'" +proj + "'" + ')>Load</a>'+
+                              '<a href="#" class="btn col s8 offset-s2" onclick=projectSettings_prepThenNavToMain('+ "'" + project.projName + "'" + ')>Load</a>'+
                             '</div>'+
                           '</div>'+
                           '<div class="card-reveal" >'+
-                            '<span class="card-title grey-text text-darken-4">'+project.projName+'<i class="material-icons right">close</i></span>'+
+                            '<span class="card-title grey-text text-darken-4">'+proj+'<i class="material-icons right">close</i></span>'+
                             '<p>Date Created: ' + project.dateCreated + '</p>'+
                             '<p>Last Modified: ' + project.lastModified + '</p>'+
                             pubHTML+
-                            '<a class="btn-floating btn-small waves-effect waves-light red" onclick=projectSettings_deleteProject('+ "'"+users_getUsername()+"','"+ proj + "'" + ')><i class="small material-icons">delete</i></a>'+
+                            '<a class="btn-floating btn-small waves-effect waves-light red" onclick=projectSettings_deleteProject('+ "'"+users_getUsername()+"','"+ project.projName + "'" + ')><i class="small material-icons">delete</i></a>'+
                           '</div>'+
                         '</div>'+
                       //'</div>'+
@@ -261,7 +261,8 @@ function projectSettings_disableRightPagination(){
 
 function projectSettings_deleteProject(username,projName){
 
-  myModal.prompt("Delete Project '" + projName + "'.", "Are you sure you wish to delete this project? This cannot be undone.", [],
+  var display = projName.split('_').join(' ')
+  myModal.prompt("Delete Project '" + display + "'.", "Are you sure you wish to delete this project? This cannot be undone.", [],
       function(results){
         projectSettings_activePage = 1
         $.when(http_deleteProject(username,projName)).done(function(){
@@ -270,7 +271,7 @@ function projectSettings_deleteProject(username,projName){
           }
           $.when(http_getUsersProjects(username,projectSettings_userProjects)).done(function(){
             projectSettings_populateProjectsList(username,1)
-            Materialize.toast("Project '" + projName + "' Deleted", 3000, 'rounded')
+            Materialize.toast("Project '" + display + "' Deleted", 3000, 'rounded')
           })
         })
       },

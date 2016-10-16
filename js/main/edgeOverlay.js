@@ -51,14 +51,6 @@ function saveEdge(selectedEdge, mode){
 				temp.html = html
 			}
 
-			//var id = 'exCondition_' + temp.edge + '_' + temp.id
-
-			//if($('#' + id + '_statTypeList').length !== 0){
-				//temp.stat = $('#' + id + '_statTypeList').val()
-				//temp.comparison = $('#' + id + '_compList').val()
-				//temp.value = $('#' + id + '_value').val()
-			//}
-
 		}
 
 
@@ -83,12 +75,6 @@ function saveEdge(selectedEdge, mode){
 		if(mode === "EDGE_OVERLAY"){
 			//save all new conditions
 			for(var i = 0; i<edgeOverlay_newConditionCount; i++){
-				//get values of menus/text from ui
-				/*
-				var stat = $('#newCondition_statTypeList' + i).val();
-				var comp = $('#newCondition_compList' + i).val();
-				var val = $('#newCondition_value' + i).val();
-				*/
 
 				//convert ui condition row into json obj
 				if($('#' + 'newCondition_' + i).length > 0){
@@ -175,6 +161,8 @@ function saveEdge(selectedEdge, mode){
 					$('#' + 'newOutcome_' + i + '_specValue_2_inputField').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField')
 					$('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField').attr('value',$('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField').val())
 					$('#' + 'newOutcome_' + i + '_randValue_2').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_randValue_2')
+					$('#' + 'newOutcome_' + i + '_text_1').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_text_1')
+					$('#' + 'newOutcome_' + i + '_text_2').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_text_2')
 
 					newOut.html = $('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id).html()
 
@@ -192,17 +180,6 @@ function saveEdge(selectedEdge, mode){
 
 }
 
-//populate statType drop down menus based on contents of project_project.statTypes array
-function populateStatsDropDownMenu(listID){
-
-	var id = '#' + listID;
-	//for all defined stat types
-	for(var i = 0; i<project_project.statTypes.length; i++){
-		//append element to drop down menu
-		$(id).append( '<option value="' + project_project.statTypes[i].type + '">' + project_project.statTypes[i].type + "</option>");
-		$(id).material_select();
-	}
-}
 
 function edgeOverlay_addNewCondition(listID){
 
@@ -266,6 +243,8 @@ function edgeOverlay_addExistingOutcome(listID, out){
 	$('#'+id + '_attButton_1').tooltip({delay: 50});
 	$('#'+id + '_attButton_2').tooltip({delay: 50});
 	$('#'+id + '_randValue_2').tooltip({delay: 50});
+	$('#'+id + '_text_1').tooltip({delay: 50});
+	$('#'+id + '_text_2').tooltip({delay: 50});
 
 	//do fancy animation
 	$('#' + id).hide(0,function(){
