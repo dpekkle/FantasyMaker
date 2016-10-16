@@ -9,7 +9,7 @@ goog.require('browser_httpRequests');
       {
         'name' : <a users name>,
         'projects' : [
-          'authur' : <author of project>, NOTE: same as name by default, but will let user set this in project settings
+          'author' : <author of project>, NOTE: same as name by default, but will let user set this in project settings
           'description' : <description of project>,
           'gameLink' : <link to play module>,
           'imageLink': <link to image for project card>,
@@ -25,7 +25,7 @@ goog.require('browser_httpRequests');
 var gameBrowser_allProjects; //obj that will hold all users and their project names
 gameBrowser_loadUsers(); //load on page load
 
-//Demo
+
 function gameBrowser_loadUsers(){
     //pass by reference in js only works on contents of objs
     var res = {
@@ -34,10 +34,8 @@ function gameBrowser_loadUsers(){
     +  $.when(browser_httpRequests_getProjectsForBrowser(res,true)).done(function(){
         gameBrowser_allProjects = res.data; //copy http response to gameBrowser_allProjects
         console.log(gameBrowser_allProjects);
-      //  gameBrowser_displayAllGames(gameBrowser_allProjects);
+        gameBrowser_displayAllGames(gameBrowser_allProjects);
 
-
-        //old way of retrieving projects
          for(var u = 0; u < gameBrowser_allProjects.users.length; u++){
             for (var p = 0; p < gameBrowser_allProjects.users[u].projects.length; p++){
                 gameBrowser_displayGame(gameBrowser_allProjects.users[u].projects[p]);
@@ -60,8 +58,9 @@ function gameBrowser_loadUsers(){
 
 
      if(gameBrowser_allProjects != {})
-         for(var p = 0; p<gameBrowser_allProjects.length; p++)
-             gameBrowser_displayGame(gameBrowser_allProjects[p], p);
+         for(var u = 0; u<gameBrowser_allProjects.users.length; u++)
+             for(var p = 0; p<gameBrowser_allProjects.users[u].projects.length; ++p)
+                gameBrowser_displayGame(gameBrowser_allProjects.users[u].projects[p], generateID());
      else
          $('#main-content').innerHTML = "<h1>There are no games to show</h1>";
 
@@ -72,6 +71,10 @@ function gameBrowser_loadUsers(){
              "<h4 style='color: #fff; margin-left: 10px;'>Be the first to publish a game!</h4> <a class='btn btn-medium waves-effect waves-light grey' href='create.html'>Create a Game</a>"
          )
 
+
+        //Set min height so that page cant shrink when filtered
+     allGamesList.css('min-height', allGamesList.height() + 'px');
+
  }
 
 function gameBrowser_filterByUsername(gameObj, username){
@@ -80,23 +83,23 @@ function gameBrowser_filterByUsername(gameObj, username){
     resultsList.empty();
 
     var gamesFound = false;
-    /*if(gameBrowser_allProjects != {})
+    if(gameBrowser_allProjects != {})
         for(var u = 0; u < gameBrowser_allProjects.users.length; u++)
             if(gameBrowser_allProjects.users[u].name.includes(username)) {
                 gamesFound = true;
                 for (var p = 0; p < gameBrowser_allProjects.users[u].projects.length; p++)
                     gameBrowser_displayGame(gameBrowser_allProjects.users[u].projects[p]);
             }
-    */
+
     if(!gamesFound)
         resultsList.append("<h4 style='color: #fff; margin-left: 10px;'>No games found with a username matching <span style='color: #00FEBC'>" +  username + "</span></h4>");
 
 }
 
 
-function gameBrowser_displayGame(gameObj, projNumber){
+function gameBrowser_displayGame(gameObj, docID){
     var gameCardHtml = '<div class="col s12 m6 l3">'
-        +     '<div class="card medium z-depth-3 darken-2"> <div class="card-image" id="project-' + projNumber + '-image">'
+        +     '<div class="card medium z-depth-3 darken-2"> <div class="card-image" id="project-' + docID + '-image">'
         +                 '<span class="card-title"><p>' + gameObj.title + '</p><p style="font-size: 18px;">Created By: '+ gameObj.author +'</p></span>'
         +             '</div>'
         +             '<div class="card-content white-text"> '
@@ -114,7 +117,7 @@ function gameBrowser_displayGame(gameObj, projNumber){
     else
         $('#all-games-list').append(gameCardHtml);
 
-    var displayImg = $('#project-'+ projNumber +'-image');
+    var displayImg = $('#project-'+ docID +'-image');
     displayImg.css('background-image', 'url(' + gameObj.imageLink + ')');
     displayImg.css('background-size', 'cover');
 }
@@ -140,3 +143,14 @@ $("#search-bar").on("input",function(e){
 
     }
 });
+
+
+//used to generate random unique IDS for Document elements
+    function generateID()
+    {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for( var i=0; i < 3; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
+    }
