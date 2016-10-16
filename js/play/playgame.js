@@ -193,7 +193,7 @@ function parseControl(sourceNode, outgoingEdges)
 			}
 		}
 	//	console.log(possibleEdges)
-		logger.log("At control node. possible edges are: " + possibleEdges)
+		logger.log("At control node. possible edges are: " + possibleEdges + '<br>')
 
 
 		var results = [] //stores the T/F results of assessing each condition on edge
@@ -205,10 +205,10 @@ function parseControl(sourceNode, outgoingEdges)
 				if(firstValidEdgeIndex === -1){
 					firstValidEdgeIndex = i
 				}
-				logger.log("edge " + cy.edges("[id='" + order[i] + "']").json().data.name + " is a valid path")
+				logger.log("edge " + cy.edges("[id='" + order[i] + "']").json().data.name + " is a valid path. <br>")
 			}
 			else{
-				logger.log("edge " + cy.edges("[id='" + order[i] + "']").json().data.name + " is an invalid path")
+				logger.log("edge " + cy.edges("[id='" + order[i] + "']").json().data.name + " is an invalid path. <br>")
 			}
 			results[i] = edgeResult
 
@@ -227,10 +227,10 @@ function parseControl(sourceNode, outgoingEdges)
 		else{	//no valid path, follow default fail edge
 			//dazNote - update when user can choose default fail edge
 			nextNodeIndex = getIndexFromOutgoingEdges(sourceNode.json().data.defaultFailEdge, outgoingEdges)
-			logger.log("All edges from control node " + sourceNode.json().data.name + " have evaluated false. Following default fail edge...")
+			logger.log("All edges from control node " + sourceNode.json().data.name + " have evaluated false. Following default fail edge...<br>")
 		}
 
-		logger.log("Progressing through edge " + cy.edges("[id='" + nextNodeID + "']").json().data.name)
+		logger.log("Progressing through edge " + cy.edges("[id='" + nextNodeID + "']").json().data.name + '<br>')
 		if(nextNodeIndex !== -1){
 			//console.log(logger.outputAsArray())
 			progressStory(nextNodeIndex)
@@ -261,7 +261,7 @@ function getIndexFromOutgoingEdges(id, outgoingEdges){
 function assessEdge(edgeID){
 
 			var edge = cy.edges("[id='" + edgeID + "']")
-			logger.log("Assessing edge " + edge.json().data.name)
+			logger.log("Assessing edge " + edge.json().data.name + '<br>')
 			if(edge !== undefined){
 				var conditions = edge.json().data.conditions
 				var results = [] //storage of results of T/F condition assessments
@@ -279,7 +279,7 @@ function assessEdge(edgeID){
 					return ret
 				}
 				else{
-					logger.log('Edge ' + edge.json().data.name + ' has no conditions.')
+					logger.log('Edge ' + edge.json().data.name + ' has no conditions.' + '<br>')
 					return true
 				}
 
@@ -317,7 +317,7 @@ function assessCondition(condition){
 		//console.log()
 		var ret = assessComparison(attButton1_val,comparison,attButton2_val)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') '+comparison + ' ' +
-								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') is ' + boolToString(ret))
+								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') is ' + boolToString(ret) + '<br>')
 		return ret
 	}
 	else if(type === '2'){
@@ -334,7 +334,7 @@ function assessCondition(condition){
 		var ret = assessComparison(lhs,pivot,rhs)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + modification + ' ' +
 								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') ' + pivot + ' ' + getAttributeText(html[0].childNodes[5].childNodes[0]) +
-								'('+rhs+')' +' is ' +  boolToString(ret))
+								'('+rhs+')' +' is ' +  boolToString(ret) + '<br>')
 		return ret
 
 	}
@@ -355,7 +355,7 @@ function assessCondition(condition){
 		var ret = assessComparison(lhs,pivot,rhs)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + mod1 + ' ' +
 								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') ' + pivot + ' ' + getAttributeText(html[0].childNodes[5].childNodes[0]) +
-								'('+attButton3_val+')' + mod2 + ' ' + getAttributeText(html[0].childNodes[7].childNodes[0]) + '('+attButton4_val+')'+ ' is '+ boolToString(ret))
+								'('+attButton3_val+')' + mod2 + ' ' + getAttributeText(html[0].childNodes[7].childNodes[0]) + '('+attButton4_val+')'+ ' is '+ boolToString(ret) + '<br>')
 		return ret
 	}
 
@@ -514,7 +514,7 @@ function assessModification(left_value, modifier, right_value){
 
 
 function executeOutcomes(edge){
-	logger.log("Executing outcomes")
+	logger.log("<br>Executing Outcomes<br>")
 	outcomes = edge.json().data.outcomes
 	if(outcomes.length > 0){
 		for(var i = 0; i<outcomes.length; i++){
@@ -534,11 +534,11 @@ function executeOutcomes(edge){
 
 				//evaluate atts mix/max values
 				if(newValue > att.maxValue){
-					logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its maximum value.')
+					logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its maximum value.<br>')
 					att.value = att.maxValue
 				}
 				else if(newValue < att.minValue){
-					logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its minimum value.')
+					logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its minimum value.<br>')
 					att.value = att.minValue
 				}
 				else{
@@ -546,8 +546,8 @@ function executeOutcomes(edge){
 				}
 
 				logger.log('Outcome: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + modification +
-										' ' + getAttributeText(html[0].childNodes[3].childNodes[0]) + '(' + attButton2_val + ') ' )
-				logger.log('Attribute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + ' was modified to ' + att.value)
+										' ' + getAttributeText(html[0].childNodes[3].childNodes[0]) + '(' + attButton2_val + ') <br>')
+				logger.log('Attribute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + ' was modified to ' + att.value + '<br>')
 			}
 			else if(type === "Text-Attribute-Text"){
 				console.log('TEXT ATT TEXT:')
@@ -571,7 +571,7 @@ function executeOutcomes(edge){
 		}
 	}
 	else{
-		logger.log('Edge ' + edge.json().data.name + ' has no outcomes.')
+		logger.log('Edge ' + edge.json().data.name + ' has no outcomes.<br>')
 	}
 
 }

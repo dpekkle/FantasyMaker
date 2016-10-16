@@ -314,8 +314,8 @@ function generateContextMenu(container_type, template_menu_list)
 								{
 									return "A template with that name already exists"
 								}
-								else 
-								{ 
+								else
+								{
 									return true;
 								}
 							});
@@ -701,7 +701,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
 		build: function($trigger, e)
 		{
-			return generateContextMenu("output", project_project.template_menus.text_template_menu_list);
+			return generateContextMenu("text", project_project.template_menus.text_template_menu_list);
 		}
 	});
 	$.contextMenu(
@@ -761,7 +761,7 @@ $(function(){
 
 
 $.contextMenu({
-	selector: ".controlmenu-context-menu",
+	selector: ".swap-controlmenu",
  trigger: 'left',
 	build: function($trigger) {
 		var options = {

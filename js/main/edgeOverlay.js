@@ -84,15 +84,15 @@ function saveEdge(selectedEdge, mode){
 					$('#' + 'newCondition_' + i + '_settings').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_settings')
 					$('#' + 'newCondition_' + i).attr('id','exCondition_' + newCond.edge + '_' + newCond.id)
 					$('#' + 'newCondition_' + i + '_attButton_s1_1').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_1')
-					$('#' + 'newCondition_' + i + '_attButton_s1_1_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_1_title')
-					$('#' + 'newCondition_' + i + '_attButton_s1_1_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_1_attribute')
+					//$('#' + 'newCondition_' + i + '_attButton_s1_1_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_1_title')
+					//$('#' + 'newCondition_' + i + '_attButton_s1_1_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_1_attribute')
 
 					$('#' + 'newCondition_' + i + '_compMenu_s1').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_compMenu_s1')
 
 					if($('#' + 'newCondition_' + i + '_attButton_s1_2').length > 0){
 						$('#' + 'newCondition_' + i + '_attButton_s1_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_2')
-						$('#' + 'newCondition_' + i + '_attButton_s1_2_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_2_title')
-						$('#' + 'newCondition_' + i + '_attButton_s1_2_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_2_attribute')
+						//$('#' + 'newCondition_' + i + '_attButton_s1_2_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_2_title')
+						//$('#' + 'newCondition_' + i + '_attButton_s1_2_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s1_2_attribute')
 					}
 					else if($('#' + 'newCondition_' + i + '_specValue_s1_2').length > 0){
 						$('#' + 'newCondition_' + i + '_specValue_s1_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s1_2')
@@ -107,8 +107,8 @@ function saveEdge(selectedEdge, mode){
 
 					if($('#' + 'newCondition_' + i + '_attButton_s2_1').length > 0){
 						$('#' + 'newCondition_' + i + '_attButton_s2_1').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_1')
-						$('#' + 'newCondition_' + i + '_attButton_s2_1_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_1_title')
-						$('#' + 'newCondition_' + i + '_attButton_s2_1_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_1_attribute')
+						//$('#' + 'newCondition_' + i + '_attButton_s2_1_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_1_title')
+					//	$('#' + 'newCondition_' + i + '_attButton_s2_1_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_1_attribute')
 					}
 					else if($('#' + 'newCondition_' + i + '_specValue_s2_1').length > 0){
 						$('#' + 'newCondition_' + i + '_specValue_s2_1').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_1')
@@ -123,8 +123,8 @@ function saveEdge(selectedEdge, mode){
 
 					if($('#' + 'newCondition_' + i + '_attButton_s2_2').length > 0){
 						$('#' + 'newCondition_' + i + '_attButton_s2_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_2')
-						$('#' + 'newCondition_' + i + '_attButton_s2_2_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_2_title')
-						$('#' + 'newCondition_' + i + '_attButton_s2_2_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_2_attribute')
+						//$('#' + 'newCondition_' + i + '_attButton_s2_2_title').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_2_title')
+						//$('#' + 'newCondition_' + i + '_attButton_s2_2_attribute').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_attButton_s2_2_attribute')
 					}
 					else if($('#' + 'newCondition_' + i + '_specValue_s2_2').length > 0){
 						$('#' + 'newCondition_' + i + '_specValue_s2_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_specValue_s2_2')

@@ -60,7 +60,7 @@ function addOutputContainer()
 
 		//create the container and append it to the page
 		var position = genPageCenterHTML(300, 220);
-		var html_string  =  "<div class='output-container maker drag-element' style='position:absolute; " + position + "'>"
+		var html_string  =  "<div class='output-container player drag-element' style='position:absolute; " + position + "'>"
 		html_string		+=		"<div class='editdiv resize-element' contenteditable=false ></div>"
 		html_string 	+= 	"</div>"
 
@@ -346,12 +346,12 @@ function genHandleHTML(containertype, id)
 	}
 	else if (containertype == "output")
 	{
-		html_string += ('<a class="btn-floating waves-effect waves-light indigo lighten-1 lefticon">'
+		html_string += ('<a class="btn-floating waves-effect waves-light indigo lighten-1 lefticon swap-controlmenu">'
 					+ 	 	'<i class="fa fa-terminal"></i>'
 					+   '</a>');
 		html_string += "<div id = 'output" + id + "'" + "class = 'handle control-handle'>Output";
 		html_string += '</div>';
-		html_string += ('<a class="controlmenu controlmenu-context-menu btn-floating waves-effect waves-light red righticon">'
+		html_string += ('<a class="controlmenu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'
 					+   '</a>');
 	}

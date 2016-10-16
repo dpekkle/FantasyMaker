@@ -4,6 +4,7 @@ function Logger(){
   this.data = []
   this.player = []
 
+  //game maker output(control node)
   this.flush = function(){
     this.data = []
     this.player = []
@@ -13,27 +14,34 @@ function Logger(){
     this.data.push(string)
   }
 
-  this.playerLog = function(string){
-    this.player.push(string)
+  this.makerOutput = function(){
+    return this.data
   }
 
+
+  //outcome text output
   this.outputAsArray = function(){
     return this.data
+  }
+
+  this.playerLog = function(string){
+    this.player.push(string)
   }
 
   this.outputPlayerAsArray = function(){
     return this.player
   }
 
-  this.makerOutput = function(){
-    var html =  '<h4>Control Node Output</h4>'+
-                this.outputAsArray()+
-                '</div>'
-    return html
-  }
+
 
   this.playerOutput = function(){
-    var html = this.outputPlayerAsArray()
+    var html = ''
+
+    for(idx in this.player){
+      var line = this.player[idx]
+      html += line + '</br>'
+    }
+
     return html
 
     //return 'PLAYER DATA'
