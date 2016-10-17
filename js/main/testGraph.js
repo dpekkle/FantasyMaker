@@ -10,38 +10,25 @@ function testJumpNodes()
 {
 
 	//DISALLOW any way to reach a jumpend without having originated from a jump start node
-	var bad_jumpers = cy.collection();
-
+	var pass = true;
 	//idea: for all jumpend nodes check the classes of their greatest ancestor, if any aren't 'jump' then error!
-	cy.$('.jumpend').each(function(ele)
+	cy.$('.jumpend').each(function(i, ele)
 	{
-		var x = ele.predecessors('node').roots();
-		x.each(function(a_root)
+		var roots = ele.predecessors('node').roots();
+		for (var i = 0; i < roots.size(); i++)
 		{
-			if (!a_root.hasClass('jump'))
+			if (!roots[i].hasClass('jump'))
 			{
+				console.log("bad one found", roots[i].data('name'))
 				//ele can be reached from a non-jump root
-				bad_jumpers.add(a_root);
-				bad_jumpers.add(ele);
+				pass = true
+				roots[i].flashClass('jumpenderror', 3000);
+				ele.flashClass('jumpenderror', 3000);
 			}
-		});
+		}
 	});
 	
-	if (bad_jumpers.size() != 0)
-	{
-		bad_jumpers.addClass('jumpenderror');
-		//disconnected_nodes.delay(3000, disconnected_nodes.removeClass('disconnected'));
-		
-		//alternative in case delay "breaks" again (removenode was not firing for some reason occasionally)
-		setTimeout(function()
-		{ 
-			bad_jumpers.removeClass('jumpenderror');
-		}, 3000);
-		return false;
-	}
-	else{
-		return true;
-	}
+	return found;
 }
 
 function checkValidGraph()
@@ -62,9 +49,9 @@ function checkValidGraph()
 		alertString = alertString.concat("Graph is NOT connected\n");
 	}
 	
-	if (!testJumpNodes)
+	if (!testJumpNodes())
 	{
-		alertString = alertString.concat("Jump End nodes can be reached without arriving from a jump start!")
+		alertString = alertString.concat("Jump End nodes can be reached without arriving from a jump start!\n")
 	}
 
 	if (alertString == "")
@@ -96,34 +83,24 @@ function testConnectivity()
 		directed: true,
 	});
 	
-
 	console.log("Total nodes:" + all_nodes.size() + " Connected_nodes: " + connected_nodes.size())
 	
-	if (all_nodes.size() == connected_nodes.size())
-	{
-		connected = true;
-	}
-	else //change appearance of not-connected nodes
-	{
-		var disconnected_nodes = all_nodes.diff(connected_nodes).left;
-		
-		//check that these "disconnected" nodes dont have jump roots
+	var disconnected_nodes = all_nodes.diff(connected_nodes).left;
+	
+	//check that these "disconnected" nodes dont have jump roots
 
-		console.log("Disconnected:", disconnected_nodes.size())
-		var getNodeId = function( n ){ return n.id() };
-		console.log( 'left: ' + disconnected_nodes.map( getNodeId ).join(', ') ); //return the id's of disconnected nodes
+	console.log("Disconnected:", disconnected_nodes.size())
+	var getNodeId = function( n ){ return n.id() };
+	console.log( 'left: ' + disconnected_nodes.map( getNodeId ).join(', ') ); //return the id's of disconnected nodes
 
-		disconnected_nodes.addClass('disconnected');
-		//disconnected_nodes.delay(3000, disconnected_nodes.removeClass('disconnected'));
-		
-		//alternative in case delay "breaks" again (removenode was not firing for some reason occasionally)
-		setTimeout(function()
-		{ 
-			disconnected_nodes.removeClass('disconnected');
-		}, 3000);
-		
-
-	}
-
-	return connected;
+	disconnected_nodes.addClass('disconnected');
+	//disconnected_nodes.delay(3000, disconnected_nodes.removeClass('disconnected'));
+	
+	//alternative in case delay "breaks" again (removenode was not firing for some reason occasionally)
+	setTimeout(function()
+	{ 
+		disconnected_nodes.removeClass('disconnected');
+	}, 3000);
+	
+	return (disconnected_nodes.size() == 0);
 }
