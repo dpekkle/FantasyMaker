@@ -74,32 +74,19 @@ function http_load(projName){
 				//add nodes first
 				for(var i = 0; i<data[0].graph.length; i++){
 					//check if element is an edge
-					if(data[0].graph[i].group == "edges"){
-					}
-					else{
+					if(data[0].graph[i].group !== "edges"){
 						cy.add(data[0].graph[i]);
 					}
 				}
 				//now add the edges
 				for(var i = 0; i<data[0].graph.length; i++){
 					//check if element is an edge
-					if(data[0].graph[i].group !== "edges"){
-						cy.add(data[0].graph[i]);
-					}
-				}
-
-				for(var i = 0; i<data[0].graph.length; i++){
-					//check if element is an edge
-					if(data[0].graph[i].group === "edges"){
-						//add edge to graph
+					if(data[0].graph[i].group == "edges"){
 						var newEdge = cy.add(data[0].graph[i]);
 						//add event listener to edge
 						newEdge.on('tap', function(event){this.select();});
-
 					}
 				}
-
-
 
 				Materialize.toast("Project '" + project_project.projectName + "' Loaded", 3000, 'rounded')
 				resizeCanvas();
