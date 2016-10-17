@@ -195,7 +195,7 @@ function assessCondition(condition){
 	//console.log(condition)
 	var html = $.parseHTML(condition)
 	//console.log('Assess Condition: ')
-	console.log(html)
+	//console.log(html)
 
 	var type = html[0].attributes[1].value
 	if(type === '1'){
@@ -206,12 +206,12 @@ function assessCondition(condition){
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
 
 		//logger.log("Condition '" + )
-		console.log(attButton1_val + comparison + attButton2_val)
+		//console.log(attButton1_val + comparison + attButton2_val)
 		//
 		var ret = assessComparison(attButton1_val,comparison,attButton2_val)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') '+comparison + ' ' +
 								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') is ' + boolToString(ret) + '<br>')
-		console.log('result is ' + ret)
+		//console.log('result is ' + ret)
 		return ret
 	}
 	else if(type === '2'){
