@@ -54,8 +54,6 @@ function generic_yourSettingsButton(id,yourSettingsMenu){
 }
 
 
-
-
 //context generate on left click
 $.contextMenu({
  selector: ".generic-attributes-menu",

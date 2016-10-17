@@ -292,6 +292,8 @@ cy.on('tap', function(event)
 				data: { 
 					name: "Jump " + (cy.nodes('.jump').size() + 1),
 					trigger: "none",
+					origin: null,
+					conditions: [],
 				},
 				classes: "jump",
 				group: "nodes",

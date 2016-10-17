@@ -21,6 +21,9 @@ $(document).ready(function(){
 					openEditControlOverlay(selected);
 					console.log("Opening Control Overlay")
 				}
+				else if (selected.hasClass('jump')) {
+					openEditJumpOverlay(selected);
+				}
 			}
 			//TODO - Handle Opening Attributes Overlay
 		},
@@ -68,6 +71,13 @@ function openEditControlOverlay(element){
 
 	$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));
 	populateControlOverlay(selected);
+}
+
+function openEditJumpOverlay(element){
+	var selected = element;
+	if (element === null)
+			var selected = cy.$(':selected')[0];
+	populateJumpOverlay(selected);
 }
 
 function openAttributesOverlay()
@@ -138,13 +148,14 @@ function closeOverlay(element)
 		if (selected.hasClass('page')) {
 			savePage(selected);
 		}
-
-		if (selected.hasClass('control')) {
+		else if (selected.hasClass('control')) {
 			saveControl(selected)
 			$('#connectedEdgesList').children().remove();
 		}
-
-		if (selected.isEdge()) {
+		else if (selected.hasClass('jump')) {
+			saveJump(selected);
+		}
+		else if (selected.isEdge()) {
 			saveEdge(selected, "EDGE_OVERLAY");
 			//remove html of condition/outcome lists
 			$('#conditionsList').children().remove();
@@ -185,6 +196,11 @@ function showOverlayLinks(element) //"edit page" button etc..
 			//show control eddit button
 			$('button[data-target="control-modal"]').show();
 
+		}
+		else if (element.hasClass('jump'))
+		{
+			//show 
+			$('button[data-target="jump-modal"]').show();
 		}
 	}
 	else
