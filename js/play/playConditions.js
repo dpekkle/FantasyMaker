@@ -161,7 +161,7 @@ function assessEdge(edgeID){
 					var ret = true
 					for(var i = 0; i<conditions.length; i++){ //for all conditions in edge
 						var result = assessCondition(conditions[i])
-
+						console.log('RESULT: ' + result)
 						if(result === false){
 							ret = false
 						}
@@ -193,14 +193,11 @@ function boolToString(bool){
 
 function assessCondition(condition){
 	//console.log(condition)
-	var html = $.parseHTML(condition)
-	//console.log('Assess Condition: ')
-	//console.log(html)
+	var html = $.parseHTML(condition.html)
 
 	var type = html[0].attributes[1].value
 	if(type === '1'){
-		//console.log('TYPE 1')
-		//console.log(html)
+		//attribute : comparison : attribute condition
 		var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
 		var comparison = html[0].childNodes[2].childNodes[0].data
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
@@ -215,6 +212,7 @@ function assessCondition(condition){
 		return ret
 	}
 	else if(type === '2'){
+		//attribute : comparison : attribute : comparison : attribute condition
 		var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
 		var modification = html[0].childNodes[2].childNodes[0].data
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
@@ -233,6 +231,7 @@ function assessCondition(condition){
 
 	}
 	else if(type === '3'){
+		//attribute : comparison : attribute : comparison : attribute : comparison : attribute condition
 		var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
 		var mod1 = html[0].childNodes[2].childNodes[0].data
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
@@ -252,6 +251,29 @@ function assessCondition(condition){
 								'('+attButton3_val+')' + mod2 + ' ' + getAttributeText(html[0].childNodes[7].childNodes[0]) + '('+attButton4_val+')'+ ' is '+ boolToString(ret) + '<br>')
 		return ret
 	}
+	else if(type === "4"){
+		//inventory exists condition
+		//get cond from html
+		var itemID = html[0].childNodes[1].childNodes[0].attributes.itemid.value
+		var item = gameInventory_getItem(itemID)
+		var exists = html[0].childNodes[2].childNodes[0].firstChild.attributes.state.value
+
+		//define if is exists/not exists
+		if(exists === "true"){
+			//exists
+			if(item.playCount > 0){
+				return true
+			}
+		}
+		else{
+			//not exists
+			if(item.playCount === 0){
+				return true
+			}
+		}
+		return false
+		
+	}
 
 
 }
@@ -259,7 +281,7 @@ function assessCondition(condition){
 
 function getAttributeValue(childNode){
 
-	if(childNode.classList[0] === "input-field"){
+	if(childNode.id.split('_')[3] === 'specValue'){
 		//button is an input feild
 		//the value attribute of the input feild must be explicitly set when saving a condition
 		return parseFloat(childNode.childNodes[0].value)

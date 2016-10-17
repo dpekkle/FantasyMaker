@@ -8,7 +8,7 @@ function InventoryItem(itemID, name, description){
     this.name = name;
     this.description = description;
     this.itemCount = 0; //allow user to set at definition?
-    //this.playCount = this.itemCount; //updated during playthrough?
+    this.playCount = this.itemCount; //updated during playthrough?
 }
 
 //defines and returns new item
@@ -130,9 +130,3 @@ function gameInventory_openEditItemOverlay(itemID){
     }
 
 /* END CREATE MODULE DOCUMENT METHODS */
-
-
-
-
-
-
