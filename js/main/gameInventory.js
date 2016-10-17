@@ -20,6 +20,8 @@ function InventoryItem(itemObj) {
      }
      */
 
+}
+
 //defines and returns new item
     function gameInventory_defineItem(name, description) {
         var newItemID = "item-" + generateID();
@@ -324,7 +326,7 @@ function InventoryItem(itemObj) {
     }
 
 
-}
+
 var defineItemModal = new DefineItemModal();
 defineItemModal.init();
 /* END INVENTORY CREATE MODULE DOCUMENT METHODS */
