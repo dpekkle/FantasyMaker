@@ -195,3 +195,18 @@ $(window).resize(resizeCanvas);
 	};
 	observer.observe(cytabNode, observerConfig);
 }
+
+
+
+function createModule_playGame(){
+	$('#cyTab').hide(); 
+	prepareForGame();
+	$('#Play').show();
+}
+
+function createModule_showProject() {
+	$('#Play').hide();
+	wipeGame();
+	$('#cyTab').show();
+	
+}
