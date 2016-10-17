@@ -238,12 +238,12 @@
 			<div class="row max-height scroll-y">
 				<h2>Inventory Items</h2>
 				<p>Define items available in your game</p>
-				<ul class="collapsible inventory-list" data-collapsible="accordion">
+				<ul class="collapsible inventory-item-list" data-collapsible="accordion">
 
 
 				</ul>
 				</div>
-			<a class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameInventory_openDefineItemOverlay()"><i class="material-icons">add</i></a>
+			<a class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameInventory_createModule_defineItem()"><i class="material-icons">add</i></a>
 			</div>
 		</div>
 
@@ -356,14 +356,7 @@
 	<div id="mainContent" class="container-fluid hide">
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
-				<ul class="tabs" id="tabheadings">
-					<li class="tab col s4"><a class="active" href="#cyTab" onclick=wipeGame()>Graph</a></li>
-					<!-- onclick function added to clear .playpage, otherwise the elements present can mess with .length operations e.g. $('.text-container').length -->
-					<li class="tab col s4"><a href="#Character" onclick=wipeGame()>Character</a></li>
-					<li class="tab col s4"><a href="#Play" onclick=prepareForGame()>Play</a></li>
-				</ul>
-				<div class="tab-content">
-					<div id="cyTab" class="tab-pane fade in active">
+					<div id="cyTab">
 						<div class="col s9 l9" id="cy"> <!-- Grid "workspace" container -->
 							</div>
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
@@ -404,6 +397,7 @@
 							</ul>
 							<hr/>
 							<button class="savebutton btn" onclick=project_saveProject()>Save</button><br/>
+							<button class="playgamebutton btn" onclick="createModule_playGame()">Play Game</button><br/>
 							<hr/>
 							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
 							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button>
@@ -417,8 +411,9 @@
 							<br/>
 						</div>
 					</div>
-					<div id="Play" class="tab-pane fade">
+					<div id="Play">
 						<button class="progressbutton btn" onclick=progressStory(0)>Continue</button>
+						<button class="gobackbutton btn" onclick="createModule_showProject()">Return To Project</button>
 						<div id="playwindow">
 							<div id="loader"></div>
 							<div id = "audioplayerlist">
@@ -428,13 +423,6 @@
 							<div class = "playpage">
 							</div>
 					</div>
-					<div id="Character" class="tab-pane fade">
-						<div class="container">
-							<div class="row">
-						</div>
-						</div>
-				</div>
-			</div>
 		</div>
 	</div>
 	</div>
