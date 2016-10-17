@@ -135,6 +135,11 @@ function saveEdge(selectedEdge, mode){
 						$('#' + 'newCondition_' + i + '_randValue_s2_2').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_randValue_s2_2')
 					}
 
+					if($('#newCondition_' + i + '_invButton').length > 0){
+						$('#newCondition_' + i + '_invButton').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_invButton')
+						$('#newCondition_' + i + '_existsButton').attr('id','exCondition_' + newCond.edge + '_' + newCond.id + '_existsButton')
+					}
+
 					newCond.html = $('#' + 'exCondition_' + newCond.edge + '_' + newCond.id).html()
 
 
@@ -207,7 +212,7 @@ function edgeOverlay_addNewOutcome(listID){
 function edgeOverlay_addExistingCondition(listID, cond){
 	//html of condition row
 	var id = 'exCondition_' + cond.edge + '_' + cond.id
-	var conditionHtml = '<li id='+id+' class="condition-context-menu">'+cond.html+'</li>'
+	var conditionHtml = '<li id='+id+'>'+cond.html+'</li>'
 	//add html to conditionList html element
 	$('#' + listID).append(conditionHtml);
 
@@ -222,6 +227,7 @@ function edgeOverlay_addExistingCondition(listID, cond){
 	$('#'+id + '_randValue_s1_2').tooltip({delay: 50});
 	$('#'+id + '_randValue_s2_1').tooltip({delay: 50});
 	$('#'+id + '_randValue_s2_2').tooltip({delay: 50});
+	$('#'+id + '_invButton').tooltip({delay: 50});
 
 
 	//do fancy animation

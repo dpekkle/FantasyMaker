@@ -145,8 +145,13 @@ function stylePage()
 	for (var i = 0; i < dec_cont.length; i++)
 	{
 		// we will need to check visibility conditions when deciding to add a decision container to a page
+		//alert('there are ' + dec_cont.length + 'decisions')
 		if(assessEdge(currentNode.outgoers("[name='" + dec_cont[i].name + "']").id())){
+			//alert('edge is true, adding decision button')
 			$('.playpage').append(dec_cont[i].html);
+		}
+		else{
+			//alert('edge is false, removing decision button')
 		}
 
 	}
