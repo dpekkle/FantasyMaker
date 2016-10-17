@@ -33,6 +33,8 @@ function loadingScreen(more_to_load)
 
 function prepareForGame()
 {
+	console.log('ASSESSING ROW')
+	console.log(assessCondition($('#row_1_').html()))
 	loadingScreen(project_project.audio.changed);
 
 	event_manager = new eventManager();
@@ -156,7 +158,7 @@ function stylePage()
 	else if($('.output-container').hasClass('maker')){
 		$('.output-container').children().append(logger.makerOutput())
 	}
-	logger.flush()
+	//logger.flush()
 
 
 	//give decisions on click behaviour
@@ -208,6 +210,7 @@ function progressStory(i)
 		$('.playpage').html('<h1>Fin!</h1>');
 		wipeGame();
 	}
+	logger.flush()
 }
 
 function stripDraggable(str)

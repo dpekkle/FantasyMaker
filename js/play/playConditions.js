@@ -192,22 +192,26 @@ function boolToString(bool){
 
 
 function assessCondition(condition){
-	var html = $.parseHTML(condition.html)
+	//console.log(condition)
+	var html = $.parseHTML(condition)
 	//console.log('Assess Condition: ')
-	//console.log(html)
+	console.log(html)
 
 	var type = html[0].attributes[1].value
 	if(type === '1'){
+		//console.log('TYPE 1')
+		//console.log(html)
 		var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
 		var comparison = html[0].childNodes[2].childNodes[0].data
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
 
 		//logger.log("Condition '" + )
-		//console.log(attButton1_val + comparison + attButton2_val)
-		//console.log()
+		console.log(attButton1_val + comparison + attButton2_val)
+		//
 		var ret = assessComparison(attButton1_val,comparison,attButton2_val)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') '+comparison + ' ' +
 								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') is ' + boolToString(ret) + '<br>')
+		console.log('result is ' + ret)
 		return ret
 	}
 	else if(type === '2'){
@@ -255,9 +259,9 @@ function assessCondition(condition){
 
 function getAttributeValue(childNode){
 
-	if(childNode.id.split('_')[3] === 'specValue'){
+	if(childNode.classList[0] === "input-field"){
 		//button is an input feild
-		//console.log(childNode.childNodes[0].value)
+		//the value attribute of the input feild must be explicitly set when saving a condition
 		return parseFloat(childNode.childNodes[0].value)
 
 	}

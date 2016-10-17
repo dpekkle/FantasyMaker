@@ -38,7 +38,7 @@ $.contextMenu({
 
 function generic_generateRow(id,yourSettingsMenu){
   var html = '<li id=' + id + '>'+
-               '<div class="row" type="type1">'+
+               '<div class="row" type="1">'+
                  generic_yourSettingsButton(id,yourSettingsMenu) + //define your own for this, my one is pretty linked into conditions/outcomes
                  generic_generateAttributeButton(id + 'attButton1', 'game-attributes') + //context menu just has game attributes
                  generateComparisonButon(id + '_compMenu', 'comps', '=') +
