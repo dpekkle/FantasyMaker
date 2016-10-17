@@ -21,6 +21,9 @@ $(document).ready(function(){
 					openEditControlOverlay(selected);
 					console.log("Opening Control Overlay")
 				}
+				else if (selected.hasClass('jump')) {
+					openEditJumpOverlay(selected);
+				}
 			}
 			//TODO - Handle Opening Attributes Overlay
 		},
@@ -68,6 +71,13 @@ function openEditControlOverlay(element){
 
 	$("#controlcontainers #controltext").val(escapeHtml(selected.data('text')));
 	populateControlOverlay(selected);
+}
+
+function openEditJumpOverlay(element){
+	var selected = element;
+	if (element === null)
+			var selected = cy.$(':selected')[0];
+	populateJumpOverlay(selected);
 }
 
 function openAttributesOverlay()
@@ -138,18 +148,18 @@ function closeOverlay(element)
 		if (selected.hasClass('page')) {
 			savePage(selected);
 		}
-
-		if (selected.hasClass('control')) {
+		else if (selected.hasClass('control')) {
 			saveControl(selected)
 			$('#connectedEdgesList').children().remove();
 		}
-
-		if (selected.isEdge()) {
+		else if (selected.hasClass('jump')) {
+			saveJump(selected);
+		}
+		else if (selected.isEdge()) {
 			saveEdge(selected, "EDGE_OVERLAY");
 			//remove html of condition/outcome lists
 			$('#conditionsList').children().remove();
 			$('#outcomesList').children().remove();
-
 		}
 	}else{
 		//daznote - set this to run only on newProject-modal closure
@@ -158,7 +168,6 @@ function closeOverlay(element)
 			$('#projNameAcceptButton').addClass('disabled')
 		}
 		//Modal is independent of cytoscape (Attributes)
-		//TODO - Handle Attributes Overlay Closure
 	}
 
 }
@@ -170,28 +179,40 @@ function showOverlayLinks(element) //"edit page" button etc..
 	if (element.isNode())
 	{
 		$('.editname').show();
-	}
-	if (element.hasClass('page'))
-	{
-		//show page edit button
-		$('button[data-target="page-modal"]').show();
-		$('.setstart').show();
-	}
-	else if (element.hasClass('control'))
-	{
-		//show control eddit button
-		$('button[data-target="control-modal"]').show();
+		if (element.isChild())
+		{
+			$('.removeparent').show();
+		}
+		if (element.hasClass('page'))
+		{
+			//show page edit button
+			$('button[data-target="page-modal"]').show();
+			$('.setstart').show();
+		}
+		else if (element.hasClass('control'))
+		{
+			//show control eddit button
+			$('button[data-target="control-modal"]').show();
 
+		}
+		else if (element.hasClass('jump'))
+		{
+			//show 
+			$('button[data-target="jump-modal"]').show();
+		}
 	}
-	else if (element.hasClass('pageedge'))
+	else
 	{
-		//show page-edge edit button
-		$('button[data-target="connection-modal"]').show();
-	}
-	else if (element.hasClass('controledge'))
-	{
-		//show control edge button, slightly different to page-edge overlay?
-		$('button[data-target="connection-modal"]').show(); //change this link if you want a new overlay
+		if (element.hasClass('pageedge'))
+		{
+			//show page-edge edit button
+			$('button[data-target="connection-modal"]').show();
+		}
+		else if (element.hasClass('controledge'))
+		{
+			//show control edge button, slightly different to page-edge overlay?
+			$('button[data-target="connection-modal"]').show(); //change this link if you want a new overlay
+		}
 	}
 }
 function nameNode(element)
@@ -199,8 +220,8 @@ function nameNode(element)
 	myModal.prompt("Name Node", "Give a unique name to this entity", [{name: "Name", default: element.data('name'), type: "text"}],
 		function(results){
 			var name = results[0];
-			element.data('name', name);
 			element.addClass('named');
+			element.data('name', name);
 		},
 		function(results){
 			var validated = true;

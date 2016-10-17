@@ -37,6 +37,10 @@ cy.on('tapend', function(event)
 		if (testobj.parent !== held_node.parent().id())
 		{
 			console.log("Move ", held_node.id(), " into ", testobj.parent);
+			//If we've selected a bunch of nodes we probably want to move them all into the group, not just the held node.
+			if (cy.$(':selected').length > 1)
+				held_node = held_node.union('node:selected:orphan');
+
 			held_node.move({
 			 	parent: testobj.parent,
 			});
@@ -287,7 +291,10 @@ cy.on('tap', function(event)
 			{
 				data: { 
 					name: "Jump " + (cy.nodes('.jump').size() + 1),
-					trigger: "none",
+					triggerType: null,
+					button: null,
+					conditions: [],
+					origin: null,
 				},
 				classes: "jump",
 				group: "nodes",

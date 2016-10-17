@@ -51,30 +51,47 @@ module.exports = function(app){
             }
             */
 
+            var newRet = {
+              'users' : []
+            }
             //remove any unpublished games
             for(var i = 0; i<ret.users.length; i++){
               var projects = ret.users[i].projects
               if(projects.length > 0){
+                var usr = {
+                  'name' : ret.users[i].name,
+                  'projects' : []
+                }
+
                 for(var a=0; a<projects.length; a++){
                   var proj = projects[a]
-                  if(!proj.hasOwnProperty('author')){
-                    //project is not published, remove.
-                    ret.users[i].projects.splice(a,1)
+                  if(proj.hasOwnProperty('author')){
+                    //project is published, add.
+                    //ret.users[i].projects.splice(a,1)
+
+                    usr.projects.push(proj)
                   }
+                }
+                if(usr.projects.length > 0){
+                  newRet.users.push(usr)
                 }
               }
             }
 
+            /*
             //remove any users with no published games
+            var removeIndexes = []
             for(var i = 0; i<ret.users.length; i++){
               if(ret.users[i].projects.length === 0){
+                console.log('user ' + ret.users[i].name + ' has no projects')
                 ret.users.splice(i,1)
               }
             }
+            */
 
 
-            console.log(ret)
-            res.json(ret)
+            console.log(JSON.stringify(newRet))
+            res.json(newRet)
           }
         );
 

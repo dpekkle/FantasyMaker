@@ -32,7 +32,7 @@
 	</ul>
 	<nav>
 		<div class="nav-wrapper">
-			<a href="browse.html" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
+			<a href="index.html" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 				<li><a id="login_button" href="#" class="" onclick=project_login()>Login</a></li>
 				<li><a id="signup_button" href="#" class="" onclick=project_signUp()>Sign Up</a></li>
@@ -43,42 +43,84 @@
 		</div>
 	</nav>
 
+	<!-- Jump Node Overlay -->
+	<div id="jump-modal" class="modal modal-fixed-footer" style="overflow-y: hidden">
+		<div class="modal-content">
+			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
+			<h4>Jump Node</h4> <br/>
+		  	<form id="choosejumptrigger" "action="#">
+		  		<h5>Triggering Event</h5>
+		  		<div>
+					<input name="group1" type="radio" id="test1" value="button"/>
+					<label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a button is pressed the player will be taken to this jump node immediately.">Button Press</label>
+				</div>
+				<div>
+					<input name="group1" type="radio" id="test2" value="attribute"/>
+					<label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined condition is met the player will be taken to this jump node immediately.">Attribute Condition</label>
+				</div>
+		    </form>
+		    <hr>
+			<ul class="collapsible popout" data-collapsible="expandable">
+				<li class = "attribute" style = "display:none">
+					<div class="collapsible-header active">Conditions</div>
+					<div class="collapsible-body">
+						<ul id = "jumpConditionList" class="list-unstyled" ></ul>
+					</div>
+				</li>
+				<li class = "button" style = "display:none">
+					<div class="collapsible-header active">Choose Button</div>
+					<div class="collapsible-body">
+						<ul id = "jumpButtonList" class="list-unstyled" ></ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="modal-footer" >
+			<div class = "attribute" style = "display:none">
+				<button type="button" class="btn btn-default" onClick="addJumpCondition()" style="width: 30%; float: right;">Add Condition</button>
+			</div>
+			<div class = "button" style = "display:none">
+				<button type="button" class="btn btn-default tooltipped" data-position="top" data-delay="1000" data-tooltip = "Create a new button that can then be tied to this jump node. You can then add this button to any page you want." onClick="createNewJumpButton()" style="width: 30%; float: right;">New Button</button>
+			</div>	
+		</div>
+	</div>
+
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
-			<div class="modal-content" style="padding-top: 40px" >
-				<div class = "screenwrapper">
-					<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
-					</div>
-				</div>
-				<div class = "toolbar" id="edit-page-toolbar">
-					<i class = "fa fa-times fa-2x modal-close" style="float:right; transform-origin: top right;" ></i>
-
-					<h5 id="pagename">Design Page: </h5>
-					<hr/>
-					<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "A container to hold any text, dialogue, etc..." onclick=addTextContainer()>Add TextBox</button><br>
-					<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Images " onclick=addImageContainer()>Add Image</button> <br/>
-					<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Movies (gif,gifv,mov,webm,mp4)" onclick=addVideoContainer()>Add Video</button> <br/>
-					<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Add Control Output</button><br/>
-					<hr/>
-					<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
-					<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
-					<hr/>
-					<button class = "gridmode btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Enable/disable a grid for your containers to snap to" onclick=toggleGridMode()>Toggle Grid</button> <br/>
-					<button class = "handlemode btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Lets you preview how your page will look without the above handles" onclick=toggleHandles()>Toggle Handles</button> <br/>
-
-					<button class = "pagetemplate btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Copy and save all the containers and styles within the page node, letting you make copies" onclick=createPageTemplate()>Save Page Template</button> <br/>
-					<hr/>
-					<div style="margin-top: 10px;">
-						<i id = "addevent" class = "fa fa-plus fa-2x dropdown-button"style="float: right;"></i>
-						<i id = "removeevent" class = "fa fa-minus fa-2x"style="float: right; margin-right: 5px;" onclick=deleteEvent()></i>
-						<h6>Events</h6>
-					</div>
-					<!-- Events pane -->
-					<div id = "eventspane">
-					</div>
-
+		<div class="modal-content" style="padding-top: 40px" >
+			<div class = "screenwrapper">
+				<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
 				</div>
 			</div>
+			<div class = "toolbar" id="edit-page-toolbar">
+				<i class = "fa fa-times fa-2x modal-close" style="float:right; transform-origin: top right;" ></i>
+
+				<h5 id="pagename">Design Page: </h5>
+				<hr/>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "A container to hold any text, dialogue, etc..." onclick=addTextContainer()>Add TextBox</button><br>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Images " onclick=addImageContainer()>Add Image</button> <br/>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Movies (gif,gifv,mov,webm,mp4)" onclick=addVideoContainer()>Add Video</button> <br/>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Add Control Output</button><br/>
+				<hr/>
+				<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
+				<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
+				<hr/>
+				<button class = "gridmode btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Enable/disable a grid for your containers to snap to" onclick=toggleGridMode()>Toggle Grid</button> <br/>
+				<button class = "handlemode btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Lets you preview how your page will look without the above handles" onclick=toggleHandles()>Toggle Handles</button> <br/>
+
+				<button class = "pagetemplate btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Copy and save all the containers and styles within the page node, letting you make copies" onclick=createPageTemplate()>Save Page Template</button> <br/>
+				<hr/>
+				<div style="margin-top: 10px;">
+					<i id = "addevent" class = "fa fa-plus fa-2x dropdown-button"style="float: right;"></i>
+					<i id = "removeevent" class = "fa fa-minus fa-2x"style="float: right; margin-right: 5px;" onclick=deleteEvent()></i>
+					<h6>Events</h6>
+				</div>
+				<!-- Events pane -->
+				<div id = "eventspane">
+				</div>
+
+			</div>
+		</div>
 	</div>
 
 	<!-- Control Edit Overlay (Materialize) -->
@@ -115,10 +157,6 @@
 					<div class="collapsible-body"><ul id = "outcomesList" class="list-unstyled" ></ul></div>
 				</li>
 			</ul>
-		</div>
-		<div class = "toolbar" id="connectiontoolbar">
-			<p id="connectionname"></p>
-
 		</div>
 		<div class="modal-footer">
 
@@ -238,12 +276,16 @@
 			<div class="row max-height scroll-y">
 				<h2>Inventory Items</h2>
 				<p>Define items available in your game</p>
+
 				<ul class="collapsible inventory-item-list" data-collapsible="accordion">
-
-
 				</ul>
+
 				</div>
-			<a class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameInventory_createModule_defineItem()"><i class="material-icons">add</i></a>
+				<div class="row">
+					<a class="btn" onclick="generic_example()"><i class="material-icons">add</i></a>
+				</div>
+
+			<a class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameInventory_openDefineItemOverlay()"><i class="material-icons">add</i></a>
 			</div>
 		</div>
 
@@ -356,7 +398,7 @@
 	<div id="mainContent" class="container-fluid hide">
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
-					<div id="cyTab">
+					<div id="cyTab" class="tab-pane fade in active">
 						<div class="col s9 l9" id="cy"> <!-- Grid "workspace" container -->
 							</div>
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
@@ -398,13 +440,16 @@
 							<hr/>
 							<button class="savebutton btn" onclick=project_saveProject()>Save</button><br/>
 							<button class="playgamebutton btn" onclick="createModule_playGame()">Play Game</button><br/>
+
 							<hr/>
 							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
 							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button>
 							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="connection-modal">Edit Edge</button>
 							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="control-modal">Edit Control</button>
+							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="jump-modal">Edit Jump</button>
 							<button class="btn editname editbutton" style = "display:none;" onclick="nameNode(cy.$(':selected')[0])">Name Node</button>
 							<button class="btn setstart editbutton" style = "display:none;" onclick="setStart()">Set Start Node</button>
+							<button class="btn removeparent editbutton" style = "display:none;" onclick="removeParent()">Remove From Group</button>
 
 
 							<br/>
@@ -423,6 +468,9 @@
 							<div class = "playpage">
 							</div>
 					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 	</div>

@@ -1,4 +1,4 @@
-goog.provide('conditionsConextMenu')
+goog.provide('conditionsContextMenu')
 goog.require('project')
 
 /**************************************************
@@ -38,11 +38,36 @@ goog.require('project')
 					 setComparisonType('type3',$trigger.attr('id'))
 				 }
 			 }
-			 options.items['sep'] = {
-				 name: '----------------------------------------------',
-				 disabled: true
-			 }
 		 }
+     else{
+
+       options.items.attMod = {
+         name: 'Attribute Modification',
+         callback: function(key,options){
+           swapOutcome(key,$trigger.attr('id'))
+         }
+       }
+
+       options.items.playerOutputAttribute = {
+         name: 'Player Output (Text : Attribute : Text)',
+         callback: function(key, options){
+          swapOutcome(key,$trigger.attr('id'))
+         }
+       }
+
+       options.items.playerOutputText = {
+         name: 'Player Output (Text Only)',
+         callback: function(key, options){
+          swapOutcome(key,$trigger.attr('id'))
+         }
+       }
+
+     }
+
+     options.items['sep'] = {
+       name: '----------------------------------------------',
+       disabled: true
+     }
 
 
 		 var spl = $trigger.attr('id').split('_')
@@ -246,6 +271,12 @@ goog.require('project')
  				options.items.modifier = {
  					name: "Modifier",
  					items: {
+            "=" : {
+ 							name: "=",
+ 							callback: function(key,options){
+ 								$('#' + $trigger.attr("id")).text(key)
+ 							}
+ 						},
  						"+" : {
  							name: "+",
  							callback: function(key,options){
@@ -281,6 +312,7 @@ goog.require('project')
    }
  });
 
+//handles selections on attribute buttons
  function handleSelection(selected, clickedItemID, att){
 
 	 console.log(selected)
@@ -455,11 +487,35 @@ function setRandomNumberRange(clickedItemID){
 
  function generateOutcome(id){
 	 var html = '<li id=' + id + '>'+
-								'<div class="row">'+
+								'<div class="row" type="Attribute Modification">'+
 									generateSettingsButton(id) +
 									generateAttributeButton(id + '_attButton_1', 'game-attributes') +
 									generateComparisonButon(id + '_compMenu', 'mods', '+') +
 									generateAttributeButton(id + '_attButton_2', 'game-attributes numbers') +
+								'</div>'+
+								'<div class="divider"></div>'+
+							'</li>'
+		return html
+ }
+
+ function generatePlayerOutputAttribute(id){
+   var html = '<li id=' + id + '>'+
+								'<div class="row" type="Text-Attribute-Text">'+
+									generateSettingsButton(id) +
+                  generateTextButton(id + '_text_1')+
+									generateAttributeButton(id + '_attButton_1', 'game-attributes') +
+                  generateTextButton(id + '_text_2')+
+								'</div>'+
+								'<div class="divider"></div>'+
+							'</li>'
+		return html
+ }
+
+ function generatePlayerOutputText(id){
+   var html = '<li id=' + id + '>'+
+								'<div class="row" type="Text">'+
+									generateSettingsButton(id) +
+                  generateTextButton(id + '_text_1')+
 								'</div>'+
 								'<div class="divider"></div>'+
 							'</li>'
@@ -496,6 +552,20 @@ function setRandomNumberRange(clickedItemID){
  function generateRandomButton(id){
 	 var html = '<div id="' + id + '" class="condition-context-menu random game-attributes numbers attribute-button tooltipped" max="100" min="0" data-html="true" data-position="bottom" data-delay="50" data-tooltip="Minimum: 0<br>Maximum: 100">Random Number</div>'
 	 return html
+ }
+
+ function generateTextButton(id){
+   var html =     '<div class="col s2 truncate">'
+                +   '<div id="' + id + '" onclick=editTextModal(this.id) class="attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""><p class="truncate">Click to add text</p></div>'
+                + '</div>'
+   return html
+ }
+
+ function generateBreakButton(id){
+   var html =     '<div class="col s1">'
+                +   '<div id="' + id + '" class="attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip="Defines a new line in the control output"> No Newline</div>'
+                + '</div>'
+    return html
  }
 
  function setComparisonType(type,id){
@@ -552,8 +622,6 @@ function findFirstLeafPath(path){
 	}
 }
 
-
-
  function initAttributeButton(id){
 	 if(Object.keys(project_project.gameAttributes).length > 0){
 		 for(var key in project_project.gameAttributes){
@@ -599,4 +667,58 @@ function findFirstLeafPath(path){
 
 	 //init tooltipp
 	 $('#'+id).tooltip({delay: 50});
+ }
+
+ function swapOutcome(type,id){
+   var html
+   var replaceId
+   var spl = id.split('_')
+   if(spl[0] === 'newOutcome'){
+     replaceId = spl[0] + '_' + spl[1]
+   }
+   else if(spl[0] === 'exOutcome'){
+     replaceId = spl[0] + '_' + spl[1] + '_' + spl[2]
+   }
+
+   if(type === 'attMod'){
+     //swapping to attribute modification
+     html = generateOutcome(replaceId)
+     $('#' + replaceId).replaceWith(html)
+     initAttributeButton(replaceId + '_attButton_1')
+     initAttributeButton(replaceId + '_attButton_2')
+   }
+   else if(type === 'playerOutputAttribute'){
+     //swapping to player output
+     html = generatePlayerOutputAttribute(replaceId)
+     $('#' + replaceId).replaceWith(html)
+     initAttributeButton(replaceId + '_attButton_1')
+     $('#'+ replaceId + '_text_1').tooltip({delay: 50});
+   	 $('#'+ replaceId + '_text_2').tooltip({delay: 50});
+   }
+   else if(type === 'playerOutputText'){
+     //swapping to player output
+     html = generatePlayerOutputText(replaceId)
+     $('#' + replaceId).replaceWith(html)
+     $('#'+ replaceId + '_text_1').tooltip({delay: 50});
+   }
+
+
+
+ }
+
+ function editTextModal(id){
+   //console.log(id)
+   var data = $('#' + id).attr('data-tooltip')
+
+   myModal.prompt("Modify Text For Player Output", "Specify the text that appears in the control output of the following page during gameplay.", [{name: "Text", default: data, type: "text"}],
+ 			function(results){
+        $('#' + id).children().text('"' + results[0] + '"')
+ 				$('#' + id).attr('data-tooltip',results[0])
+        $('#' + id).tooltip({delay: 50});
+ 			},
+ 			function(results){
+ 				return true
+ 			}
+ 	);
+
  }

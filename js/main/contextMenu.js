@@ -314,8 +314,8 @@ function generateContextMenu(container_type, template_menu_list)
 								{
 									return "A template with that name already exists"
 								}
-								else 
-								{ 
+								else
+								{
 									return true;
 								}
 							});
@@ -551,7 +551,7 @@ function generateContextMenu(container_type, template_menu_list)
 						$(target_element).css("height", h);
 						project_project.resolution.x = w;
 						project_project.resolution.y = h;
-						resizePageContainerDiv();						
+						resizePageContainerDiv();
 					}
 					// $('#edit-page-toolbar').css("height", $this.data().resolution.split('a')[2]);
 
@@ -701,7 +701,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
 		build: function($trigger, e)
 		{
-			return generateContextMenu("output", project_project.template_menus.text_template_menu_list);
+			return generateContextMenu("text", project_project.template_menus.text_template_menu_list);
 		}
 	});
 	$.contextMenu(
@@ -757,4 +757,41 @@ $(function(){
 	});
 
 
+});
+
+
+$.contextMenu({
+	selector: ".swap-controlmenu",
+ trigger: 'left',
+	build: function($trigger) {
+		var options = {
+			items: {}
+		}
+
+		options.items.maker = {
+			name: 'Game Maker Output',
+			callback: function(key,options){
+				if( !$('.output-container').hasClass('maker') ){
+					$('.output-container').removeClass('player')
+					$('.output-container').addClass('maker')
+					//$('.output-container').children().remove()
+					//$('.output-container').children().append(logger.makerOutput())
+				}
+			}
+		}
+
+		options.items.player = {
+			name: 'Game Player Output',
+			callback: function(key,options){
+				if( !$('.output-container').hasClass('player') ){
+					$('.output-container').removeClass('maker')
+					$('.output-container').addClass('player')
+					//$('.output-container').children().remove()
+					//$('.output-container').children().append(logger.playerOutput())
+				}
+			}
+		}
+
+		return options
+	}
 });
