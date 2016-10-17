@@ -164,7 +164,7 @@ function projectSettings_populateProjectPage(obj,pageNumber){
 
 function projectSettings_generateProjectCard(project){
     //cannot pass whitespace names into onclick functions, replace whitespace w/ '_'
-    var proj = project.projName.split('_').join(' ')
+    //var proj = project.projName.split('_').join(' ')
     var pubHTML
     if(project.published === true){
       //var pubExpl = 'The world can view your project!'
@@ -188,7 +188,7 @@ function projectSettings_generateProjectCard(project){
                           //  '<img class="activator" src="http://www.planetware.com/photos-large/CH/switzerland-matterhorn.jpg">'+
                           //'</div>'+
                           '<div class="card-content">'+
-                            '<span class="card-title activator grey-text text-darken-4" style="position: relative;">'+proj+'<i class="material-icons right">more_vert</i></span>'+
+                            '<span class="card-title activator grey-text text-darken-4" style="position: relative;">'+project.projName+'<i class="material-icons right">more_vert</i></span>'+
                             '<div class="row"><p>Title: ' +project.title+ '</p></div>'+
                             '<div class="row"><p>Author: '+project.author+'</p></div>'+
                             '<div class="row" >' +
@@ -196,7 +196,7 @@ function projectSettings_generateProjectCard(project){
                             '</div>'+
                           '</div>'+
                           '<div class="card-reveal" >'+
-                            '<span class="card-title grey-text text-darken-4">'+proj+'<i class="material-icons right">close</i></span>'+
+                            '<span class="card-title grey-text text-darken-4">'+project.projName+'<i class="material-icons right">close</i></span>'+
                             '<p>Date Created: ' + project.dateCreated + '</p>'+
                             '<p>Last Modified: ' + project.lastModified + '</p>'+
                             pubHTML+

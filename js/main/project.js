@@ -64,9 +64,13 @@ function project_createNewProject(){
 
 				},
 				function(results){
-					if (results[0] == "")
+					var regex = new RegExp("^[a-zA-Z0-9_-]+$");
+					if(results[0] == "")
 					{
 						myModal.warning("Project name cannot be empty");
+					}
+				 	else if(regex.test(results[0]) === false){
+						myModal.warning("Project names can only contain letters, numbers, underscores or hyphens")
 					}
 					else
 					{
@@ -145,8 +149,9 @@ function project_login(){
 				function(results){
 
 					results[0] = results[0].trim()
-					if(results[0].indexOf(' ') >= 0){
-						myModal.warning('You cannot have spaces in your username')
+					var regex = new RegExp("^[a-zA-Z0-9]+$");
+					if(regex.test(results[0]) === false){
+						myModal.warning("Usernames can only contain letters and numbers")
 						return false
 					}
 
@@ -183,6 +188,7 @@ function project_signUp(){
 					},
 					function(results){
 						results[0] = results[0].trim()
+						var regex = new RegExp("^[a-zA-Z0-9]+$");
 						if(results[0] === '' || results[1] === '' || results[2] ===''){
 							myModal.warning('All fields must be filed out.')
 							return false
@@ -191,8 +197,8 @@ function project_signUp(){
 							myModal.warning('Your password and confirmation password do not match.')
 							return false
 						}
-						else if(results[0].indexOf(' ') >= 0){
-							myModal.warning('You cannot have spaces in your username')
+						else if(regex.test(results[0]) === false){
+							myModal.warning("Usernames can only contain letters and numbers")
 							return false
 						}
 						else{
