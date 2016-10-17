@@ -102,10 +102,10 @@ function openInventoryDefinitionOverlay()
 		{
 			dismissible: true,
 			ready: function(){
-				
+				gameInventory_createModule_populateItemsList();
 			},
 			complete: function(){
-
+				$('.inventory-item-list').empty();
 			}
 		}
 	)

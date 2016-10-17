@@ -361,6 +361,8 @@ goog.require('project')
 		 newID = spl[0] + '_' + spl[1] + '_' + spl[2] + '_attButton_' + spl[4]
 		 newButton = generateAttributeButton( newID,'game-attributes numbers','NO_COL')
 		 $('#' + spl[0] + '_' + spl[1] + '_' + spl[2] + '_' + spl[3] + '_' + spl[4]).replaceWith(newButton)
+	 }else if(spl[0] == 'inventoryItem'){
+		 newID = clickedItemID;
 	 }
 
 	 console.log(newID + ' ' + att.path)
@@ -530,6 +532,17 @@ function setRandomNumberRange(clickedItemID){
 	 else{
 		 ret = '<div class="col s2"><div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div></div>'
 	 }
+	 return ret
+ }
+
+ function generic_generateAttributeButton(id, classes, mode){
+	 var ret;
+	// if(mode === 'NO_COL'){
+		 ret = '<div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div>'
+	 //}
+	 //else{
+		// ret = '<div class="col s2"><div id="inventoryItem_' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div></div>'
+	 //}
 	 return ret
  }
 
