@@ -154,8 +154,6 @@ function assessEdge(edgeID){
 			logger.log("Assessing edge " + edge.json().data.name + '<br>')
 			if(edge !== undefined){
 				var conditions = edge.json().data.conditions
-				var results = [] //storage of results of T/F condition assessments
-
 
 				if(conditions.length > 0){
 					var ret = true
@@ -272,9 +270,8 @@ function assessCondition(condition){
 			}
 		}
 		return false
-		
-	}
 
+	}
 
 }
 
@@ -296,8 +293,9 @@ function getAttributeValue(childNode){
 	}
 	else{
 		//button is attribute button
-		var path = childNode.attributes.path.nodeValue
-		var att = gameAttributes_find(path)
+		var pathx = childNode.attributes.path.nodeValue
+		console.log("Path is: ", pathx);
+		var att = gameAttributes_find(pathx)
 		return att.value
 	}
 

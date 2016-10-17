@@ -314,7 +314,7 @@ li.margin { margin-left: 10px; }
 	left: 47%;
 }
 
-.login-login{
+.login-login {
 
 	display: block;
 	position: absolute;
@@ -323,8 +323,9 @@ li.margin { margin-left: 10px; }
 	width: 40%;
 	height: 100%;
 	left: 57%;
+}
 
+#Play{
+display:none;
 }
-=======
-}
->>>>>>> origin/gh-pages
+
