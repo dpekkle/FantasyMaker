@@ -148,7 +148,7 @@ function generic_generateAttributeButton(id,classes,mode){
     ret = '<div id="' + id + '" class="generic-attributes-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""><p class="truncate"></p></div>'
   }
   else{
-    ret = '<div class="col s2"><div id="' + id + '" class="generic-attributes-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""><p class="truncate"></p></div></div>'
+    ret = '<div class="col s5"><div id="' + id + '" class="generic-attributes-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""><p class="truncate"></p></div></div>'
   }
   return ret
 }

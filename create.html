@@ -44,38 +44,47 @@
 	</nav>
 
 	<!-- Jump Node Overlay -->
-	<div id="jump-modal" class="modal">
-		<div class = "modal-content">
+	<div id="jump-modal" class="modal modal-fixed-footer" style="overflow-y: hidden">
+		<div class="modal-content">
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
 			<h4>Jump Node</h4> <br/>
-		  	<form action="#">
-				<p>
-					<input name="group1" type="radio" id="test1" />
-					<label for="test1">Red</label>
-				</p>
-				<p>
-					<input name="group1" type="radio" id="test2" />
-					<label for="test2">Yellow</label>
-				</p>
-		    </form>
-			<select>
-				<option value="" disabled selected>Choose A Trigger For This Jump Node</option>
-				<option value="check" >Attribute Condition</option>
-				<option value="button">Button Press</option>
-			</select>
-			<div id = "check">
-				<div class="collapsible-header active">Conditions</div>
-				<div class="collapsible-body"> 
-					<ul id = "jumpConditionList" class="list-unstyled" >
-						
-					</ul>
+		  	<form id="choosejumptrigger" "action="#">
+		  		<h5>Triggering Event</h5>
+		  		<div>
+					<input name="group1" type="radio" id="test1" value="button"/>
+					<label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a button is pressed the player will be taken to this jump node immediately.">Button Press</label>
 				</div>
+				<div>
+					<input name="group1" type="radio" id="test2" value="attribute"/>
+					<label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined condition is met the player will be taken to this jump node immediately.">Attribute Condition</label>
+				</div>
+		    </form>
+		    <hr>
+			<ul class="collapsible popout" data-collapsible="expandable">
+				<li class = "attribute" style = "display:none">
+					<div class="collapsible-header active">Conditions</div>
+					<div class="collapsible-body">
+						<ul id = "jumpConditionList" class="list-unstyled" ></ul>
+					</div>
+				</li>
+				<li class = "button" style = "display:none">
+					<div class="collapsible-header active">Choose Button</div>
+					<div class="collapsible-body">
+						<ul id = "jumpButtonList" class="list-unstyled" ></ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="modal-footer" >
+			<div class = "attribute" style = "display:none">
+				<button type="button" class="btn btn-default" onClick="addJumpCondition()" style="width: 30%; float: right;">Add Condition</button>
 			</div>
-			<div id = "button">
-				<p>Choose Button</p>
-			</div>
+			<div class = "button" style = "display:none">
+				<button type="button" class="btn btn-default tooltipped" data-position="top" data-delay="1000" data-tooltip = "Create a new button that can then be tied to this jump node. You can then add this button to any page you want." onClick="createNewJumpButton()" style="width: 30%; float: right;">New Button</button>
+			</div>	
 		</div>
 	</div>
+
 	<!-- Page Edits Overlay (Materialize) -->
 	<div id="page-modal" class="modal">
 		<div class="modal-content" style="padding-top: 40px" >
@@ -148,10 +157,6 @@
 					<div class="collapsible-body"><ul id = "outcomesList" class="list-unstyled" ></ul></div>
 				</li>
 			</ul>
-		</div>
-		<div class = "toolbar" id="connectiontoolbar">
-			<p id="connectionname"></p>
-
 		</div>
 		<div class="modal-footer">
 

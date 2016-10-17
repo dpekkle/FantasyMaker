@@ -171,6 +171,15 @@ var cy = cytoscape({
 			}
 		},
 		{
+			selector: '.jumpenderror',
+			style:{
+				'border-width': 7,
+				'border-color': 'orange',
+				'transition-property': 'border-width, border-color',
+				'transition-duration': '0.1s',
+			}
+		},
+		{
 			selector: '.start',
 			style:{
 				'width': 40,

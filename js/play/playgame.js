@@ -6,13 +6,8 @@ goog.require('project')
 goog.require('audio')
 goog.require('events')
 goog.require('logger')
+goog.require('playJump')
 
-
-
-//load project file here for play module
-
-// currentNode = null;
-// outgoingEdges = null;
 
 function loadingScreen(more_to_load)
 {
@@ -39,13 +34,15 @@ function prepareForGame()
 	currentNode = null;
 	outgoingEdges = null;
 
+	initJumpNodes();
+
 	//clear page
 	$('.playpage').html('');
 
 	//consider case where someone creates pages without opening the page style overlay, in which case no style is assigned
 	//will probably be an empty page i.e. no html
 
-	var eles = cy.elements();
+	var eles = cy.elements('.page');
 	for (var i = 0; i < eles.length; i++)
 	{
 		updatePageStyle(eles[i]);
@@ -74,6 +71,12 @@ function wipeGame()
 
 	//@RUSSEL set all attributes/inventory items to their initial values
 
+	//remove "origins" for all jump nodes
+	cy.$('.jump').each(function(i, ele){
+		ele.data('origin', null);
+	});
+	jump_context_stack = [];
+	
 	//reset all audio
 	for (var i = 0; i < project_project.audio.getAsset().length; i++)
 	{
@@ -84,6 +87,7 @@ function wipeGame()
 	//clear page
 	$('.playpage').html('');
 	$('.playpage').attr('style', '');
+	event_manager.clearTimer();
 }
 
 function parseNode()
@@ -199,7 +203,18 @@ function progressStory(i)
 		//need to run edge outcomes here
 		executeOutcomes(outgoingEdges.eq(i))
 		console.log("Now on node ", currentNode.data('id'));
-		parseNode();
+
+		var jump_node = checkConditionalJumps();
+		if (jump_node)
+		{
+			//save the current node so we can get back to it later
+			jump_node.data('origin', currentNode);
+			runJumpNode(jump_node);
+		}
+		else
+		{
+			parseNode();
+		}
 	}
 	else
 	{

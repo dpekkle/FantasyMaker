@@ -8,6 +8,7 @@ function deleteEvent()
 		$(selected_event).remove();
 }
 
+
 function eventManager()
 {
 	this.page_time = 0;
@@ -43,9 +44,10 @@ function eventManager()
 			// run next event
 			this.runEvent();
 			this.next_event = this.event_queue.shift(); //dequeue
+			return 1;
 		}
-		
-		return 1;
+
+		return 0;
 	}
 	this.runEvent = function()
 	{
@@ -106,10 +108,15 @@ function eventManager()
 			this.page_time++;
 			if (this.checkEventTriggers() === 0)
 			{
-				clearInterval(this.timerloop)
+				this.clearTimer();
 				console.log("Clearing");
 			}
 		}.bind(this), 1000);
+	}
+
+	this.clearTimer = function()
+	{
+		clearInterval(this.timerloop)
 	}
 
 	this.newPage = function(events_list)

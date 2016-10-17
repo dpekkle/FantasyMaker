@@ -160,7 +160,6 @@ function closeOverlay(element)
 			//remove html of condition/outcome lists
 			$('#conditionsList').children().remove();
 			$('#outcomesList').children().remove();
-
 		}
 	}else{
 		//daznote - set this to run only on newProject-modal closure
@@ -169,7 +168,6 @@ function closeOverlay(element)
 			$('#projNameAcceptButton').addClass('disabled')
 		}
 		//Modal is independent of cytoscape (Attributes)
-		//TODO - Handle Attributes Overlay Closure
 	}
 
 }
