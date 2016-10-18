@@ -240,9 +240,9 @@ function resizePlayPage()
 
 
 	var y = $(window).height();		//want total height of the page
-	var buffer = $('#tabheadings').outerHeight() + $('.nav-wrapper').outerHeight() + $('.progressbutton').outerHeight();
+	var buffer = $('#tabheadings').outerHeight() + $('.nav-wrapper').outerHeight() + $('.progressbutton').outerHeight() + $('.gobackbutton').outerHeight() + 1;
 
-	$('#playwindow').css('height', y-buffer); //tabs at top are 42;
+	$('#playwindow').css('height', y-buffer);;
 
 	var w = $('#playwindow').width();
 	var h = $('#playwindow').height();

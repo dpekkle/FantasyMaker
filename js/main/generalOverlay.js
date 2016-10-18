@@ -111,7 +111,6 @@ function openInventoryDefinitionOverlay()
 	)
 }
 
-
 function openAudioOverlay()
 {
 	console.log("Audio overlay opened")

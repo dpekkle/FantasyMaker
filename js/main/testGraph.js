@@ -21,14 +21,14 @@ function testJumpNodes()
 			{
 				console.log("bad one found", roots[i].data('name'))
 				//ele can be reached from a non-jump root
-				pass = true
+				pass = false
 				roots[i].flashClass('jumpenderror', 3000);
 				ele.flashClass('jumpenderror', 3000);
 			}
 		}
 	});
 	
-	return found;
+	return pass;
 }
 
 function checkValidGraph()
