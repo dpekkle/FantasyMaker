@@ -38,6 +38,13 @@ goog.require('project')
 					 setComparisonType('type3',$trigger.attr('id'))
 				 }
 			 }
+
+       options.items['type4'] = {
+         name: 'Inventory Condition',
+         callback: function(key,options){
+           setComparisonType('type4',$trigger.attr('id'))
+         }
+       }
 		 }
      else{
 
@@ -361,6 +368,8 @@ goog.require('project')
 		 newID = spl[0] + '_' + spl[1] + '_' + spl[2] + '_attButton_' + spl[4]
 		 newButton = generateAttributeButton( newID,'game-attributes numbers','NO_COL')
 		 $('#' + spl[0] + '_' + spl[1] + '_' + spl[2] + '_' + spl[3] + '_' + spl[4]).replaceWith(newButton)
+	 }else if(spl[0] == 'inventoryItem'){
+		 newID = clickedItemID;
 	 }
 
 	 console.log(newID + ' ' + att.path)
@@ -485,6 +494,18 @@ function setRandomNumberRange(clickedItemID){
 		return html
  }
 
+ function generateInventoryCondition(id){
+   var html = '<li id=' + id + '>'+
+  							'<div class="row" type="4">'+
+  								generateSettingsButton(id) +
+									generateInventoryButton(id + '_invButton') +
+                  generateExistsButton(id + '_existsButton')+
+								'</div>'+
+			 					'<div class="divider"></div>'+
+			 				'</li>'
+		return html
+ }
+
  function generateOutcome(id){
 	 var html = '<li id=' + id + '>'+
 								'<div class="row" type="Attribute Modification">'+
@@ -522,6 +543,8 @@ function setRandomNumberRange(clickedItemID){
 		return html
  }
 
+
+
  function generateAttributeButton(id,classes,mode){
 	 var ret
 	 if(mode === 'NO_COL'){
@@ -530,6 +553,17 @@ function setRandomNumberRange(clickedItemID){
 	 else{
 		 ret = '<div class="col s2"><div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div></div>'
 	 }
+	 return ret
+ }
+
+ function generic_generateAttributeButton(id, classes, mode){
+	 var ret;
+	// if(mode === 'NO_COL'){
+		 ret = '<div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div>'
+	 //}
+	 //else{
+		// ret = '<div class="col s2"><div id="inventoryItem_' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div></div>'
+	 //}
 	 return ret
  }
 
@@ -561,12 +595,38 @@ function setRandomNumberRange(clickedItemID){
    return html
  }
 
- function generateBreakButton(id){
-   var html =     '<div class="col s1">'
-                +   '<div id="' + id + '" class="attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip="Defines a new line in the control output"> No Newline</div>'
-                + '</div>'
+function generateInventoryButton(id){
+  var html =     '<div class="col s2 truncate">'
+               +   '<div id="' + id + '" class="attribute-button tooltipped inventory-context-menu" data-html="true" data-position="bottom" data-delay="50" data-tooltip="" itemid="" ><p class="truncate">.....</p></div>'
+               + '</div>'
+  return html
+}
+
+function setInventoryButtonSelection(id,item){
+  $('#'+id).children().text(item.name)
+  $('#'+id).attr('data-tooltip',item.name)
+  $('#'+id).attr('itemid',item.itemID)
+  $('#'+id).tooltip({delay: 50});
+}
+
+function generateExistsButton(id){
+    var html =     '<div class="col s2 truncate">'
+                 +   '<a href="#" ><div id="' + id + '" state="false" onclick=existsButtonSwapState(this.id) class="attribute-button"><p class="truncate">Not in inventory</p></div></a>'
+                 + '</div>'
     return html
- }
+}
+
+function existsButtonSwapState(id){
+  var bool = $('#' + id).attr('state')
+  if(bool === 'false'){
+    $('#' + id).children().text('Is in inventory')
+    $('#' + id).attr('state','true')
+  }
+  else{
+    $('#' + id).children().text('Not in inventory')
+    $('#' + id).attr('state','false')
+  }
+}
 
  function setComparisonType(type,id){
 	 var spl = id.split('_')
@@ -602,6 +662,10 @@ function setRandomNumberRange(clickedItemID){
 			initAttributeButton(id + '_attButton_s2_1')
 			initAttributeButton(id + '_attButton_s2_2')
 			break;
+
+    case 'type4':
+      newCondition = generateInventoryCondition(id)
+      $('#' + id).replaceWith(newCondition)
 	 }
 
 
@@ -722,3 +786,40 @@ function findFirstLeafPath(path){
  	);
 
  }
+
+ $.contextMenu({
+  selector: ".inventory-context-menu",
+ trigger: 'left',
+  build: function($trigger) {
+    var options = {
+      items: {}
+    }
+
+    options.items.inventory = {
+      name: 'Inventory Item',
+      items: {}
+    }
+
+    if(Object.keys(project_project.gameInventory).length > 0){
+      for(var key in project_project.gameInventory){
+       // add characters option
+       var item = gameInventory_getItem(key)
+       options.items.inventory.items[key] = {
+         name: item.name,
+         callback: function(key,options){
+           setInventoryButtonSelection($trigger.attr('id'),item)
+         }
+       }
+     }
+    }
+    else{
+      options.items.err = {
+        name: 'No inventory items available',
+        disabled: true
+      }
+    }
+
+
+    return options
+  }
+ });
