@@ -18,6 +18,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/playpage.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/attributes-inventory.css" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
@@ -42,69 +43,19 @@
 	<div id="mainContent" class="container-fluid">
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
-				<ul class="tabs hide" id="tabheadings">
-					<li class="tab col s4"><a class="active" href="#cyTab" onclick=wipeGame()>Graph</a></li>
-					<!-- onclick function added to clear .playpage, otherwise the elements present can mess with .length operations e.g. $('.text-container').length -->
-					<li class="tab col s4"><a href="#Character" onclick=wipeGame()>Character</a></li>
-					<li class="tab col s4"><a href="#Play" onclick=prepareForGame()>Play</a></li>
-				</ul>
 				<div class="tab-content hide">
 					<div id="cyTab" class="tab-pane fade in active">
-						<div class="col s9 l9" id="cy"> <!-- Grid "workspace" container -->
-							</div>
-						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
-							<h5 id="UI_projName"></h5>
-							<hr/>
-							<button class='pagemode dropdown-button btn' href='#' onclick=changeState(this) data-activates='pagetemplates'>Page Node</button> <br/>
-							<ul id='pagetemplates' class='dropdown-content'>
-								<li><a onclick="chooseNodeTemplate('Default');">Default</a></li>
-							</ul>
-							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
-							<button class="jumpmode btn" onclick=changeState(this)>Jump Node</button><br/>
-							<button class="connectionmode btn" onclick=changeState(this)>Edge</button><br/>
-							<button class="prebuilt dropdown-button btn" href='#' onclick=changeState(this) data-activates='prebuilts'>Prebuilt Structure</button><br/>
-							<ul id='prebuilts' class='dropdown-content'>
-								<li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
-								<li><a  onclick='choosePrebuilt("Store")'>Store</a></li>
-							</ul>
-							<hr/>
-							<a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
-							<br/>
-							<a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a>
-							<br/>
-							<hr/>
-							<button class="connectivity btn" onclick=checkValidGraph()>Test Graph</button> <br/>
-							<button class='dropdown-button btn' href='#' data-activates='stylegraph'>Style Graph</button> <br/>
-							<ul id='stylegraph' class='dropdown-content'>
-								<li><a onclick="layout_driver('Tree');">Tree</a></li>
-								<li><a onclick="layout_driver('Grid');">Grid</a></li>
-								<li><a onclick="layout_driver('Circle');">Circle</a></li>
-								<li><a onclick="layout_driver('Spread');">Spread</a></li>
-								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
-							</ul>
-							<hr/>
-							<button class="savebutton btn" onclick=project_saveProject()>Save</button><br/>
-							<hr/>
-							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
-							<button class="btn modal-trigger editbutton" style = "display:none;" data-target="page-modal">Edit Page</button>
-							<button class="btn modal-trigger editbutton" style = "display:none;" data-target="connection-modal">Edit Edge</button>
-							<button class="btn modal-trigger editbutton" style = "display:none;" data-target="control-modal">Edit Control</button>
-							<br/>
-							<br/>
+						<div class="col s9 l9" id="cy"> 
+							<!-- Grid "workspace" container -->
 						</div>
 					</div>
-					<!--
-					<div id="Play" class="tab-pane fade">
-
-					</div>
-				-->
-
+				</div>
 			</div>
 			<div class="col s12" id="playwindow">
 				<div class = "playpage">
 				</div>
 				<div id="loader"></div>
-				<button class="progressbutton button" style='float:right;' onclick=progressStory(0)>Continue</button>
+					<button class="progressbutton btn" onclick=progressStory(0)>Start</button>
 				<div id = "audioplayerlist">
 					<!-- fills with audio elements for each sound to play -->
 				</div>
@@ -129,5 +80,5 @@
 	<script defer src="js/lib/jquery.cookie.js"></script>
 	<script src="http://www.youtube.com/player_api"></script>
 
-	<script defer src="js/play.min.js"></script>
+	<script defer src="js/play/play.min.js"></script>
 </html>

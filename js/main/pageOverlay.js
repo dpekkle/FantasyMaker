@@ -598,27 +598,27 @@ function savePage(selected)
 			};
 		img_container_array.push(newcontainer);
 	});
-	console.log(img_container_array);
+	//console.log(img_container_array);
 	selected.data('imgcontainers', img_container_array);
 
 	var vid_container_array = [];
 	$('#pagecontainers').children("div[class^='vid-container']").each(function (index) {
 		var html = this.outerHTML;
-		console.log("Save HTML for vid ", index);
+		//console.log("Save HTML for vid ", index);
 		var newcontainer = {
 			'name' : index+1,
 			'html' : html
 			};
 		vid_container_array.push(newcontainer);
 	});
-	console.log(vid_container_array);
+	//console.log(vid_container_array);
 	selected.data('vidcontainers', vid_container_array);
 
 	//decisions
 	$('#pagecontainers').children("div[class^='decision-container']").each(function (index) {
 		var html = this.outerHTML;
 		selected.data('decisioncontainers')[index].html = html;
-		console.log("Save HTML for decision ", index);
+		//console.log("Save HTML for decision ", index);
 	});
 
 	var event_array = [];

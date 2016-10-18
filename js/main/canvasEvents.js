@@ -10,6 +10,8 @@ compound_group_num = 0;
 source_node = null;
 held_node = null;
 
+
+
 cy.on('tapstart', 'node', function(event)
 {
 	//sometimes tapend fires on a different element than the one we dragged due to z-axis issues.
@@ -555,4 +557,24 @@ function createFight(event)
 	cy.$('#fightparent' + cy.nodes(':parent').size() + 1).select();
 
 }
+
+function fixDisappearingBug()
+{
+	if (cy.$('.start').size() !== 0)
+		cy.$('.start').data('fakeattribute', 1);
+}
+
+var fixbug = setInterval(function()
+{
+	fixDisappearingBug();
+}, 200);
+
+// cy.on('pan', function(event)
+// {
+// 	fixDisappearingBug();
+// });
+// cy.on('zoom', function(event)
+// {
+// 	fixDisappearingBug();
+// });
 

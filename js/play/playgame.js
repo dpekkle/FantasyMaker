@@ -194,10 +194,11 @@ function progressStory(i)
 	{
 		if (cy.$('*').length < 1)
 		{
-			alert("Your graph is empty")
+			alert("The project is empty")
 		}
 		else
 		{
+			$('.progressbutton').hide();
 			currentNode = cy.$('.start')[0];
 			parseNode();
 		}
@@ -245,9 +246,9 @@ function resizePlayPage()
 
 
 	var y = $(window).height();		//want total height of the page
-	var buffer = $('#tabheadings').outerHeight() + $('.nav-wrapper').outerHeight() + $('.progressbutton').outerHeight();
+	var buffer = $('.nav-wrapper').outerHeight() + $('.progressbutton:visible').outerHeight() + $('.gobackbutton:visible').outerHeight() + 1;
 
-	$('#playwindow').css('height', y-buffer); //tabs at top are 42;
+	$('#playwindow').css('height', y-buffer);
 
 	var w = $('#playwindow').width();
 	var h = $('#playwindow').height();

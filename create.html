@@ -4,6 +4,16 @@
 	<head>
 		<meta charset="utf-8" name="description" content="Fantasymaker : ">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- Favicons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+		<link rel="manifest" href="/favicon/manifest.json">
+		<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+		<link rel="shortcut icon" href="/favicon/favicon.ico">
+		<meta name="msapplication-config" content="/favicon/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
 
 		<!-- <script src="js/lib/dialog-polyfill.js"></script>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/dialog-polyfill.css">
@@ -405,9 +415,10 @@
 	<div id="mainContent" class="container-fluid hide">
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
-					<div id="cyTab" class="tab-pane fade in active">
-						<div class="col s9 l9" id="cy"> <!-- Grid "workspace" container -->
-							</div>
+					<div id="cyTab">
+						<div class="col s9 l9" id="cy"> 
+							<!-- Grid "workspace" container -->
+						</div>
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
 							<h5 id="UI_projName"></h5>
 							<hr/>
@@ -464,7 +475,7 @@
 						</div>
 					</div>
 					<div id="Play">
-						<button class="progressbutton btn" onclick=progressStory(0)>Continue</button>
+						<button class="progressbutton btn" onclick=progressStory(0)>Start</button>
 						<button class="gobackbutton btn" onclick="createModule_showProject()">Return To Project</button>
 						<div id="playwindow">
 							<div id="loader"></div>
@@ -486,7 +497,7 @@
 	</body>
 	<script src="js/lib/queue.js"></script>
 	<script src="js/lib/jquery-2.2.2.min.js"></script>
-	<script defer src="js/lib/cytoscape.min.js"></script>
+	<script defer src="js/lib/cytoscape3x.min.js"></script>
 	<script defer src="js/lib/cytoscape-panzoom.js"></script>
 	<script defer src="js/lib/cytoscape-cose-bilkent.js"></script>
 	<script defer src="js/lib/materialize.min.js"></script>
