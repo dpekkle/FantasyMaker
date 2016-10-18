@@ -48,7 +48,7 @@
 		<div class="modal-content">
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
 			<h4>Jump Node</h4> <br/>
-		  	<form id="choosejumptrigger" "action="#">
+		  	<form id="choosejumptrigger" action="#">
 		  		<h5>Triggering Event</h5>
 		  		<div>
 					<input name="group1" type="radio" id="test1" value="button"/>
@@ -81,7 +81,7 @@
 			</div>
 			<div class = "button" style = "display:none">
 				<button type="button" class="btn btn-default tooltipped" data-position="top" data-delay="1000" data-tooltip = "Create a new button that can then be tied to this jump node. You can then add this button to any page you want." onClick="createNewJumpButton()" style="width: 30%; float: right;">New Button</button>
-			</div>	
+			</div>
 		</div>
 	</div>
 
@@ -285,6 +285,7 @@
 			</div>
 		</div>
 
+		<!-- login screen -->
 		<div id="requestLogin" class="login-container">
 			<img class="login-img" src="/images/banner_image.jpg">
 			<div class = "login-rounded-panel">
@@ -302,7 +303,7 @@
 			</div>
 		</div>
 
-
+		<!-- project screen -->
 	<div id="projects" class="hide">
 		<div id="currentProject" class="hide" style="padding: 20px;">
 			<table class="highlight bordered">
@@ -347,6 +348,16 @@
 	            <td>Browser Image</td>
 	            <td id="currentProject_imageLink"></td>
 	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyImage()"><i class="small material-icons">mode_edit</i></a></td>
+	          </tr>
+						<tr>
+	            <td>Play Module Background Image</td>
+	            <td id="currentProject_backgroundImageLink"></td>
+	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyBackgroundImage()"><i class="small material-icons">mode_edit</i></a></td>
+	          </tr>
+						<tr>
+	            <td>Game Resolution</td>
+	            <td id="currentProject_resolution"></td>
+	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyResolution()"><i class="small material-icons">mode_edit</i></a></td>
 	          </tr>
 						<tr>
 	            <td>Date Created</td>

@@ -192,7 +192,7 @@ function boolToString(bool){
 function assessCondition(condition){
 	//console.log(condition)
 	var html = $.parseHTML(condition.html)
-
+	console.log(html)
 	var type = html[0].attributes[1].value
 	if(type === '1'){
 		//attribute : comparison : attribute condition
@@ -200,9 +200,6 @@ function assessCondition(condition){
 		var comparison = html[0].childNodes[2].childNodes[0].data
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
 
-		//logger.log("Condition '" + )
-		//console.log(attButton1_val + comparison + attButton2_val)
-		//
 		var ret = assessComparison(attButton1_val,comparison,attButton2_val)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') '+comparison + ' ' +
 								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') is ' + boolToString(ret) + '<br>')
@@ -252,43 +249,78 @@ function assessCondition(condition){
 	else if(type === "4"){
 		//inventory exists condition
 		//get cond from html
+		/*
 		var itemID = html[0].childNodes[1].childNodes[0].attributes.itemid.value
 		var item = gameInventory_getItem(itemID)
 		var exists = html[0].childNodes[2].childNodes[0].firstChild.attributes.state.value
 
 		//define if is exists/not exists
+		console.log('EXISTS CONDITION:')
+		console.log('ITEMID: ' + itemID)
+		console.log('ITEM: ')
+		console.log(item)
+		console.log('EXISTS: ' + exists)
+		//console.log(itemID + ' ' + JSON.stringify(item) + ' ' + exists)
+
+		if(itemID === undefined || item === undefined){
+			return false
+		}
+
 		if(exists === "true"){
 			//exists
-			if(item.playCount > 0){
+			console.log('dose exist?')
+			if(item.itemCount > 0){
+				console.log('YES')
 				return true
 			}
+			console.log('NO')
 		}
 		else{
 			//not exists
-			if(item.playCount === 0){
+			console.log('does not exist?')
+			if(item.itemCount === 0){
+				console.log('YES')
 				return true
 			}
-		}
+			console.log('NO')
+		*/
 		return false
 
+	}
+	else if(type === "5"){
+		//amount of inventory exists
+		return false
+	}
+	else if(type === "6"){
+		//random number comparisons use type1 assessment
 	}
 
 }
 
 
 function getAttributeValue(childNode){
-
-	if(childNode.id.split('_')[3] === 'specValue'){
+	console.log('getting value for: ' + childNode.id)
+	//if(childNode.id.split('_')[3] === 'specValue'){
+	if(childNode.classList[0] === 'input-field'){
+		console.log('input field found')
+		console.log('input feild in html: ' + childNode.attributes.value.value )
 		//button is an input feild
 		//the value attribute of the input feild must be explicitly set when saving a condition
-		return parseFloat(childNode.childNodes[0].value)
+		var ret = parseFloat(childNode.attributes.value.value)
+		console.log('input feild parsed: ' + childNode.attributes.value.value )
+		return parseFloat(childNode.attributes.value.value)
 
 	}
-	else if(childNode.id.split('_')[3] === 'randValue'){
+	else if(childNode.classList[0] === 'random'){
+		console.log('random number found')
 		//console.log('GENERATING RANDOM NUMBER')
+
 		var min = parseFloat(childNode.attributes.min.value)
 		var max = parseFloat(childNode.attributes.max.value)
-		return Math.floor(Math.random() * (max - min + 1)) + min;
+		var rand = Math.floor(Math.random() * (max - min + 1)) + min
+		console.log('Generated number between ' + min + ' and ' + max + ' is: ' + rand)
+		return rand;
+
 
 	}
 	else{
@@ -302,13 +334,11 @@ function getAttributeValue(childNode){
 }
 
 function getAttributeText(childNode){
-	if(childNode.id.split('_')[3] === 'specValue'){
+	if(childNode.classList[0] === 'input-field'){
 		//button is an input feild
-		//console.log(childNode.childNodes[0].value)
-		return childNode.childNodes[0].value
-
+		return childNode.attributes.value.value
 	}
-	else if(childNode.id.split('_')[3] === 'randValue'){
+	else if(childNode.classList[0] === 'random'){
 		return "a random number"
 	}
 	else{
@@ -338,6 +368,8 @@ function getAttributeText(childNode){
 function assessComparison(left_value, comparison, right_value){
 	var L = parseFloat(left_value)
 	var R = parseFloat(right_value)
+
+	console.log('COMPARISON: LEFT: ' + L + ' RIGHT: ' + R)
 	switch (comparison) {
 		case '=':
 			if(L === R){
@@ -396,8 +428,9 @@ function assessComparison(left_value, comparison, right_value){
 }
 
 function assessModification(left_value, modifier, right_value){
-	var L = parseInt(left_value)
-	var R = parseInt(right_value)
+	var L = parseFloat(left_value)
+	var R = parseFloat(right_value)
+	console.log('MODIFICATION: LEFT: ' + L + ' RIGHT: ' + R)
 	switch (modifier) {
 		case '=':
 			var ret = R

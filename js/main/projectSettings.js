@@ -21,6 +21,8 @@ function projectSettings_prepThenNavToProjects(project_project){
   $('#currentProject_lastModified').text(project_project.lastModified)
   $('#currentProject_published').text(project_project.published)
   $('#currentProject_imageLink').text(project_project.imageLink)
+  $('#currentProject_backgroundImageLink').text(project_project.backgroundLink)
+  $('#currentProject_resolution').text('Width: ' + project_project.resolution.x + 'px Height: ' +project_project.resolution.y + 'px')
 
   if(project_project.published === true){
     $('#currentProject_gameLink').attr('href',project_project.gameLink)

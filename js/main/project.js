@@ -46,6 +46,7 @@ function initEmptyProject(username,projName){
 		"author" : username,
 		"description" : "No description available.",
 		"imageLink" : "No URL provided",
+		"backgroundLink" : "No URL provided",
 		"gameLink" : host_play() + username + '/' + projName,
 
 		"graph" : [],
@@ -162,6 +163,7 @@ function project_login(){
 
 						if(res.data !== 'INVALID_USERNAME' && res.data !== 'INVALID_PASSWORD' && res.data !== 'SERVER_ERR'){
 							project_successfulLogin(res)
+							Materialize.toast("Welcome back " + users_getUsername() + "!", 3000, 'rounded')
 						}
 						else{
 							myModal.warning("Login details were invalid. Please try again.");
@@ -174,7 +176,6 @@ function project_successfulLogin(res){
 	users_flushToken()
 	window.localStorage.setItem('token', JSON.stringify(res.data))
 	$('#prompt-modal').closeModal();
-	Materialize.toast("Welcome back " + users_getUsername() + "!", 3000, 'rounded')
 	console.log(users_getUsername() + ' logged in')
 	$('#profile_button').text(users_getUsername())
 	projectSettings_prepThenNavToProjects(project_project)
@@ -210,6 +211,20 @@ function project_signUp(){
 								if(ret === 'VALID'){
 									Materialize.toast("Welcome to FantasyMaker " + results[0] + ".", 3000, 'rounded')
 									$('#prompt-modal').closeModal();
+
+									//sign in automatically
+									var res = {
+										"data" : {}
+									}
+									$.when(http_login(newUser.username,newUser.password,res)).done(function(){
+
+										if(res.data !== 'INVALID_USERNAME' && res.data !== 'INVALID_PASSWORD' && res.data !== 'SERVER_ERR'){
+											project_successfulLogin(res)
+										}
+										else{
+											myModal.warning("Login details were invalid. Please try again.");
+										}
+									})
 								}
 								else{
 									myModal.warning('That username has already been taken. Please try another username')
@@ -291,6 +306,45 @@ function project_modifyImage(){
 			function(results){
 				if(results[0] === ''){
 					myModal.warning('URL field cannot be empty.')
+					return false
+				}
+				return true
+			}
+	);
+}
+
+function project_modifyBackgroundImage(){
+	myModal.prompt("Modify Game Background Image", "Change the image that appears in the background when your game is played in the play module.", [{name: "URL", default: project_project.backgroundLink, type: "text"}],
+			function(results){
+				project_project.backgroundLink = results[0]
+				$('#currentProject_backgroundImageLink').text(project_project.backgroundLink)
+				project_saveProject()
+			},
+			function(results){
+				if(results[0] === ''){
+					myModal.warning('URL field cannot be empty.')
+					return false
+				}
+				return true
+			}
+	);
+}
+
+function project_modifyResolution(){
+	myModal.prompt("Modify The Target Resolution Of The Project", "Change the resolution that you intend your viewers to view this game on.", [{name: "Width", default: project_project.resolution.x, type: "number"},{name: "Height", default: project_project.resolution.y, type: "number"}],
+			function(results){
+				project_project.resolution.x = parseInt(results[0])
+				project_project.resolution.y = parseInt(results[1])
+				$('#currentProject_resolution').text('Width: ' + project_project.resolution.x + 'px Height: ' +project_project.resolution.y + 'px')
+				project_saveProject()
+			},
+			function(results){
+				if(isNaN(parseInt(results[0])) || isNaN(parseInt(results[1]))){
+					myModal.warning('Width and height fields cannot be empty.')
+					return false
+				}
+				else if(parseInt(results[0]) < 0 || parseInt(results[1]) < 0){
+					myModal.warning('Width and height must be greater than 0')
 					return false
 				}
 				return true
