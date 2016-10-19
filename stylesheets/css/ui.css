@@ -68,7 +68,7 @@ nav{
 
 
 #controlcontainers{
-	width: 50%;
+	width: 100%;
 	height: auto;
 	float: left;
 }
@@ -218,7 +218,16 @@ li.margin { margin-left: 10px; }
   background-color: white;
   border-radius: 5px;
   box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-  height:90%;
+  height:100%;
+  width:90%;
+}
+
+#control-modal{
+  /* arbitrary styling */
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+  height:100%;
   width:90%;
 }
 
@@ -279,20 +288,20 @@ li.margin { margin-left: 10px; }
 }
 
 .login-text-white{
-	color: black;
+	color: #00febc;
 	-webkit-text-fill-color: white; /* Will override color (regardless of order) */
 	text-shadow:
-	    -1px -1px 0 #000,  
+	    -1px -1px 0 #000,
 	     1px -1px 0 #000,
 	    -1px  1px 0 #000,
 	     1px  1px 0 #000;
 
 }
 .login-text-green{
-	color: black;
+	color: #00febc;
 	-webkit-text-fill-color: #00febc; /* Will override color (regardless of order) */
 	text-shadow:
-	    -1px -1px 0 #000,  
+	    -1px -1px 0 #000,
 	     1px -1px 0 #000,
 	    -1px  1px 0 #000,
 	     1px  1px 0 #000;
