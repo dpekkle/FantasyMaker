@@ -223,7 +223,7 @@ goog.require('project')
 				}
 			 }
 			 else{
-				 options.items.err = {
+				 options.items.gameAtts.items.err = {
 					 name: 'No attributes available',
 					 disabled: true
 				 }

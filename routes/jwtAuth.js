@@ -38,12 +38,14 @@ module.exports = function(req, res, next) {
       console.log('jwtAuth err: ')
       console.log(err)
       //console.log(req.body)
-      return next();
+      //return next();
+      res.send('AUTH_ERROR')
+
     }
   } else {
     console.log('jwtAuth: No token')
-    next()
-    //res.send('NO_TOKEN')
+    //next()
+    res.send('NO_TOKEN')
     //next();
   }
 };
