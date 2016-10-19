@@ -106,10 +106,12 @@ function openInventoryDefinitionOverlay()
 			},
 			complete: function(){
 				$('.inventory-item-list').empty();
+				
 			}
 		}
 	)
 }
+
 
 
 function openAudioOverlay()

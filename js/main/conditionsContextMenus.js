@@ -223,7 +223,7 @@ goog.require('project')
 				}
 			 }
 			 else{
-				 options.items.err = {
+				 options.items.gameAtts.items.err = {
 					 name: 'No attributes available',
 					 disabled: true
 				 }
@@ -432,7 +432,7 @@ goog.require('project')
 //handles selections on attribute buttons
  function handleSelection(selected, clickedItemID, att){
 
-	 console.log(selected)
+	 console.log(selected);
 	 if(selected === 'randValue'){
 		 randomSelected(clickedItemID)
 	 }

@@ -215,9 +215,12 @@ function http_login(uname,pwd,ret){
 
 //examines response from server for authentication validation
 function http_handleAuth(res){
-	if(res === 'EXPIRED' || res === 'NO_TOKEN'){
+	if(res === 'EXPIRED' || res === 'NO_TOKEN' || res === 'AUTH_ERROR'){
 		if(res === 'EXPIRED'){
 			console.log('http_handleAuth(): Token is expired')
+		}
+		else if(res === 'AUTH_ERROR'){
+			console.log('http_handleAuth(): auth error')
 		}
 		else{
 			console.log('http_handleAuth(): No Token')
@@ -244,6 +247,39 @@ function http_getProjectsForBrowser(ret){
 				ret = data
 			}
 			//console.log('getAllUsersProjects loaded')
+		},
+		contenttype: "application/json"
+	});
+}
+
+function http_validateToken(){
+	http_addTokenToHeader()
+	return $.ajax({
+		url: '/validateToken',
+		cache: false,
+		type: 'GET',
+		success: function(data) {
+			if(data === 'EXPIRED' || data === 'NO_TOKEN' || data === 'AUTH_ERROR'){
+				if(data === 'EXPIRED'){
+					console.log('http_handleAuth(): Token is expired')
+
+				}
+				else if(data === 'AUTH_ERROR'){
+					console.log('http_handleAuth(): auth error')
+				}
+				else{
+					console.log('http_handleAuth(): No Token')
+				}
+
+				users_flushToken() //remove anyexpired tokens
+			}
+			else{
+				//ret = data
+				console.log('USER IS ALREADY LOGGED IN')
+				$('#profile_button').text(users_getUsername())
+				projectSettings_prepThenNavToProjects(project_project)
+			}
+
 		},
 		contenttype: "application/json"
 	});

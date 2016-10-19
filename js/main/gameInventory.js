@@ -13,16 +13,16 @@ function InventoryItem(itemObj) {
     /*
      modifiers format :
      'modifiers' : {
-     {
-     attributePath : < path of attribute to be modified>
-     modifierValue : <Value to modify by +/-> NOTE : only supporting addition/subtraction right now
-     }
+        {
+        attributePath : < path of attribute to be modified>
+        modifierValue : <Value to modify by +/-> NOTE : only supporting addition/subtraction right now
+        }
      }
      */
 
 }
 
-//defines and returns new item
+
     function gameInventory_defineItem(name, description) {
         var newItemID = "item-" + generateID();
         project_project.gameInventory[newItemID] = new InventoryItem(newItemID, name, description);
@@ -60,10 +60,19 @@ function InventoryItem(itemObj) {
         }
     }
 
+    //returns array of modifier objects for specified item
+    function gameInventory_getAllItemModifiers(itemID){
+        var modifierArray = [];
+        for (var modID in project_project.gameInventory[itemID].modifiers) {
+            modifierArray.push(project_project.gameInventory[itemID].modifiers[modID]);
+        }
+        return modifierArray;
+    }
+
     /* END MAIN INVENTORY METHODS */
 
     /* INVENTORY CREATE MODULE DOCUMENT METHODS */
-//ALL ITEMS HAVE ID WITH FORMAT 'item-[ITEMID]'
+    //ALL ITEMS HAVE ID WITH FORMAT 'item-[ITEMID]'
 
     function gameInventory_createModule_defineItem() {
         var itemID = 'item-' + generateID();//Generate ID that will be used for the item & item html elements
@@ -86,13 +95,20 @@ function InventoryItem(itemObj) {
         displayDescription.text(itemObj.description);
         displayInitCount.text(itemObj.initCount);
         displayModifiers.empty();
+
+         var modifierObj = {};
         for (var modID in project_project.gameInventory[itemID].modifiers) {
-            var modifierObj = project_project.gameInventory[itemID].modifiers[modID];
+            modifierObj = project_project.gameInventory[itemID].modifiers[modID];
 
             displayModifiers.append('<div class="chip">' + gameAttributes_find(modifierObj.attributePath).name + '+' + modifierObj.modifierValue + '</div>');
         }
-
     }
+
+    function gameInventory_createModule_deleteItem(itemID){
+        $('.' + itemID + '-list-element').remove();
+        gameInventory_deleteItem(itemID);
+    }
+
 
 
     function gameInventory_createModule_appendItemDiv(itemID, itemObj) {
@@ -110,7 +126,7 @@ function InventoryItem(itemObj) {
             + '<a class="btn-floating btn-small waves-effect waves-light blue edit-button" onclick="gameInventory_createModule_updateItem(' + '\'' + itemID + '\'' + ')"><i class="small material-icons">mode_edit</i></a> &nbsp;'
             + '</div>'
             + '<div class="col m1">'
-            + '<a class="btn-floating btn-small waves-effect waves-light red delete-button"  onclick="gameInventory_definitionModal_delete(' + '\'' + itemID + '\'' + ')"><i class="small material-icons">delete</i></a>'
+            + '<a class="btn-floating btn-small waves-effect waves-light red delete-button"  onclick="gameInventory_createModule_deleteItem(' + '\'' + itemID + '\'' + ')"><i class="small material-icons">delete</i></a>'
             + '</div>'
             + '</div>'
             + '</div>'
@@ -142,16 +158,16 @@ function InventoryItem(itemObj) {
                 + '<div class="row row-centered">'
                 + '<h3>Define Item</h3>'
                 + '<div class="input-field col m6">'
-                + '<input id="item-name-input" type="text"/>'
-                + '<label for="item-name-input" type="text">Item Name</label>'
+                + '<input id="item-name-input" class="validate"  type="text"/>'
+                + '<label for="item-name-input" data-error="Required" class="active" >Item Name</label>'
                 + '</div>'
                 + '<div class="input-field col m2 offset-m4">'
-                + '<input id="item-initCount-input" value="0" type="number"/>'
-                + '<label for="item-initCount-input">Initial Item Count</label>'
+                + '<input id="item-initCount-input" class="validate" value="0" type="number"/>'
+                + '<label for="item-initCount-input" data-error="Required" class="active" >Initial Item Count</label>'
                 + '</div>'
                 + '<div class="input-field col m6">'
                 + '<textarea id="item-detail-input" class="materialize-textarea"></textarea>'
-                + '<label for="item-detail-input">Item Description</label>'
+                + '<label for="item-detail-input" class="active">Item Description</label>'
                 + '</div>'
                 + '<button class="col m4 offset-m2 btn tooltiped" data-tooltip="Modifiers will modify attributes when they are in a players inventory" onclick="defineItemModal.addModifierInput(true);" style="margin-top: 75px;">Add Attribute Modifier</button>'
                 + '</div>'
@@ -171,6 +187,7 @@ function InventoryItem(itemObj) {
             var nameInput = $('#item-name-input');
             var detailInput = $('#item-detail-input');
             var initCountInput = $('#item-initCount-input');
+            var modifierInputs = $('.item-modifiers-input-list');
             var itemObj = null;
             this.currentItemID = itemID;
             this.isNewItem = isNewItem;
@@ -192,7 +209,19 @@ function InventoryItem(itemObj) {
 
             }
 
-            $('#define-item-modal').openModal();
+            $('#define-item-modal').openModal({
+                dismissible: true,
+                ready: function(){
+                },
+                complete: function(){
+                    nameInput.val('');
+                    detailInput.val('');
+                    initCountInput.val('');
+                    modifierInputs.empty();
+                }
+            });
+
+
         };
 
         this.evaluateModal = function (status) {
@@ -200,19 +229,34 @@ function InventoryItem(itemObj) {
             var detailInput = $('#item-detail-input');
             var initCountInput = $('#item-initCount-input');
             var modifierInputs = $('.item-modifiers-input-list');
+            var allModifierValueInputs = $('.modifier-value-input');
 
             if (status) //user confirmed operation
             {
                 var validated = false;
 
-                if (nameInput.val() != undefined && nameInput.val() != "")
+                //check name & init count fields
+                if (nameInput.val() != undefined && nameInput.val() != "" && initCountInput.val() != undefined && initCountInput.val() != "")
                     validated = true;
+
+
+                var validModifiers = true;
+                //check modifier input fields
+                allModifierValueInputs.each(function() {
+                    if($(this).val() == "" || $(this).val() == undefined){
+                        $(this).addClass("invalid");
+                        validModifiers = false;
+                        validated = false;
+                    }
+
+                });
 
                 //User confirmed operation & input was validated
                 if (validated) {
                     //Get input
                     var resultObj = {
                         name: nameInput.val(),
+                        itemID: this.currentItemID,
                         description: detailInput.val(),
                         initCount: initCountInput.val(),
                         modifiers: this.evaluateModifiers()
@@ -222,6 +266,7 @@ function InventoryItem(itemObj) {
                     if (this.isNewItem) {
                         project_project.gameInventory[this.currentItemID] = new InventoryItem(resultObj);
                         gameInventory_createModule_appendItemDiv(this.currentItemID, project_project.gameInventory[this.currentItemID]);
+                        gameInventory_createModule_updateItemHtml(this.currentItemID);
                     }
                     else {
                         //upating an already existing item
@@ -241,7 +286,21 @@ function InventoryItem(itemObj) {
                 }
                 else {
                     console.log("item definition validation failed");
-                    Materialize.toast("Please provide an item name", 3000, 'rounded', 'dismissible');
+
+                    if(nameInput.val() == undefined || nameInput.val() == ""){
+                        Materialize.toast("Please provide an item name", 5000, 'rounded', 'dismissible');
+                        nameInput.addClass("invalid");
+                    }
+
+                    if(initCountInput.val() == undefined || initCountInput.val() == ""){
+                        Materialize.toast("Please provide an item count", 7000, 'rounded', 'dismissible');
+                        initCountInput.addClass("invalid");
+                    }
+
+                    if(!validModifiers)
+                        Materialize.toast("Please provide valid attribute modifier values", 9000, 'rounded', 'dismissible');
+
+
                 }
             }
             else // user cancelled operation
@@ -266,9 +325,8 @@ function InventoryItem(itemObj) {
 
             var html = '<li id=inventoryItemModifierRow_' + modifierID + '>'
                 + '<div class="row">'
-                + generic_generateAttributeButton(modifierID + '-modifyAttributeInput', 'game-attributes') //context menu just has game attributes
-                + '<div class="input-field col m2"><select id="' + modifierID + '-modifyOperationInput"><option value="+">+ (Add To)</option><option value="-">- (Subtract From)</option></select><label>Modify Operation</label> </div>'
-                + '<div class="input-field col m2"><input id="' + modifierID + '-modifyAmountInput" type="number"/><label>Modify Amount</label></div>'
+                + generic_generateAttributeButton(modifierID + '-modifyAttributeInput', 'game-attributes') //context menu just has game attributes 
+                + '<div class="input-field col m2"><input id="' + modifierID + '-modifyAmountInput" type="number" class="modifier-value-input validate"/><label data-error="Required" class="active">Modify Amount</label></div>'
                 + '<div class="col m1"><button class="btn-floating red offset-m2" style="margin-top: 20px;" onclick="defineItemModal.removeModifierInput(\'' + modifierID + '\');"><i class="small material-icons">delete</i></button></div>'
                 + '</div>'
                 + '<div class="divider"></div>'
@@ -295,7 +353,6 @@ function InventoryItem(itemObj) {
         };
 
         this.removeModifierInput = function (modifierID) {
-            gameInventory_deleteModifier(this.currentItemID, modifierID);
             $('#inventoryItemModifierRow_' + modifierID).remove();
             this.modifierCount--;
         };
@@ -311,11 +368,7 @@ function InventoryItem(itemObj) {
             for (var c = 0; c < modifiersIdArray.length; c++) {
                 var modId = modifiersIdArray[c];
                 var modifyAtt = $('#' + modId + '-modifyAttributeInput').attr('path');
-                var modifyOp = $('#' + modId + '-modifyOperationInput').val();
                 var modifyAmount = $('#' + modId + '-modifyAmountInput').val();
-
-                if (modifyOp === '-')
-                    modifyAmount = modifyAmount * (-1);
 
                 resultObj[modId] = {attributePath: modifyAtt, modifierValue: modifyAmount};
             }

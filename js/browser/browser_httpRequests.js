@@ -1,9 +1,10 @@
 goog.provide('browser_httpRequests')
 goog.require('users')
 goog.require('host')
+goog.require('play_httpRequests') //reusing authenticate for guest
 
 function browser_httpRequests_getProjectsForBrowser(ret,pub){
-	//browser_httpRequests_addTokenToHeader()
+	browser_httpRequests_addTokenToHeader()
 	return $.ajax({
 		url: '/getAllUsersProjects',
 		data: {
@@ -22,7 +23,7 @@ function browser_httpRequests_getProjectsForBrowser(ret,pub){
 }
 
 function browser_httpRequests_addTokenToHeader(){
-	var token = window.localStorage.getItem('token');
+	var token = window.localStorage.getItem('play-token');
 	if (token) {
 		var tok = JSON.parse(token).token
 	  $.ajaxSetup({
@@ -38,10 +39,13 @@ function browser_httpRequests_handleAuth(res){
 	console.log('server returned' + res)
 	if(res === 'EXPIRED' || res === 'NO_TOKEN'){
 		if(res === 'EXPIRED'){
-			console.log('http_handleAuth(): Token is expired')
+			console.log('browser_http_handleAuth(): Token is expired')
 		}
 		else{
-			console.log('http_handleAuth(): No Token')
+			console.log('browser_http_handleAuth(): No Token')
+			$.when(authenticate()).done(function(){
+				return
+			})
 		}
 
 		users_flushToken() //remove anyexpired tokens

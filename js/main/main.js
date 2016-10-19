@@ -17,4 +17,5 @@ $(document).ready()
 {
 	$('select').material_select(); //initialises the layout <select> tag for materialize
 	$(".button-collapse").sideNav();
+	http_validateToken()
 }
