@@ -36,7 +36,7 @@ body {
 }
 nav{
 	background-color: #1E2328;
-	border-bottom: 0px;
+	border-bottom: 1px;
 	color: white;
 }
 
@@ -244,14 +244,12 @@ li.margin { margin-left: 10px; }
 	display: block;
 	position: absolute;
 	border-radius: 25px;
-  /*background: #1e2328;*/
-	background: black;
-  padding: 20px;
-  width: 80%;
+	background-color: rgba(0,0,0,0.7); /*prevents opacity being applied to text children */
+  	padding: 20px;
+ 	width: 80%;
 	height: 75%;
 	top: 5%;
 	left: 10%;
-	opacity: 0.7;
 	display: flex;
 }
 
@@ -283,14 +281,21 @@ li.margin { margin-left: 10px; }
 .login-text-white{
 	color: black;
 	-webkit-text-fill-color: white; /* Will override color (regardless of order) */
-   -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: black;
+	text-shadow:
+	    -1px -1px 0 #000,  
+	     1px -1px 0 #000,
+	    -1px  1px 0 #000,
+	     1px  1px 0 #000;
+
 }
 .login-text-green{
 	color: black;
 	-webkit-text-fill-color: #00febc; /* Will override color (regardless of order) */
-   -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: black;
+	text-shadow:
+	    -1px -1px 0 #000,  
+	     1px -1px 0 #000,
+	    -1px  1px 0 #000,
+	     1px  1px 0 #000;
 }
 
 .login-signup{
@@ -298,11 +303,13 @@ li.margin { margin-left: 10px; }
 	position: absolute;
 	/*background: blue;*/
 	top: 0%;
-	width: 47%;
+	width: 40%;
 	height: 100%;
 	left: 0%;
-}
+	background-color: #1c1c1c;
+	border: 2px solid #00FEBC;
 
+}
 .login-or{
 	display: block;
 	position: absolute;
@@ -310,7 +317,7 @@ li.margin { margin-left: 10px; }
 	top: 0%;
 	width: 10%;
 	height: 100%;
-	left: 47%;
+	left: 45%;
 }
 
 .login-login {
@@ -321,7 +328,10 @@ li.margin { margin-left: 10px; }
 	top: 0%;
 	width: 40%;
 	height: 100%;
-	left: 57%;
+	left: 60%;
+	background-color: #1c1c1c;
+	border: 2px solid #00FEBC;
+
 }
 
 #Play{

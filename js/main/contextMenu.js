@@ -521,12 +521,6 @@ function generateContextMenu(container_type, template_menu_list)
 				{
 					type: "color", customName: "Background Colour", className: "background-color " + target_element,
 				},
-				"resolution":
-				{
-					"name": 'Resolution',
-					"type": 'select',
-					"options": {a320pxa480px: 'Mobile 320x480', a800pxa600px: 'Small 800x600', a1024pxa768px: 'Medium 1024x768', a1280pxa1024px: "Large 1280x1024"},
-				}
 			},
 			"events": {
 				show: function(opt) {
@@ -543,18 +537,6 @@ function generateContextMenu(container_type, template_menu_list)
 					// export states to data store
 					$.contextMenu.getInputValues(opt, $this.data());
 					$(target_element).css("border-style", $this.data().Style);
-					if ($this.data().resolution != null)
-					{
-						var w = $this.data().resolution.split('a')[1];
-						var h = $this.data().resolution.split('a')[2];
-						$(target_element).css("width", w);
-						$(target_element).css("height", h);
-						project_project.resolution.x = w;
-						project_project.resolution.y = h;
-						resizePageContainerDiv();
-					}
-					// $('#edit-page-toolbar').css("height", $this.data().resolution.split('a')[2]);
-
 				}
 			}
 		}

@@ -16,4 +16,5 @@ console.log("Enter main.js version 0.5.0")
 $(document).ready()
 {
 	$('select').material_select(); //initialises the layout <select> tag for materialize
+	$(".button-collapse").sideNav();
 }
