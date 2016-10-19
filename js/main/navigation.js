@@ -71,39 +71,39 @@ function nav_showMain(){
 
 function nav_navBarLoggedIn(){
   //set values
-  $('#profile_button').text(users_getUsername())
+  $('.profile_button').text(users_getUsername())
 	//$('#projects_title').text(users_getUsername() + "'s Projects:")
 
   //show/hide
-  $('#login_button').hide()
-  $('#signup_button').hide()
+  $('.login_button').hide()
+  $('.signup_button').hide()
 
-  if($('#project_button').hasClass('hide')){
-    $('#project_button').removeClass('hide')
+  if($('.project_button').hasClass('hide')){
+    $('.project_button').removeClass('hide')
   }
-  $('#project_button').show()
+  $('.project_button').show()
 
-  if($('#settings_button').hasClass('hide')){
-    $('#settings_button').removeClass('hide')
+  if($('.settings_button').hasClass('hide')){
+    $('.settings_button').removeClass('hide')
   }
-  $('#settings_button').show()
+  $('.settings_button').show()
 
 
-  if($('#profile_button').hasClass('hide')){
-    $('#profile_button').removeClass('hide')
+  if($('.profile_button').hasClass('hide')){
+    $('.profile_button').removeClass('hide')
   }
-  $('#profile_button').show()
+  $('.profile_button').show()
 
 }
 
 function nav_navBarLoggedOut(){
   //set values
-  $('#profile_button').text('')
+  $('.profile_button').text('')
 
   //show/hide
-  $('#project_button').hide()
-  $('#profile_button').hide()
-  $('#settings_button').hide()
-  $('#login_button').show()
-  $('#signup_button').show()
+  $('.project_button').hide()
+  $('.profile_button').hide()
+  $('.settings_button').hide()
+  $('.login_button').show()
+  $('.signup_button').show()
 }

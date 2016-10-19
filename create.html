@@ -37,18 +37,29 @@
 	</head>
 
 	<body>
-	<ul id="profileDropdown" class="dropdown-content">
+	<ul id="profileDropdown1" class="dropdown-content">
+	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
+	</ul>
+	<ul id="profileDropdown2" class="dropdown-content">
 	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
 	</ul>
 	<nav>
 		<div class="nav-wrapper">
 			<a href="index.html" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
-			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a id="login_button" href="#" class="" onclick=project_login()>Login</a></li>
-				<li><a id="signup_button" href="#" class="" onclick=project_signUp()>Sign Up</a></li>
-				<li><a id="project_button" href="#" class="hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
-				<li><a id="settings_button" href="#" class="hide" >Settings</a></li>
-				<li><a id="profile_button" class="dropdown-button hide" href="#!" data-activates="profileDropdown"><i class="material-icons right">arrow_drop_down</i></a></li>
+      		<a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons" style="padding-right: 10px;">menu</i></a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
+				<li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
+				<li><a href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
+				<li><a href="#" class="settings_button hide" >Settings</a></li>
+				<li><a class="profile_button dropdown-button hide" href="#!" data-activates="profileDropdown1"><i class="material-icons right">arrow_drop_down</i></a></li>
+			</ul>
+			<ul class="side-nav" id="mobile-demo">
+				<li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
+				<li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
+				<li><a href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
+				<li><a href="#" class="settings_button hide" >Settings</a></li>
+				<li><a class="profile_button dropdown-button hide" href="#!" data-activates="profileDropdown2"><i class="material-icons right">arrow_drop_down</i></a></li>
 			</ul>
 		</div>
 	</nav>
@@ -304,7 +315,7 @@
 						<span class="login-text-white">Welcome to Fantasy</span><span class="login-text-green">Maker</span>
 						<span class="login-text-white">Creator!</span>
 					</h1>
-					<div class="login-options">
+					<div class="login-options">				
 						<a href="#"><div onclick="project_signUp()"><h2 class="login-signup login-text-green center-align">Sign Up</h2></div></a>
 						<h2 class="login-or login-text-white center-align">Or</h2>
 						<a href="#"><div onclick="project_login()"><h2 class="login-login login-text-green center-align">Log In</h2></div></a>
@@ -317,7 +328,8 @@
 	<div id="projects" class="hide">
 		<div id="currentProject" class="hide" style="padding: 20px;">
 			<table class="highlight bordered">
-				<h4 id="currentProject_header"></h4>
+				<h2 id="currentProject_header"></h2>
+				<button class="btn" onclick="nav_toMain()">Resume Current Project</button>
 	        <thead>
 	          <tr>
 	              <th data-field=""></th>
@@ -381,18 +393,13 @@
 	          </tr>
 	        </tbody>
 	      </table>
-				<div class="row" style="padding-top: 15px;">
-					<div class="col s4 offset-s4">
-						<button class="btn" onclick="nav_toMain()">Resume Current Project</button>
-					</div>
-				</div>
 		</div>
 		<div class="divider"></div>
 		<div>
 			<div class="row ">
 				<div class="col s1"><p></p></div>
 				<div class="col s10">
-					<h2 id="projects_title"style="color: #ee6e73;">Load Project</h2>
+					<h2 id="projects_title">Load Project</h2>
 				</div>
 				<div class="col s1">
 					<a onclick="project_createNewProject()" class="btn-floating btn-large waves-effect waves-light red" style="transform: translateY(+50%);"><i class="material-icons">add</i></a>
