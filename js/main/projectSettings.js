@@ -202,7 +202,7 @@ function projectSettings_generateProjectCard(project){
                             '<p>Date Created: ' + project.dateCreated + '</p>'+
                             '<p>Last Modified: ' + project.lastModified + '</p>'+
                             pubHTML+
-                            '<a class="btn-floating btn-small waves-effect waves-light red" onclick=projectSettings_deleteProject('+ "'"+users_getUsername()+"','"+ project.projName + "'" + ')><i class="small material-icons">delete</i></a>'+
+                            '<a class="btn-floating btn-small waves-effect waves-light red" onclick=projectSettings_deleteProject('+ "'"+users_getUsername()+"','"+ project.projName + "','"+ project_project.projectName + "'" +')><i class="small material-icons">delete</i></a>'+
                           '</div>'+
                         '</div>'+
                       //'</div>'+
@@ -261,19 +261,23 @@ function projectSettings_disableRightPagination(){
 }
 
 
-function projectSettings_deleteProject(username,projName){
+function projectSettings_deleteProject(username,projToDelete,currProj){
 
-  var display = projName.split('_').join(' ')
-  myModal.prompt("Delete Project '" + display + "'.", "Are you sure you wish to delete this project? This cannot be undone.", [],
+  //var display = projName.split('_').join(' ')
+  myModal.prompt("Delete Project '" + projToDelete + "'.", "Are you sure you wish to delete this project? This cannot be undone.", [],
       function(results){
-        projectSettings_activePage = 1
-        $.when(http_deleteProject(username,projName)).done(function(){
+        projectSettings_activePage = 1 //reset pagination of projects
+        //case someone deletes current project
+        if(projToDelete === currProj){
+          $('#currentProject').hide()
+        }
+        $.when(http_deleteProject(username,projToDelete)).done(function(){
           projectSettings_userProjects = {
             "projects" : []
           }
           $.when(http_getUsersProjects(username,projectSettings_userProjects)).done(function(){
             projectSettings_populateProjectsList(username,1)
-            Materialize.toast("Project '" + display + "' Deleted", 3000, 'rounded')
+            Materialize.toast("Project '" + projToDelete + "' Deleted", 3000, 'rounded')
           })
         })
       },
