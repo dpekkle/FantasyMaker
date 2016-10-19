@@ -8,6 +8,7 @@ $(document).ready(function(){
 		//callback for when overlay is triggered from html
 		ready: function() {
 			var selected = cy.$(':selected')[0];
+			cy.$(':selected').unselectify();
 			if(selected != null) {
 				if (selected.hasClass('page')) {
 					openEditPageOverlay(selected);
@@ -27,7 +28,7 @@ $(document).ready(function(){
 			}
 			//TODO - Handle Opening Attributes Overlay
 		},
-		complete: function () { closeOverlay(null);} //callback for when modal is dismissed
+		complete: function () { closeOverlay(null); cy.$(':selected').selectify();} //callback for when modal is dismissed
 	});
 });
 

@@ -8,8 +8,9 @@ $(document).ready()
 	console.log($.cookie("FM_playProject"))
   $.when(getProject()).done(function(){
     prepareForGame()
+    $('#mainContent').show()
     $('#loader').hide()
-    $('.progressbutton').show();
+      $('.progressbutton').show();
   })
 }
 
