@@ -450,6 +450,8 @@ function bringContainerToFront(element)
 
 function populatePageOverlay(selected)
 {
+	console.log("Populate page " + selected.data('name'));
+
 	$('#pagename').html('Design Page: ' + selected.data('name'));
 	//load any previously saved info
 	$("#pagecontainers").append('<a style="float:right" class="pagemenu btn-floating waves-effect waves-light gray"><i class="material-icons">settings</i></a>');

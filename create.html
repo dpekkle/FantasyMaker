@@ -68,16 +68,28 @@
 	<div id="jump-modal" class="modal modal-fixed-footer" style="overflow-y: hidden">
 		<div class="modal-content">
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
-			<h4>Jump Node</h4> <br/>
+			<h4>Jump Node</h4>
 		  	<form id="choosejumptrigger" action="#">
 		  		<h5>Triggering Event</h5>
 		  		<div>
 					<input name="group1" type="radio" id="test1" value="button"/>
-					<label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a button is pressed the player will be taken to this jump node immediately.">Button Press</label>
+					<label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a specified button is pressed go to this jump node.">Button Press</label>
 				</div>
 				<div>
 					<input name="group1" type="radio" id="test2" value="attribute"/>
-					<label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined condition is met the player will be taken to this jump node immediately.">Attribute Condition</label>
+					<label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined conditions are met go to this jump node.">Attribute Condition</label>
+				</div>
+				<hr>
+			</form>
+		  	<form id="choosejumprepeat" action="#">
+				<h5>Repeatedly Jump</h5>
+				<div>
+					<input name="group2" type="radio" id="test3" value="once"/>
+					<label for="test3" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="You will only visit this jump node once.">Only once</label>
+				</div>
+				<div>
+					<input name="group2" type="radio" id="test4" value="repeatedly" checked/>
+					<label for="test4" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="Will not jump to itself while inside it's jump region.">Repeatedly</label>
 				</div>
 		    </form>
 		    <hr>
@@ -89,10 +101,12 @@
 					</div>
 				</li>
 				<li class = "button" style = "display:none">
-					<div class="collapsible-header active">Choose Button</div>
-					<div class="collapsible-body">
-						<ul id = "jumpButtonList" class="list-unstyled" ></ul>
-					</div>
+					<button class='pagemode dropdown-button btn' href='#' data-activates='jumpbuttons'>Page Node</button> <br/>
+					<ul id='jumpbuttons' class='dropdown-content'>
+						<li><a onclick="chooseJumpButton('Default');">Default</a></li>
+					</ul>
+
+					<div class="choose-button">Choose Button</div>
 				</li>
 			</ul>
 		</div>

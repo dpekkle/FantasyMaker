@@ -30,8 +30,18 @@ function initEmptyProject(username,projName){
 				vidcontainers: [],
 				textcontainers: [],
 				decisioncontainers: [],
+				buttoncontainers: [],
 			}
 		},
+		"buttons_list":
+		{
+			"Default":
+			{
+				html: "",
+				
+			}
+		},
+
 		"template_menus": new templateMenuObj(),
 		"audio": new audioObj(),
 
@@ -124,6 +134,10 @@ function project_addTopGameAttributeFolder(name){
 
 function project_saveProject(){
 	//project_updateProject()
+
+	//remove all the selections/styles, or they get stuck
+	cy.nodes().removeClass('source_node disconnected jumpenderror');
+	cy.elements().unselect();
 	project_project.graph = cy.elements().jsons();
 	project_project.lastModified = project_getCurrentTime()
 	var ret0 = {
@@ -236,7 +250,7 @@ function project_signUp(){
 
 function project_logOut(){
 
-		myModal.prompt("Log Out", "Are you sure you wish to log out? unsaved progress may be lost.",
+		myModal.prompt("Log Out", "Are you sure you wish to log out? Any unsaved progress will be lost.",
 		[],
 		function(results)
 		{
@@ -280,7 +294,7 @@ function project_modifyTitle(){
 }
 
 function project_modifyAuthor(){
-	myModal.prompt("Modify Project Author", "Change the author of your project. This will appear as the name of your project in the game browser.", [{name: "Author", default: project_project.author, type: "text"}],
+	myModal.prompt("Modify Project Author", "Change the name that appears as the author of your project in the game browser.", [{name: "Author", default: project_project.author, type: "text"}],
 			function(results){
 				project_project.author = results[0]
 				$('#currentProject_author').text(project_project.author)

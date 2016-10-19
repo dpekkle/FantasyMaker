@@ -58,9 +58,9 @@ function evaluateConditionalJump(ele)
 function assessJumpCondition(condition)
 {
 	var html = $.parseHTML(condition)
-	var attButton1_val = getAttributeValue(html[0].childNodes[0].childNodes[1].childNodes[0]);
-	var comparison = html[0].childNodes[0].childNodes[2].childNodes[0].data;
-	var attButton2_val = getAttributeValue(html[0].childNodes[0].childNodes[3].childNodes[0])
+	var attButton1_val = getAttributeValue(html[0].childNodes[0].childNodes[0].childNodes[0]);
+	var comparison = html[0].childNodes[0].childNodes[1].childNodes[0].data;
+	var attButton2_val = getAttributeValue(html[0].childNodes[0].childNodes[2].childNodes[0])
 
 	var ret = assessComparison(attButton1_val,comparison,attButton2_val)
 
@@ -87,6 +87,10 @@ function runJumpEnd()
 
 	var jump_start = jump_context_stack.pop();
 	var origin = (jump_start.data('origin'));
+	if (jump_start.data('repeat') == 'once')
+	{
+		jump_context_stack.unshift(jump_start);
+	}
 	console.log("Reached jump end. Now Jump back to", origin.data('name'));
 	return origin;
 }

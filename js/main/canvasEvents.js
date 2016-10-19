@@ -223,7 +223,10 @@ cy.on('tap', function(event)
 	var evtTarget = event.cyTarget;
 	
 	if (evtTarget === cy)
+	{
+		console.log("touch screen unselect")
 		cy.$(':selected').unselect(); //touch screen doesn't seem to do this by default
+	}
 	else
 	{
 		return;
@@ -303,6 +306,7 @@ cy.on('tap', function(event)
 					button: null,
 					conditions: [],
 					origin: null,
+					repeat: "Repeatedly",
 				},
 				classes: "jump",
 				group: "nodes",
@@ -412,7 +416,7 @@ cy.on('select', function(event)
 		
 		var oldselect = cy.$(':selected').diff(event.cyTarget);
 		oldselect.left.unselect();
-		
+		console.log("disable ctrl behaviour")
 		//if adding a new connection
 		createConnection(event.cyTarget);
 	}

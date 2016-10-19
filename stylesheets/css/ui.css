@@ -338,3 +338,15 @@ li.margin { margin-left: 10px; }
 display:none;
 }
 
+.choose-button{
+  box-shadow: 3px 3px 15px #666;
+  border-color: #336B87;
+  background: #336B87;
+  color: #fff;
+
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}

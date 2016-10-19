@@ -102,6 +102,7 @@ $(document).ready(function()
 				}
 				else if(e.which == 13 || e.which == 32) //enter / space
 				{			
+        			event.preventDefault();
 					$('.openoverlay').each(function(index) 
 					{
 						if ($(this).css('display') != "none")

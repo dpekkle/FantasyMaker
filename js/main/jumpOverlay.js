@@ -15,11 +15,15 @@ function populateJumpOverlay(element)
 	}
 	setJumpNodeType(type);
 
+	$('#choosejumprepeat input[value="'+ cy.$(':selected')[0].data('repeat') +'"]').prop("checked", true);		
+	$('#choosejumptrigger :checked').prop('checked', '');
+
 }
 
 function saveJump()
 {
 	//save trigger type
+	cy.$(':selected')[0].data('repeat', $('#choosejumprepeat :checked').attr('value'));
 	cy.$(':selected')[0].data('triggerType', $('#choosejumptrigger :checked').attr('value'));
 	//save trigger contents
 	saveJumpConditions();
@@ -100,6 +104,8 @@ function addJumpCondition()
 
 function loadJumpButton()
 {
+	var button = cy.$(':selected')[0].data('button');
+
 
 }
 
@@ -114,6 +120,13 @@ function createNewJumpButton()
 		//myModal.prompt
 	//add the button to a stored list of buttons
 		
+}
+
+function chooseJumpButton()
+{
+	//cy.$(':selected')[0].data('button', )
+	selected_page_template = project_project.project_templates[sel];
+	$('.pagemode').html("Page Node (" + sel + ")")
 }
 
 $('#choosejumptrigger').on('change', function(event)
