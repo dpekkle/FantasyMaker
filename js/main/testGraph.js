@@ -6,58 +6,58 @@ goog.require('initCanvas')
 //does a depth first search with an arbitrary node, then if it visits every node we know it is connected
 //https://en.wikipedia.org/wiki/Connectivity_(graph_theory)#Computational_aspects
 
-function testJumpNodes()
+function runPlayGameTests()
 {
-
-	//DISALLOW any way to reach a jumpend without having originated from a jump start node
-	var pass = true;
-	//idea: for all jumpend nodes check the classes of their greatest ancestor, if any aren't 'jump' then error!
-	cy.$('.jumpend').each(function(i, ele)
+	var test_results = checkValidGraph();
+	if (test_results == '')
+		createModule_playGame()	
+	else
 	{
-		var roots = ele.predecessors('node').roots();
-		for (var i = 0; i < roots.size(); i++)
-		{
-			if (!roots[i].hasClass('jump'))
-			{
-				console.log("bad one found", roots[i].data('name'))
-				//ele can be reached from a non-jump root
-				pass = false
-				roots[i].flashClass('jumpenderror', 3000);
-				ele.flashClass('jumpenderror', 3000);
+		test_results.push("Continue Anyway?")
+		myModal.prompt("Graph Tests Failed", test_results, [],
+			function(results){
+				createModule_playGame()	
 			}
-		}
-	});
-	
-	return pass;
+		);
+	}
+}
+
+function runTests()
+{
+	var test_results = checkValidGraph();
+	if (test_results.length == 0)
+        Materialize.toast('All tests passed', 3000, 'rounded');
+    else
+    {
+    	for (var i = 0; i < test_results.length; i++)
+        	Materialize.toast(test_results[i], 3000, 'rounded');
+	}
 }
 
 function checkValidGraph()
 {
-	var alertString = "";
+	var alertString = [];
 	
 	if (cy.$('*').length < 1)
-		alertString = alertString.concat("The graph is empty\n");
+		alertString.push("The graph is empty");
 
 	//check if starting node is a page
 	if (!cy.$('.start').hasClass('page'))
 	{
-		alertString = alertString.concat("Starting class must be a page node\n");
+		alertString.push("Starting class must be a page node\n");
 	}
 	
 	if (!testConnectivity())
 	{
-		alertString = alertString.concat("Graph is NOT connected\n");
+		alertString.push("Graph is NOT connected\n");
 	}
 	
 	if (!testJumpNodes())
 	{
-		alertString = alertString.concat("Jump End nodes can be reached without arriving from a jump start!\n")
+		alertString.push("Jump End nodes can be reached without arriving from a jump start!\n")
 	}
 
-	if (alertString == "")
-		alert("All tests passed");
-	else
-		alert(alertString);
+	return alertString;
 }
 
 function testConnectivity()
@@ -103,4 +103,29 @@ function testConnectivity()
 	}, 3000);
 	
 	return (disconnected_nodes.size() == 0);
+}
+
+function testJumpNodes()
+{
+
+	//DISALLOW any way to reach a jumpend without having originated from a jump start node
+	var pass = true;
+	//idea: for all jumpend nodes check the classes of their greatest ancestor, if any aren't 'jump' then error!
+	cy.$('.jumpend').each(function(i, ele)
+	{
+		var roots = ele.predecessors('node').roots();
+		for (var i = 0; i < roots.size(); i++)
+		{
+			if (!roots[i].hasClass('jump'))
+			{
+				console.log("bad one found", roots[i].data('name'))
+				//ele can be reached from a non-jump root
+				pass = false
+				roots[i].flashClass('jumpenderror', 3000);
+				ele.flashClass('jumpenderror', 3000);
+			}
+		}
+	});
+	
+	return pass;
 }

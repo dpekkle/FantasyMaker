@@ -20,7 +20,7 @@ goog.provide("prompts")
 //			}
 //		);
 
-// *** the second variable of myModal.prompt can handle multiple fields
+// *** the third parameter (list of objects) of myModal.prompt can handle multiple fields
 
 //  ******************** </API GUIDE> *******************
 
@@ -118,7 +118,18 @@ function myModal()
 		var html_string = "";
 
 		html_string += ('<h3 style="text-align:center;">' + title + '</h3>');
-		html_string += ('<p id="promptDesc">' + description + '<p>')
+		if (Array.isArray(description))
+		{
+			html_string += ('<p id="promptDesc">' + description[0] + '</p>')
+			for (var i = 1; i < description.length; i++)
+			{
+				html_string += ('<p>' + description[i] + '</p>')
+			}
+		}
+		else
+		{
+			html_string += ('<p id="promptDesc">' + description + '</p>')
+		}
 		for (var i = 0; i < fields.length; i++)
 		{
 			if (fields[i].type == "number")

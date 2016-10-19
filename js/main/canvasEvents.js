@@ -11,6 +11,7 @@ source_node = null;
 held_node = null;
 
 
+//****** dropping into compound nodes *******
 
 cy.on('tapstart', 'node', function(event)
 {
@@ -52,28 +53,8 @@ cy.on('tapend', function(event)
 
 });
 
-function checkCompoundBounds(compounds, mouse, testobj)
-{
-	compounds.forEach(function(ele)
-	{
-		var pos = ele.renderedBoundingBox();
-		//check if in the bounding box
-		if (mouse.x > pos.x1 && mouse.x < pos.x2)
-		{
-			if (mouse.y > pos.y1 && mouse.y < pos.y2)
-			{
-				if (held_node !== ele)
-				{
-					//held_node was dropped here
-					testobj.added = true;
-					testobj.parent = ele.id();
-					//held_node was dropped into a compound node, but we need to check for nested compound nodes within
-					checkCompoundBounds(ele.children(':parent.expanded').difference(ele), mouse, testobj);
-				}
-			}
-		}
-	})
-}
+
+//****** compound node functions *********
 
 cy.on('taphold', ':parent', function(event)
 {
@@ -112,6 +93,29 @@ cy.on('tap', ':parent:selected', function(event)
 		this.descendants().outgoers('edge').addClass('hidden');
 	}
 })
+
+function checkCompoundBounds(compounds, mouse, testobj)
+{
+	compounds.forEach(function(ele)
+	{
+		var pos = ele.renderedBoundingBox();
+		//check if in the bounding box
+		if (mouse.x > pos.x1 && mouse.x < pos.x2)
+		{
+			if (mouse.y > pos.y1 && mouse.y < pos.y2)
+			{
+				if (held_node !== ele)
+				{
+					//held_node was dropped here
+					testobj.added = true;
+					testobj.parent = ele.id();
+					//held_node was dropped into a compound node, but we need to check for nested compound nodes within
+					checkCompoundBounds(ele.children(':parent.expanded').difference(ele), mouse, testobj);
+				}
+			}
+		}
+	})
+}
 
 function expand(parent)
 {
@@ -158,7 +162,6 @@ function expand(parent)
 	// parent.children(':parent').each(function(i, ele){
 	// 	expand(ele);
 	// })
-
 }
 
 function collapse(parent)
@@ -203,6 +206,8 @@ function collapse(parent)
 	}
 }
 
+//****** General canvas events ********
+
 cy.on('tap', ':selected', function(event)
 {
 	console.log("Tapped on: ", cy.$(':selected').data('name'));
@@ -212,6 +217,7 @@ cy.on('tap', ':selected', function(event)
 	}
 });
 
+//add nodes/edges to page
 cy.on('tap', function(event)
 {
 	var evtTarget = event.cyTarget;
@@ -383,7 +389,6 @@ cy.on('tap', function(event)
 			])
 		}		
 	}
-
 })
 
 cy.on('select', function(event)
@@ -555,8 +560,9 @@ function createFight(event)
 	});
 	current_state = states.NEWFIGHT;
 	cy.$('#fightparent' + cy.nodes(':parent').size() + 1).select();
-
 }
+
+//***** BUG FIX LOOP *******
 
 function fixDisappearingBug()
 {
@@ -568,13 +574,3 @@ var fixbug = setInterval(function()
 {
 	fixDisappearingBug();
 }, 200);
-
-// cy.on('pan', function(event)
-// {
-// 	fixDisappearingBug();
-// });
-// cy.on('zoom', function(event)
-// {
-// 	fixDisappearingBug();
-// });
-

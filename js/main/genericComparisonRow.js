@@ -39,10 +39,10 @@ $.contextMenu({
 function generic_generateRow(id,yourSettingsMenu){
   var html = '<li id=' + id + '>'+
                '<div class="row" type="1">'+
-                 generic_yourSettingsButton(id,yourSettingsMenu) + //define your own for this, my one is pretty linked into conditions/outcomes
                  generic_generateAttributeButton(id + 'attButton1', 'game-attributes') + //context menu just has game attributes
                  generateComparisonButon(id + '_compMenu', 'comps', '=') +
                  generic_generateAttributeButton(id +'attbutton2', 'game-attributes numbers') + //context menu game attributes and specific/random number
+                 generic_yourSettingsButton(id,yourSettingsMenu) + //define your own for this, my one is pretty linked into conditions/outcomes
                '</div>'+
                '<div class="divider"></div>'+
              '</li>'
@@ -50,7 +50,7 @@ function generic_generateRow(id,yourSettingsMenu){
 }
 
 function generic_yourSettingsButton(id,yourSettingsMenu){
-  return '<div class="col s1"><div id="' + id + '_settings'+ '" class="'+ yourSettingsMenu +' condition-settings-button"><a class="btn-floating waves-effect waves-light gray"><i class="material-icons">settings</i></a></div></div>'
+  return '<div class="col s1"><div id="' + id + '_settings'+ '" class="'+ yourSettingsMenu +' condition-settings-button"><a class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></a></div></div>'
 }
 
 
@@ -148,7 +148,7 @@ function generic_generateAttributeButton(id,classes,mode){
     ret = '<div id="' + id + '" class="generic-attributes-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""><p class="truncate"></p></div>'
   }
   else{
-    ret = '<div class="col s5"><div id="' + id + '" class="generic-attributes-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""><p class="truncate"></p></div></div>'
+    ret = '<div class="col s4"><div id="' + id + '" class="generic-attributes-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""><p class="truncate"></p></div></div>'
   }
   return ret
 }
@@ -179,8 +179,10 @@ function generic_attributeSelected(clickedItemID, att){
     repl = clickedItemID
     newID = clickedItemID
   }
-
-  var newButton = generic_generateAttributeButton(newID,'game-attributes numbers','NO_COL')
+  if ($('#' + repl).hasClass('numbers'))
+    var newButton = generic_generateAttributeButton(newID,'game-attributes numbers','NO_COL')
+  else
+    var newButton = generic_generateAttributeButton(newID,'game-attributes','NO_COL')
 	$('#' + repl).replaceWith(newButton)
 
 	$('#' + newID).children().text(att.name)

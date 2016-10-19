@@ -92,7 +92,7 @@ function wipeGame()
 
 function parseNode()
 {
-	console.log("Parse node ", currentNode.data('id'));
+	console.log("Parse node ", currentNode.data('name'));
 
 	outgoingEdges = currentNode.outgoers().edges();
 
@@ -104,10 +104,17 @@ function parseNode()
 	{
 		parseControl(currentNode, outgoingEdges);
 	}
+	else if (currentNode.hasClass('jumpend'))
+	{
+		console.log("Parse a jump end node")
+		currentNode = runJumpEnd(currentNode);
+		parseNode();
+	}
 }
 
 function parsePage(outgoingEdges)
 {
+	event_manager.clearTimer();
 	event_manager.newPage(currentNode.data('events'));
 	stylePage();
 }
@@ -208,6 +215,7 @@ function progressStory(i)
 		currentNode = outgoingEdges.eq(i).target();
 		//need to run edge outcomes here
 		executeOutcomes(outgoingEdges.eq(i))
+
 		console.log("Now on node ", currentNode.data('id'));
 
 		var jump_node = checkConditionalJumps();
@@ -215,12 +223,12 @@ function progressStory(i)
 		{
 			//save the current node so we can get back to it later
 			jump_node.data('origin', currentNode);
-			runJumpNode(jump_node);
+			//returns the target (e.g. a page) of the jump node
+			currentNode = runJumpNode(jump_node);
+			console.log("We jumped!");
 		}
-		else
-		{
-			parseNode();
-		}
+			
+		parseNode();
 	}
 	else
 	{

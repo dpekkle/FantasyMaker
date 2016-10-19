@@ -64,8 +64,8 @@ function loadJumpConditions()
 		$('#jumpConditionList').append(conditions[i]);
 
 		//load the value of specific values
-		$('#row_' + i + '_attbutton1_specValue_inputField').val($('#row_' + i + '_attbutton1_specValue_inputField').attr('value'));
-		$('#row_' + i + '_attbutton2_specValue_inputField').val($('#row_' + i + '_attbutton2_specValue_inputField').attr('value'));
+		$('#row_' + i + '_attbutton1_specValue_inputField').val($('#row_' + i + '_attbutton1_specValue').attr('value'));
+		$('#row_' + i + '_attbutton2_specValue_inputField').val($('#row_' + i + '_attbutton2_specValue').attr('value'));
 
 		//reinitialise the tooltips
 		$('#row_' + i + '_attButton1').tooltip({delay: 50});
@@ -82,8 +82,8 @@ function saveJumpConditions()
 	for (var i = 0; i < html_list.size(); i++)
 	{
 		//store values of specific value's in data member "value"
-		$('#row_' + i + '_attbutton1_specValue_inputField').attr('value', $('#row_' + i + '_attbutton1_specValue_inputField').val());
-		$('#row_' + i + '_attbutton2_specValue_inputField').attr('value', $('#row_' + i + '_attbutton2_specValue_inputField').val());
+		$('#row_' + i + '_attbutton1_specValue').attr('value', $('#row_' + i + '_attbutton1_specValue_inputField').val());
+		$('#row_' + i + '_attbutton2_specValue').attr('value', $('#row_' + i + '_attbutton2_specValue_inputField').val());
 
 		new_condition_array.push(html_list[i].outerHTML);
 	}
@@ -121,3 +121,24 @@ $('#choosejumptrigger').on('change', function(event)
 	var type = $('#choosejumptrigger :checked').attr('value');
 	setJumpNodeType(type);
 });
+
+$.contextMenu({
+	selector: ".jump-settings-menu",
+ 	trigger: 'left',
+	build: function($trigger) {
+		return {
+			"items":
+			{
+				"Remove Condition":
+				{
+					"name": "Remove Condition", "callback": function(key, options)
+					{
+						console.log("Element is ~~~~~~~~~~~", options.$trigger.closest("li"));
+						options.$trigger.closest("li").remove();
+					}
+				},
+			}
+		}
+	}
+});
+

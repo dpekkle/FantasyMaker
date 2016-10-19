@@ -68,72 +68,66 @@ function getTextButtonValue(childNode){
 	return childNode.attributes['data-tooltip'].value
 }
 
-function parseControl(sourceNode, outgoingEdges)
-{
-
-		//logger.flush()
-		var order = sourceNode.json().data.priorityList //get order in which to assess edges
-		//handle control stuff
-		//Todo - Check Inventory Items & Attributes
-		var possibleEdges = ''
-		for(var i = 0; i<order.length; i++){
-			possibleEdges += cy.edges("[id='" + order[i] + "']").json().data.name
-			if(i !== order.length-1){
-				possibleEdges += ','
-			}
+function parseControl(sourceNode, outgoingEdges){
+	//logger.flush()
+	var order = sourceNode.json().data.priorityList //get order in which to assess edges
+	//handle control stuff
+	//Todo - Check Inventory Items & Attributes
+	var possibleEdges = ''
+	for(var i = 0; i<order.length; i++){
+		possibleEdges += cy.edges("[id='" + order[i] + "']").json().data.name
+		if(i !== order.length-1){
+			possibleEdges += ','
 		}
+	}
 	//	console.log(possibleEdges)
-		logger.log("At control node. possible edges are: " + possibleEdges + '<br>')
+	logger.log("At control node. possible edges are: " + possibleEdges + '<br>')
 
 
-		var results = [] //stores the T/F results of assessing each condition on edge
-		var firstValidEdgeIndex = -1; //index of the first edge thats valid
-		for(var i = 0; i<order.length; i++){
+	var results = [] //stores the T/F results of assessing each condition on edge
+	var firstValidEdgeIndex = -1; //index of the first edge thats valid
+	for(var i = 0; i<order.length; i++){
 
-			var edgeResult = assessEdge(order[i])
-			if(edgeResult === true){
-				if(firstValidEdgeIndex === -1){
-					firstValidEdgeIndex = i
-				}
-				logger.log("edge " + cy.edges("[id='" + order[i] + "']").json().data.name + " is a valid path. <br>")
+		var edgeResult = assessEdge(order[i])
+		if(edgeResult === true){
+			if(firstValidEdgeIndex === -1){
+				firstValidEdgeIndex = i
 			}
-			else{
-				logger.log("edge " + cy.edges("[id='" + order[i] + "']").json().data.name + " is an invalid path. <br>")
-			}
-			results[i] = edgeResult
-
-		}
-
-		//find first eligable edge ID
-		var nextNodeID = null
-		if(firstValidEdgeIndex !== -1){
-			nextNodeID = order[firstValidEdgeIndex]
-		}
-
-		var nextNodeIndex = null
-		if(nextNodeID !== null){	//valid path has been found
-			nextNodeIndex = getIndexFromOutgoingEdges(nextNodeID, outgoingEdges)
-		}
-		else{	//no valid path, follow default fail edge
-			//dazNote - update when user can choose default fail edge
-			nextNodeIndex = getIndexFromOutgoingEdges(sourceNode.json().data.defaultFailEdge, outgoingEdges)
-			logger.log("All edges from control node " + sourceNode.json().data.name + " have evaluated false. Following default fail edge...<br>")
-		}
-
-		logger.log("Progressing through edge " + cy.edges("[id='" + nextNodeID + "']").json().data.name + '<br>')
-		if(nextNodeIndex !== -1){
-			//console.log(logger.outputAsArray())
-			progressStory(nextNodeIndex)
+			logger.log("edge " + cy.edges("[id='" + order[i] + "']").json().data.name + " is a valid path. <br>")
 		}
 		else{
-			progressStory(0)
-			console.log("parseControl(): invalid edge id. progressing to first edge in outgoingEdges")
+			logger.log("edge " + cy.edges("[id='" + order[i] + "']").json().data.name + " is an invalid path. <br>")
 		}
+		results[i] = edgeResult
 
-		//progressStory(0)
+	}
 
+	//find first eligable edge ID
+	var nextNodeID = null
+	if(firstValidEdgeIndex !== -1){
+		nextNodeID = order[firstValidEdgeIndex]
+	}
 
+	var nextNodeIndex = null
+	if(nextNodeID !== null){	//valid path has been found
+		nextNodeIndex = getIndexFromOutgoingEdges(nextNodeID, outgoingEdges)
+	}
+	else{	//no valid path, follow default fail edge
+		//dazNote - update when user can choose default fail edge
+		nextNodeIndex = getIndexFromOutgoingEdges(sourceNode.json().data.defaultFailEdge, outgoingEdges)
+		logger.log("All edges from control node " + sourceNode.json().data.name + " have evaluated false. Following default fail edge...<br>")
+	}
 
+	logger.log("Progressing through edge " + cy.edges("[id='" + nextNodeID + "']").json().data.name + '<br>')
+	if(nextNodeIndex !== -1){
+		//console.log(logger.outputAsArray())
+		progressStory(nextNodeIndex)
+	}
+	else{
+		progressStory(0)
+		console.log("parseControl(): invalid edge id. progressing to first edge in outgoingEdges")
+	}
+	//progressStory(0)
 }
 
 //function that converts an edgeID into the index of given edge in outgoingEdges array
@@ -149,34 +143,33 @@ function getIndexFromOutgoingEdges(id, outgoingEdges){
 }
 
 function assessEdge(edgeID){
+	var edge = cy.edges("[id='" + edgeID + "']")
+	logger.log("Assessing edge " + edge.json().data.name + '<br>')
+	if(edge !== undefined){
+		var conditions = edge.json().data.conditions
 
-			var edge = cy.edges("[id='" + edgeID + "']")
-			logger.log("Assessing edge " + edge.json().data.name + '<br>')
-			if(edge !== undefined){
-				var conditions = edge.json().data.conditions
-
-				if(conditions.length > 0){
-					var ret = true
-					for(var i = 0; i<conditions.length; i++){ //for all conditions in edge
-						var result = assessCondition(conditions[i])
-						console.log('RESULT: ' + result)
-						if(result === false){
-							ret = false
-						}
-					}
-					return ret
+		if(conditions.length > 0){
+			var ret = true
+			for(var i = 0; i<conditions.length; i++){ //for all conditions in edge
+				var result = assessCondition(conditions[i])
+				console.log('RESULT: ' + result)
+				if(result === false){
+					ret = false
 				}
-				else{
-					logger.log('Edge ' + edge.json().data.name + ' has no conditions.' + '<br>')
-					return true
-				}
+			}
+			return ret
+		}
+		else{
+			logger.log('Edge ' + edge.json().data.name + ' has no conditions.' + '<br>')
+			return true
+		}
 
 
-			}
-			else{
-				console.log("assessEdge(): invalid edge. unable to assess")
-				return false
-			}
+	}
+	else{
+		console.log("assessEdge(): invalid edge. unable to assess")
+		return false
+	}
 }
 
 function boolToString(bool){
@@ -192,7 +185,7 @@ function boolToString(bool){
 function assessCondition(condition){
 	//console.log(condition)
 	var html = $.parseHTML(condition.html)
-	console.log(html)
+	//console.log(html)
 	var type = html[0].attributes[1].value
 	if(type === '1'){
 		//attribute : comparison : attribute condition
@@ -294,20 +287,16 @@ function assessCondition(condition){
 	else if(type === "6"){
 		//random number comparisons use type1 assessment
 	}
-
 }
 
-
 function getAttributeValue(childNode){
-	console.log('getting value for: ' + childNode.id)
+	//console.log('getting value for: ' + childNode.id)
 	//if(childNode.id.split('_')[3] === 'specValue'){
 	if(childNode.classList[0] === 'input-field'){
-		console.log('input field found')
-		console.log('input feild in html: ' + childNode.attributes.value.value )
 		//button is an input feild
 		//the value attribute of the input feild must be explicitly set when saving a condition
 		var ret = parseFloat(childNode.attributes.value.value)
-		console.log('input feild parsed: ' + childNode.attributes.value.value )
+		//console.log('Specific Value parsed: ' + childNode.attributes.value.value )
 		return parseFloat(childNode.attributes.value.value)
 
 	}
@@ -320,14 +309,13 @@ function getAttributeValue(childNode){
 		var rand = Math.floor(Math.random() * (max - min + 1)) + min
 		console.log('Generated number between ' + min + ' and ' + max + ' is: ' + rand)
 		return rand;
-
-
 	}
 	else{
 		//button is attribute button
 		var pathx = childNode.attributes.path.nodeValue
-		console.log("Path is: ", pathx);
+		//console.log("Path is: ", pathx);
 		var att = gameAttributes_find(pathx)
+		//console.log("Att Value is: ", att.value);
 		return att.value
 	}
 
@@ -369,7 +357,7 @@ function assessComparison(left_value, comparison, right_value){
 	var L = parseFloat(left_value)
 	var R = parseFloat(right_value)
 
-	console.log('COMPARISON: LEFT: ' + L + ' RIGHT: ' + R)
+	//console.log('COMPARISON: LEFT' + L + ' ' + comparison + ' RIGHT: ' + R)
 	switch (comparison) {
 		case '=':
 			if(L === R){

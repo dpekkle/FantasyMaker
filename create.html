@@ -453,7 +453,7 @@
 							<a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a>
 							<br/>
 							<hr/>
-							<button class="connectivity btn" onclick=checkValidGraph()>Test Graph</button> <br/>
+							<button class="connectivity btn" onclick="runTests()"">Test Graph</button> <br/>
 							<button class='dropdown-button btn' href='#' data-activates='stylegraph'>Style Graph</button> <br/>
 							<ul id='stylegraph' class='dropdown-content'>
 								<li><a onclick="layout_driver('Tree');">Tree</a></li>
@@ -463,8 +463,8 @@
 								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
 							</ul>
 							<hr/>
-							<button class="savebutton btn" onclick=project_saveProject()>Save</button><br/>
-							<button class="playgamebutton btn" onclick="createModule_playGame()">Play Game</button><br/>
+							<button class="savebutton btn" onclick="project_saveProject()"">Save</button><br/>
+							<button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button><br/>
 
 							<hr/>
 							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
