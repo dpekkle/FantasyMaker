@@ -71,11 +71,34 @@ function initEmptyProject(username,projName){
 
 function project_createNewProject(){
 
-		myModal.prompt("Create New Project", "Enter a unique ID for this project, this cannot be changed. If you wish to change the project title that players will see when you publish your game you can edit the title in the 'Project' menu.", [{name: "Project ID", default: "", type: "text"}],
+		myModal.prompt("Create New Project", "Enter a title for your project.", [{name: "Project Title", default: "", type: "text"}],
 				function(results){
 
 				},
 				function(results){
+
+					var randProjID = project_generateID()
+					project_project = initEmptyProject(users_getUsername(),randProjID)
+					project_project.title = results[0]
+					cy.elements().remove()
+					var ret2 = {
+						"data" : []
+					}
+					$.when(http_save(project_project,ret2)).done(function(){
+						if(ret2.data === true){
+							Materialize.toast("Project '" + project_project.title + "' created!", 3000, 'rounded')
+							$('#prompt-modal').closeModal();
+							$('#UI_projName').text('Project: ' + project_project.title)
+							nav_toMain()
+							http_getUsersProjects(users_getUsername(),projectSettings_userProjects)
+
+						}
+						else{
+							Materialize.toast("Failed to create project. Please log in again.", 3000, 'rounded')
+						}
+					})
+
+					/*
 					var regex = new RegExp("^[a-zA-Z0-9_-]+$");
 					if(results[0] == "")
 					{
@@ -88,8 +111,6 @@ function project_createNewProject(){
 					{
 						var ret1 = {}
 						$.when(http_getUsersProjects(users_getUsername(),ret1)).done(function(){
-							console.log('RET')
-							console.log(ret1)
 							if(ret1.hasOwnProperty('projects')){
 								for(var i = 0; i<ret1.projects.length; i++){
 									if(results[0].trim() === ret1.projects[i].projName){
@@ -100,17 +121,18 @@ function project_createNewProject(){
 							}
 
 
-
-							project_project = initEmptyProject(users_getUsername(),results[0].trim())
+							var randProjID = project_generateID()
+							project_project = initEmptyProject(users_getUsername(),randProjID)
+							project_project.title = results[0]
 							cy.elements().remove()
 							var ret2 = {
 								"data" : []
 							}
 							$.when(http_save(project_project,ret2)).done(function(){
 								if(ret2.data === true){
-									Materialize.toast("Project '" + project_project.projectName + "' created!", 3000, 'rounded')
+									Materialize.toast("Project '" + project_project.title + "' created!", 3000, 'rounded')
 									$('#prompt-modal').closeModal();
-									$('#UI_projName').text('Project: ' + project_project.projectName)
+									$('#UI_projName').text('Project: ' + project_project.title)
 									nav_toMain()
 									http_getUsersProjects(users_getUsername(),projectSettings_userProjects)
 
@@ -120,7 +142,8 @@ function project_createNewProject(){
 								}
 							})
 						})
-					}
+						*/
+					//}
 		});
 }
 
@@ -440,4 +463,13 @@ function project_updatePublishedHtml(published){
   $('#' + project_project.projectName + '_pub').replaceWith(pubHTML)
   $('.pubTT').tooltip({delay: 50});
 
+}
+
+function project_generateID()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for( var i=0; i < 20; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
 }

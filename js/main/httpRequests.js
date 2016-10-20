@@ -73,7 +73,7 @@ function http_load(projName){
 				});
 
 
-				$('#UI_projName').text('Project: ' + project_project.projectName)
+				$('#UI_projName').text('Project: ' + project_project.title)
 
 				//add nodes first
 				for(var i = 0; i<data[0].graph.length; i++){
@@ -92,7 +92,7 @@ function http_load(projName){
 					}
 				}
 
-				Materialize.toast("Project '" + project_project.projectName + "' Loaded", 3000, 'rounded')
+				Materialize.toast("Project '" + project_project.title + "' Loaded", 3000, 'rounded')
 				resizeCanvas();
 				defaultState();
 			}

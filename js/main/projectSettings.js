@@ -12,7 +12,7 @@ var projectSettings_userProjects = {
 
 function projectSettings_prepThenNavToProjects(project_project){
 
-  $('#currentProject_header').text('Current Project: ' + project_project.projectName)
+  $('#currentProject_header').text('Current Project: ' + project_project.title)
   $('#currentProject_title').text(project_project.title)
   $('#currentProject_author').text(project_project.author)
   $('#currentProject_desc').text(project_project.description)
@@ -194,7 +194,7 @@ function projectSettings_generateProjectCard(project){
                           //  '<img class="activator" src="http://www.planetware.com/photos-large/CH/switzerland-matterhorn.jpg">'+
                           //'</div>'+
                           '<div class="card-content">'+
-                            '<span class="card-title activator grey-text text-darken-4" style="position: relative;">'+project.projName+'<i class="material-icons right">more_vert</i></span>'+
+                            '<span class="card-title activator grey-text text-darken-4 truncate" style="position: relative;">'+project.title+'<i class="material-icons right">more_vert</i></span>'+
                             '<div class="row"><p>Title: ' +project.title+ '</p></div>'+
                             '<div class="row"><p>Author: '+project.author+'</p></div>'+
                             '<div class="row" >' +
@@ -202,11 +202,11 @@ function projectSettings_generateProjectCard(project){
                             '</div>'+
                           '</div>'+
                           '<div class="card-reveal" >'+
-                            '<span class="card-title grey-text text-darken-4">'+project.projName+'<i class="material-icons right">close</i></span>'+
+                            '<span class="card-title grey-text text-darken-4">'+project.title+'<i class="material-icons right">close</i></span>'+
                             '<p>Date Created: ' + project.dateCreated + '</p>'+
                             '<p>Last Modified: ' + project.lastModified + '</p>'+
                             pubHTML+
-                            '<a class="btn-floating btn-small waves-effect waves-light red" onclick=projectSettings_deleteProject('+ "'"+users_getUsername()+"','"+ project.projName + "','"+ project_project.projectName + "'" +')><i class="small material-icons">delete</i></a>'+
+                            '<a class="btn-floating btn-small waves-effect waves-light red" onclick=projectSettings_deleteProject('+ "'"+users_getUsername()+"','"+ project.projName + "','"+ project_project.projectName + "'" + ')><i class="small material-icons">delete</i></a>'+
                           '</div>'+
                         '</div>'+
                       //'</div>'+
@@ -265,10 +265,10 @@ function projectSettings_disableRightPagination(){
 }
 
 
-function projectSettings_deleteProject(username,projToDelete,currProj){
+function projectSettings_deleteProject(username,projToDelete,currProj,display){
 
   //var display = projName.split('_').join(' ')
-  myModal.prompt("Delete Project '" + projToDelete + "'.", "Are you sure you wish to delete this project? This cannot be undone.", [],
+  myModal.prompt("Delete Project", "Are you sure you wish to delete this project? This cannot be undone.", [],
       function(results){
         projectSettings_activePage = 1 //reset pagination of projects
         //case someone deletes current project
@@ -281,7 +281,7 @@ function projectSettings_deleteProject(username,projToDelete,currProj){
           }
           $.when(http_getUsersProjects(username,projectSettings_userProjects)).done(function(){
             projectSettings_populateProjectsList(username,1)
-            Materialize.toast("Project '" + projToDelete + "' Deleted", 3000, 'rounded')
+            Materialize.toast("Project Deleted", 3000, 'rounded')
           })
         })
       },
