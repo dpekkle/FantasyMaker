@@ -11,7 +11,6 @@ var projectSettings_userProjects = {
 }
 
 function projectSettings_prepThenNavToProjects(project_project){
-  console.log(project_project)
 
   $('#currentProject_header').text('Current Project: ' + project_project.projectName)
   $('#currentProject_title').text(project_project.title)

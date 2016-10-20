@@ -92,6 +92,12 @@ goog.require('project')
          items: {}
        }
 
+       options.items.invOuts = {
+         name: 'Inventory Modifications',
+         items: {}
+       }
+
+       //attribute outcomes
        options.items.attMods.items['attMod'] = {
          name: 'Attribute Modification',
          callback: function(key,options){
@@ -99,6 +105,7 @@ goog.require('project')
          }
        }
 
+       //text outcomes
        options.items.textOutput.items['playerOutputAttribute'] = {
          name: 'Player Output (Text : Attribute : Text)',
          callback: function(key, options){
@@ -110,6 +117,14 @@ goog.require('project')
          name: 'Player Output (Text Only)',
          callback: function(key, options){
           swapOutcome(key,$trigger.attr('id'))
+         }
+       }
+
+       //inventory outcomes
+       options.items.invOuts.items['inventory_addRemove'] = {
+         name: 'Add or remove inventory items',
+         callback: function(key,options){
+           swapOutcome(key,$trigger.attr('id'))
          }
        }
 
@@ -654,7 +669,7 @@ function generateCondition_type6(id){
 }
 
 
-
+//standard attribute modification
  function generateOutcome(id){
 	 var html = '<li id=' + id + '>'+
 								'<div class="row" type="Attribute Modification">'+
@@ -668,6 +683,7 @@ function generateCondition_type6(id){
 		return html
  }
 
+//text outcome with attribute (text : attribute : text)
  function generatePlayerOutputAttribute(id){
    var html = '<li id=' + id + '>'+
 								'<div class="row" type="Text-Attribute-Text">'+
@@ -681,6 +697,7 @@ function generateCondition_type6(id){
 		return html
  }
 
+//just text outcome
  function generatePlayerOutputText(id){
    var html = '<li id=' + id + '>'+
 								'<div class="row" type="Text">'+
@@ -692,6 +709,19 @@ function generateCondition_type6(id){
 		return html
  }
 
+ function generateOutcome_inventoryAddRemove(id){
+   var html = '<li id=' + id + '>'+
+                '<div class="row" type="inventory_addRemove">'+
+                  generateSettingsButton(id) +
+                  generateAddRemoveButton(id + '_addRemove')+
+                  generateInputField(id,'','Amount to add')+
+                  generateInventoryButton(id + '_invButton')+
+                '</div>'+
+                '<div class="divider"></div>'+
+              '</li>'
+    return html
+ }
+
 
 
  function generateAttributeButton(id,classes,mode){
@@ -701,18 +731,6 @@ function generateCondition_type6(id){
 	 return ret
  }
 
-/*
- function generic_generateAttributeButton(id, classes, mode){
-	 var ret;
-	// if(mode === 'NO_COL'){
-		 ret = '<div id="' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div>'
-	 //}
-	 //else{
-		// ret = '<div class="col s2"><div id="inventoryItem_' + id + '" class="condition-context-menu '+classes+' attribute-button tooltipped" data-html="true" data-position="bottom" data-delay="50" data-tooltip=""></div></div>'
-	 //}
-	 return ret
- }
-*/
  function generateComparisonButon(id,classes,initial){
 	 var ret = '<div id="' + id +'" class="col s1 comparison-context-menu ' + classes + ' comparison-button">'+initial+'</div>'
 	 return ret
@@ -783,6 +801,44 @@ function existsButtonSwapState(id){
   }
 }
 
+function generateAddRemoveButton(id){
+    var html =     '<div class="col s2 truncate">'
+                 +   '<a href="#" ><div id="' + id + '" state="add" onclick=addRemoveButtonSwapState(this.id) class="attribute-button"><p class="truncate">Add</p></div></a>'
+                 + '</div>'
+    return html
+}
+
+function addRemoveButtonSwapState(id){
+  var state = $('#' + id).attr('state')
+  var spl = id.split('_')
+  var inputFieldID
+  if(spl[0] === 'newOutcome'){
+    inputFieldID = spl[0] + '_' + spl[1] + '_inputField'
+  }
+  else if(spl[0] === 'exOutcome'){
+    inputFieldID = spl[0] + '_' + spl[1] + '_' + spl[2] + '_inputField'
+  }
+
+  if(state === 'remove'){
+    $('#' + id).children().text('Add')
+    $('#' + id).attr('state','add')
+    $('#' + inputFieldID ).attr('placeholder','Amount to add')
+    $('#' + inputFieldID ).siblings().text('Amount to add')
+  }
+  else{
+    $('#' + id).children().text('Remove')
+    $('#' + id).attr('state','remove')
+    $('#' + inputFieldID).attr('placeholder','Amount to remove')
+    $('#' + inputFieldID).siblings().text('Amount to remove')
+  }
+}
+
+
+
+
+
+
+
 
 
 function findFirstLeafPath(path){
@@ -801,9 +857,15 @@ function findFirstLeafPath(path){
 }
 
  function initAttributeButton(id){
+   $('#'+id).children().text('...........')
+   $('#'+id).attr('path','')
+   $('#' + id).attr('data-tooltip',"There are no attributes in your project. <br> Add attributes via the 'Attributes' button. ")
+   $('#'+id).tooltip({delay: 50});
+
 	 if(Object.keys(project_project.gameAttributes).length > 0){
 		 for(var key in project_project.gameAttributes){
 			 var path = findFirstLeafPath(key)
+
 			 if(path !== undefined){
 				 var att = gameAttributes_find(path)
 				 $('#'+id).children().text(att.name)
@@ -814,12 +876,7 @@ function findFirstLeafPath(path){
 			 }
 		 }
 	 }
-	 else{
-		 $('#'+id).children().text('...........')
-		 $('#'+id).attr('path','')
-		 $('#' + id).attr('data-tooltip',"There are no attributes in your project. <br> Add attributes via the 'Attributes' button. ")
-		 $('#'+id).tooltip({delay: 50});
-	 }
+
 
  }
 
@@ -878,6 +935,12 @@ function findFirstLeafPath(path){
      html = generatePlayerOutputText(replaceId)
      $('#' + replaceId).replaceWith(html)
      $('#'+ replaceId + '_text_1').tooltip({delay: 50});
+   }
+   else if(type === 'inventory_addRemove'){
+
+     html = generateOutcome_inventoryAddRemove(replaceId)
+     $('#' + replaceId).replaceWith(html)
+     $('#'+ replaceId + '_invButton').tooltip({delay: 50});
    }
 
 

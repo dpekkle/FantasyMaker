@@ -16,8 +16,14 @@ function executeOutcomes(edge){
 				var modification = html[0].childNodes[2].childNodes[0].data
 				var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
 				var newValue = assessModification(attButton1_val,modification,attButton2_val)
+				var path = getAttributePath(html[0].childNodes[1].childNodes[0])
 
-				var path = html[0].childNodes[1].childNodes[0].attributes.path.value
+
+				if(attButton1_val === undefined || attButton2_val === undefined || path === undefined){
+					console.log('executeOutcomes() attribute modification: attButton1, attButton2, or path is undefined')
+					return
+				}
+
 				var att = gameAttributes_find(path)
 
 				//evaluate atts mix/max values
@@ -45,6 +51,13 @@ function executeOutcomes(edge){
 				var textButton1_val = getTextButtonValue(html[0].childNodes[1].childNodes[0])
 				var attButton1_val = getAttributeValue(html[0].childNodes[2].childNodes[0])
 				var textButton2_val = getTextButtonValue(html[0].childNodes[3].childNodes[0])
+
+				if(attButton1_val === undefined){
+					console.log('executeOutcomes() attribute modification: attButton1 or attButton2 is undefined')
+					attButton1_val = ' <Error: No attribute selected> '
+					//return
+				}
+
 				logger.playerLog(textButton1_val + attButton1_val + textButton2_val)
 
 			}
@@ -54,6 +67,38 @@ function executeOutcomes(edge){
 
 				var textButton1_val = getTextButtonValue(html[0].childNodes[1].childNodes[0])
 				logger.playerLog(textButton1_val)
+
+			}
+			else if(type ==='inventory_addRemove'){
+				console.log(html)
+				var state = getAddRemoveButtonState(html[0].childNodes[1].childNodes[0])
+				var inputFieldValue = getAttributeValue(html[0].childNodes[2].childNodes[0])
+				var item = getInventoryItemFromHtml(html[0].childNodes[3].childNodes[0])
+
+				if(item === undefined){
+					console.log('executeOutcomes() inventory add/remove: item is undefined.')
+					return
+				}
+				else if(isNaN(inputFieldValue)){
+					console.log('executeOutcomes() inventory add/remove: inputFieldValue is not a number.')
+					return
+				}
+
+				if(state === 'add'){
+					var currPlayCount = parseInt(item.playCount)
+					var newCount = currPlayCount + inputFieldValue
+					item.playCount = newCount
+				}
+				else if(state === 'remove'){
+					var currPlayCount = parseInt(item.playCount)
+					var newCount = currPlayCount - inputFieldValue
+					if(newCount < 0){
+						item.playCount = 0
+					}
+					else{
+						item.playCount = newCount
+					}
+				}
 
 			}
 		}
@@ -66,6 +111,12 @@ function executeOutcomes(edge){
 
 function getTextButtonValue(childNode){
 	return childNode.attributes['data-tooltip'].value
+}
+
+function getAddRemoveButtonState(childNode){
+	//console.log('GET ADDREMOVE BUTTON STATE:')
+	return childNode.childNodes[0].attributes.state.value
+
 }
 
 function parseControl(sourceNode, outgoingEdges){
@@ -181,6 +232,11 @@ function boolToString(bool){
 	}
 }
 
+function getInventoryItemFromHtml(childNode){
+	var itemID = childNode.attributes.itemid.value
+	return gameInventory_getItem(itemID)
+}
+
 
 function assessCondition(condition){
 	//console.log(condition)
@@ -193,6 +249,11 @@ function assessCondition(condition){
 		var comparison = html[0].childNodes[2].childNodes[0].data
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
 
+		if(attButton1_val === undefined || attButton2_val === undefined){
+			console.log('assessCondition() type1: attButton1 or attButton2 is undefined')
+			return false
+		}
+
 		var ret = assessComparison(attButton1_val,comparison,attButton2_val)
 		logger.log('Condition: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') '+comparison + ' ' +
 								getAttributeText(html[0].childNodes[3].childNodes[0]) + '('+ attButton2_val +') is ' + boolToString(ret) + '<br>')
@@ -204,11 +265,14 @@ function assessCondition(condition){
 		var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
 		var modification = html[0].childNodes[2].childNodes[0].data
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
-		var lhs = assessModification(attButton1_val, modification,attButton2_val)
-
 		var pivot = html[0].childNodes[4].childNodes[0].data
 		var rhs = getAttributeValue(html[0].childNodes[5].childNodes[0])
+		if(attButton1_val === undefined || attButton2_val === undefined || rhs === undefined){
+			console.log('assessCondition() type2: attButton1, attButton2 or rhs is undefined')
+			return false
+		}
 
+		var lhs = assessModification(attButton1_val, modification,attButton2_val)
 
 		//console.log(attButton1_val + ' ' + modification + ' ' + attButton2_val + ' ' + pivot + ' ' + rhs)
 		var ret = assessComparison(lhs,pivot,rhs)
@@ -223,13 +287,17 @@ function assessCondition(condition){
 		var attButton1_val = getAttributeValue(html[0].childNodes[1].childNodes[0])
 		var mod1 = html[0].childNodes[2].childNodes[0].data
 		var attButton2_val = getAttributeValue(html[0].childNodes[3].childNodes[0])
-		var lhs = assessModification(attButton1_val, mod1,attButton2_val)
-
-		var pivot = html[0].childNodes[4].childNodes[0].data
-
 		var attButton3_val = getAttributeValue(html[0].childNodes[5].childNodes[0])
+		var pivot = html[0].childNodes[4].childNodes[0].data
 		var mod2 = html[0].childNodes[6].childNodes[0].data
 		var attButton4_val = getAttributeValue(html[0].childNodes[7].childNodes[0])
+
+		if(attButton1_val === undefined || attButton2_val === undefined || attButton3_val === undefined || attButton4_val === undefined){
+			console.log('assessCondition() type3: attButton1, attButton2,attButton3, or attButton4 is undefined')
+			return false
+		}
+
+		var lhs = assessModification(attButton1_val, mod1,attButton2_val)
 		var rhs = assessModification(attButton3_val,mod2,attButton4_val)
 		//console.log(attButton1_val + ' ' + mod1 + ' ' + attButton2_val + ' ' + pivot + ' ' + attButton3_val + ' ' + mod2 + ' ' + attButton4_val )
 		//console.log(assessComparison(lhs,pivot,rhs))
@@ -242,24 +310,15 @@ function assessCondition(condition){
 	else if(type === "4"){
 		//inventory exists condition
 		//get cond from html
-
-		var itemID = html[0].childNodes[1].childNodes[0].attributes.itemid.value
-		var item = gameInventory_getItem(itemID)
+		var item = getInventoryItemFromHtml(html[0].childNodes[1].childNodes[0])
 		var exists = html[0].childNodes[2].childNodes[0].firstChild.attributes.state.value
 
-		//define if is exists/not exists
-		console.log('EXISTS CONDITION:')
-		console.log('ITEMID: ' + itemID)
-		console.log('ITEM: ')
-		console.log(item)
-		console.log('EXISTS: ' + exists)
-		//console.log(itemID + ' ' + JSON.stringify(item) + ' ' + exists)
-
-		if(itemID === undefined || item === undefined){
-			console.log('assessCondition() type4: item undefined')
+		if(item === undefined || exists === undefined){
+			console.log('assessCondition() type4: item or exists is undefined')
 			return false
 		}
-		else if(isNaN(parseInt(item.playCount))){
+
+		if(isNaN(parseInt(item.playCount))){
 			console.log('assessCondition() type4: item.playCount is not a number')
 			return false
 		}
@@ -295,21 +354,12 @@ function assessCondition(condition){
 		var inputFieldValue = getAttributeValue(html[0].childNodes[2].childNodes[0])
 
 		//define if is exists/not exists
-		/*
-		console.log('AMOUNT EXISTS CONDITION:')
-		console.log('ITEMID: ' + itemID)
-		console.log('ITEM: ')
-		console.log(item)
-		console.log('AMOUNT: ' + inputFieldValue)
-		*/
-		//console.log(itemID + ' ' + JSON.stringify(item) + ' ' + exists)
-
 		if(itemID === undefined || item === undefined){
-			//console.log('assessCondition() type4: item undefined')
+			console.log('assessCondition() type4: item undefined')
 			return false
 		}
 		else if(isNaN(parseInt(item.playCount))){
-			//console.log('assessCondition() type4: item.playCount is not a number')
+			console.log('assessCondition() type4: item.playCount is not a number')
 			return false
 		}
 
@@ -352,13 +402,29 @@ function getAttributeValue(childNode){
 	}
 	else{
 		//button is attribute button
-		var pathx = childNode.attributes.path.nodeValue
-		//console.log("Path is: ", pathx);
-		var att = gameAttributes_find(pathx)
-		//console.log("Att Value is: ", att.value);
-		return att.value
+			var pathx = getAttributePath(childNode)
+			if(pathx === undefined){
+				return
+			}
+			//console.log("Path is: ", pathx);
+			var att = gameAttributes_find(pathx)
+			//console.log("Att Value is: ", att.value);
+			if(att === undefined){
+				console.log('getAttributeValue(): att is undefined')
+				return
+			}
+			return att.value
+
+
 	}
 
+}
+
+function getAttributePath(childNode){
+	if(childNode.attributes.hasOwnProperty('path')){
+		console.log('getAttributePath(): path is undefined')
+		return childNode.attributes.path.nodeValue
+	}
 }
 
 function getAttributeText(childNode){

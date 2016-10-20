@@ -176,7 +176,13 @@ function saveEdge(selectedEdge, mode){
 					//$('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField').attr('value',$('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id + '_specValue_2_inputField').val())
 					$('#' + 'newOutcome_' + i + '_randValue_2').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_randValue_2')
 					$('#' + 'newOutcome_' + i + '_text_1').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_text_1')
-					$('#' + 'newOutcome_' + i + '_text_2').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_text_2')
+
+					//inventory outcome
+					$('#' + 'newOutcome_' + i + '_invButton').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_invButton')
+					$('#' + 'newOutcome_' + i + '_inputField').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_inputField')
+					$('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id + '_inputField').siblings().attr('for','exOutcome_' + newOut.edge + '_' + newOut.id + '_inputField')
+					$('#' + 'newOutcome_' + i + '_addRemove').attr('id','exOutcome_' + newOut.edge + '_' + newOut.id + '_addRemove')
+
 
 					newOut.html = $('#' + 'exOutcome_' + newOut.edge + '_' + newOut.id).html()
 
@@ -225,6 +231,12 @@ function edgeOverlay_addExistingCondition(listID, cond){
 	//add html to conditionList html element
 	$('#' + listID).append(conditionHtml);
 
+	doesAttributeExist(id + '_attButton_s1_1')
+	doesAttributeExist(id + '_attButton_s1_2')
+	doesAttributeExist(id + '_attButton_s2_1')
+	doesAttributeExist(id + '_attButton_s2_2')
+	doesInventoryItemExist(id + '_invButton')
+
 	$('#' + id + '_specValue_s1_2_inputField').val($('#' + id + '_specValue_s1_2_inputField').attr('value'))
 	$('#' + id + '_specValue_s2_1_inputField').val($('#' + id + '_specValue_s2_1_inputField').attr('value'))
 	$('#' + id + '_specValue_s2_2_inputField').val($('#' + id + '_specValue_s2_2_inputField').attr('value'))
@@ -251,21 +263,71 @@ function edgeOverlay_addExistingCondition(listID, cond){
 function edgeOverlay_addExistingOutcome(listID, out){
 	//html of condition row
 	var id = 'exOutcome_' + out.edge + '_' + out.id
-	var outcomeHtml = '<li id='+id+' class="condition-context-menu">'+out.html+'</li>'
+	var outcomeHtml = '<li id='+id+' >'+out.html+'</li>'
 
 	//add html to conditionList html element
 	$('#' + listID).append(outcomeHtml);
+
+	//some function that validates if an attribute exists
+	doesAttributeExist(id + '_attButton_1')
+	doesAttributeExist(id + '_attButton_2')
+	doesInventoryItemExist(id + '_invButton')
+
 
 	$('#'+id + '_attButton_1').tooltip({delay: 50});
 	$('#'+id + '_attButton_2').tooltip({delay: 50});
 	$('#'+id + '_randValue_2').tooltip({delay: 50});
 	$('#'+id + '_text_1').tooltip({delay: 50});
 	$('#'+id + '_text_2').tooltip({delay: 50});
+	$('#'+id + '_invButton').tooltip({delay: 50});
 
 	//do fancy animation
 	$('#' + id).hide(0,function(){
 		$('#' + id).show(300);
 	});
+
+}
+
+function doesAttributeExist(id){
+	if($('#' + id).length === 0){
+		//dont need to check attButtons that are not in ui
+		return false
+	}
+
+	if($('#' + id).attr('path') !== undefined){
+		var att = gameAttributes_find($('#' + id).attr('path'))
+		if(att === undefined){
+			console.log('ATT DOES NOT EXIST YO')
+			//re init button
+			initAttributeButton(id)
+			return false
+		}
+		return true
+	}
+	else{
+		console.log('PATH IS UNDEFINED YO')
+		//re init button
+		initAttributeButton(id)
+	}
+	return false
+}
+
+function doesInventoryItemExist(id){
+	if($('#' + id).length === 0){
+		//dont need to check attButtons that are not in ui
+		return false
+	}
+
+	if($('#'+id).attr('itemid') !== undefined){ //idiot check
+			var item = gameInventory_getItem($('#'+id).attr('itemid'))
+			if(item === undefined){
+				console.log('ITEM UNDEFINED YO')
+				$('#'+id).attr('itemid','')
+				$('#'+id).children().text('....')
+				return false
+			}
+			return true
+	}
 
 }
 

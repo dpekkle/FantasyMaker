@@ -42,6 +42,7 @@ function http_save(project_project,ret){
 }
 
 function http_load(projName){
+	console.log('PROJECT HAS LOADED')
 	//projName is expected to be project name with whitespace
 	projName = projName.split('_').join(' ')
 
@@ -157,7 +158,7 @@ function http_getUsersProjects(username,ret){
 
 function http_deleteProject(username,projName){
 	//projName is expected to be project name with whitespace
-	projName = projName.split('_').join(' ')
+	//projName = projName.split('_').join(' ')
 	//console.log("Delete project");
 	http_addTokenToHeader()
 
