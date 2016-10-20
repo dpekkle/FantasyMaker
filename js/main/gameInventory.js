@@ -169,7 +169,7 @@ function InventoryItem(itemObj) {
                 + '<textarea id="item-detail-input" class="materialize-textarea"></textarea>'
                 + '<label for="item-detail-input" class="active">Item Description</label>'
                 + '</div>'
-                + '<button class="col m4 offset-m2 btn tooltiped" data-tooltip="Modifiers will modify attributes when they are in a players inventory" onclick="defineItemModal.addModifierInput(true);" style="margin-top: 75px;">Add Attribute Modifier</button>'
+                + '<button class="col m4 offset-m2 btn tooltipped" data-tooltip="Modifiers will modify attributes when they are in a players inventory" onclick="defineItemModal.addModifierInput(true);" style="margin-top: 75px;">Add Attribute Modifier</button>'
                 + '</div>'
                 + '<div class="row row-centered">'
                 + '<ul class="item-modifiers-input-list"></ul>'
@@ -270,7 +270,7 @@ function InventoryItem(itemObj) {
                     }
                     else {
                         //upating an already existing item
-                        project_project.gameInventory[this.currentItemID] = resultObj;
+                        project_project.gameInventory[this.currentItemID] = new InventoryItem(resultObj);
                         gameInventory_createModule_updateItemHtml(this.currentItemID);
                     }
 
@@ -311,6 +311,7 @@ function InventoryItem(itemObj) {
                 detailInput.val('');
                 initCountInput.val('0');
                 modifierInputs.empty();
+
             }
 
         };
