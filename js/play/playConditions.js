@@ -242,7 +242,7 @@ function assessCondition(condition){
 	else if(type === "4"){
 		//inventory exists condition
 		//get cond from html
-		/*
+
 		var itemID = html[0].childNodes[1].childNodes[0].attributes.itemid.value
 		var item = gameInventory_getItem(itemID)
 		var exists = html[0].childNodes[2].childNodes[0].firstChild.attributes.state.value
@@ -256,13 +256,18 @@ function assessCondition(condition){
 		//console.log(itemID + ' ' + JSON.stringify(item) + ' ' + exists)
 
 		if(itemID === undefined || item === undefined){
+			console.log('assessCondition() type4: item undefined')
+			return false
+		}
+		else if(isNaN(parseInt(item.playCount))){
+			console.log('assessCondition() type4: item.playCount is not a number')
 			return false
 		}
 
-		if(exists === "true"){
+		if(exists === "true" || exists === true){
 			//exists
 			console.log('dose exist?')
-			if(item.itemCount > 0){
+			if(parseInt(item.playCount) > 0){
 				console.log('YES')
 				return true
 			}
@@ -271,21 +276,56 @@ function assessCondition(condition){
 		else{
 			//not exists
 			console.log('does not exist?')
-			if(item.itemCount === 0){
+			if(parseInt(item.playCount) === 0){
 				console.log('YES')
 				return true
 			}
 			console.log('NO')
-		*/
+		}
 		return false
 
 	}
 	else if(type === "5"){
 		//amount of inventory exists
+		//get cond from html
+		console.log(html)
+
+		var itemID = html[0].childNodes[1].childNodes[0].attributes.itemid.value
+		var item = gameInventory_getItem(itemID)
+		var inputFieldValue = getAttributeValue(html[0].childNodes[2].childNodes[0])
+
+		//define if is exists/not exists
+		/*
+		console.log('AMOUNT EXISTS CONDITION:')
+		console.log('ITEMID: ' + itemID)
+		console.log('ITEM: ')
+		console.log(item)
+		console.log('AMOUNT: ' + inputFieldValue)
+		*/
+		//console.log(itemID + ' ' + JSON.stringify(item) + ' ' + exists)
+
+		if(itemID === undefined || item === undefined){
+			//console.log('assessCondition() type4: item undefined')
+			return false
+		}
+		else if(isNaN(parseInt(item.playCount))){
+			//console.log('assessCondition() type4: item.playCount is not a number')
+			return false
+		}
+
+		if(parseInt(item.playCount) === inputFieldValue){
+			//console.log('YES')
+			return true
+		}
+		//console.log('NO')
+
 		return false
+
 	}
 	else if(type === "6"){
 		//random number comparisons use type1 assessment
+		console.log('Type 6 condition should not be used, use type 1 for random comparisons')
+		return false
 	}
 }
 

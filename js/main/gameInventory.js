@@ -270,7 +270,7 @@ function InventoryItem(itemObj) {
                     }
                     else {
                         //upating an already existing item
-                        project_project.gameInventory[this.currentItemID] = resultObj;
+                        project_project.gameInventory[this.currentItemID] = new InventoryItem(resultObj);
                         gameInventory_createModule_updateItemHtml(this.currentItemID);
                     }
 
@@ -325,7 +325,7 @@ function InventoryItem(itemObj) {
 
             var html = '<li id=inventoryItemModifierRow_' + modifierID + '>'
                 + '<div class="row">'
-                + generic_generateAttributeButton(modifierID + '-modifyAttributeInput', 'game-attributes') //context menu just has game attributes 
+                + generic_generateAttributeButton(modifierID + '-modifyAttributeInput', 'game-attributes') //context menu just has game attributes
                 + '<div class="input-field col m2"><input id="' + modifierID + '-modifyAmountInput" type="number" class="modifier-value-input validate"/><label data-error="Required" class="active">Modify Amount</label></div>'
                 + '<div class="col m1"><button class="btn-floating red offset-m2" style="margin-top: 20px;" onclick="defineItemModal.removeModifierInput(\'' + modifierID + '\');"><i class="small material-icons">delete</i></button></div>'
                 + '</div>'
@@ -383,4 +383,3 @@ function InventoryItem(itemObj) {
 var defineItemModal = new DefineItemModal();
 defineItemModal.init();
 /* END INVENTORY CREATE MODULE DOCUMENT METHODS */
-
