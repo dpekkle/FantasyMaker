@@ -19,7 +19,7 @@ module.exports = function(app){
 		//var project = JSON.parse(req.body.save); //parse saveFile
 
     if(req.body.uname === 'guest'){
-      var expires = moment().add(1,'h').valueOf();
+      var expires = moment().add(10,'h').valueOf();
       var token = jwt.encode({
           iss: req.body.uname,
           exp: expires
