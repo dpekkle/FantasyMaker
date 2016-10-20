@@ -80,18 +80,26 @@ function runJumpNode(element)
 	return target;
 }
 
-function runJumpEnd()
+function runJumpEnd(current_node)
 {
 	//return the origin node of the last jump-start we encountered
 	//i.e. where we last were before exitting the graph and entering a jump section
 
 	var jump_start = jump_context_stack.pop();
-	var origin = (jump_start.data('origin'));
-	if (jump_start.data('repeat') == 'once')
+	if (jump_start == undefined)
 	{
-		jump_context_stack.unshift(jump_start);
+		console.log("We tried to runJumpEnd with nothing on the jump context Stack!")
+		return current_node;
 	}
-	console.log("Reached jump end. Now Jump back to", origin.data('name'));
-	return origin;
+	else
+	{
+		var origin = (jump_start.data('origin'));
+		if (jump_start.data('repeat') == 'once')
+		{
+			jump_context_stack.unshift(jump_start);
+		}
+		console.log("Reached jump end. Now Jump back to", origin.data('name'));
+		return origin;
+	}
 }
 

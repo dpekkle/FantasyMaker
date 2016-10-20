@@ -185,7 +185,7 @@ function createNewJumpButton()
 
 function chooseJumpButton(sel)
 {
-	cy.$(':selected')[0].data('button', project_project.button_list[sel]);
+	cy.$(':selected')[0].data('button', project_project.button_list[sel].name);
 	$('.choose-button').html(sel)
 }
 
