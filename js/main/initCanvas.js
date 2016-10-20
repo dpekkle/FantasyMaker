@@ -1,4 +1,5 @@
 goog.provide('initCanvas')
+goog.require('host')
 console.log("Enter initCanvas.js")
 
 
@@ -12,8 +13,24 @@ states = {
 };
 
 
+var cytoscape_headless;
+var cytoscape_container;
+
+if (window.location.href === host_play())
+{
+	//in play module
+	cytoscape_headless = true;
+	cytoscape_container = null;
+}
+else
+{
+	//in create module
+	cytoscape_headless = false;
+	cytoscape_container = document.getElementById('cy');
+}
+
 var cy = cytoscape({
-	container: document.getElementById('cy'), // container to render in
+	container: cytoscape_container, // container to render in
 
 	//predefined layout, mostly used for static graphs
 	layout: {
@@ -257,6 +274,7 @@ var cy = cytoscape({
 		},
 
 	],
+	headless: cytoscape_headless,
 	boxSelectionEnabled: true,
 	selectionType: 'single', //allows only one element to be selected at a time
 	minZoom: 0.2,

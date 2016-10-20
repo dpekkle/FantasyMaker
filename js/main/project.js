@@ -33,12 +33,10 @@ function initEmptyProject(username,projName){
 				buttoncontainers: [],
 			}
 		},
-		"buttons_list":
+		"button_list":
 		{
 			"Default":
 			{
-				html: "",
-				
 			}
 		},
 
@@ -70,7 +68,7 @@ function initEmptyProject(username,projName){
 
 function project_createNewProject(){
 
-		myModal.prompt("Create New Project", "", [{name: "Project Name", default: "", type: "text"}],
+		myModal.prompt("Create New Project", "Enter a unique ID for this project, this cannot be changed. If you wish to change the project title that players will see when you publish your game you can edit the title in the 'Project' menu.", [{name: "Project ID", default: "", type: "text"}],
 				function(results){
 
 				},
@@ -78,10 +76,10 @@ function project_createNewProject(){
 					var regex = new RegExp("^[a-zA-Z0-9_-]+$");
 					if(results[0] == "")
 					{
-						myModal.warning("Project name cannot be empty");
+						myModal.warning("Project ID cannot be empty");
 					}
 				 	else if(regex.test(results[0]) === false){
-						myModal.warning("Project names can only contain letters, numbers, underscores or hyphens")
+						myModal.warning("Project ID can only contain letters, numbers, underscores or hyphens")
 					}
 					else
 					{
@@ -92,7 +90,7 @@ function project_createNewProject(){
 							if(ret1.hasOwnProperty('projects')){
 								for(var i = 0; i<ret1.projects.length; i++){
 									if(results[0].trim() === ret1.projects[i].projName){
-										myModal.warning('You already have a project named ' + ret1.projects[i].projName + '. Please choose another name.')
+										myModal.warning('You already have a project with the ID ' + ret1.projects[i].projName + '. Please choose something else.')
 										return
 									}
 								}
@@ -132,9 +130,8 @@ function project_addTopGameAttributeFolder(name){
 	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path);
 }
 
-function project_saveProject(){
-	//project_updateProject()
-
+function project_saveProject()
+{
 	//remove all the selections/styles, or they get stuck
 	cy.nodes().removeClass('source_node disconnected jumpenderror');
 	cy.elements().unselect();
@@ -151,10 +148,7 @@ function project_saveProject(){
 			Materialize.toast("Failed to save project. Please log in again.", 3000, 'rounded')
 		}
 	})
-
 }
-
-
 
 function project_login(){
 

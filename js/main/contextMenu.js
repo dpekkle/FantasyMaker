@@ -741,6 +741,51 @@ $(function(){
 
 });
 
+$.contextMenu(
+{
+	selector: '.special-buttons',
+	trigger: 'left',
+	//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
+	build: function($trigger, e)
+	{
+		var jump_buttons = project_project.button_list;
+		return {
+		"items":
+			{
+				"Jump":
+				{
+					"name": "Jump Buttons",
+					"items": jump_buttons,
+				},
+				"Jump Back":
+				{
+					"name": "Jump Back",
+					"callback": function(key, options)
+					{
+						//create a jump back button
+						console.log("Create a jump back button on the page overlay");
+					}
+				},
+				"Attributes":
+				{
+					"name": "Show Attributes Panel",
+					"callback": function(key, options)
+					{
+						console.log("Create an attributes panel button");
+					}
+				},
+				"Inventory":
+				{
+					"name": "Show Inventory",
+					"callback": function(key, options)
+					{
+						console.log("Create an inventory button");
+					}
+				},
+			}
+		}
+	}
+});
 
 $.contextMenu({
 	selector: ".swap-controlmenu",

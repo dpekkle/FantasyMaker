@@ -6,7 +6,7 @@ goog.provide('pageTemplates')
 
 console.log('enter pageTemplates.js')
 
-var selected_page_template = project_project.project_templates.Default;;
+var selected_page_template = project_project.project_templates.Default;
 
 function createPageTemplate()
 {

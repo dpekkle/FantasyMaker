@@ -69,18 +69,6 @@
 		<div class="modal-content">
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
 			<h4>Jump Node</h4>
-		  	<form id="choosejumptrigger" action="#">
-		  		<h5>Triggering Event</h5>
-		  		<div>
-					<input name="group1" type="radio" id="test1" value="button"/>
-					<label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a specified button is pressed go to this jump node.">Button Press</label>
-				</div>
-				<div>
-					<input name="group1" type="radio" id="test2" value="attribute"/>
-					<label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined conditions are met go to this jump node.">Attribute Condition</label>
-				</div>
-				<hr>
-			</form>
 		  	<form id="choosejumprepeat" action="#">
 				<h5>Repeatedly Jump</h5>
 				<div>
@@ -93,6 +81,18 @@
 				</div>
 		    </form>
 		    <hr>
+		    <h5>Triggering Event</h5>
+		  	<form id="choosejumptrigger" action="#">
+		  		<div>
+					<input name="group1" type="radio" id="test1" value="button"/>
+					<label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a specified button is pressed go to this jump node.">Button Press</label>
+				</div>
+				<div>
+					<input name="group1" type="radio" id="test2" value="attribute"/>
+					<label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined conditions are met go to this jump node.">Attribute Condition</label>
+				</div>
+			</form>
+		    <hr>
 			<ul class="collapsible popout" data-collapsible="expandable">
 				<li class = "attribute" style = "display:none">
 					<div class="collapsible-header active">Conditions</div>
@@ -100,15 +100,14 @@
 						<ul id = "jumpConditionList" class="list-unstyled" ></ul>
 					</div>
 				</li>
-				<li class = "button" style = "display:none">
-					<button class='pagemode dropdown-button btn' href='#' data-activates='jumpbuttons'>Page Node</button> <br/>
-					<ul id='jumpbuttons' class='dropdown-content'>
-						<li><a onclick="chooseJumpButton('Default');">Default</a></li>
-					</ul>
-
-					<div class="choose-button">Choose Button</div>
-				</li>
 			</ul>
+			<div class = "button" style = "display:none">
+			    <h5>Linked Button</h5>
+				<button class='choose-button dropdown-button btn' href='#' data-activates='jumpbuttons'>Choose Button</button> <br/>
+				<ul id='jumpbuttons' class='dropdown-content'>
+					<li><a onclick="chooseJumpButton('Default');">Default</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="modal-footer" >
 			<div class = "attribute" style = "display:none">
@@ -132,10 +131,11 @@
 
 				<h5 id="pagename">Design Page: </h5>
 				<hr/>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "A container to hold any text, dialogue, etc..." onclick=addTextContainer()>Add TextBox</button><br>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Images " onclick=addImageContainer()>Add Image</button> <br/>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Movies (gif,gifv,mov,webm,mp4)" onclick=addVideoContainer()>Add Video</button> <br/>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Add Control Output</button><br/>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "A container to hold any text, dialogue, etc..." onclick=addTextContainer()>Text Box</button><br>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Images " onclick=addImageContainer()>Image</button> <br/>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Movies (gif,gifv,mov,webm,mp4)" onclick=addVideoContainer()>Video</button> <br/>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Control Output</button><br/>
+				<button class = "special-buttons btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Add buttons with special behaviour">Buttons</button><br/>
 				<hr/>
 				<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
 				<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
@@ -494,7 +494,7 @@
 								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
 							</ul>
 							<hr/>
-							<button class="savebutton btn" onclick="project_saveProject()"">Save</button><br/>
+							<button class="savebutton btn" onclick="saveProject()"">Save</button><br/>
 							<button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button><br/>
 
 							<hr/>

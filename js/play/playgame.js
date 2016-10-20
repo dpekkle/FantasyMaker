@@ -1,7 +1,7 @@
+goog.provide('playGame')
 goog.require('initCanvas') //for cytoscape functions like outgoers
 goog.require('generalOverlay') //for escapehtml
 goog.require('playConditions')
-goog.provide('playGame')
 goog.require('project')
 goog.require('audio')
 goog.require('events')
@@ -23,7 +23,6 @@ function loadingScreen(more_to_load)
 		$('#loader').show();
 		$('.progressbutton').hide();
 	}
-
 }
 
 function prepareForGame()
@@ -269,6 +268,15 @@ function resizePlayPage()
 	$('.playpage').css({'-ms-transform': 'scale(' + scale + ')'});
 	$('.playpage').css({'-webkit-transform': 'scale(' + scale + ')'});
 
+	//now figure out how to center via translation since we scaled it
+
+	//getBoundClientRect gets actual dimensions of scaled .playpage
+	var translate_x = ($('#playwindow').width() - $('.playpage')[0].getBoundingClientRect().width) / 2;
+	var translate_y = ($('#playwindow').height() - $('.playpage')[0].getBoundingClientRect().height) / 2;
+
+	$('.playpage').css({'transform': 'translate(' + translate_x + 'px,' + translate_y + 'px) scale(' + scale + ')'});
+	$('.playpage').css({'-ms-transform': 'translate(' + translate_x + 'px,' + translate_y + 'px) scale(' + scale + ')'});
+	$('.playpage').css({'-webkit-transform': 'translate(' + translate_x + 'px,' + translate_y + 'px) scale(' + scale + ')'});
 }
 
 $(window).resize(resizePlayPage);

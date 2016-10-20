@@ -5,14 +5,8 @@ goog.require('genericComparisonRow')
 function populateJumpOverlay(element)
 {
 	var type = element.data('triggerType');
-	if (type == "attribute")
-	{
-		loadJumpConditions();
-	}
-	else if (type == "button")
-	{
-		loadJumpButton();	
-	}
+	loadJumpConditions();
+	loadJumpButton();	
 	setJumpNodeType(type);
 
 	$('#choosejumprepeat input[value="'+ cy.$(':selected')[0].data('repeat') +'"]').prop("checked", true);		
@@ -27,7 +21,7 @@ function saveJump()
 	cy.$(':selected')[0].data('triggerType', $('#choosejumptrigger :checked').attr('value'));
 	//save trigger contents
 	saveJumpConditions();
-	saveJumpButton();
+	//jump buttons are saved when selected
 
 	//hide sections and uncheck radio buttons
 	setJumpNodeType(null);
@@ -105,13 +99,14 @@ function addJumpCondition()
 function loadJumpButton()
 {
 	var button = cy.$(':selected')[0].data('button');
-
-
-}
-
-function saveJumpButton()
-{
-
+	if (button == null)
+	{
+		$('.choose-button').html("Choose Button");
+	}
+	else
+	{
+		$('.choose-button').html(button.name);
+	}
 }
 
 function createNewJumpButton()
@@ -119,14 +114,43 @@ function createNewJumpButton()
 	//give the button a name
 		//myModal.prompt
 	//add the button to a stored list of buttons
-		
+	myModal.prompt("Create New Button", "After creation you can add this button to page nodes via the edit page overlay. Once you've done this the player can press the button to be taken to this jump node. It's a good idea for each jump node to have it's own button.", [{name: "Enter name", default: "", type: "text"}],
+		function(results){
+			var name = results[0];
+			var selected = cy.$(':selected')[0];
+			var data = selected.data('button');
+
+			project_project.button_list[name] = {"name": name, "callback": function(key, options){
+				//create a jump button
+				console.log("Create a jump button on the page overlay");
+			}};
+			$('#jumpbuttons').append("<li><a onclick=\"chooseJumpButton('" + name + "');\">" + name + "</a></li>")
+		},
+		function(results){
+			if (results[0] == "")
+			{
+				return "Can't be an empty name";
+			}
+				else if (results[0] == "Default")
+			{
+				return "Can't override Default";
+			}
+			else if (project_project.button_list[results[0]] !== undefined)
+			{
+				return "A button with that name already exists"
+			}
+			else 
+			{ 
+				return true;
+			}
+		}
+	);
 }
 
-function chooseJumpButton()
+function chooseJumpButton(sel)
 {
-	//cy.$(':selected')[0].data('button', )
-	selected_page_template = project_project.project_templates[sel];
-	$('.pagemode').html("Page Node (" + sel + ")")
+	cy.$(':selected')[0].data('button', project_project.button_list[sel]);
+	$('.choose-button').html(sel)
 }
 
 $('#choosejumptrigger').on('change', function(event)
