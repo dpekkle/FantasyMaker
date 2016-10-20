@@ -1,5 +1,6 @@
 goog.provide('pageOverlay')
 goog.require('generalOverlay')
+goog.require('pageContainerHelpers')
 goog.require('contextMenu')
 goog.require('dragDrop') //for page dimensions
 goog.require('prompts')
@@ -125,28 +126,17 @@ function addImageContainer()
 
 			html_string += "</div>"
 
-			$.ajax(
-			{
-				url: imgurl, //or your url
-				success: function(data)
-				{
-					//Create a new draggable div to hold the image containers
-					var size = $(".img-container").length;
-					var new_container = htmlToElements(html_string);
+			//Create a new draggable div to hold the image containers
+			var size = $(".img-container").length;
+			var new_container = htmlToElements(html_string);
 
-					$("#pagecontainers").append(new_container);
-					$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));
+			$("#pagecontainers").append(new_container);
+			$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));
 
-					bringContainerToFront($("pagecontainers div.img-container:last"));
-					if (!show_handles)
-						$('.handlecontainer').hide();
-					bindHandleSelection();
-				},
-				error: function(data)
-				{
-					alert('URL: ' + imgurl + ' does not exist');
-				},
-			})
+			bringContainerToFront($("pagecontainers div.img-container:last"));
+			if (!show_handles)
+				$('.handlecontainer').hide();
+			bindHandleSelection();
 		}
 	});
 }
@@ -292,93 +282,6 @@ function checkImageURL(imgurl, type)
 	return html_string;
 }
 
-function genHandleHTML(containertype, id)
-{
-	var html_string = "";
-	html_string += "<div class = 'handlecontainer'>";
-
-	if (containertype == "img")
-	{
-		html_string += ('<a class="btn-floating waves-effect waves-light green lefticon">'
-					+ 	 	'<i class="fa fa-picture-o"></i>'
-					+   '</a>');
-		html_string += "<div id = 'img" + id + "'" + "class = 'handle img-handle'>Image";
-		html_string += '</div>';
-		html_string += ('<a class="imgmenu btn-floating waves-effect waves-light red righticon">'
-					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');
-	}
-
-	else if (containertype == "vid")
-	{
-		html_string += ('<a class="btn-floating waves-effect waves-light blue-grey darken-4 lefticon">'
-					+ 	 	'<i class="fa fa-film"></i>'
-					+   '</a>');
-		html_string += "<div id = 'vid" + id + "'" + "class = 'handle vid-handle'>Video";
-		html_string += '</div>';
-		html_string += ('<a class="vidmenu btn-floating waves-effect waves-light red righticon">'
-					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');
-	}
-
-	else if (containertype == "text")
-	{
-		html_string += ('<a class="btn-floating waves-effect waves-light grey lefticon">'
-					+ 	 	'<i class="material-icons">comment</i>'
-					+   '</a>');
-		html_string += "<div id = 'text" + id + "'" + "class = 'handle text-handle'>Text";
-		html_string += '</div>';
-
-		html_string += ('<a class="textmenu btn-floating waves-effect waves-light red righticon">'
-					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');
-	}
-	else if (containertype == "decision")
-	{
-		html_string += ('<a class="btn-floating waves-effect waves-light blue lighten-3 lefticon">'
-					+ 	 	id
-					+   '</a>');
-		html_string += "<div id = 'decision" + id + "'" + "class = 'handle link-handle'>Decision";
-		html_string += '</div>';
-		html_string += ('<a class="decmenu btn-floating waves-effect waves-light red righticon">'
-					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');
-	}
-	else if (containertype == "output")
-	{
-		html_string += ('<a class="btn-floating waves-effect waves-light indigo lighten-1 lefticon swap-controlmenu">'
-					+ 	 	'<i class="fa fa-terminal"></i>'
-					+   '</a>');
-		html_string += "<div id = 'output" + id + "'" + "class = 'handle control-handle'>Output";
-		html_string += '</div>';
-		html_string += ('<a class="controlmenu btn-floating waves-effect waves-light red righticon">'
-					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');
-	}
-
-	else
-	{
-		console.log("Unknown container type when generating handle for HTML");
-		return null;
-	}
-
-	html_string += '</div>'; //handle container end tag
-	return html_string;
-}
-
-function genPageCenterHTML(elew, eleh, iter)
-{
-	var x = (parseFloat(project_project.resolution.x)-elew)/2;
-	var y = (parseFloat(project_project.resolution.y)-eleh)/2;
-
-	if (iter >= 0)
-		y += 30*iter;
-	if (y > project_project.resolution.y)
-		y = project_project.resolution.y;
-
-	return "transform: translate(" + x + "px, " + y + "px);' data-x='" + x + "' data-y='" + y;
-}
-
 /*** MODIFY CONTAINERS ***/
 
 function removeContainer(containertype, id)
@@ -425,7 +328,6 @@ function bindHandleSelection()
 		console.log("trigger handle")
 	})
 }
-
 function bringContainerToFront(element)
 {
 	var max = 50;
@@ -486,6 +388,16 @@ function populatePageOverlay(selected)
 		$("#pagecontainers").append(vid_cont[j].html);
 		$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", vid_cont[j].name));
 	}
+
+	//create special buttons
+	var special_cont = selected.data('specialbuttons');
+	for (var j = 0; j < special_cont.length; j++)
+	{
+		$("#pagecontainers").append(special_cont[j].html);
+		//jumpnode only needed and defined for jump buttons, others ignore second parameter of genHandleHTML
+		$("#pagecontainers div.button-container:last").prepend(genHandleHTML(special_cont[j].type, special_cont[j].jumpnode));
+	}
+
 
 	//load event list
 
@@ -609,12 +521,39 @@ function savePage(selected)
 		//console.log("Save HTML for vid ", index);
 		var newcontainer = {
 			'name' : index+1,
-			'html' : html
+			'html' : html,
 			};
 		vid_container_array.push(newcontainer);
 	});
 	//console.log(vid_container_array);
 	selected.data('vidcontainers', vid_container_array);
+
+	var jump_button_array = [];
+	$('#pagecontainers').children("div[class^='button-container']").each(function (index) {
+		var html = this.outerHTML;
+		var type = $(this).children('.editdec').attr('handle');
+		var jumpnode = $(this).children('.editdec').attr('jumpnode');
+
+		//console.log("Save HTML for buttons ", index);
+		if (type == "jump")
+		{
+			var newcontainer = {
+				'jumpnode': jumpnode,
+				'type' : type,
+				'html' : html,
+				};
+		}
+		else
+		{
+			var newcontainer = {
+				'type' : type,
+				'html' : html,
+				};
+		}
+		jump_button_array.push(newcontainer);
+	});
+	//console.log(vid_container_array);
+	selected.data('specialbuttons', jump_button_array);
 
 	//decisions
 	$('#pagecontainers').children("div[class^='decision-container']").each(function (index) {

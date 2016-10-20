@@ -25,7 +25,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/page-overlay.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.min.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/attributes-inventory.css" />
@@ -103,9 +103,8 @@
 			</ul>
 			<div class = "button" style = "display:none">
 			    <h5>Linked Button</h5>
-				<button class='choose-button dropdown-button btn' href='#' data-activates='jumpbuttons'>Choose Button</button> <br/>
+				<button class='choose-button dropdown-button btn' href='#' data-activates='jumpbuttons' onclick="fillJumpButtonSelect();">Choose Button</button> <br/>
 				<ul id='jumpbuttons' class='dropdown-content'>
-					<li><a onclick="chooseJumpButton('Default');">Default</a></li>
 				</ul>
 			</div>
 		</div>
@@ -460,9 +459,8 @@
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
 							<h5 id="UI_projName"></h5>
 							<hr/>
-							<button class='pagemode dropdown-button btn' href='#' onclick=changeState(this) data-activates='pagetemplates'>Page Node</button> <br/>
-							<ul id='pagetemplates' class='dropdown-content'>
-								<li><a onclick="chooseNodeTemplate('Default');">Default</a></li>
+							<button class='pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Page Node</button> <br/>
+							<ul id='pagetemplates' class='dropdown-content' >
 							</ul>
 							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
 							<button class="jumpmode dropdown-button btn" href='#' onclick=changeState(this) data-activates='jumpmodes'>Jump Node</button><br/>

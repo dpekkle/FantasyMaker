@@ -8,6 +8,17 @@ console.log('enter pageTemplates.js')
 
 var selected_page_template = project_project.project_templates.Default;
 
+function fillPageTemplatesSelect()
+{
+	//load pageTemplates every time you click it
+	$('#pagetemplates').html('');
+	$.each(project_project.project_templates, function(key, value) 
+	{
+		console.log("Add pageTemplate html for: ", project_project.project_templates[key].name);
+		$('#pagetemplates').append(project_project.project_templates[key].html);
+	});
+}
+
 function createPageTemplate()
 {
 	myModal.prompt("Create Page Template", "Add a new template when you create a new page node, which contains an exact copy of the contents of this page (other than decisions)", [{name: "Enter name", default: "", type: "text"}],
@@ -15,10 +26,12 @@ function createPageTemplate()
 			var name = results[0];
 			var selected = cy.$(':selected')[0];
 			var data = selected.data();
+			project_project.project_templates[name] = {};
+			project_project.project_templates[name].name = name;
+			project_project.project_templates[name].html = "<li><a onclick=\"chooseNodeTemplate('" + name + "');\">" + name + "</a></li>"
+			project_project.project_templates[name].data = data;
 
-			project_project.project_templates[name] = data;
-
-			$('#pagetemplates').append("<li><a onclick=\"chooseNodeTemplate('" + name + "');\">" + name + "</a></li>")
+			$('#pagetemplates').append(project_project.project_templates[name].html);
 		},
 		function(results){
 			if (results[0] == "")
@@ -40,8 +53,6 @@ function createPageTemplate()
 		}
 	);
 }
-
-
 function chooseNodeTemplate(sel)
 {
 	$('.pagemode').addClass('activebutton');

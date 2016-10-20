@@ -24,20 +24,23 @@ function initEmptyProject(username,projName){
 		{
 			"Default":
 			{
-				pagestyle: "width: 800px; flex: 0 0 800px; height:600px; border: 3px solid black",
-				outputcontainer: "",
-				imgcontainers: [],
-				vidcontainers: [],
-				textcontainers: [],
-				decisioncontainers: [],
-				buttoncontainers: [],
+				"name": "Default",
+				"html":	"<li><a onclick=\"chooseNodeTemplate('Default');\">Default</a></li>",
+				"data":
+				{
+					pagestyle: "width: 800px; flex: 0 0 800px; height:600px; border: 3px solid black",
+					outputcontainer: "",
+					imgcontainers: [],
+					vidcontainers: [],
+					textcontainers: [],
+					decisioncontainers: [],
+					buttoncontainers: [],
+					specialbuttons: [],
+				},
 			}
 		},
 		"button_list":
 		{
-			"Default":
-			{
-			}
 		},
 
 		"template_menus": new templateMenuObj(),

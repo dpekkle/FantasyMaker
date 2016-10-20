@@ -47,13 +47,18 @@ function projectSettings_prepThenNavToProjects(project_project){
 }
 
 function projectSettings_prepThenNavToMain(projName){
+  console.log("projectSettings_prepThenNavToMain scope")
+  console.log (project_project.project_templates);
   $.when(http_load(projName)).done(function(){
+    console.log("$when scope")
+    console.log (project_project.project_templates);
+
     nav_isProject = true
-    resizeCanvas()
     defaultState();
     nav_toMain()
-    projectSettings_activePage = 1
-  })
+    projectSettings_activePage = 1;
+    resizeCanvas()
+ })
 }
 
 function projectSettings_prepareProjectsPage(){

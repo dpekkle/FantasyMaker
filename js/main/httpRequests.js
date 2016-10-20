@@ -68,6 +68,9 @@ function http_load(projName){
 				//database does not store methods, so we need to create new audioobj initialising it with the stored values - Danni
 				project_project.audio = loadAudioObject(project_project.audio)
 				loadTemplateMenuObj();
+				$.each(project_project.button_list, function(index, val) {
+					this.callback = generateJumpButtonCallback();
+				});
 
 
 				$('#UI_projName').text('Project: ' + project_project.projectName)

@@ -1,5 +1,6 @@
 goog.provide('jumpOverlay')
 goog.require('genericComparisonRow')
+goog.require('pageContainerHelpers')
 
 
 function populateJumpOverlay(element)
@@ -7,11 +8,10 @@ function populateJumpOverlay(element)
 	var type = element.data('triggerType');
 	loadJumpConditions();
 	loadJumpButton();	
-	setJumpNodeType(type);
 
 	$('#choosejumprepeat input[value="'+ cy.$(':selected')[0].data('repeat') +'"]').prop("checked", true);		
 	$('#choosejumptrigger :checked').prop('checked', '');
-
+	setJumpNodeType(type);
 }
 
 function saveJump()
@@ -109,6 +109,41 @@ function loadJumpButton()
 	}
 }
 
+function fillJumpButtonSelect()
+{
+	$('#jumpbuttons').html('');
+	$.each(project_project.button_list, function(key, value) 
+	{
+		console.log("Add Jump button html for: ", project_project.button_list[key].name);
+		$('#jumpbuttons').append(project_project.button_list[key].html);
+	});
+}
+
+function generateJumpButtonCallback()
+{
+	return function(key, options){
+		//create a jump button
+		console.log("Create a jump button on the page overlay");
+		var position = genPageCenterHTML(300, 220);
+		var html_string  =  "<div class='button-container drag-element' style='position:absolute; " + position + "'>"
+		html_string		+=		"<div id='" + key + "'class='jump editdec resize-element' contenteditable=true handle='jump' jumpnode='"+ key + "'></div>"
+		html_string 	+= 	"</div>"
+
+		var size = $(".button-container").length;
+		var new_container = htmlToElements(html_string);
+
+		$("#pagecontainers").append(new_container);
+
+		$("#pagecontainers div.button-container:last").prepend(genHandleHTML("jump", key));
+
+		bringContainerToFront($("pagecontainers div.button-container:last"));
+		$("#pagecontainers div.button-container:last .editdec").trigger('focus');
+		if (!show_handles)
+			$('.handlecontainer').hide();
+		bindHandleSelection();
+	};
+}
+
 function createNewJumpButton()
 {
 	//give the button a name
@@ -120,11 +155,12 @@ function createNewJumpButton()
 			var selected = cy.$(':selected')[0];
 			var data = selected.data('button');
 
-			project_project.button_list[name] = {"name": name, "callback": function(key, options){
-				//create a jump button
-				console.log("Create a jump button on the page overlay");
-			}};
-			$('#jumpbuttons').append("<li><a onclick=\"chooseJumpButton('" + name + "');\">" + name + "</a></li>")
+			project_project.button_list[name] = {};
+			project_project.button_list[name].name = name;
+			project_project.button_list[name].html = "<li><a onclick=\"chooseJumpButton('" + name + "');\">" + name + "</a></li>";
+			project_project.button_list[name].callback = generateJumpButtonCallback();
+
+			$('#jumpbuttons').append(project_project.button_list[name].html);
 		},
 		function(results){
 			if (results[0] == "")

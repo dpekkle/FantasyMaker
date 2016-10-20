@@ -1019,3 +1019,39 @@ function setInventoryButtonSelection(id,itemID){
     return options
   }
  });
+
+$.contextMenu({
+	selector: ".swap-controlmenu",
+ trigger: 'left',
+	build: function($trigger) {
+		var options = {
+			items: {}
+		}
+
+		options.items.maker = {
+			name: 'Game Maker Output',
+			callback: function(key,options){
+				if( !$('.output-container').hasClass('maker') ){
+					$('.output-container').removeClass('player')
+					$('.output-container').addClass('maker')
+					//$('.output-container').children().remove()
+					//$('.output-container').children().append(logger.makerOutput())
+				}
+			}
+		}
+
+		options.items.player = {
+			name: 'Game Player Output',
+			callback: function(key,options){
+				if( !$('.output-container').hasClass('player') ){
+					$('.output-container').removeClass('maker')
+					$('.output-container').addClass('player')
+					//$('.output-container').children().remove()
+					//$('.output-container').children().append(logger.playerOutput())
+				}
+			}
+		}
+
+		return options
+	}
+});
