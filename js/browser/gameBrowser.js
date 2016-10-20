@@ -27,6 +27,7 @@ gameBrowser_loadUsers(); //load on page load
 
 
 function gameBrowser_loadUsers(){
+
     //pass by reference in js only works on contents of objs
     var res = {
         "data" : {} //stores the results of the http request temporarily
@@ -34,16 +35,17 @@ function gameBrowser_loadUsers(){
     +  $.when(browser_httpRequests_getProjectsForBrowser(res,true)).done(function(){
         gameBrowser_allProjects = res.data; //copy http response to gameBrowser_allProjects
         console.log(gameBrowser_allProjects);
-        gameBrowser_displayAllGames(gameBrowser_allProjects);
+        //gameBrowser_displayAllGames(gameBrowser_allProjects);
 
          for(var u = 0; u < gameBrowser_allProjects.users.length; u++){
+
             for (var p = 0; p < gameBrowser_allProjects.users[u].projects.length; p++){
                 gameBrowser_displayGame(gameBrowser_allProjects.users[u].projects[p]);
                 console.log(gameBrowser_allProjects.users[u].projects[p]);
 
             }//iterate through user's projects
         } //iterate through users
-         
+
         $('.loading-content').hide();
         $('#main-content').show();
 
@@ -52,6 +54,7 @@ function gameBrowser_loadUsers(){
 }
 
  function gameBrowser_displayAllGames(gameObj){
+     console.log('HERE')
      $('#recommended-games-list').empty();
      var allGamesList = $('#all-games-list');
          allGamesList.empty();
@@ -83,21 +86,24 @@ function gameBrowser_filterByUsername(gameObj, username){
     resultsList.empty();
 
     var gamesFound = false;
-    if(gameBrowser_allProjects != {})
-        for(var u = 0; u < gameBrowser_allProjects.users.length; u++)
+    if(gameBrowser_allProjects != {}){
+        for(var u = 0; u < gameBrowser_allProjects.users.length; u++){
             if(gameBrowser_allProjects.users[u].name.includes(username)) {
                 gamesFound = true;
-                for (var p = 0; p < gameBrowser_allProjects.users[u].projects.length; p++)
+                for (var p = 0; p < gameBrowser_allProjects.users[u].projects.length; p++){
                     gameBrowser_displayGame(gameBrowser_allProjects.users[u].projects[p]);
+                }
             }
-
-    if(!gamesFound)
+        }
+    }
+    if(!gamesFound){
         resultsList.append("<h4 style='color: #fff; margin-left: 10px;'>No games found with a username matching <span style='color: #00FEBC'>" +  username + "</span></h4>");
-
+    }
 }
 
 
 function gameBrowser_displayGame(gameObj, docID){
+
     var gameCardHtml = '<div class="col s12 m6 l3">'
         +     '<div class="card medium z-depth-3 darken-2"> <div class="card-image" id="project-' + docID + '-image">'
         +                 '<span class="card-title"><p>' + gameObj.title + '</p><p style="font-size: 18px;">Created By: '+ gameObj.author +'</p></span>'
