@@ -201,5 +201,13 @@ $(document).ready(function()
 			else if (e.which == 27)
 				myModal.evaluateModal(false);
 		}
+		else if ($('#define-attribute-modal').hasClass('open'))
+		{
+			if (e.which == 13)
+				defineAttributeModal.evaluateModal(true)
+			else if (e.which == 27)
+				defineAttributeModal.evaluateModal(false);
+			
+		}
 	});
 });

@@ -156,9 +156,9 @@ function gameAttributes_createModule_displayFolder(attributePath){
     }
     else
     {
-    currentAttributeObj = gameAttributes_find(attributePath);
-    gameAttribute_createModule_updateBreadcrumbs();
-    gameAttribute_createModule_updateContextPane();
+        currentAttributeObj = gameAttributes_find(attributePath);
+        gameAttribute_createModule_updateBreadcrumbs();
+        gameAttribute_createModule_updateContextPane();
         $('.attributesButton').show();
     }
 }
@@ -222,10 +222,10 @@ function gameAttribute_createModule_updateContextPane(){
             folderHtml = '<div class="folder card-panel hoverable" onclick="gameAttributes_createModule_displayFolder(\'' + attribute.path + '\')"><h6 class="folder-title ">' + attribute.name + '</h6></div>';
             folderList.append(folderHtml);
         }else{ //otherwise append value html
-            valueHtml =   '<div id="'+ attribute.id +'-value-card" class="value-card-panel col l3 m4 s6 card-panel hoverable">'
+            valueHtml =   '<div id="'+ attribute.id +'-value-card" class="value-card-panel col l3 m6 s12 card-panel hoverable">'
             +       '<i class="material-icons small">equalizer</i><span style="font-size: 19px; font-weight: bold">'+ attribute.name +'</span><hr/>'
-            +           '<span style="font-size: 14px"> Initial Value: <span id="'+attribute.id+'-value" style="font-size: 19px; font-weight: bold">'+ attribute.value +'</span></span><br/>'
-            +           '<span style="font-size: 14px"> Value Range: <span id="'+attribute.id+'-min-value" style="font-size: 19px; font-weight: bold">'+ attribute.minValue +'</span> to <span id="'+attribute.id+'-max-value" style="font-size: 19px; font-weight: bold">'+ attribute.maxValue +'</span></span><br/>'
+            +           '<span style="font-size: 14px">Value: <span id="'+attribute.id+'-value" style="font-size: 19px; font-weight: bold">'+ attribute.value +'</span></span><br/>'
+            +           '<span style="font-size: 14px">Range: <span id="'+attribute.id+'-min-value" style="font-size: 19px; font-weight: bold">'+ attribute.minValue +'</span>&nbspto&nbsp<span id="'+attribute.id+'-max-value" style="font-size: 19px; font-weight: bold">'+ attribute.maxValue +'</span></span><br/>'
             +           '<hr/>'
             +           '<a class="btn-floating red right hoverable" onclick="gameAttributes_createModule_deleteAttribute(\''+ attribute.path +'\')"><i class="material-icons small">delete</i></a>'
             +           '<a class="btn-floating blue right hoverable"onclick="gameAttributes_createModule_openEditAttributeModal(\''+ attribute.id +'\')"><i class="material-icons small">mode_edit</i></a>'
@@ -299,7 +299,6 @@ function gameAttributes_createModule_addAttributeListElement(attributePath){
         var attributeInnerListHtml = '<ul id="' + attributeObj.id + '-inner-list" class="collapsible-list"></ul>';
         attributeListElement.append(attributeInnerListHtml);
     }
-
 }
 
 
@@ -420,6 +419,7 @@ function DefineAttributeModal() {
         $('#define-attribute-modal').openModal({
             dismissible: true,
             ready: function(){
+                Materialize.updateTextFields();
             },
             complete: function(){
                 $('#attribute-name-input').val('');
