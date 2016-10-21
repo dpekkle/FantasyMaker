@@ -1,6 +1,17 @@
 goog.provide('loginSignup')
 goog.require('prompts')
 goog.require('http_loginSignup')
+//goog.provide('host')
+
+var loginSignupState = false //not logged in
+
+$(document).ready()
+{
+	if(!window.location.href.includes(host_create() && !window.location.href.includes(host_location + '/play'))){
+		index_autoLogin()
+	}
+
+}
 
 function project_login(){
 
@@ -33,11 +44,12 @@ function project_login(){
 }
 
 function project_successfulLogin(res){
-	users_flushToken()
+	//users_flushToken()
 	window.localStorage.setItem('token', JSON.stringify(res.data))
 	$('#prompt-modal').closeModal();
 	console.log(users_getUsername() + ' logged in')
 	$('#profile_button').text(users_getUsername())
+	window.location.href = host_create()
 	projectSettings_prepThenNavToProjects(project_project)
 }
 
@@ -94,6 +106,49 @@ function project_signUp(){
 				});
 }
 
+function createLinkClicked(){
+	//http_validateTokenIndex()
+	if(loginSignupState === true){
+		//go to create.html
+		window.location.href = host_create()
+	}
+	else if(loginSignupState === false){
+		//login modal
+		project_login()
+	}
+}
+
+function index_autoLogin(){
+	var ret={}
+	$.when(http_validateToken(ret)).done(function(){
+		console.log(ret.result)
+		loginSignupState = ret.result
+		index_loginSignup_setupState(loginSignupState)
+
+	})
+
+}
+
+function index_loginSignup_setupState(state){
+	if(state === true){
+		//hide login/signUp
+		$('.login_button').hide()
+		$('.signup_button').hide()
+		//show project,profile
+		$('.project_button').show()
+		$('.profile_button').text(users_getUsername())
+		$('.profile_button').show()
+	}
+	else if(state === false){
+		//show login/signUp
+		$('.login_button').show()
+		$('.signup_button').show()
+		//hide project,profile
+		$('.project_button').hide()
+		$('.profile_button').hide()
+	}
+}
+
 function project_logOut(){
 
 		myModal.prompt("Log Out", "Are you sure you wish to log out? Any unsaved progress will be lost.",
@@ -101,11 +156,14 @@ function project_logOut(){
 		function(results)
 		{
 			console.log(users_getUsername() + ' logged out')
-
-			nav_toLogin()
+			loginSignupState = false
+			index_loginSignup_setupState(loginSignupState)
 			users_flushToken()
-			project_project = initEmptyProject('none','none')
-			http_redirectHome()
+			nav_toLogin()
+
+
+			//project_project = initEmptyProject('none','none')
+			//http_redirectHome()
 		},
 		function(results) //this is the verification function
 		{

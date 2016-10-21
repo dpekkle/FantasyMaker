@@ -14,3 +14,7 @@ function host_browse(){
 function host_play(){
   return host_location + 'play/'
 }
+
+function host_index(){
+  return host_location + 'index.html'
+}

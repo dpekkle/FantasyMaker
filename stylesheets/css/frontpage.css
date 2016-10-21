@@ -25,7 +25,7 @@ h1, h2, p{
 
 .navbar-default .navbar-brand{
 	color: #00FEBC;
-	
+
 }
 .main{
 	display: block;
@@ -61,13 +61,15 @@ h1, h2, p{
 }
 
 .btn {
-	display: inline-block; 
+	display: inline-block;
 	font-weight: 600;
 	text-transform: uppercase;
 	color: white;
 	transition: background-color 0.5s;
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding-top: 15px;
+
+	vertical-align: middle;
+  line-height: normal;
 
 }
 .btn:hover{
@@ -85,7 +87,7 @@ h1, h2, p{
 	font-size: 5.5em;
 	color: white;
 	text-shadow:
-	    -1px -1px 0 #000,  
+	    -1px -1px 0 #000,
 	     1px -1px 0 #000,
 	    -1px  1px 0 #000,
 	     1px  1px 0 #000;
@@ -99,7 +101,7 @@ h1, h2, p{
 	font-size: 2.5em;
 	color: white;
 	text-shadow:
-	    -1px -1px 0 #000,  
+	    -1px -1px 0 #000,
 	     1px -1px 0 #000,
 	    -1px  1px 0 #000,
 	     1px  1px 0 #000;

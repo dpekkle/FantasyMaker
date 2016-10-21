@@ -5,10 +5,11 @@ var nav_isProject = false
 
 function nav_toLogin(){
   nav_isProject = false
-  nav_hideProjects()
-  nav_hideMain()
-  nav_navBarLoggedOut()
-  nav_showLogin()
+  window.location.href = host_index()
+  //nav_hideProjects()
+  //nav_hideMain()
+  //nav_navBarLoggedOut()
+  //nav_showLogin()
 }
 
 function nav_toProjects(){
@@ -83,10 +84,6 @@ function nav_navBarLoggedIn(){
   }
   $('.project_button').show()
 
-  if($('.settings_button').hasClass('hide')){
-    $('.settings_button').removeClass('hide')
-  }
-  $('.settings_button').show()
 
 
   if($('.profile_button').hasClass('hide')){
@@ -103,7 +100,6 @@ function nav_navBarLoggedOut(){
   //show/hide
   $('.project_button').hide()
   $('.profile_button').hide()
-  $('.settings_button').hide()
   $('.login_button').show()
   $('.signup_button').show()
 }
