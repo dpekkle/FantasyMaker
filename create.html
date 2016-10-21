@@ -438,13 +438,16 @@
 							<br/>
 							<hr/>
 							<button class="connectivity btn" onclick="runTests()">Test Graph</button> <br/>
-							<button class='dropdown-button btn' href='#' data-activates='stylegraph'>Style Graph</button> <br/>
+							<button class='dropdown-button btn' href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button> <br/>
 							<ul id='stylegraph' class='dropdown-content'>
 								<li><a onclick="layout_driver('Tree');">Tree</a></li>
 								<li><a onclick="layout_driver('Grid');">Grid</a></li>
-								<li><a onclick="layout_driver('Circle');">Circle</a></li>
 								<li><a onclick="layout_driver('Spread');">Spread</a></li>
 								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
+								<li><a>-----------</a></li>
+								<li><a onclick="layout_driver('Undo');">Undo</a></li>
+								<li><a onclick="layout_driver('Clear');">Clear Undo</a></li>
+								<li><a onclick="layout_driver('Lock');">Lock Graph</a></li>
 							</ul>
 							<hr/>
 							<button class="savebutton btn" onclick="saveProject()">Save</button><br/>
