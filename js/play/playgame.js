@@ -179,7 +179,7 @@ function stylePage()
 
 	//don't show debug output in published games
 	$('.playpage').append(output_cont);
-	if (window.location.href !== host_play())
+	if (window.location.href !== host_create())
 		$('.playpage').append(debug_cont);
 
 	//append output container data based on maker or player mode

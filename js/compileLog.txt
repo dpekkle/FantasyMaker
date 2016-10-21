@@ -1,7 +1,7 @@
 
-C:\Users\admin\Desktop\Cloud Storage\FantasyMaker\js>del ".\main\dev.min.js" 
+D:\Users\Russell\Repositories\FantasyMaker\js>del ".\main\dev.min.js" 
 
-C:\Users\admin\Desktop\Cloud Storage\FantasyMaker\js>set files=.\main\*.js .\play\playgame.js 
+D:\Users\Russell\Repositories\FantasyMaker\js>set files=.\main\*.js .\play\playConditions.js .\play\playJump.js .\play\playgame.js  
 
-C:\Users\admin\Desktop\Cloud Storage\FantasyMaker\js>java -jar compiler.jar --js .\main\*.js .\play\playgame.js --jscomp_off=uselessCode --js_output_file .\main\dev.min.js 
+D:\Users\Russell\Repositories\FantasyMaker\js>java -jar compiler.jar --js .\main\*.js .\play\playConditions.js .\play\playJump.js .\play\playgame.js  --jscomp_off=uselessCode --js_output_file .\main\dev.min.js 
 ^C

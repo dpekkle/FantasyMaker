@@ -179,9 +179,12 @@
 	<div id="connection-modal" class="modal modal-fixed-footer card">
 		<div class="modal-content">
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
-			<div class="row">
+			<div class="row input-field">
 				<div class="col s2">
-					<h4 id="edge_name" class="tooltipped" data-position="right" data-delay="50" data-tooltip="" data-html="true">Edge: </h4>
+					<h4 class= "truncate" id="edge_name">Edge: </h4>
+				</div>
+				<div class="col s8">
+					<h4 class="truncate" id="edge_details"></h4>
 				</div>
 			</div>
 
@@ -217,6 +220,7 @@
 	</div>
 
 	<div id="audio-modal" class=" modal">
+		<h4>Audio</h4>
 		<div class="modal-content">
 			<ul id="audiolist" style="padding-top: 10px;" class="collapsible popout" data-collapsible="accordion">
 
@@ -249,7 +253,7 @@
 						<div class="row">
 							<nav>
 								<div class="nav-wrapper">
-									<div class="col s10 m10" id="folder-breadcrumbs-container" >
+									<div class="col m9 s9" id="folder-breadcrumbs-container" >
 									</div>
 									<a class="col m1 s1 attributesButton tooltipped" onclick="gameAttributes_createModule_openEditFolderModal()" style="cursor:pointer;" data-tooltip="Change Current Folder's Name"><i class="material-icons small">mode_edit</i></a>
 									<a class="col m1 s1 attributesButton tooltipped" onclick="gameAttributes_createModule_deleteFolder()" style="cursor:pointer;" data-tooltip="Delete Current Folder"><i class="material-icons small">delete</i></a>
@@ -435,13 +439,16 @@
 							<br/>
 							<hr/>
 							<button class="connectivity btn" onclick="runTests()">Test Graph</button> <br/>
-							<button class='dropdown-button btn' href='#' data-activates='stylegraph'>Style Graph</button> <br/>
+							<button class='dropdown-button btn' href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button> <br/>
 							<ul id='stylegraph' class='dropdown-content'>
 								<li><a onclick="layout_driver('Tree');">Tree</a></li>
 								<li><a onclick="layout_driver('Grid');">Grid</a></li>
-								<li><a onclick="layout_driver('Circle');">Circle</a></li>
 								<li><a onclick="layout_driver('Spread');">Spread</a></li>
 								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
+								<li><a>-----------</a></li>
+								<li><a onclick="layout_driver('Undo');">Undo</a></li>
+								<li><a onclick="layout_driver('Clear');">Clear Undo</a></li>
+								<li><a onclick="layout_driver('Lock');">Lock Graph</a></li>
 							</ul>
 							<hr/>
 							<button class="savebutton btn" onclick="saveProject()">Save</button><br/>

@@ -48,33 +48,6 @@ var cose_layout = {
 	useMultitasking     : true
 };
 
-var concentric_layout = {
-	name: 'concentric',
-
-	fit: true, // whether to fit the viewport to the graph
-	padding: 30, // the padding on fit
-	startAngle: 3/2 * Math.PI, // where nodes start in radians
-	sweep: undefined, // how many radians should be between the first and last node (defaults to full circle)
-	clockwise: true, // whether the layout should go clockwise (true) or counterclockwise/anticlockwise (false)
-	equidistant: true, // whether levels have an equal radial distance betwen them, may cause bounding box overflow
-	minNodeSpacing: 30, // min spacing between outside of nodes (used for radius adjustment)
-	boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
-	avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
-	height: undefined, // height of layout area (overrides container height)
-	width: undefined, // width of layout area (overrides container width)
-	concentric: function(node){ // returns numeric value for each node, placing higher nodes in levels towards the centre
-	return node.degree();
-	},
-	levelWidth: function(nodes){ // the variation of concentric values in each level
-	return nodes.maxDegree() / 4;
-	},
-	animate: true, // whether to transition the node positions
-	animationDuration: 500, // duration of animation in ms if enabled
-	animationEasing: undefined, // easing of animation if enabled
-	ready: undefined, // callback on layoutready
-	stop: undefined // callback on layoutstop
-};
-
 var grid_layout = {
 	name: 'grid',
 
@@ -237,6 +210,14 @@ function cleanup_edge_labels(element)
 	
 }
 
+var layout_restore = null;
+
+function layout_save()
+{
+	if (layout_restore === null)
+		layout_restore = cy.elements().clone();
+}
+
 function layout_driver(sel)
 {
 	if (sel == "none")
@@ -249,12 +230,27 @@ function layout_driver(sel)
 		options = breadth_first_layout;
 	else if (type == "Grid")
 		options = grid_layout;
-	else if (type == "Circle")
-		options = concentric_layout;
 	else if (type == "Spread")
 		options = cose_layout;
 	else if (type == "Smart Spread")
 		options = cose_bilkent;
+	else if (type == "Undo")
+	{
+		cy.remove(cy.elements());
+		cy.add(layout_restore);
+		layout_restore = null;
+	}
+	else if (type == "Clear")
+	{
+		layout_restore = null;
+	}
+	else if (type == "Lock")
+	{
+		if (!cy.elements()[0].locked())
+			cy.elements().lock();
+		else
+			cy.elements().unlock();
+	}
 	
 	if (options !== null)
 		change_layout(options);
