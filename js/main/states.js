@@ -10,7 +10,6 @@ states = {
 	NEWJUMPEND: 5,
 	NEWEMPTY: 6,
 	NEWFIGHT: 7,
-	NEWSTORE: 8,
 };
 
 current_state = states.DEFAULT;
@@ -101,10 +100,6 @@ function choosePrebuilt(prebuilt)
 	else if (prebuilt == "Fight")
 	{
 		current_state = states.NEWFIGHT;
-	}
-	else if (prebuilt == "Store")
-	{
-		current_state = states.NEWSTORE;
 	}
 }
 

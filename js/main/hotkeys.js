@@ -28,10 +28,13 @@ $(document).ready(function()
 			{
 				//copy
 				if (cy.$(':selected').length != 0)
-				{			
-					console.log("Copy");
-					nodes_to_clone = cy.$(':selected').nodes().jsons();
-					console.log(nodes_to_clone);
+				{
+					if (cy.$(':selected:parent').length == 0)
+					{
+						console.log("Copy");
+						nodes_to_clone = cy.$(':selected').nodes().jsons();
+						console.log(nodes_to_clone);	
+					}
 				}
 			}
 			else if (ctrl_key_held && e.which == 86) // v key

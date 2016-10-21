@@ -20,11 +20,19 @@ function saveProject()
 	project_saveProject()
 }
 
-function setStart()
+function setStart(ele)
 {
 	cy.$('.start').removeClass('start');
-	cy.$(':selected')[0].addClass('start');
-	cy.$(':selected')[0].removeClass('leaf');
+	if (ele !== undefined)
+	{
+		ele.addClass('start');
+		ele.removeClass('leaf');
+	}
+	else
+	{
+		cy.$(':selected')[0].addClass('start');
+		cy.$(':selected')[0].removeClass('leaf');	
+	}
 }
 
 function removeParent()

@@ -92,7 +92,8 @@ var cy = cytoscape({
 		        'text-border-color': 'black',
 		        'text-border-width': '2px',
 		        'transition-property': 'text-valign',
-		        'transition-duration': '0.8s'
+		        'transition-duration': '0.8s',
+				'compound-sizing-wrt-labels': 'exclude',
 			},
 		},
 		{

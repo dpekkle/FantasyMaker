@@ -375,6 +375,7 @@ function generateContextMenu(container_type, template_menu_list)
 						var ele = options.$trigger.parent().siblings(target_element);
 						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results)
 						{
+							//change this
 							var imgurl = results[0];
 							$.ajax(
 							{

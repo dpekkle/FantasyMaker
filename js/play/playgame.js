@@ -142,6 +142,7 @@ function stylePage()
 	var button_cont = currentNode.data('specialbuttons');
 	var output_cont = currentNode.data('outputcontainer');
 	var events_list = currentNode.data('events');
+	var debug_cont = currentNode.data('debugcontainer');
 
 	//create text containers
 	for (var i = 0; i < text_cont.length; i++)
@@ -167,36 +168,39 @@ function stylePage()
 	for (var i = 0; i < dec_cont.length; i++)
 	{
 		// we will need to check visibility conditions when deciding to add a decision container to a page
-		//alert('there are ' + dec_cont.length + 'decisions')
-		if(assessEdge(currentNode.outgoers("[name='" + dec_cont[i].name + "']").id())){
-			//alert('edge is true, adding decision button')
-			$('.playpage').append(dec_cont[i].html);
+		if(assessEdge(currentNode.outgoers("[name='" + dec_cont[i].name + "']").id()))
+		{
+			var button = $('.playpage').append(dec_cont[i].html);
+
 		}
 		else{
-			//alert('edge is false, removing decision button')
 		}
 	}
 
+	//don't show debug output in published games
 	$('.playpage').append(output_cont);
+	if (window.location.href !== host_play())
+		$('.playpage').append(debug_cont);
 
 	//append output container data based on maker or player mode
-	if($('.output-container').hasClass('player')){
-		$('.output-container').children().append(logger.playerOutput())
-	}
-	else if($('.output-container').hasClass('maker')){
-		$('.output-container').children().append(logger.makerOutput())
-	}
-	//logger.flush()
+	$('.player').children().append(logger.playerOutput())
+	$('.maker').children().append(logger.makerOutput())
 
-
-	//give decisions on click behaviour
-	$('.playpage').children("div[class^='decision-container']").each(function(index)
+	$('.playpage').find("div[class^='decision-container']").each(function(index)
 	{
 		$(this).click(function()
 		{
+			name = $(this).attr('edgename');
+
+			edge_id = outgoingEdges.filter("[name=\""+ name + "\"]").data('id');
+			console.log("Button name is: ", name);
+			console.log("Edge is: ", edge_id);
+			var index = getIndexFromOutgoingEdges(edge_id, outgoingEdges)
+			console.log("Index is: ", index);
 			progressStory(index);
 		})
 	});
+
 	//give inventory on click behaviour
 	$('.playpage').find("div[class^='inventory']").each(function(index)
 	{
@@ -261,6 +265,11 @@ function stylePage()
 
 	$(".playpage").children().attr('contenteditable','false');
 	$(".playpage").children().children().attr('contenteditable','false');
+}
+
+function progressStoryViaButton(target)
+{
+
 }
 
 function progressStory(i)

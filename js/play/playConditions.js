@@ -189,9 +189,18 @@ function getIndexFromOutgoingEdges(id, outgoingEdges){
 			return a
 		}
 	}
-
 	return -1
 }
+
+// function getIndexFromEdgeName(name, outgoingEdges){
+// 	var outs = outgoingEdges.jsons()
+// 	for(var a = 0; a<outs.length; a++){
+// 		if(outs[a].data.name === name){
+// 			return a
+// 		}
+// 	}
+// 	return -1
+// }
 
 function assessEdge(edgeID){
 	var edge = cy.edges("[id='" + edgeID + "']")

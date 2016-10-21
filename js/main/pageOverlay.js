@@ -39,8 +39,8 @@ function addDecisionContainer(selected, i, text, name) //automatic process, not 
 	*/
 	var position = genPageCenterHTML(300, 220, selected.data('decisioncontainers').length);
 
-	var html_string  =  "<div class = 'decision-container drag-element' style='position:absolute; z-index: " + bringContainerToFront('decision') + "; " + position + "'>"
-	html_string		+= 		"<div class = 'editdec decisionbutton drag-element resize-element' contenteditable=true>" + escapeHtml(text) + "</div>"
+	var html_string  =  "<div class = 'decision-container drag-element' edgename = " + name + " style='position:absolute; z-index: " + bringContainerToFront('decision') + "; " + position + "'>"
+	html_string		+= 		"<div class = 'editdec decisionbutton drag-element resize-element' contenteditable=true>" + escapeHtml("Go to: " + text) + "</div>"
 	html_string 	+= 	"</div>"
 
 	var container_array = selected.data('decisioncontainers');
@@ -461,7 +461,10 @@ function populatePageOverlay(selected)
 			}
 		}
 		if (!found)
-			addDecisionContainer(selected, i, outgoingEdges.eq(i).data('text'), outgoingEdges[i].data('name'));
+		{
+			var target_name = cy.getElementById(outgoingEdges.eq(i).data('target')).data('name');
+			addDecisionContainer(selected, i, target_name, outgoingEdges[i].data('name'));
+		}
 	}
 
 	//load saved decision containers
@@ -475,6 +478,8 @@ function populatePageOverlay(selected)
 				$("#pagecontainers").append(dec_cont[j].html);
 				//handles added each time, as we want to draw on updated names
 				$("#pagecontainers div.decision-container:last").prepend(genHandleHTML("decision", dec_cont[j].name));
+
+				$("#pagecontainers div.decision-container:last").attr('edgename', dec_cont[j].name);
 				found = true;
 			}
 		}

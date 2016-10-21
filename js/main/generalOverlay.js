@@ -224,6 +224,7 @@ function nameNode(element)
 			var name = results[0];
 			element.addClass('named');
 			element.data('name', name);
+			element.style('label', element.data('name'));
 		},
 		function(results){
 			var validated = true;
