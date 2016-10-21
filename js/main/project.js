@@ -64,7 +64,6 @@ function initEmptyProject(username,projName){
 		"graph" : [],
 		"gameAttributes" : {},
 		"gameInventory" : {},
-		"attributesHTML" : "",
 		"resolution" : {"x": 1000, "y": 800}
 	};
 	return newProj

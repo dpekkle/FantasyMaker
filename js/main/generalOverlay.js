@@ -86,7 +86,7 @@ function openAttributesOverlay()
 		{
 			dismissible: true,
 			ready: function () {
-				//gameAttributes_loadAttributes();
+				gameAttributes_createModule_recursiveListDisplayAll();
 			},
 			complete: function () {
 				//gameAttributes_saveAttributes();

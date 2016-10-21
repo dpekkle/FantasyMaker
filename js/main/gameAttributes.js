@@ -120,6 +120,7 @@ function gameAttributes_createModule_openEditAttributeModal(attributePath)
 
 function gameAttributes_createModule_deleteAttribute(attributePath)
 {
+    
 
 }
 
