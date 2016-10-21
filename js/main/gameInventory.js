@@ -135,6 +135,7 @@ function InventoryItem(itemObj) {
             + '</li>';
 
         $('.inventory-item-list').append(itemHtml);
+        
     }
 
     function gameInventory_createModule_populateItemsList() {

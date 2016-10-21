@@ -234,36 +234,40 @@
 		<div class="modal-content">
 			<div class="row max-height" >
 				<!-- Attributes Tree View -->
-				<div class="col m4 max-height">
+				<div class="col m4 max-height pos-relative">
+					<div class="max-height" style="overflow-y: auto">
 					<ul id="attributes-treeView" class="treeView">
 						<li>Attributes<ul id="all-attributes-inner-list"></ul></li>
 					</ul>
 
-					<a class="btn-floating red right" onclick="gameAttributes_createModule_addAttributeFolder(false);"><i class="material-icons small">add</i></a>
+					</div>
+					<a class="btn-floating red right tooltipped" data-tooltip="Add a folder at the highest level" style="position: absolute; bottom: 10px; right: 17px;" onclick="gameAttributes_createModule_addAttributeFolder(false);"><i class="material-icons small">add</i></a>
 				</div>
+
 				<!-- Context Pane -->
 				<div class="col m8 max-height">
 					<div class="card-panel" style="height: 100%;">
 						<div class="row">
 							<nav>
 								<div class="nav-wrapper">
-									<div class="col s12 m12" id="folder-breadcrumbs-container" >
-
+									<div class="col s10 m10" id="folder-breadcrumbs-container" >
 									</div>
+									<a class="col m1 s1 attributesButton tooltipped" onclick="gameAttributes_createModule_openEditFolderModal()" style="cursor:pointer;" data-tooltip="Change Current Folder's Name"><i class="material-icons small">mode_edit</i></a>
+									<a class="col m1 s1 attributesButton tooltipped" onclick="gameAttributes_createModule_deleteFolder()" style="cursor:pointer;" data-tooltip="Delete Current Folder"><i class="material-icons small">delete</i></a>
 								</div>
 							</nav>
 						</div>
 						<div class="row max-height" >
-							<div id="folder-container" class="max-height" style="height:150px;">
+							<div id="folder-container" class="max-height" style="height:150px; overflow:auto;">
 
 						</div>
-						<a class="btn-floating red right" onclick="gameAttributes_createModule_addAttributeFolder(currentAttributeObj.path);" style="margin-bottom: 10px;"><i class="material-icons small">add</i></a><br/><br/>
+						<a class="btn-floating red right  tooltipped" data-tooltip="Add a folder within the current folder" onclick="gameAttributes_createModule_addAttributeFolder(currentAttributeObj.path);" style="margin-bottom: 10px;"><i class="material-icons small">add</i></a><br/><br/>
 						<hr/>
 							<h5>Values: </h5>
-						<div  id="values-container" class="values-list-container row" style="height: 50%;" >
+						<div  id="values-container" class="values-list-container row" style="height: 50%; overflow-y: auto" >
 
 						</div>
-							<a class="btn-floating red right" onclick="gameAttributes_createModule_addAttributeValue();"><i class="material-icons small">add</i></a><br/><br/>
+							<a class="btn-floating red right attributesButton tooltipped" data-tooltip="Add a value within the current folder" onclick="gameAttributes_createModule_addAttributeValue();"><i class="material-icons small">add</i></a><br/><br/>
 						</div>
 					</div>
 				</div>

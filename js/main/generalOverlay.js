@@ -87,6 +87,7 @@ function openAttributesOverlay()
 			dismissible: true,
 			ready: function () {
 				gameAttributes_createModule_recursiveListDisplayAll();
+				$('.attributesButton').hide();
 			},
 			complete: function () {
 				//gameAttributes_saveAttributes();
