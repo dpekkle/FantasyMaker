@@ -202,94 +202,44 @@
 	<!-- Attributes Modal -->
 	<div id="attributes-modal" class=" modal">
 		<div class="modal-content">
-			<div class="row max-height">
-				<!-- List Pane -->
-				<div class="col m2 pos-relative attributes-list">
-					<h4>Attributes</h4> <br/>
-					<ul id="attributes-list" class="collapsibleList"></ul>
-					<a id="new-top-level-button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_openAddFolderModal(this);" data-path="TOP_LEVEL"><i class="medium material-icons">library_add</i></a>
-					<div class="col m12 s12 float-bottom" id="new-top-level-container">
-						<div class="input-field col m12">
-							<input id="add-top-level-name" type="text" class="validate">
-							<label for="add-top-level-name">Folder Name</label>
-						</div>
-						<a class="waves-effect waves-teal btn-flat col m12 s12" >Add Folder</a>
+			<div class="row max-height" >
+				<!-- Attributes Tree View -->
+				<div class="col m4 max-height">
+					<ul id="attributes-treeView" class="treeView">
+						<li>Attributes<ul id="all-attributes-inner-list"></ul></li>
+					</ul>
+
+					<a class="btn-floating red right" onclick="gameAttributes_createModule_addAttributeFolder(false);"><i class="material-icons small">add</i></a>
 				</div>
-				</div>
+				<!-- Context Pane -->
+				<div class="col m8 max-height">
+					<div class="card-panel" style="height: 100%;">
+						<div class="row">
+							<nav>
+								<div class="nav-wrapper">
+									<div class="col s12 m12" id="folder-breadcrumbs-container" >
 
-				<div class="col m10 max-height">
-					<!-- Attribute/Folder Title -->
-					<div class="row">
-						<div class="col m12">
-							<h4 class="current-attribute-name"></h4>
+									</div>
+								</div>
+							</nav>
 						</div>
-					</div>
-					<div class="row max-height">
-						<!-- Folders Pane -->
-						<div class="pane col m4 pos-relative">
-							<div class="card white darken-2 max-height">
-								<div class="card-content">
-									<span class="card-title">Folders</span>
-									<div id="folders-list" class="collection">
+						<div class="row max-height" >
+							<div id="folder-container" class="max-height" style="height:150px;">
 
-									</div>
-								</div>
-								<div class="card-action">
-									<div class="col m12 float-bottom" id="add_folder_input_container" style="display: none">
-										<div class="input-field col m8">
-											<input id="new_folder_name_input" type="text" class="new-folder-input validate" data-path="">
-											<label for="new_folder_name_input">Folder Name</label>
-										</div>
-										<div class="col m2 float-bottom float-right offset-m9">
-											<a class="btn-floating btn-small waves-effect waves-light green" id="add-folder-confirm"><i class="small material-icons">done</i></a>
-										</div>
-									</div>
-									<a id="add_sub_folder_button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_openAddFolderModal(this)" style="display: none" data-path=""><i class="medium material-icons">add</i></a>
-								</div>
-							</div>
-							</div>
+						</div>
+						<a class="btn-floating red right" onclick="gameAttributes_createModule_addAttributeFolder(currentAttributeObj.path);" style="margin-bottom: 10px;"><i class="material-icons small">add</i></a><br/><br/>
+						<hr/>
+							<h5>Values: </h5>
+						<div  id="values-container" class="values-list-container row" style="height: 50%;" >
 
-						<!-- Attributes Pane -->
-							<div class="pane col m8 pos-relative">
-							<div class="card darken-2 max-height">
-								<div class="card-content">
-									<span class="card-title">Values</span>
-									<ul id="values-list" class="collapsible" data-collapsible="accordion">
-
-									</ul>
-								</div>
-								<div class="card-action">
-									<a id="add_attribute_values_button" class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameAttributes_openAddAttributeModal(this)" style="display:none;" data-path=""><i class="medium material-icons">add</i></a>
-									<div class="row float-bottom" id="add_attribute_input_container" style="display: none">
-										<div class="input-field col m3">
-											<input id="new_attribute_name_input" type="text" class="new-attribute-input validate" data-path="">
-											<label for="new_attribute_name_input">Attribute Name</label>
-										</div>
-										<div class="input-field col m2">
-											<input id="new_attribute_value_input" type="number" class="new-attribute-input validate" data-path="">
-											<label for="new_attribute_value_input">Value</label>
-										</div>
-										<div class="input-field col m2">
-											<input id="new_attribute_min_input" type="number" class="new-attribute-input validate" data-path="">
-											<label for="new_attribute_min_input">Min Value</label>
-										</div>
-										<div class="input-field col m2">
-											<input id="new_attribute_max_input" type="number" class="new-attribute-input validate" data-path="">
-											<label for="new_attribute_max_input">Max Value</label>
-										</div>
-										<div class="col m2 float-bottom float-right offset-m10">
-											<a class="btn-floating btn-small waves-effect waves-light green" id="add-attribute-confirm"><i class="small material-icons">done</i></a>
-										</div>
-									</div>
-								</div>
-							</div>
-								</div>
-					</div>
-
+						</div>
+							<a class="btn-floating red right" onclick="gameAttributes_createModule_addAttributeValue();"><i class="material-icons small">add</i></a><br/><br/>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
 	<!-- Inventory Modal -->
 	<div id="inventory-definition-modal" class=" modal">
@@ -512,6 +462,7 @@
 	<script defer src="js/lib/jquery.contextMenu.min.js"></script>
 	<script defer src="js/lib/jquery.ui.position.min.js"></script>
 	<script defer src="js/lib/spectrum.js"></script>
+	<script defer src="js/lib/CollapsibleLists.compressed.js"></script>
 	<!--<script defer src="js/lib/jquery.cookie.js"></script>-->
 	<script src="http://www.youtube.com/player_api"></script>
 

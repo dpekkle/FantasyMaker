@@ -25,7 +25,6 @@ $(document).ready(function(){
 					openEditJumpOverlay(selected);
 				}
 			}
-			//TODO - Handle Opening Attributes Overlay
 		},
 		complete: function () { closeOverlay(null);} //callback for when modal is dismissed
 	});
@@ -86,10 +85,10 @@ function openAttributesOverlay()
 		{
 			dismissible: true,
 			ready: function () {
-				gameAttributes_loadAttributes();
+				//gameAttributes_loadAttributes();
 			},
 			complete: function () {
-				gameAttributes_saveAttributes();
+				//gameAttributes_saveAttributes();
 			}
 
 	});
