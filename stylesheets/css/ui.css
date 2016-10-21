@@ -58,6 +58,15 @@ nav{
 .toolbar{
 }
 
+.gobackbutton{
+	background-color: red;
+}
+.gobackbutton:hover{
+	background-color: red;
+}
+.progressbutton{
+	margin-top:10px;
+}
 .textarea{
 	width: auto;
 	height: 23vw;
