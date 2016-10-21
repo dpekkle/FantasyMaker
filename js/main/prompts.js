@@ -21,6 +21,7 @@ goog.provide("prompts")
 //		);
 
 // *** the third parameter (list of objects) of myModal.prompt can handle multiple fields
+// *** the third parameter can be passed false to facilitate a basic confirm for dismiss input 
 
 //  ******************** </API GUIDE> *******************
 
@@ -130,6 +131,9 @@ function myModal()
 		{
 			html_string += ('<p id="promptDesc">' + description + '</p>')
 		}
+		//if only a confirm is needed
+		if(!fields){/* do nothing */}
+		else {
 		for (var i = 0; i < fields.length; i++)
 		{
 			if (fields[i].type == "number")
@@ -147,8 +151,10 @@ function myModal()
 				html_string += ('</div>')
 			}
 		}
-
+		}
+		
 		tar.append(html_string);
+
 
 		$('#prompt-modal .modal-content input').eq(0).prop('autofocus', true)	
 
