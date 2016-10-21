@@ -358,7 +358,7 @@ function DefineAttributeModal() {
             +           '<div class="col m6">' //RIGHT SIDE COLUMN (edit value, min max)
             +               '<div class="input-field col m6 offset-m6">' // Value Input
             +                   '<input id="attribute-initValue-input" class="validate" value="0" type="number"/>'
-            +                   '<label for="attribute-initValue-input" data-error="Required" class="active" >Initial Value</label>'
+            +                   '<label for="attribute-initValue-input" data-error="Please A Enter Valid Value" class="active" >Initial Value</label>'
             +               '</div>'
             +                '<div class="switch col m4 right-align">' //Min Value Toggle
             +                '<label>'
@@ -369,7 +369,7 @@ function DefineAttributeModal() {
             +                '</div>'
             +               '<div class="input-field col m6 offset-m2">' //Min Value Input
             +                   '<input id="attribute-minValue-input" class="validate" value="0" type="number"/>'
-            +                   '<label for="attribute-minValue-input" data-error="Required" class="active">Minimum Value</label>'
+            +                   '<label for="attribute-minValue-input" data-error="Please A Enter Valid Value" class="active">Minimum Value</label>'
             +               '</div>'
             +                '<div class="switch col m4 right-align">' //Max Value Toggle
             +                '<label >'
@@ -380,7 +380,7 @@ function DefineAttributeModal() {
             +               '</div>'
             +               '<div class="input-field col m6 offset-m2">' //Max Value Input
             +                   '<input id="attribute-maxValue-input" class="validate" value="0" type="number"/>'
-            +                   '<label for="attribute-maxValue-input" data-error="Required" class="active" >Maximum Value</label>'
+            +                   '<label for="attribute-maxValue-input" data-error="Please A Enter Valid Value" class="active" >Maximum Value</label>'
             +               '</div>'
             +           '</div>'
             +         '</div>'
@@ -441,23 +441,38 @@ function DefineAttributeModal() {
 
             var minValid = true;
             var maxValid = true;
+            var validRange = true;
 
             //check name & init count fields
             if (this.nameInput.val() != undefined && this.nameInput.val() != "" && this.initValueInput.val() != undefined && this.initValueInput.val() != "")
                 validated = true;
 
 
-            if(this.maxValueToggle.prop('checked') && (this.maxValueInput.val() == "" || this.maxValueInput.val() == undefined) )
+            if(this.maxValueToggle.prop('checked') && this.maxValueInput.val() == "" )
             {
                 validated = false;
                 maxValid = false;
             }
 
 
-            if(this.minValueToggle.prop('checked') && (this.minValueInput.val() == "" || this.minValueInput.val() == undefined) ) {
+            if(this.minValueToggle.prop('checked') && this.minValueInput.val() == "" ) {
                 validated = false;
                 minValid = false;
             }
+
+            if((this.minValueToggle.prop('checked') && this.maxValueToggle.prop('checked')) &&  (this.minValueInput.val() > this.maxValueInput.val())) {
+                minValid = false;
+                maxValid = false;
+                validRange = false;
+                validated = false;
+            }
+
+            if((this.minValueToggle.prop('checked') && (this.minValueInput.val() > this.initValueInput.val())) || (this.maxValueToggle.prop('checked') && (this.maxValueInput.val() < this.initValueInput.val())))
+            {
+                validRange = false;
+                validated = false;
+            }
+
 
             //User confirmed operation & input was validated
             if (validated) {
@@ -509,7 +524,7 @@ function DefineAttributeModal() {
                 this.maxValueInput.val('0');
             }
             else {
-                console.log("item definition validation failed");
+                console.log("value definition validation failed");
 
                 if(this.nameInput.val() == undefined || this.nameInput.val() == ""){
                     Materialize.toast("Please provide an attribute name", 5000, 'rounded', 'dismissible');
@@ -532,6 +547,11 @@ function DefineAttributeModal() {
                     Materialize.toast("Please provide a maximum value", 7000, 'rounded', 'dismissible');
                     this.maxValueInput.addClass("invalid");
                 }
+
+                if(!validRange)
+                    Materialize.toast("Please make sure your range of values is valid", 7000, 'rounded', 'dismissible');
+
+
             }
         }
         else // user cancelled operation
