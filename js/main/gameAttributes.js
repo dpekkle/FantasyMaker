@@ -5,6 +5,7 @@ function GameAttribute(newAttributeObject, parent_path, parent_level, name, attI
     this.name = newAttributeObject.name;
     this.is_leaf = newAttributeObject.is_leaf;
     this.value = newAttributeObject.value;
+    this.initValue = this.value;
     this.maxValue = newAttributeObject.maxValue;
     this.minValue = newAttributeObject.minValue;
     this.parentPath = newAttributeObject.parentPath;
@@ -23,6 +24,20 @@ function GameAttribute(newAttributeObject, parent_path, parent_level, name, attI
 var currentAttributeObj = null;
 
 
+//Recursively resets all attributes under and including attribute of provided path
+function gameAttributes_recursiveResetAllAttributes(attributePath){
+
+    var attributeObj = gameAttributes_find(attributePath);
+    if(attributeObj.is_leaf)
+        attributeObj.value = attributeObj.initValue;
+
+    var length = attributeObj.childrenArray.length;
+    for(var i = 0; i<length; i++){
+        gameAttributes_recursiveResetAllAttributes(attributeObj.path + '_' +attributeObj.childrenArray[i]);
+    }
+
+    console.log('Reset' + attributeObj.name);
+}
 
 
 function gameAttributes_addAttributeFolder(parent_path, folder_name, attID) {
@@ -32,13 +47,14 @@ function gameAttributes_addAttributeFolder(parent_path, folder_name, attID) {
     var addUnderObj = {};
     if(!parent_path){
         attObj.parentPath = null;
-        addUnderObj = project_project.gameAttributes;
+        addUnderObj = project_project['gameAttributes'];
         attObj.path = attObj.id;
     }else{
         attObj.path = parent_path + '_' + attObj.id;
         addUnderObj = gameAttributes_find(parent_path);
         addUnderObj.childrenArray.push(attObj.id); //push ID into array
     }
+
 
     addUnderObj[attObj.id] = new GameAttribute(attObj);
 
@@ -80,6 +96,8 @@ function gameAttributes_createModule_addAttributeFolder(currentPath){
     myModal.prompt("Add A New Folder", "", [{name: "Enter A Folder Name", default: "", type: "text"}],
 			function(results){
 				var folderName = results[0];
+
+
                 gameAttributes_addAttributeFolder(currentPath, folderName, attributeID);
                 //if it is a top level attribute
                 if(!currentPath)

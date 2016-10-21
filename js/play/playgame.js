@@ -71,6 +71,16 @@ function wipeGame()
 
 	//@RUSSEL set all attributes/inventory items to their initial values
 
+	$.each( project_project['gameAttributes'], function( key, value ) {
+		gameAttributes_recursiveResetAllAttributes(value.id);
+	});
+
+	$.each( project_project['gameInventory'], function( key, item ) {
+		item.playCount = item.initCount;
+	});
+
+
+
 	//remove "origins" for all jump nodes
 	cy.$('.jump').each(function(i, ele){
 		ele.data('origin', null);
