@@ -215,13 +215,13 @@ function cleanup_edge_labels(element)
 	// delete edge
 	cy.remove(element);
 
+
 	//cleanup the displayed name for each edge from parent of this edge
-	var i = 0;
 	var edge_list = parent.edgesTo('*');
 	
 	updatePageStyle(parent);//make sure decision containers in the page have been created
 
-	for (i; i < edge_list.size(); i++)
+	for (var i = 0; i < edge_list.size(); i++)
 	{
 		//update edges in cytoscape		
 

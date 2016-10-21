@@ -219,6 +219,7 @@ $(window).resize(resizeCanvas);
 
 
 function createModule_playGame(){
+	cy.$(':selected').unselect();
 	$('#cyTab').hide(); 
 	prepareForGame();
 	$('#Play').show();

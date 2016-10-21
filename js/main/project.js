@@ -31,6 +31,7 @@ function initEmptyProject(username,projName){
 				{
 					pagestyle: "width: 800px; flex: 0 0 800px; height:600px; border: 3px solid black",
 					outputcontainer: "",
+					debugcontainer: "",
 					imgcontainers: [],
 					vidcontainers: [],
 					textcontainers: [],
