@@ -6,6 +6,7 @@ goog.require('projectSettings')
 goog.require('users')
 goog.require('navigation')
 goog.require('host')
+//goog.require('http_loginSignup')
 
 console.log("Entering project.js");
 
@@ -24,14 +25,25 @@ function initEmptyProject(username,projName){
 		{
 			"Default":
 			{
-				pagestyle: "width: 800px; flex: 0 0 800px; height:600px; border: 3px solid black",
-				outputcontainer: "",
-				imgcontainers: [],
-				vidcontainers: [],
-				textcontainers: [],
-				decisioncontainers: [],
+				"name": "Default",
+				"html":	"<li><a onclick=\"chooseNodeTemplate('Default');\">Default</a></li>",
+				"data":
+				{
+					pagestyle: "width: 800px; flex: 0 0 800px; height:600px; border: 3px solid black",
+					outputcontainer: "",
+					imgcontainers: [],
+					vidcontainers: [],
+					textcontainers: [],
+					decisioncontainers: [],
+					buttoncontainers: [],
+					specialbuttons: [],
+				},
 			}
 		},
+		"button_list":
+		{
+		},
+
 		"template_menus": new templateMenuObj(),
 		"audio": new audioObj(),
 
@@ -60,46 +72,68 @@ function initEmptyProject(username,projName){
 
 function project_createNewProject(){
 
-		myModal.prompt("Create New Project", "", [{name: "Project Name", default: "", type: "text"}],
+		myModal.prompt("Create New Project", "Enter a title for your project.", [{name: "Project Title", default: "", type: "text"}],
 				function(results){
 
 				},
 				function(results){
+
+					var randProjID = project_generateID()
+					project_project = initEmptyProject(users_getUsername(),randProjID)
+					project_project.title = results[0]
+					cy.elements().remove()
+					var ret2 = {
+						"data" : []
+					}
+					$.when(http_save(project_project,ret2)).done(function(){
+						if(ret2.data === true){
+							Materialize.toast("Project '" + project_project.title + "' created!", 3000, 'rounded')
+							$('#prompt-modal').closeModal();
+							$('#UI_projName').text('Project: ' + project_project.title)
+							nav_toMain()
+							http_getUsersProjects(users_getUsername(),projectSettings_userProjects)
+
+						}
+						else{
+							Materialize.toast("Failed to create project. Please log in again.", 3000, 'rounded')
+						}
+					})
+
+					/*
 					var regex = new RegExp("^[a-zA-Z0-9_-]+$");
 					if(results[0] == "")
 					{
-						myModal.warning("Project name cannot be empty");
+						myModal.warning("Project ID cannot be empty");
 					}
 				 	else if(regex.test(results[0]) === false){
-						myModal.warning("Project names can only contain letters, numbers, underscores or hyphens")
+						myModal.warning("Project ID can only contain letters, numbers, underscores or hyphens")
 					}
 					else
 					{
 						var ret1 = {}
 						$.when(http_getUsersProjects(users_getUsername(),ret1)).done(function(){
-							console.log('RET')
-							console.log(ret1)
 							if(ret1.hasOwnProperty('projects')){
 								for(var i = 0; i<ret1.projects.length; i++){
 									if(results[0].trim() === ret1.projects[i].projName){
-										myModal.warning('You already have a project named ' + ret1.projects[i].projName + '. Please choose another name.')
+										myModal.warning('You already have a project with the ID ' + ret1.projects[i].projName + '. Please choose something else.')
 										return
 									}
 								}
 							}
 
 
-
-							project_project = initEmptyProject(users_getUsername(),results[0].trim())
+							var randProjID = project_generateID()
+							project_project = initEmptyProject(users_getUsername(),randProjID)
+							project_project.title = results[0]
 							cy.elements().remove()
 							var ret2 = {
 								"data" : []
 							}
 							$.when(http_save(project_project,ret2)).done(function(){
 								if(ret2.data === true){
-									Materialize.toast("Project '" + project_project.projectName + "' created!", 3000, 'rounded')
+									Materialize.toast("Project '" + project_project.title + "' created!", 3000, 'rounded')
 									$('#prompt-modal').closeModal();
-									$('#UI_projName').text('Project: ' + project_project.projectName)
+									$('#UI_projName').text('Project: ' + project_project.title)
 									nav_toMain()
 									http_getUsersProjects(users_getUsername(),projectSettings_userProjects)
 
@@ -109,7 +143,8 @@ function project_createNewProject(){
 								}
 							})
 						})
-					}
+						*/
+					//}
 		});
 }
 
@@ -122,8 +157,11 @@ function project_addTopGameAttributeFolder(name){
 	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path);
 }
 
-function project_saveProject(){
-	//project_updateProject()
+function project_saveProject()
+{
+	//remove all the selections/styles, or they get stuck
+	cy.nodes().removeClass('source_node disconnected jumpenderror');
+	cy.elements().unselect();
 	project_project.graph = cy.elements().jsons();
 	project_project.lastModified = project_getCurrentTime()
 	var ret0 = {
@@ -137,122 +175,28 @@ function project_saveProject(){
 			Materialize.toast("Failed to save project. Please log in again.", 3000, 'rounded')
 		}
 	})
+}
+
+function project_modifyPublished(){
+	if(project_project.published === false){
+		return
+	}
+
+	myModal.prompt("Publish your project", "Your project is already published. Continuing will overwrite the version of this project that you previously published. This cannot be undone. Do you wish to continue?", [],
+			function(results){
+				$.when(http_publishProject(project_project.projectOwner,project_project.projectName)).done(function(){
+					Materialize.toast("Project Published!", 3000, 'rounded')
+				})
+			},
+			function(results){
+				return true
+			}
+	);
+
+
 
 }
 
-
-
-function project_login(){
-
-		myModal.prompt("Log In", "Log in and continue creating!", [{name: "Username", default: "", type: "text"},{name: "Password", default: "", type: "password"}],
-				function(results){
-				},
-				function(results){
-
-					results[0] = results[0].trim()
-					var regex = new RegExp("^[a-zA-Z0-9]+$");
-					if(regex.test(results[0]) === false){
-						myModal.warning("Usernames can only contain letters and numbers")
-						return false
-					}
-
-					var res = {
-						"data" : {}
-					}
-					$.when(http_login(results[0],results[1],res)).done(function(){
-
-						if(res.data !== 'INVALID_USERNAME' && res.data !== 'INVALID_PASSWORD' && res.data !== 'SERVER_ERR'){
-							project_successfulLogin(res)
-							Materialize.toast("Welcome back " + users_getUsername() + "!", 3000, 'rounded')
-						}
-						else{
-							myModal.warning("Login details were invalid. Please try again.");
-						}
-					})
-		});
-}
-
-function project_successfulLogin(res){
-	users_flushToken()
-	window.localStorage.setItem('token', JSON.stringify(res.data))
-	$('#prompt-modal').closeModal();
-	console.log(users_getUsername() + ' logged in')
-	$('#profile_button').text(users_getUsername())
-	projectSettings_prepThenNavToProjects(project_project)
-}
-
-function project_signUp(){
-
-		myModal.prompt("Sign Up", "Become a game creator with FantasyMaker!", [{name: "Username", default: "", type: "email"},{name: "Password", default: "", type: "password"},{name: "Confirm Password", default: "", type: "password"}],
-				function(results){
-
-					},
-					function(results){
-						results[0] = results[0].trim()
-						var regex = new RegExp("^[a-zA-Z0-9]+$");
-						if(results[0] === '' || results[1] === '' || results[2] ===''){
-							myModal.warning('All fields must be filed out.')
-							return false
-						}
-						else if(results[1] !== results[2]){
-							myModal.warning('Your password and confirmation password do not match.')
-							return false
-						}
-						else if(regex.test(results[0]) === false){
-							myModal.warning("Usernames can only contain letters and numbers")
-							return false
-						}
-						else{
-							var newUser = users_generateNewUser()
-							newUser.username = results[0]
-							newUser.password = results[1]
-							var ret = ''
-							$.when(http_signUp(newUser,ret)).done(function(ret){
-								if(ret === 'VALID'){
-									Materialize.toast("Welcome to FantasyMaker " + results[0] + ".", 3000, 'rounded')
-									$('#prompt-modal').closeModal();
-
-									//sign in automatically
-									var res = {
-										"data" : {}
-									}
-									$.when(http_login(newUser.username,newUser.password,res)).done(function(){
-
-										if(res.data !== 'INVALID_USERNAME' && res.data !== 'INVALID_PASSWORD' && res.data !== 'SERVER_ERR'){
-											project_successfulLogin(res)
-										}
-										else{
-											myModal.warning("Login details were invalid. Please try again.");
-										}
-									})
-								}
-								else{
-									myModal.warning('That username has already been taken. Please try another username')
-								}
-							})
-						}
-				});
-}
-
-function project_logOut(){
-
-		myModal.prompt("Log Out", "Are you sure you wish to log out? unsaved progress may be lost.",
-		[],
-		function(results)
-		{
-			console.log(users_getUsername() + ' logged out')
-
-			nav_toLogin()
-			users_flushToken()
-			project_project = initEmptyProject('none','none')
-			http_redirectHome()
-		},
-		function(results) //this is the verification function
-		{
-			//save project locally?
-			return true
-		});
-}
 
 function project_getCurrentTime(){
 	var today = new Date();
@@ -280,7 +224,7 @@ function project_modifyTitle(){
 }
 
 function project_modifyAuthor(){
-	myModal.prompt("Modify Project Author", "Change the author of your project. This will appear as the name of your project in the game browser.", [{name: "Author", default: project_project.author, type: "text"}],
+	myModal.prompt("Modify Project Author", "Change the name that appears as the author of your project in the game browser.", [{name: "Author", default: project_project.author, type: "text"}],
 			function(results){
 				project_project.author = results[0]
 				$('#currentProject_author').text(project_project.author)
@@ -370,21 +314,24 @@ $( "#pubSwitch" ).click(function() {
 				console.log(myModal.confirm)
 
 				var chk = $('#pubSwitch').prop('checked')
-				project_project.published = !chk
+				project_project.published = !chk //this is the flag that dictate whether game appears in browser
 				if(project_project.published){
 					$('#currentProject_gameLink').text(project_project.gameLink)
 					$('#currentProject_gameLink').attr('href',project_project.gameLink)
 					$('#currentProject_gameLink').attr('href',project_project.gameLink)
 					$('#currentProject_gameLink').show()
 					$('#currentProject_noGameLink').hide()
+					$('#publishButton').removeClass('disabled')
 					project_updatePublishedHtml(true)
 					project_saveProject()
 					$('#pubSwitch').prop('checked',true)
+					http_publishProject(project_project.projectOwner,project_project.projectName)
 				}
 				else{
 					project_updatePublishedHtml(false)
 					$('#currentProject_gameLink').hide()
 					$('#currentProject_noGameLink').show()
+					$('#publishButton').addClass('disabled')
 					project_saveProject()
 					$('#pubSwitch').prop('checked',false)
 				}
@@ -429,4 +376,14 @@ function project_updatePublishedHtml(published){
   $('#' + project_project.projectName + '_pub').replaceWith(pubHTML)
   $('.pubTT').tooltip({delay: 50});
 
+}
+
+function project_generateID()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-";
+		//var possible = "0123456789"
+    for( var i=0; i < 20; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
 }

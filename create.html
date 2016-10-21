@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" name="description" content="Fantasymaker : ">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
+
 		<!-- Favicons -->
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
 		<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
@@ -25,7 +25,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/page-overlay.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.css"/>
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.min.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/attributes-inventory.css" />
@@ -68,18 +68,30 @@
 	<div id="jump-modal" class="modal modal-fixed-footer" style="overflow-y: hidden">
 		<div class="modal-content">
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
-			<h4>Jump Node</h4> <br/>
+			<h4>Jump Node</h4>
+		  	<form id="choosejumprepeat" action="#">
+				<h5>Repeatedly Jump</h5>
+				<div>
+					<input name="group2" type="radio" id="test3" value="once"/>
+					<label for="test3" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="You will only visit this jump node once.">Only once</label>
+				</div>
+				<div>
+					<input name="group2" type="radio" id="test4" value="repeatedly" checked/>
+					<label for="test4" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="Will not jump to itself while inside it's jump region.">Repeatedly</label>
+				</div>
+		    </form>
+		    <hr>
+		    <h5>Triggering Event</h5>
 		  	<form id="choosejumptrigger" action="#">
-		  		<h5>Triggering Event</h5>
 		  		<div>
 					<input name="group1" type="radio" id="test1" value="button"/>
-					<label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a button is pressed the player will be taken to this jump node immediately.">Button Press</label>
+					<label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a specified button is pressed go to this jump node.">Button Press</label>
 				</div>
 				<div>
 					<input name="group1" type="radio" id="test2" value="attribute"/>
-					<label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined condition is met the player will be taken to this jump node immediately.">Attribute Condition</label>
+					<label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined conditions are met go to this jump node.">Attribute Condition</label>
 				</div>
-		    </form>
+			</form>
 		    <hr>
 			<ul class="collapsible popout" data-collapsible="expandable">
 				<li class = "attribute" style = "display:none">
@@ -88,13 +100,13 @@
 						<ul id = "jumpConditionList" class="list-unstyled" ></ul>
 					</div>
 				</li>
-				<li class = "button" style = "display:none">
-					<div class="collapsible-header active">Choose Button</div>
-					<div class="collapsible-body">
-						<ul id = "jumpButtonList" class="list-unstyled" ></ul>
-					</div>
-				</li>
 			</ul>
+			<div class = "button" style = "display:none">
+			    <h5>Linked Button</h5>
+				<button class='choose-button dropdown-button btn' href='#' data-activates='jumpbuttons' onclick="fillJumpButtonSelect();">Choose Button</button> <br/>
+				<ul id='jumpbuttons' class='dropdown-content'>
+				</ul>
+			</div>
 		</div>
 		<div class="modal-footer" >
 			<div class = "attribute" style = "display:none">
@@ -118,10 +130,11 @@
 
 				<h5 id="pagename">Design Page: </h5>
 				<hr/>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "A container to hold any text, dialogue, etc..." onclick=addTextContainer()>Add TextBox</button><br>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Images " onclick=addImageContainer()>Add Image</button> <br/>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Movies (gif,gifv,mov,webm,mp4)" onclick=addVideoContainer()>Add Video</button> <br/>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Add Control Output</button><br/>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "A container to hold any text, dialogue, etc..." onclick=addTextContainer()>Text Box</button><br>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Images " onclick=addImageContainer()>Image</button> <br/>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Movies (gif,gifv,mov,webm,mp4)" onclick=addVideoContainer()>Video</button> <br/>
+				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Control Output</button><br/>
+				<button class = "special-buttons btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Add buttons with special behaviour">Buttons</button><br/>
 				<hr/>
 				<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
 				<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
@@ -149,7 +162,7 @@
 		<div class="modal-content">
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
 			<div class=""style="overflow-y: auto;" >
-				<span class="card-title activator grey-text text-darken-4">Control Node</span>
+				<h4 id="controlnode_name">Control Node: </h4>
 				<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
 			</div>
 		</div>
@@ -164,10 +177,15 @@
 
 
 	<!-- Connection Edit Overlay (Materialize) -->
-	<div id="connection-modal" class="modal modal-fixed-footer">
+	<div id="connection-modal" class="modal modal-fixed-footer card">
 		<div class="modal-content">
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
-			<h4>Conditions & Outcomes</h4> <br/>
+			<div class="row">
+				<div class="col s2">
+					<h4 id="edge_name" class="tooltipped" data-position="right" data-delay="50" data-tooltip="" data-html="true">Edge: </h4>
+				</div>
+			</div>
+
 			<ul class="collapsible popout" data-collapsible="expandable">
 				<li>
 					<div class="collapsible-header active">Conditions</div>
@@ -179,8 +197,20 @@
 				</li>
 			</ul>
 		</div>
-		<div class="modal-footer">
+		<div class="card-reveal">
+			<span class="card-title grey-text text-darken-4">Help<i class="material-icons right">close</i></span>
+			<div class="row">
+				<div class="col s5 offset-s1"><p>Here is some more information about this product that is only revealed once clicked on.</p></div>
+				<div class="col s4 offset-s1">
+					<div class="video-container">
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/VPaNyoaUDDk" frameborder="0" allowfullscreen></iframe>
+		      </div>
+				</div>
+			</div>
 
+		</div>
+		<div class="modal-footer">
+			<span class="activator btn-floating waves-effect waves-light gray"><i class="material-icons">live_help</i></span>
 			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewOutcome('outcomesList') style="width: 30%; margin-right: 1%;">Add Outcome</button>
 			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewCondition('conditionsList') style="width: 30%; margin-right: 1%;">Add Condition</button>
 
@@ -265,7 +295,7 @@
 						<span class="login-text-white">Welcome to Fantasy</span><span class="login-text-green">Maker</span>
 						<span class="login-text-white">Creator!</span>
 					</h1>
-					<div class="login-options">				
+					<div class="login-options">
 						<a href="#"><div onclick="project_signUp()"><h2 class="login-signup login-text-green center-align">Sign Up</h2></div></a>
 						<h2 class="login-or login-text-white center-align">Or</h2>
 						<a href="#"><div onclick="project_login()"><h2 class="login-login login-text-green center-align">Log In</h2></div></a>
@@ -313,7 +343,7 @@
 									  </div>
 									</div>
 							</td>
-							<td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyPublished()" ><i class="small material-icons">mode_edit</i></a></td>
+							<td><a id="publishButton" class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyPublished()" ><i class="small material-icons">mode_edit</i></a></td>
 
 	          </tr>
 						<tr>
@@ -373,15 +403,14 @@
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
 					<div id="cyTab">
-						<div class="col s9 l9" id="cy"> 
+						<div class="col s9 l9" id="cy">
 							<!-- Grid "workspace" container -->
 						</div>
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
 							<h5 id="UI_projName"></h5>
 							<hr/>
-							<button class='pagemode dropdown-button btn' href='#' onclick=changeState(this) data-activates='pagetemplates'>Page Node</button> <br/>
-							<ul id='pagetemplates' class='dropdown-content'>
-								<li><a onclick="chooseNodeTemplate('Default');">Default</a></li>
+							<button class='pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Page Node</button> <br/>
+							<ul id='pagetemplates' class='dropdown-content' >
 							</ul>
 							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
 							<button class="jumpmode dropdown-button btn" href='#' onclick=changeState(this) data-activates='jumpmodes'>Jump Node</button><br/>
@@ -413,7 +442,7 @@
 								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
 							</ul>
 							<hr/>
-							<button class="savebutton btn" onclick="project_saveProject()"">Save</button><br/>
+							<button class="savebutton btn" onclick="saveProject()"">Save</button><br/>
 							<button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button><br/>
 
 							<hr/>

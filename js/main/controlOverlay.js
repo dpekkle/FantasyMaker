@@ -8,6 +8,8 @@ var currentSelectedNode = null //used for setting defaultFailEdge
 
 function populateControlOverlay(node){
 
+	$('#controlnode_name').text('Control Node: ' + node.json().data.name)
+
 	currentDraggedItem = resetCurentDraggedItem()
 	currentHoverOver = null
 	currentSelectedNode = node

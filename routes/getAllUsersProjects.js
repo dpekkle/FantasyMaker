@@ -27,7 +27,7 @@ module.exports = function(app){
             // Call an asynchronous function, often a save() to DB
             getUsersProjectNames(item,function (){ //add all projects from each user to array
               // Async call is done, alert via callback
-              getAllUsersProjects(item,req.query.published,function(){
+              getAllUsersProjects(item,true,function(){
                 outer_callback();
               })
 
@@ -66,7 +66,7 @@ module.exports = function(app){
                 for(var a=0; a<projects.length; a++){
                   var proj = projects[a]
                   if(proj.hasOwnProperty('author')){
-                    //project is published, add.
+                    //project is published, add.author
                     //ret.users[i].projects.splice(a,1)
 
                     usr.projects.push(proj)

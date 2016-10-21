@@ -1,7 +1,7 @@
+goog.provide('playGame')
 goog.require('initCanvas') //for cytoscape functions like outgoers
 goog.require('generalOverlay') //for escapehtml
 goog.require('playConditions')
-goog.provide('playGame')
 goog.require('project')
 goog.require('audio')
 goog.require('events')
@@ -23,7 +23,6 @@ function loadingScreen(more_to_load)
 		$('#loader').show();
 		$('.progressbutton').hide();
 	}
-
 }
 
 function prepareForGame()
@@ -140,6 +139,7 @@ function stylePage()
 	var dec_cont = currentNode.data('decisioncontainers');
 	var img_cont = currentNode.data('imgcontainers');
 	var vid_cont = currentNode.data('vidcontainers');
+	var button_cont = currentNode.data('specialbuttons');
 	var output_cont = currentNode.data('outputcontainer');
 	var events_list = currentNode.data('events');
 
@@ -159,6 +159,11 @@ function stylePage()
 		$('.playpage').append(vid_cont[i].html);
 	}
 
+	for (var i = 0; i < button_cont.length; i++)
+	{
+		$('.playpage').append(button_cont[i].html);
+	}
+
 	for (var i = 0; i < dec_cont.length; i++)
 	{
 		// we will need to check visibility conditions when deciding to add a decision container to a page
@@ -170,7 +175,6 @@ function stylePage()
 		else{
 			//alert('edge is false, removing decision button')
 		}
-
 	}
 
 	$('.playpage').append(output_cont);
@@ -191,6 +195,60 @@ function stylePage()
 		$(this).click(function()
 		{
 			progressStory(index);
+		})
+	});
+	//give inventory on click behaviour
+	$('.playpage').find("div[class^='inventory']").each(function(index)
+	{
+		$(this).click(function()
+		{
+			console.log("Open inventory");
+			openInventorySheet();
+		})
+	});
+	//give character on click behaviour
+	$('.playpage').find("div[class^='character']").each(function(index)
+	{
+		$(this).click(function()
+		{
+			console.log("Open Character Sheet");
+			openCharacterSheet();
+		})
+	});
+	//give jump buttons on click behaviour
+	$('.playpage').find("div[class^='jump']").each(function(index)
+	{
+		$(this).click(function()
+		{
+			button_name = $(this).attr('jumpnode');
+			console.log("Button name is: ", button_name);
+			//find jump nodes that have this button
+			jump_node = cy.$('.jump[button ="' + button_name + '"]')[0];
+
+			console.log("Jump node is: ", jump_node);
+			if (jump_node === undefined)
+			{
+				console.log("Jump_node is undefined?")
+			}
+			else
+			{
+				//save the current node so we can get back to it later
+				jump_node.data('origin', currentNode);
+				//returns the target (e.g. a page) of the jump node
+				currentNode = runJumpNode(jump_node);
+				console.log("We jumped!");
+				parseNode();		
+			}
+		})
+	});
+	//give jump back buttons on click behaviour
+	$('.playpage').find("div[class^='jumpback']").each(function(index)
+	{
+		$(this).click(function()
+		{
+			console.log("Go back from jump node");
+			currentNode = runJumpEnd(currentNode);
+			parseNode();
 		})
 	});
 
@@ -279,6 +337,15 @@ function resizePlayPage()
 	$('.playpage').css({'-ms-transform': 'scale(' + scale + ')'});
 	$('.playpage').css({'-webkit-transform': 'scale(' + scale + ')'});
 
+	//now figure out how to center via translation since we scaled it
+
+	//getBoundClientRect gets actual dimensions of scaled .playpage
+	var translate_x = ($('#playwindow').width() - $('.playpage')[0].getBoundingClientRect().width) / 2;
+	var translate_y = ($('#playwindow').height() - $('.playpage')[0].getBoundingClientRect().height) / 2;
+
+	$('.playpage').css({'transform': 'translate(' + translate_x + 'px,' + translate_y + 'px) scale(' + scale + ')'});
+	$('.playpage').css({'-ms-transform': 'translate(' + translate_x + 'px,' + translate_y + 'px) scale(' + scale + ')'});
+	$('.playpage').css({'-webkit-transform': 'translate(' + translate_x + 'px,' + translate_y + 'px) scale(' + scale + ')'});
 }
 
 $(window).resize(resizePlayPage);

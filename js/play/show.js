@@ -19,7 +19,7 @@ function getProject(){
   //console.log(uname + ' ' + proj)
   $.when(authenticate()).done(function(){
     $.when(load(uname,proj)).done(function(){
-      http_setupCy()
+    
       return
     })
   })

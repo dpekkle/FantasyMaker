@@ -48,6 +48,7 @@ function changeState(caller)
 	if ($(caller).hasClass('connectionmode') && current_state != states.CONNECTING)
 	{
 		current_state = states.CONNECTING;
+		console.log("changestate unselect");
 		cy.$(':selected').unselect();
 		cy.$(':parent').unselectify();
 		cy.boxSelectionEnabled( false ); //dont want to select multiple nodes when connecting	

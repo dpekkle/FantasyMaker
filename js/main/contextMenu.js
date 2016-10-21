@@ -1,4 +1,5 @@
 goog.provide('contextMenu')
+goog.require('pageContainerHelpers')
 goog.require('generalOverlay')
 goog.require('audio')
 goog.require('project')
@@ -145,13 +146,13 @@ function generateContextMenu(container_type, template_menu_list)
 	//choose target element
 	if (container_type == "text" || container_type == "output" || container_type == "img" || container_type == "vid")
 		var target_element = '.editdiv';
-	else if (container_type == "decision")
+	else if (container_type == "decision" || container_type == "jump" || container_type == "jumpback" || container_type == "inventory" || container_type == "character")
 		var target_element = '.editdec';
 	else if (container_type == "page")
 		var target_element = '#pagecontainers';
 
 	//generate menu items
-	if (container_type == "text" || container_type == "decision" || container_type == "output")
+	if (container_type == "text" || container_type == "decision" || container_type == "output" || container_type == "jump" || container_type == "jumpback" || container_type == "inventory" || container_type == "character")
 	{
 		return {
 			"items":
@@ -738,42 +739,146 @@ $(function(){
 		}
 	});
 
-
-});
-
-
-$.contextMenu({
-	selector: ".swap-controlmenu",
- trigger: 'left',
-	build: function($trigger) {
-		var options = {
-			items: {}
+	//handles for special buttons
+	$.contextMenu(
+	{
+		selector: '.jumpmenu',
+		trigger: 'left',
+		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
+		build: function($trigger, e)
+		{
+			return generateContextMenu("jump", project_project.template_menus.decision_template_menu_list);
 		}
+	});
+	$.contextMenu(
+	{
+		selector: '.jumpbackmenu',
+		trigger: 'left',
+		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
+		build: function($trigger, e)
+		{
+			return generateContextMenu("jumpback", project_project.template_menus.decision_template_menu_list);
+		}
+	});
+	$.contextMenu(
+	{
+		selector: '.inventorymenu',
+		trigger: 'left',
+		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
+		build: function($trigger, e)
+		{
+			return generateContextMenu("inventory", project_project.template_menus.decision_template_menu_list);
+		}
+	});
+	$.contextMenu(
+	{
+		selector: '.charactermenu',
+		trigger: 'left',
+		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
+		build: function($trigger, e)
+		{
+			return generateContextMenu("character", project_project.template_menus.decision_template_menu_list);
+		}
+	});
 
-		options.items.maker = {
-			name: 'Game Maker Output',
-			callback: function(key,options){
-				if( !$('.output-container').hasClass('maker') ){
-					$('.output-container').removeClass('player')
-					$('.output-container').addClass('maker')
-					//$('.output-container').children().remove()
-					//$('.output-container').children().append(logger.makerOutput())
+	$.contextMenu(
+	{
+		selector: '.special-buttons',
+		trigger: 'left',
+		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
+		build: function($trigger, e)
+		{
+			var jump_buttons = project_project.button_list;
+			return {
+			"items":
+				{
+					"Jump":
+					{
+						"name": "Jump Buttons",
+						"items": jump_buttons,
+					},
+					"Jump Back":
+					{
+						"name": "Jump Back",
+						"callback": function(key, options)
+						{
+							//create a jump back button
+							//create the container and append it to the page
+							var position = genPageCenterHTML(300, 220);
+							var html_string  =  "<div class='button-container drag-element' style='position:absolute; " + position + "'>"
+							html_string		+=		"<div class='jumpback editdec resize-element' contenteditable=true handle='jumpback'></div>"
+							html_string 	+= 	"</div>"
+
+							var size = $(".button-container").length;
+							var new_container = htmlToElements(html_string);
+
+							$("#pagecontainers").append(new_container);
+
+							$("#pagecontainers div.button-container:last").prepend(genHandleHTML("jumpback", size + 1));
+
+							bringContainerToFront($("pagecontainers div.button-container:last"));
+							$("#pagecontainers div.button-container:last .editdec").trigger('focus');
+							if (!show_handles)
+								$('.handlecontainer').hide();
+							bindHandleSelection();
+						}
+					},
+					"Attributes":
+					{
+						"name": "Show Character Panel",
+						"callback": function(key, options)
+						{
+							console.log("Create a Character panel button");
+							//create the container and append it to the page
+							var position = genPageCenterHTML(300, 220);
+							var html_string  =  "<div class='button-container drag-element' style='position:absolute; " + position + "'>"
+							html_string		+=		"<div class='character editdec resize-element' contenteditable=true handle='character'></div>"
+							html_string 	+= 	"</div>"
+
+							var size = $(".button-container").length;
+							var new_container = htmlToElements(html_string);
+
+							$("#pagecontainers").append(new_container);
+
+							$("#pagecontainers div.button-container:last").prepend(genHandleHTML("character", size + 1));
+
+							bringContainerToFront($("pagecontainers div.button-container:last"));
+							$("#pagecontainers div.button-container:last .editdec").trigger('focus');
+							if (!show_handles)
+								$('.handlecontainer').hide();
+							bindHandleSelection();
+						}
+					},
+					"Inventory":
+					{
+						"name": "Show Inventory",
+						"callback": function(key, options)
+						{
+							console.log("Create an inventory button");
+							//create the container and append it to the page
+							var position = genPageCenterHTML(300, 220);
+							var html_string  =  "<div class='button-container drag-element' style='position:absolute; " + position + "'>"
+							html_string		+=		"<div class='inventory editdec resize-element' contenteditable=true handle='inventory'></div>"
+							html_string 	+= 	"</div>"
+
+							var size = $(".button-container").length;
+							var new_container = htmlToElements(html_string);
+
+							$("#pagecontainers").append(new_container);
+
+							$("#pagecontainers div.button-container:last").prepend(genHandleHTML("inventory", size + 1));
+
+							bringContainerToFront($("pagecontainers div.button-container:last"));
+							$("#pagecontainers div.button-container:last .editdec").trigger('focus');
+							if (!show_handles)
+								$('.handlecontainer').hide();
+							bindHandleSelection();
+
+						}
+					},
 				}
 			}
 		}
-
-		options.items.player = {
-			name: 'Game Player Output',
-			callback: function(key,options){
-				if( !$('.output-container').hasClass('player') ){
-					$('.output-container').removeClass('maker')
-					$('.output-container').addClass('player')
-					//$('.output-container').children().remove()
-					//$('.output-container').children().append(logger.playerOutput())
-				}
-			}
-		}
-
-		return options
-	}
+	});
 });
+

@@ -223,7 +223,10 @@ cy.on('tap', function(event)
 	var evtTarget = event.cyTarget;
 	
 	if (evtTarget === cy)
+	{
+		console.log("touch screen unselect")
 		cy.$(':selected').unselect(); //touch screen doesn't seem to do this by default
+	}
 	else
 	{
 		return;
@@ -252,12 +255,13 @@ cy.on('tap', function(event)
 				data:
 				{ 
 					name: cy.nodes('.page, .control').size() + 1, 
-					pagestyle: selected_page_template.pagestyle,
-					outputcontainer: selected_page_template.outputcontainer,
-					imgcontainers: selected_page_template.imgcontainers,
-					vidcontainers: selected_page_template.vidcontainers,
-					textcontainers: selected_page_template.textcontainers,
+					pagestyle: selected_page_template.data.pagestyle,
+					outputcontainer: selected_page_template.data.outputcontainer,
+					imgcontainers: selected_page_template.data.imgcontainers,
+					vidcontainers: selected_page_template.data.vidcontainers,
+					textcontainers: selected_page_template.data.textcontainers,
 					decisioncontainers: [],
+					specialbuttons: selected_page_template.data.specialbuttons,
 					events: [],
 					eventspane: '<div class= "eventscontainer">'
 						+		'<span class="eventspanetitle eventname" style="text-align:center; font-size: 16px;">Asset</span>'
@@ -303,6 +307,7 @@ cy.on('tap', function(event)
 					button: null,
 					conditions: [],
 					origin: null,
+					repeat: "Repeatedly",
 				},
 				classes: "jump",
 				group: "nodes",
@@ -369,11 +374,11 @@ cy.on('tap', function(event)
 						displacement: {x: 0, y: 0},
 						parent: "Emptyparent" + cy.nodes(':parent').size() + 1,
 						name: cy.nodes('.page, .control').size() + 1, 
-						pagestyle: selected_page_template.pagestyle,
-						outputcontainer: selected_page_template.outputcontainer,
-						imgcontainers: selected_page_template.imgcontainers,
-						vidcontainers: selected_page_template.vidcontainers,
-						textcontainers: selected_page_template.textcontainers,
+						pagestyle: selected_page_template.data.pagestyle,
+						outputcontainer: selected_page_template.data.outputcontainer,
+						imgcontainers: selected_page_template.data.imgcontainers,
+						vidcontainers: selected_page_template.data.vidcontainers,
+						textcontainers: selected_page_template.data.textcontainers,
 						decisioncontainers: [],
 						events: [],
 						eventspane: '<div class= "eventscontainer">'
@@ -412,7 +417,7 @@ cy.on('select', function(event)
 		
 		var oldselect = cy.$(':selected').diff(event.cyTarget);
 		oldselect.left.unselect();
-		
+		console.log("disable ctrl behaviour")
 		//if adding a new connection
 		createConnection(event.cyTarget);
 	}
@@ -466,12 +471,13 @@ function createFight(event)
 				displacement: {x: 0, y: 0},
 				parent: 'fightparent' + cy.nodes(':parent').size() + 1,
 				name: cy.nodes('.page, .control').size() + 1, 
-				pagestyle: selected_page_template.pagestyle,
-				outputcontainer: selected_page_template.outputcontainer,
-				imgcontainers: selected_page_template.imgcontainers,
-				vidcontainers: selected_page_template.vidcontainers,
-				textcontainers: selected_page_template.textcontainers,
+				pagestyle: [],
+				outputcontainer: [],
+				imgcontainers: [],
+				vidcontainers: [],
+				textcontainers: [],
 				decisioncontainers: [],
+				specialbuttons: [],
 				events: [],
 				eventspane: '<div class= "eventscontainer">'
 					+		'<span class="eventspanetitle eventname" style="text-align:center; font-size: 16px;">Asset</span>'
@@ -489,12 +495,13 @@ function createFight(event)
 				displacement: {x: -40, y: 100},
 				parent: 'fightparent' + cy.nodes(':parent').size() + 1,
 				name: cy.nodes('.page, .control').size() + 2, 
-				pagestyle: selected_page_template.pagestyle,
-				outputcontainer: selected_page_template.outputcontainer,
-				imgcontainers: selected_page_template.imgcontainers,
-				vidcontainers: selected_page_template.vidcontainers,
-				textcontainers: selected_page_template.textcontainers,
+				pagestyle: [],
+				outputcontainer: [],
+				imgcontainers: [],
+				vidcontainers: [],
+				textcontainers: [],
 				decisioncontainers: [],
+				specialbuttons: [],
 				events: [],
 				eventspane: '<div class= "eventscontainer">'
 					+		'<span class="eventspanetitle eventname" style="text-align:center; font-size: 16px;">Asset</span>'
@@ -512,12 +519,13 @@ function createFight(event)
 				displacement: {x: 40, y: 100},
 				parent: 'fightparent' + cy.nodes(':parent').size() + 1,
 				name: cy.nodes('.page, .control').size() + 3, 
-				pagestyle: selected_page_template.pagestyle,
-				outputcontainer: selected_page_template.outputcontainer,
-				imgcontainers: selected_page_template.imgcontainers,
-				vidcontainers: selected_page_template.vidcontainers,
-				textcontainers: selected_page_template.textcontainers,
+				pagestyle: [],
+				outputcontainer: [],
+				imgcontainers: [],
+				vidcontainers: [],
+				textcontainers: [],
 				decisioncontainers: [],
+				specialbuttons: [],
 				events: [],
 				eventspane: '<div class= "eventscontainer">'
 					+		'<span class="eventspanetitle eventname" style="text-align:center; font-size: 16px;">Asset</span>'

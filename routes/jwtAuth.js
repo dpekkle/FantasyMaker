@@ -1,5 +1,6 @@
 var jwt = require('jwt-simple');
 var bodyParser = require('body-parser');
+var moment = require('moment')
 var key = require('./key.js')
 
 module.exports = function(req, res, next) {
@@ -16,6 +17,9 @@ module.exports = function(req, res, next) {
       //console.log(decoded)
       //console.log(Date.now())
       // handle token here
+      console.log('tok exp: '+decoded.exp)
+      console.log(Date.now())
+
       if (decoded.exp <= Date.now()) {
         console.log('expired token')
         //redirect(res)

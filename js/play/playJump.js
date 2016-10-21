@@ -58,9 +58,9 @@ function evaluateConditionalJump(ele)
 function assessJumpCondition(condition)
 {
 	var html = $.parseHTML(condition)
-	var attButton1_val = getAttributeValue(html[0].childNodes[0].childNodes[1].childNodes[0]);
-	var comparison = html[0].childNodes[0].childNodes[2].childNodes[0].data;
-	var attButton2_val = getAttributeValue(html[0].childNodes[0].childNodes[3].childNodes[0])
+	var attButton1_val = getAttributeValue(html[0].childNodes[0].childNodes[0].childNodes[0]);
+	var comparison = html[0].childNodes[0].childNodes[1].childNodes[0].data;
+	var attButton2_val = getAttributeValue(html[0].childNodes[0].childNodes[2].childNodes[0])
 
 	var ret = assessComparison(attButton1_val,comparison,attButton2_val)
 
@@ -80,14 +80,26 @@ function runJumpNode(element)
 	return target;
 }
 
-function runJumpEnd()
+function runJumpEnd(current_node)
 {
 	//return the origin node of the last jump-start we encountered
 	//i.e. where we last were before exitting the graph and entering a jump section
 
 	var jump_start = jump_context_stack.pop();
-	var origin = (jump_start.data('origin'));
-	console.log("Reached jump end. Now Jump back to", origin.data('name'));
-	return origin;
+	if (jump_start == undefined)
+	{
+		console.log("We tried to runJumpEnd with nothing on the jump context Stack!")
+		return current_node;
+	}
+	else
+	{
+		var origin = (jump_start.data('origin'));
+		if (jump_start.data('repeat') == 'once')
+		{
+			jump_context_stack.unshift(jump_start);
+		}
+		console.log("Reached jump end. Now Jump back to", origin.data('name'));
+		return origin;
+	}
 }
 

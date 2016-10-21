@@ -42,6 +42,7 @@ function http_save(project_project,ret){
 }
 
 function http_load(projName){
+	console.log('PROJECT HAS LOADED')
 	//projName is expected to be project name with whitespace
 	projName = projName.split('_').join(' ')
 
@@ -56,20 +57,25 @@ function http_load(projName){
 		data: {
 			"projectOwner" : users_getUsername(),
 			"projectName" : projName,
+			"source" : "create"
 		},
 		cache: false,
 		type: 'GET',
 		success: function(data) {
 			if(http_handleAuth(data)){
+				
 				delete data[0]._id; //remove mongos _id attribute
 				project_project = data[0];
 
 				//database does not store methods, so we need to create new audioobj initialising it with the stored values - Danni
 				project_project.audio = loadAudioObject(project_project.audio)
 				loadTemplateMenuObj();
+				$.each(project_project.button_list, function(index, val) {
+					this.callback = generateJumpButtonCallback();
+				});
 
 
-				$('#UI_projName').text('Project: ' + project_project.projectName)
+				$('#UI_projName').text('Project: ' + project_project.title)
 
 				//add nodes first
 				for(var i = 0; i<data[0].graph.length; i++){
@@ -88,7 +94,7 @@ function http_load(projName){
 					}
 				}
 
-				Materialize.toast("Project '" + project_project.projectName + "' Loaded", 3000, 'rounded')
+				Materialize.toast("Project '" + project_project.title + "' Loaded", 3000, 'rounded')
 				resizeCanvas();
 				defaultState();
 			}
@@ -157,7 +163,7 @@ function http_getUsersProjects(username,ret){
 
 function http_deleteProject(username,projName){
 	//projName is expected to be project name with whitespace
-	projName = projName.split('_').join(' ')
+	//projName = projName.split('_').join(' ')
 	//console.log("Delete project");
 	http_addTokenToHeader()
 
@@ -180,38 +186,32 @@ function http_deleteProject(username,projName){
 
 }
 
-function http_signUp(newUser,ret){
+function http_publishProject(username,projName){
+	//projName is expected to be project name with whitespace
+	//projName = projName.split('_').join(' ')
+	//console.log("Delete project");
+	http_addTokenToHeader()
+
+	//jquery ajax post request
 	return $.ajax({
-		url: '/signUp',
-		data: {
-			"data" : newUser
-		},
-		cache: false,
 		type: 'POST',
+		url: '/publish',
+		data: {
+			"projectOwner" : username,
+			"projectName" : projName,
+		},
 		success: function(data) {
 			if(http_handleAuth(data)){
-				ret = data
+				console.log(data)
 			}
 		},
 		contenttype: "application/json"
 	});
+
+
 }
 
-function http_login(uname,pwd,ret){
-	return $.ajax({
-		url: '/login',
-		data: {
-			"uname" : uname,
-			"pwd" : pwd
-		},
-		cache: false,
-		type: 'POST',
-		success: function(data) {
-			ret.data = data
-		},
-		contenttype: "application/json"
-	});
-}
+
 
 //examines response from server for authentication validation
 function http_handleAuth(res){

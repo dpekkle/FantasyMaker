@@ -7,6 +7,19 @@ goog.require('layouts')
 goog.require('controlOverlay')
 goog.require('pageOverlay')
 
+function saveProject()
+{
+	//consider case where someone creates pages without opening the page style overlay, in which case no style is assigned
+	//will probably be an empty page i.e. no html
+	var eles = cy.elements('.page');
+	for (var i = 0; i < eles.length; i++)
+	{
+		updatePageStyle(eles[i]);
+	}
+
+	project_saveProject()
+}
+
 function setStart()
 {
 	cy.$('.start').removeClass('start');
