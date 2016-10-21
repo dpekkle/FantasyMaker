@@ -132,8 +132,8 @@ function resizeChildMoveListener(event) //for youtube iframe resizing
 
 	target.style.width  = x + 'px';
 	target.style.height = y + 'px';
-	target.firstChild.width  = x - 4 - 2 * parseFloat(getComputedStyle(target).getPropertyValue('border-left-width'));
-	target.firstChild.height = y - 8 - 2 * parseFloat(getComputedStyle(target).getPropertyValue('border-top-width'));
+	target.firstChild.width  = x - 0 - 2 * parseFloat(getComputedStyle(target).getPropertyValue('border-left-width'));
+	target.firstChild.height = y - 0 - 2 * parseFloat(getComputedStyle(target).getPropertyValue('border-top-width'));
 }
 
 function checkBounds(offset, dimension, limit)

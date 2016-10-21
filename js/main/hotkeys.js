@@ -21,7 +21,7 @@ $(document).ready(function()
 		{
 			ctrl_key_held = true;
 		}
-		if (!$('.modal').hasClass('open')) //only want to work in cytoscape view
+		if ($('#Play').css('display') == 'none' && !$('.modal').hasClass('open') ) //only want to work in cytoscape view
 		{
 			console.log(e.which);
 			if (ctrl_key_held && e.which == 67) // c key
@@ -118,12 +118,12 @@ $(document).ready(function()
 
 			}
 		}
-		else if ($('#prompt-modal').hasClass('open'))
-		{
-			if (e.which == 13)
-				myModal.evaluateModal(true)
-			else if (e.which == 27)
-				myModal.evaluateModal(false);
-		}
+		// else if ($('#prompt-modal').hasClass('open'))
+		// {
+		// 	if (e.which == 13)
+		// 		myModal.evaluateModal(true)
+		// 	else if (e.which == 27)
+		// 		myModal.evaluateModal(false);
+		// }
 	});
 });
