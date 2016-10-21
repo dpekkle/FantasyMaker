@@ -173,35 +173,31 @@ function addVideoContainer()
 
 			var valid = checkImageURL(vidurl, "vid");
 			console.log("Valid: ", valid)
-			if (valid)
-				html_string += valid;
-			else
-				return;
-
-			html_string += "</div>"
-
-			$.ajax(
+			if (valid !== "youtube")
 			{
-				url: vidurl, //or your url
-				success: function(data)
-				{
-					//Create a new draggable div to hold the image containers
-					var size = $(".vid-container").length;
-					var new_container = htmlToElements(html_string);
-
-					$("#pagecontainers").append(new_container);
-					$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));
-
-					bringContainerToFront($("#pagecontainers div.vid-container:last"));
-					if (!show_handles)
-						$('.handlecontainer').hide();
-					bindHandleSelection();
-				},
-				error: function(data)
+				//youtube adds itself
+				if (valid)
+					html_string += valid;
+				else
 				{
 					alert('URL: ' + vidurl + ' does not exist');
-				},
-			})
+					return false;
+				}
+
+				html_string += "</div>"
+
+				//Create a new draggable div to hold the image containers
+				var size = $(".vid-container").length;
+				var new_container = htmlToElements(html_string);
+
+				$("#pagecontainers").append(new_container);
+				$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));
+
+				bringContainerToFront($("#pagecontainers div.vid-container:last"));
+				if (!show_handles)
+					$('.handlecontainer').hide();
+				bindHandleSelection();
+			}
 		}
 	});
 }
@@ -234,10 +230,11 @@ function checkImageURL(imgurl, type)
 	{
 		var yt_id = imgurl.match(ytreg) ? RegExp.$1 : false;
 		var div_id = "youtube_video_" + yt_id;
-		if ($(div_id).length !== 0)
+		if ($('#'+div_id).length !== 0)
 		{
-			//youtube video alreay exists
-			return;
+			alert("already exists")
+			//youtube video already exists
+			return "youtube";
 		}
 
 		var position = genPageCenterHTML(300, 220);
@@ -272,7 +269,7 @@ function checkImageURL(imgurl, type)
 		  }
 		});
 		$(div_id).addClass('resize-element');
-		return false; //break ajax call
+		return "youtube"; //break ajax call
 	}
 	//gifv video
 	else if (imgurl.match(/\.(gifv|mp4)$/) != null && type == "vid")

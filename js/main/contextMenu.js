@@ -375,33 +375,22 @@ function generateContextMenu(container_type, template_menu_list)
 						var ele = options.$trigger.parent().siblings(target_element);
 						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results)
 						{
-							//change this
-							var imgurl = results[0];
-							$.ajax(
+							if (html_string = checkImageURL(results[0], container_type))
 							{
-								url: imgurl, //or your url
-								success: function(data)
-								{
-									//Replace URL
-									var parent = ele;
-									var copy = parent.parent();
+								//change this
+								var imgurl = results[0];
+								//Replace URL
+								var parent = ele;
+								var copy = parent.parent();
 
-									parent.remove();
+								parent.remove();
 
-									copy.append(html_string);
-								},
-								error: function(data)
-								{
-									alert('URL: ' + imgurl + ' does not exist');
-								},
-							})
+								copy.append(html_string);
+							}
 						},
 						function(results)
 						{
-							if (checkImageURL(results[0], container_type))
-								return true;
-							else
-								return results[0] + "not a valid URL"
+							return true;
 						});
 					}
 				},
@@ -442,46 +431,6 @@ function generateContextMenu(container_type, template_menu_list)
 				"border": border_menu_entry(target_element),
 				"position": zIndex_menu_entry(),
 				"sep3": "---------",
-				"URL":
-				{
-					"name":"Change URL",
-					"callback": function(key, options)
-					{
-						var ele = options.$trigger.parent().siblings(target_element);
-						myModal.prompt("Change URL", "", [{name: "Enter image url", default: "http://", type: "text"}], function(results)
-						{
-							var imgurl = results[0];
-							if(html_string = checkImageURL(imgurl, container_type)) //returns false for failure
-							{
-								$.ajax(
-								{
-									url: imgurl, //or your url
-									success: function(data)
-									{
-										//Replace URL
-										var parent = ele;
-										var copy = parent.parent();
-
-										parent.remove();
-
-										copy.append(html_string);
-									},
-									error: function(data)
-									{
-										alert('URL: ' + imgurl + ' does not exist');
-									},
-								})
-							}
-						},
-						function(results)
-						{
-							if (checkImageURL(results[0], container_type))
-								return true;
-							else
-								return results[0] + "not a valid URL"
-						});
-					}
-				},
 				"delete": {"name": "Delete", "icon": "delete", "callback" : function(key, options){
 					if (confirm("Are you sure you want to delete this container?"))
 					{
