@@ -13,6 +13,7 @@ require('./routes/play')(app);
 require('./routes/playAuth')(app);
 require('./routes/getAllUsersProjects')(app)
 require('./routes/validateToken')(app)
+require('./routes/publish')(app)
 
 //serve static files from current folder
 app.use(express.static(__dirname + "/"));

@@ -8,6 +8,7 @@ function load(username,projName){
 		data: {
 			"projectOwner" : username,
 			"projectName" : projName,
+      "source" : "play"
 		},
 		cache: false,
 		type: 'GET',
@@ -21,10 +22,14 @@ function load(username,projName){
         console.log('token expired')
         $('#data').text('token expired')
       }
+      else if(data === "NOT_PUBLISHED"){
+
+      }
       else{
         delete data[0]._id; //remove mongos _id attribute
   			console.log(data)
         project_project = data[0]
+          http_setupCy()
       }
 		},
 		contenttype: "application/json"

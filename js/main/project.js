@@ -177,6 +177,25 @@ function project_saveProject()
 	})
 }
 
+function project_modifyPublished(){
+	if(project_project.published === false){
+		return
+	}
+
+	myModal.prompt("Publish your project", "Your project is already published. Continuing will overwrite the version of this project that you previously published. This cannot be undone. Do you wish to continue?", [],
+			function(results){
+				$.when(http_publishProject(project_project.projectOwner,project_project.projectName)).done(function(){
+					Materialize.toast("Project Published!", 3000, 'rounded')
+				})
+			},
+			function(results){
+				return true
+			}
+	);
+
+
+
+}
 
 
 function project_getCurrentTime(){
@@ -295,21 +314,24 @@ $( "#pubSwitch" ).click(function() {
 				console.log(myModal.confirm)
 
 				var chk = $('#pubSwitch').prop('checked')
-				project_project.published = !chk
+				project_project.published = !chk //this is the flag that dictate whether game appears in browser
 				if(project_project.published){
 					$('#currentProject_gameLink').text(project_project.gameLink)
 					$('#currentProject_gameLink').attr('href',project_project.gameLink)
 					$('#currentProject_gameLink').attr('href',project_project.gameLink)
 					$('#currentProject_gameLink').show()
 					$('#currentProject_noGameLink').hide()
+					$('#publishButton').removeClass('disabled')
 					project_updatePublishedHtml(true)
 					project_saveProject()
 					$('#pubSwitch').prop('checked',true)
+					http_publishProject(project_project.projectOwner,project_project.projectName)
 				}
 				else{
 					project_updatePublishedHtml(false)
 					$('#currentProject_gameLink').hide()
 					$('#currentProject_noGameLink').show()
+					$('#publishButton').addClass('disabled')
 					project_saveProject()
 					$('#pubSwitch').prop('checked',false)
 				}
@@ -359,7 +381,8 @@ function project_updatePublishedHtml(published){
 function project_generateID()
 {
     var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-";
+		//var possible = "0123456789"
     for( var i=0; i < 20; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     return text;

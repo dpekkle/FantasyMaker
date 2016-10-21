@@ -21,12 +21,26 @@ module.exports.getProjectAttributes = function(project,published,username,callba
     var filter
 
     if(published === 'true'){
-      filter = {"published": true}
+      filter = {"publishedForPlay": true}
     }
     else{
       filter = {}
     }
-    collection.find(filter,{"title": true,"author": true,"description": true,"imageLink": true,"gameLink": true, "published": true, "dateCreated": true, "lastModified": true ,"_id":false}).toArray(function(err, results){
+
+    var exclude = {
+      "graph" : false,
+  		"gameAttributes" : false,
+  		"gameInventory" : false,
+  		"attributesHTML" : false,
+  		"resolution" : false,
+      "project_templates": false,
+      "button_list": false,
+      "template_menus": false,
+      "audio": false,
+      "backgroundLink": false,
+      "_id" : false
+    }
+    collection.find({},exclude).toArray(function(err, results){
       //operation complete
       if(err){
         console.log('getAllUsersProjects : getUsersProject() error: ')
@@ -34,16 +48,40 @@ module.exports.getProjectAttributes = function(project,published,username,callba
       }
       else{
         if(results.length > 0){
-          console.log('users project for browser retreived')
-          console.log(results)
-          project.title = results[0].title
-          project.author = results[0].author
-          project.description = results[0].description
-          project.imageLink = results[0].imageLink
-          project.gameLink = results[0].gameLink
-          project.published = results[0].published
-          project.dateCreated = results[0].dateCreated
-          project.lastModified = results[0].lastModified
+          if(published === true){
+            //call is from game browser, only return published projects
+            if(results[1] !== undefined){ // if there is a duplicated project
+              //if(results[1].hasOwnProperty('publishedForPlay')){
+                if(results[0].published === true && results[1].publishedForPlay === true){
+                  console.log('users project for browser retreived')
+                  console.log(results)
+                  project.title = results[0].title
+                  project.author = results[0].author
+                  project.description = results[0].description
+                  project.imageLink = results[0].imageLink
+                  project.gameLink = results[0].gameLink
+                  project.published = results[0].published
+                  project.dateCreated = results[0].dateCreated
+                  project.lastModified = results[0].lastModified
+                }
+              //}
+            }
+
+          }
+          else{
+            //call is from create.html. load all projects
+            console.log('users project for create retreived')
+            console.log(results)
+            project.title = results[0].title
+            project.author = results[0].author
+            project.description = results[0].description
+            project.imageLink = results[0].imageLink
+            project.gameLink = results[0].gameLink
+            project.published = results[0].published
+            project.dateCreated = results[0].dateCreated
+            project.lastModified = results[0].lastModified
+          }
+
         }
         else{
           console.log('getProjectAttributes(): No published project found called ' + project.projName + ' by ' + username)

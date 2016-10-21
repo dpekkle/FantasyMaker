@@ -28,11 +28,13 @@ function projectSettings_prepThenNavToProjects(project_project){
     $('#currentProject_gameLink').text(project_project.gameLink)
     $('#currentProject_noGameLink').hide()
     $('#currentProject_gameLink').show()
+    $('#publishButton').removeClass('disabled')
     $( "#pubSwitch" ).prop('checked',true)
   }
   else{
     $('#currentProject_gameLink').hide()
     $('#currentProject_noGameLink').show()
+    $('#publishButton').addClass('disabled')
     $( "#pubSwitch" ).prop('checked',false)
 
 

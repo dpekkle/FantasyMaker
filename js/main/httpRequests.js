@@ -57,11 +57,13 @@ function http_load(projName){
 		data: {
 			"projectOwner" : users_getUsername(),
 			"projectName" : projName,
+			"source" : "create"
 		},
 		cache: false,
 		type: 'GET',
 		success: function(data) {
 			if(http_handleAuth(data)){
+				
 				delete data[0]._id; //remove mongos _id attribute
 				project_project = data[0];
 
@@ -176,6 +178,31 @@ function http_deleteProject(username,projName){
 		success: function(data) {
 			if(http_handleAuth(data)){
 				//console.log(data)
+			}
+		},
+		contenttype: "application/json"
+	});
+
+
+}
+
+function http_publishProject(username,projName){
+	//projName is expected to be project name with whitespace
+	//projName = projName.split('_').join(' ')
+	//console.log("Delete project");
+	http_addTokenToHeader()
+
+	//jquery ajax post request
+	return $.ajax({
+		type: 'POST',
+		url: '/publish',
+		data: {
+			"projectOwner" : username,
+			"projectName" : projName,
+		},
+		success: function(data) {
+			if(http_handleAuth(data)){
+				console.log(data)
 			}
 		},
 		contenttype: "application/json"
