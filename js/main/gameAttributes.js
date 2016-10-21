@@ -119,9 +119,10 @@ function gameAttributes_createModule_addAttributeFolder(currentPath){
 
                 gameAttributes_addAttributeFolder(currentPath, folderName, attributeID);
                 //if it is a top level attribute
-                if(!currentPath)
+                if(!currentPath) {
                     currentAttributeObj = project_project['gameAttributes'][attributeID];
-
+                    gameAttributes_createModule_displayFolder(currentAttributeObj.path);
+                }
                 gameAttribute_createModule_updateContextPane();
 
 			},
@@ -443,6 +444,13 @@ function DefineAttributeModal() {
             var maxValid = true;
             var validRange = true;
 
+            var minToggle = this.minValueToggle.prop('checked');
+            var maxToggle = this.maxValueToggle.prop('checked');
+            var minValue = parseInt(this.minValueInput.val());
+            var maxValue = parseInt(this.maxValueInput.val());
+            var initValue = parseInt(this.initValueInput.val());
+
+
             //check name & init count fields
             if (this.nameInput.val() != undefined && this.nameInput.val() != "" && this.initValueInput.val() != undefined && this.initValueInput.val() != "")
                 validated = true;
@@ -460,17 +468,27 @@ function DefineAttributeModal() {
                 minValid = false;
             }
 
-            if((this.minValueToggle.prop('checked') && this.maxValueToggle.prop('checked')) &&  (this.minValueInput.val() > this.maxValueInput.val())) {
-                minValid = false;
-                maxValid = false;
-                validRange = false;
-                validated = false;
+           if(minToggle){
+               if(minValue > initValue){
+                   validated = false;
+                   validRange = false;
+               }
+           }
+
+            if(maxToggle){
+                if(maxValue < initValue){
+                    validated = false;
+                    validRange = false;
+                }
             }
 
-            if((this.minValueToggle.prop('checked') && (this.minValueInput.val() > this.initValueInput.val())) || (this.maxValueToggle.prop('checked') && (this.maxValueInput.val() < this.initValueInput.val())))
-            {
-                validRange = false;
-                validated = false;
+            if(maxToggle && minToggle){
+
+                if(minValue > maxValue){
+                    validated = false;
+                    validRange = false;
+                }
+
             }
 
 

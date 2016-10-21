@@ -88,6 +88,7 @@ function openAttributesOverlay()
 			ready: function () {
 				gameAttributes_createModule_recursiveListDisplayAll();
 				$('.attributesButton').hide();
+				gameAttributes_createModule_displayFolder(false);
 			},
 			complete: function () {
 				//gameAttributes_saveAttributes();
