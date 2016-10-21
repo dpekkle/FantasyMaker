@@ -17,8 +17,10 @@
 	<meta name="msapplication-config" content="/favicon/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
 
-	<link rel="stylesheet" type="text/css" href="stylesheets/css/bootstrap.min.css"/>
+
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
  	<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/frontpage.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
     <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
     <title>FantasyMaker</title>
 
@@ -26,6 +28,34 @@
   </head>
 
   <body>
+
+    <ul id="profileDropdown1" class="dropdown-content">
+  	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
+  	</ul>
+  	<ul id="profileDropdown2" class="dropdown-content">
+  	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
+  	</ul>
+  	<nav>
+  		<div class="nav-wrapper">
+  			<a href="index.html" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
+        		<a href="" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons" style="padding-right: 10px;">menu</i></a>
+  			<ul class="right hide-on-med-and-down">
+  				<li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
+  				<li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
+  				<li><a href="create.html" class="project_button ">Project</a></li>
+  				<li><a href="#" class="settings_button hide" >Settings</a></li>
+  				<li><a class="profile_button dropdown-button " href="#!" data-activates="profileDropdown1"></a></li>
+  			</ul>
+  			<ul class="side-nav" id="mobile-demo">s
+  				<li><a href="" class="login_button" onclick=project_login()>Login</a></li>
+  				<li><a href="" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
+  				<li><a href="create.html" class="project_button " onclick=>Project</a></li>
+  				<li><a href="" class="settings_button hide" >Settings</a></li>
+  				<li><a class="profile_button dropdown-button " href="" data-activates="profileDropdown2"></a></li>
+  			</ul>
+  		</div>
+  	</nav>
+    <!--
 	<nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -39,20 +69,24 @@
 			<li><a href="blog.html">Dev Blog</a> </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="create.html">Create</a></li>
+            <li><a href="#" onclick=createLinkClicked()>Create</a></li>
             <li><a href="browse.html">Browse</a></li>
+            <li><a href="#" onclick=project_login()>Log In</a></li>
+            <li><a href="#" onclick=project_signUp()>Sign Up</a></li>
           </ul>
         </div>
       </div>
     </nav>
+  -->
 
  	<div class="jumbotron">
       <div class="container">
 				<div class="main">
         <h1>Introducing <span class="accent">FantasyMaker</span></h1>
         <h2>Making interactive storytelling easier</h2>
-					<a class="btn" href="create.html">Create</a>
-					<a class="btn" href="browse.html" style="display: inline-block;">Browse</a>
+          <a class="btn valign" href="#" onclick=createLinkClicked()>Create</a>
+          <a class="btn valign" href="browse.html" style="display: inline-block;">Browse</a>
+
 				</div>
 			</div>
     </div>
@@ -140,5 +174,6 @@
 		</div>
   </body>
   <script src="js/lib/jquery-2.2.2.min.js"></script>
+  	<script defer src="js/lib/materialize.min.js"></script>
   <script defer src="js/index.min.js"></script>
 </html>

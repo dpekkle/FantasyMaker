@@ -5,10 +5,11 @@ var nav_isProject = false
 
 function nav_toLogin(){
   nav_isProject = false
-  nav_hideProjects()
-  nav_hideMain()
-  nav_navBarLoggedOut()
-  nav_showLogin()
+  window.location.href = host_index()
+  //nav_hideProjects()
+  //nav_hideMain()
+  //nav_navBarLoggedOut()
+  //nav_showLogin()
 }
 
 function nav_toProjects(){

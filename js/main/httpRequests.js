@@ -63,7 +63,7 @@ function http_load(projName){
 		type: 'GET',
 		success: function(data) {
 			if(http_handleAuth(data)){
-				
+
 				delete data[0]._id; //remove mongos _id attribute
 				project_project = data[0];
 

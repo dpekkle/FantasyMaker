@@ -291,7 +291,7 @@
 		</div>
 
 		<!-- login screen -->
-		<div id="requestLogin" class="login-container">
+		<div id="requestLogin" class="login-container hide">
 			<img class="login-img" src="/images/banner_image.jpg">
 			<div class = "login-rounded-panel">
 	    	<div class="login-header" >
@@ -309,7 +309,7 @@
 		</div>
 
 		<!-- project screen -->
-	<div id="projects" class="hide">
+	<div id="projects" class="">
 		<div id="currentProject" class="hide" style="padding: 20px;">
 			<table class="highlight bordered">
 				<h2 id="currentProject_header"></h2>
@@ -436,7 +436,7 @@
 							<a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a>
 							<br/>
 							<hr/>
-							<button class="connectivity btn" onclick="runTests()"">Test Graph</button> <br/>
+							<button class="connectivity btn" onclick="runTests()">Test Graph</button> <br/>
 							<button class='dropdown-button btn' href='#' data-activates='stylegraph'>Style Graph</button> <br/>
 							<ul id='stylegraph' class='dropdown-content'>
 								<li><a onclick="layout_driver('Tree');">Tree</a></li>
@@ -446,8 +446,9 @@
 								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
 							</ul>
 							<hr/>
-							<button class="savebutton btn" onclick="saveProject()"">Save</button><br/>
+							<button class="savebutton btn" onclick="saveProject()">Save</button><br/>
 							<button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button><br/>
+
 
 							<hr/>
 							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
