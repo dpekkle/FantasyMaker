@@ -84,10 +84,6 @@ function nav_navBarLoggedIn(){
   }
   $('.project_button').show()
 
-  if($('.settings_button').hasClass('hide')){
-    $('.settings_button').removeClass('hide')
-  }
-  $('.settings_button').show()
 
 
   if($('.profile_button').hasClass('hide')){
@@ -104,7 +100,6 @@ function nav_navBarLoggedOut(){
   //show/hide
   $('.project_button').hide()
   $('.profile_button').hide()
-  $('.settings_button').hide()
   $('.login_button').show()
   $('.signup_button').show()
 }
