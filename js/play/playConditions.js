@@ -61,6 +61,26 @@ function executeOutcomes(edge){
 				logger.playerLog(textButton1_val + attButton1_val + textButton2_val)
 
 			}
+			else if(type === 'Text-InvItem-Text'){
+				console.log('TEXT ATT TEXT:')
+				console.log('ONE: ' + getTextButtonValue(html[0].childNodes[1].childNodes[0]))
+				console.log('TWO: ' + getTextButtonValue(html[0].childNodes[3].childNodes[0]))
+
+				var textButton1_val = getTextButtonValue(html[0].childNodes[1].childNodes[0])
+				var item = getInventoryItemFromHtml(html[0].childNodes[2].childNodes[0])
+				var textButton2_val = getTextButtonValue(html[0].childNodes[3].childNodes[0])
+
+				var itemText = ''
+				if(item !== undefined){
+					itemText = item.playCount
+
+				}
+				else{
+					console.log('executeOutcomes() inventory Text-InvItem-Text: item is undefined.')
+				}
+
+				logger.playerLog(textButton1_val + itemText + textButton2_val)
+			}
 			else if(type === "Text"){
 				//console.log('TEXT: ')
 				//console.log(getTextButtonValue(html[0].childNodes[1].childNodes[0]))

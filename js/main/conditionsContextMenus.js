@@ -107,14 +107,22 @@ goog.require('project')
 
        //text outcomes
        options.items.textOutput.items['playerOutputAttribute'] = {
-         name: 'Player Output (Text : Attribute : Text)',
+         name: 'Outcome Output (Text : Attribute : Text)',
          callback: function(key, options){
           swapOutcome(key,$trigger.attr('id'))
          }
        }
 
+       options.items.textOutput.items['playerOutputInvItem'] = {
+         name: 'Outcome Output (Text : Inventory Amount: Text)',
+         callback: function(key,options){
+           swapOutcome(key,$trigger.attr('id'))
+         }
+       }
+
+
        options.items.textOutput.items['playerOutputText'] = {
-         name: 'Player Output (Text Only)',
+         name: 'Outcome Output (Text Only)',
          callback: function(key, options){
           swapOutcome(key,$trigger.attr('id'))
          }
@@ -697,6 +705,20 @@ function generateCondition_type6(id){
 		return html
  }
 
+ //text outcome with attribute (text : invItem : text)
+  function generatePlayerOutputInvItem(id){
+    var html = '<li id=' + id + '>'+
+ 								'<div class="row" type="Text-InvItem-Text">'+
+ 									generateSettingsButton(id) +
+                  generateTextButton(id + '_text_1')+
+ 									generateInventoryButton(id + '_invButton')+
+                  generateTextButton(id + '_text_2')+
+ 								'</div>'+
+ 								'<div class="divider"></div>'+
+ 							'</li>'
+ 		return html
+  }
+
 //just text outcome
  function generatePlayerOutputText(id){
    var html = '<li id=' + id + '>'+
@@ -862,6 +884,7 @@ function findFirstLeafPath(path){
    $('#' + id).attr('data-tooltip',"There are no attributes in your project. <br> Add attributes via the 'Attributes' button. ")
    $('#'+id).tooltip({delay: 50});
 
+/*
 	 if(Object.keys(project_project.gameAttributes).length > 0){
 		 for(var key in project_project.gameAttributes){
 			 var path = findFirstLeafPath(key)
@@ -876,7 +899,7 @@ function findFirstLeafPath(path){
 			 }
 		 }
 	 }
-
+*/
 
  }
 
@@ -941,6 +964,13 @@ function findFirstLeafPath(path){
      html = generateOutcome_inventoryAddRemove(replaceId)
      $('#' + replaceId).replaceWith(html)
      $('#'+ replaceId + '_invButton').tooltip({delay: 50});
+   }
+   else if(type === 'playerOutputInvItem'){
+     html = generatePlayerOutputInvItem(replaceId)
+     $('#' + replaceId).replaceWith(html)
+     initAttributeButton(replaceId + '_attButton_1')
+     $('#'+ replaceId + '_text_1').tooltip({delay: 50});
+      $('#'+ replaceId + '_text_2').tooltip({delay: 50});
    }
 
 
