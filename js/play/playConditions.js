@@ -27,17 +27,32 @@ function executeOutcomes(edge){
 				var att = gameAttributes_find(path)
 
 				//evaluate atts mix/max values
-				if(newValue > att.maxValue){
-					logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its maximum value.<br>')
-					att.value = att.maxValue
-				}
-				else if(newValue < att.minValue){
-					logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its minimum value.<br>')
-					att.value = att.minValue
+				if(att.maxValue !== undefined){
+					if(newValue > att.maxValue){
+						logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its maximum value.<br>')
+						att.value = att.maxValue
+					}
+					else{
+						att.value = newValue
+					}
 				}
 				else{
 					att.value = newValue
 				}
+
+				if(att.minValue !== undefined){
+					if(newValue < att.minValue){
+						logger.log('Arrtibute ' + getAttributeText(html[0].childNodes[1].childNodes[0]) +  ' has reached its minimum value.<br>')
+						att.value = att.minValue
+					}
+					else{
+						att.value = newValue
+					}
+				}
+				else{
+					att.value = newValue
+				}
+
 
 				logger.log('Outcome: ' + getAttributeText(html[0].childNodes[1].childNodes[0]) + '(' + attButton1_val + ') ' + modification +
 										' ' + getAttributeText(html[0].childNodes[3].childNodes[0]) + '(' + attButton2_val + ') <br>')

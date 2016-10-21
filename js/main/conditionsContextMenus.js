@@ -509,8 +509,8 @@ goog.require('project')
 		 newID = clickedItemID;
 	 }
 
-	 console.log(newID + ' ' + att.path)
-	 $('#' + newID).text(selected)
+	 //console.log(newID + ' ' + att.path)
+	 $('#' + newID).children().text(selected)
 	 $('#' + newID).attr('path',att.path)
 	 updateTooltip(newID,att.path)
  }
