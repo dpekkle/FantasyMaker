@@ -55,10 +55,21 @@ function genHandleHTML(containertype, id)
 	}
 	else if (containertype == "output")
 	{
-		html_string += ('<a class="btn-floating waves-effect waves-light indigo lighten-1 lefticon swap-controlmenu">'
-					+ 	 	'<i class="fa fa-terminal"></i>'
+		html_string += ('<a class="btn-floating waves-effect waves-light indigo lighten-1 lefticon">'
+					+ 	 	'<i class="fa fa-comment"></i>'
 					+   '</a>');
 		html_string += "<div id = 'output" + id + "'" + "class = 'handle control-handle'>Output";
+		html_string += '</div>';
+		html_string += ('<a class="controlmenu btn-floating waves-effect waves-light red righticon">'
+					+ 	 	'<i class="material-icons">settings</i>'
+					+   '</a>');
+	}
+	else if (containertype == "debug")
+	{
+		html_string += ('<a class="btn-floating waves-effect waves-light indigo lighten-1 lefticon">'
+					+ 	 	'<i class="fa fa-terminal"></i>'
+					+   '</a>');
+		html_string += "<div id = 'output" + id + "'" + "class = 'handle control-handle'>Debug";
 		html_string += '</div>';
 		html_string += ('<a class="controlmenu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'

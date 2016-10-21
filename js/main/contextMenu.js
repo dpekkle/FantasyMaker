@@ -144,7 +144,7 @@ $.contextMenu.types.color = function(item, opt, root) {
 function generateContextMenu(container_type, template_menu_list)
 {
 	//choose target element
-	if (container_type == "text" || container_type == "output" || container_type == "img" || container_type == "vid")
+	if (container_type == "text" || container_type == "output" || container_type == "debug" || container_type == "img" || container_type == "vid")
 		var target_element = '.editdiv';
 	else if (container_type == "decision" || container_type == "jump" || container_type == "jumpback" || container_type == "inventory" || container_type == "character")
 		var target_element = '.editdec';
@@ -152,7 +152,7 @@ function generateContextMenu(container_type, template_menu_list)
 		var target_element = '#pagecontainers';
 
 	//generate menu items
-	if (container_type == "text" || container_type == "decision" || container_type == "output" || container_type == "jump" || container_type == "jumpback" || container_type == "inventory" || container_type == "character")
+	if (container_type == "text" || container_type == "decision" || container_type == "output" || container_type == "debug" || container_type == "jump" || container_type == "jumpback" || container_type == "inventory" || container_type == "character")
 	{
 		return {
 			"items":
@@ -271,9 +271,6 @@ function generateContextMenu(container_type, template_menu_list)
 				"border": border_menu_entry(target_element),
 				"position": zIndex_menu_entry(),
 				"sep2": "---------",
-				"clone": {"name": "Clone", "callback" : function(key, options){
-					//clone
-				}},
 				"template":
 				{
 					"name": "Templates",
@@ -336,6 +333,7 @@ function generateContextMenu(container_type, template_menu_list)
 					{
 						//remove from HTML
 						var id = options.$trigger.siblings('.handle').attr('id').split(container_type)[1] //get the cytoscape name from the div ID
+						console.log("Remove: #", container_type, id);
 						removeContainer(container_type, id);
 					}
 				}},
@@ -684,7 +682,7 @@ $(function(){
 		//regenerate the menu each time it is summoned (to accomodate for changes in stored templates)
 		build: function($trigger, e)
 		{
-			return generateContextMenu("text", project_project.template_menus.text_template_menu_list);
+			return generateContextMenu("output", project_project.template_menus.text_template_menu_list);
 		}
 	});
 	$.contextMenu(

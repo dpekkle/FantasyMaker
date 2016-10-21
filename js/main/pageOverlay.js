@@ -56,11 +56,11 @@ function addDecisionContainer(selected, i, text, name) //automatic process, not 
 
 function addOutputContainer()
 {
-	if(!$("#pagecontainers div.output-container:last").length) //only want 1 output container per page
+	if(!$("#pagecontainers div.player:last").length) //only want 1 output container per page
 	{
 
-		//create the container and append it to the page
-		var position = genPageCenterHTML(300, 220);
+		//create output container and append it to the page
+		var position = genPageCenterHTML(300, 260);
 		var html_string  =  "<div class='output-container player drag-element' style='position:absolute; " + position + "'>"
 		html_string		+=		"<div class='editdiv resize-element' contenteditable=false ></div>"
 		html_string 	+= 	"</div>"
@@ -70,14 +70,28 @@ function addOutputContainer()
 		$("#pagecontainers").append(new_container);
 		$("#pagecontainers div.output-container:last").prepend(genHandleHTML("output", 0));
 
-		bringContainerToFront($("pagecontainers div.output-container:last"));
+		bringContainerToFront($("#pagecontainers div.output-container:last"));
 		if (!show_handles)
 			$('.handlecontainer').hide();
 		bindHandleSelection();
 	}
-	else
+	if(!$("#pagecontainers div.maker:last").length) //only want 1 output container per page
 	{
-		alert("You may only have one control output container per page")
+		//create output container and append it to the page
+		var position = genPageCenterHTML(300, 180);
+		var html_string  =  "<div class='output-container maker drag-element' style='position:absolute; " + position + "'>"
+		html_string		+=		"<div class='editdiv resize-element' contenteditable=false ></div>"
+		html_string 	+= 	"</div>"
+
+		var new_container = htmlToElements(html_string);
+
+		$("#pagecontainers").append(new_container);
+		$("#pagecontainers div.output-container:last").prepend(genHandleHTML("debug", 1));
+
+		bringContainerToFront($("#pagecontainers div.output-container:last"));
+		if (!show_handles)
+			$('.handlecontainer').hide();
+		bindHandleSelection();
 	}
 }
 
@@ -95,7 +109,7 @@ function addTextContainer()
 	$("#pagecontainers").append(new_container);
 	$("#pagecontainers div.text-container:last").prepend(genHandleHTML("text", size + 1));
 
-	bringContainerToFront($("pagecontainers div.text-container:last"));
+	bringContainerToFront($("#pagecontainers div.text-container:last"));
 	$("#pagecontainers div.text-container:last .editdiv").trigger('focus');
 	if (!show_handles)
 		$('.handlecontainer').hide();
@@ -133,7 +147,7 @@ function addImageContainer()
 			$("#pagecontainers").append(new_container);
 			$("#pagecontainers div.img-container:last").prepend(genHandleHTML("img", size + 1));
 
-			bringContainerToFront($("pagecontainers div.img-container:last"));
+			bringContainerToFront($("#pagecontainers div.img-container:last"));
 			if (!show_handles)
 				$('.handlecontainer').hide();
 			bindHandleSelection();
@@ -178,7 +192,7 @@ function addVideoContainer()
 					$("#pagecontainers").append(new_container);
 					$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));
 
-					bringContainerToFront($("pagecontainers div.vid-container:last"));
+					bringContainerToFront($("#pagecontainers div.vid-container:last"));
 					if (!show_handles)
 						$('.handlecontainer').hide();
 					bindHandleSelection();
@@ -238,7 +252,7 @@ function checkImageURL(imgurl, type)
 		$("#pagecontainers").append(new_container);
 		$("#pagecontainers div.vid-container:last").prepend(genHandleHTML("vid", size + 1));
 
-		bringContainerToFront($("pagecontainers div.vid-container:last"));
+		bringContainerToFront($("#pagecontainers div.vid-container:last"));
 		if (!show_handles)
 			$('.handlecontainer').hide();
 		bindHandleSelection();
@@ -330,6 +344,7 @@ function bindHandleSelection()
 }
 function bringContainerToFront(element)
 {
+	console.log("Bring to front: ", element);
 	var max = 50;
 	$('#pagecontainers').children('div').each(function()
 	{
@@ -363,7 +378,11 @@ function populatePageOverlay(selected)
 
 	var output_cont = selected.data('outputcontainer');
 	$("#pagecontainers").append(output_cont);
-	$("#pagecontainers div.output-container:last").prepend(genHandleHTML("output", 0));
+	$("#pagecontainers .player").prepend(genHandleHTML("output", 0));
+
+	var debug_cont = selected.data('debugcontainer');
+	$("#pagecontainers").append(debug_cont);
+	$("#pagecontainers .maker").prepend(genHandleHTML("debug", 1));
 
 	//create text containers
 	var text_cont = selected.data('textcontainers');
@@ -486,8 +505,16 @@ function savePage(selected)
 
 	//update containers
 	selected.data('pagestyle', $('#pagecontainers').attr("style"));
-	if ($('#pagecontainers .output-container').length)
-		selected.data('outputcontainer', $('.output-container')[0].outerHTML);
+
+	if ($('#pagecontainers .player').length)
+		selected.data('outputcontainer', $('.player')[0].outerHTML);
+	else
+		selected.data('outputcontainer', "");
+
+	if ($('#pagecontainers .maker').length)
+		selected.data('debugcontainer', $('.maker')[0].outerHTML);
+	else
+		selected.data('debugcontainer', "");
 
 	var text_container_array = [];
 	$('#pagecontainers').children("div[class^='text-container']").each(function (index) {

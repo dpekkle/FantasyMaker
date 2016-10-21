@@ -29,3 +29,20 @@ function testAudioObjects()
 		console.log("Audio error encountered: " + err)
 	}
 }
+
+function test_Edge_Labels()
+{
+	var edge_graph_label = cy.nodes('.start').outgoers().edges().map(function( ele, i ){
+  		return (ele.data('name') + " with " + ele.source().data('decisioncontainers')[i].name);
+	});
+
+	console.info(edge_graph_label);
+
+	var decision_order = [];
+	var decision_container = cy.nodes('.start').data('decisioncontainers');
+	for (var i = 0; i < decision_container.length; i++)
+	{
+		decision_order.push(decision_container[i].name);
+	}
+	console.info(decision_order);
+}
