@@ -8,11 +8,13 @@ var edgeOverlay_selectedEdge; // edge that the user is modifying (DAZ NOTE - NOT
 
 function populateEdgeOverlay(edge){
 
-	$('#edge_name').text('Edge: ' + edge.data.name)
 	var srcName = cy.nodes("[id='" + edge.data.source +"']").json().data.name;
 	var destName = cy.nodes("[id='" + edge.data.target +"']").json().data.name;
-	$('#edge_name').attr('data-tooltip','Origin of edge: page '+srcName+'<br> Target of edge: page'+destName+'<br>')
-	$('#edge_name').tooltip({delay: 50});
+	$('#edge_name').text('Edge: ' + edge.data.name)
+	$('#edge_details').text('(Page ' + srcName + '   to    Page ' + destName + ')')
+
+	//$('#edge_name').attr('data-tooltip','Origin of edge: page '+srcName+'<br> Target of edge: page'+destName+'<br>')
+	//$('#edge_name').tooltip({delay: 50});
 
 	//reset for new page overlay
 	edgeOverlay_newConditionCount = 0;
