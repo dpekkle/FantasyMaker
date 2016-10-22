@@ -354,7 +354,8 @@ function removeCondition(id){
 		//delete from model
 		var edge = cy.edges("[id='" + arr[1] +"']").json();
 		for(var i = 0; i < edge.data.conditions.length; i++){
-			if(i === parseInt(arr[2])){
+			if(edge.data.conditions[i].id === parseInt(arr[2])){
+				console.log( 'removing condition: ' + edge.data.conditions[i].id + ' ' + arr[2])
 				edge.data.conditions.splice(i,1)
 			}
 		}
@@ -368,9 +369,11 @@ function removeCondition(id){
 function removeOutcome(id){
 	console.log("Removing outcome " + id);
 	//remove html of element
+	
 	$('#' + id).hide(300, function(){
 		$('#' + id).remove();
 	});
+
 
 	//console.log(id)
 	var arr = id.split('_')
@@ -383,8 +386,12 @@ function removeOutcome(id){
 		//delete from model
 		var edge = cy.edges("[id='" + arr[1] +"']").json();
 		for(var i = 0; i < edge.data.outcomes.length; i++){
-			if(i === parseInt(arr[2])){
+			if(edge.data.outcomes[i].id === parseInt(arr[2])){
+				console.log( 'removing outcome: ' + edge.data.outcomes[i].id + ' ' + arr[2])
 				edge.data.outcomes.splice(i,1)
+				$('#' + id).hide(300, function(){
+					$('#' + id).remove();
+				});
 			}
 		}
 	}
