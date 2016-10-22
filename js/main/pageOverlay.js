@@ -341,26 +341,6 @@ function bindHandleSelection()
 		console.log("trigger handle")
 	})
 }
-function bringContainerToFront(element)
-{
-	console.log("Bring to front: ", element);
-	var max = 50;
-	$('#pagecontainers').children('div').each(function()
-	{
-		var z = $(this).css('zIndex');
-		if (z > max)
-			max = z;
-	});
-	max++;
-
-	if (element == 'decision')
-		return max;
-	else
-	{
-		console.log("Set zIndex to ", max);
-		element.css("zIndex", max);
-	}
-}
 
 /*** Open/close Page overlay ***/
 
@@ -488,7 +468,7 @@ function populatePageOverlay(selected)
 		}
 	}
 	if (!show_handles)
-		$('.handle').hide();
+		$('.handlecontainer').hide();
 
 	$('.handle').on('mousedown touch', function(event){
 		$(this).siblings().trigger('focus');

@@ -764,7 +764,7 @@ $(function(){
 
 							$("#pagecontainers div.button-container:last").prepend(genHandleHTML("jumpback", size + 1));
 
-							bringContainerToFront($("pagecontainers div.button-container:last"));
+							bringContainerToFront($("#pagecontainers div.button-container:last"));
 							$("#pagecontainers div.button-container:last .editdec").trigger('focus');
 							if (!show_handles)
 								$('.handlecontainer').hide();
@@ -790,7 +790,7 @@ $(function(){
 
 							$("#pagecontainers div.button-container:last").prepend(genHandleHTML("character", size + 1));
 
-							bringContainerToFront($("pagecontainers div.button-container:last"));
+							bringContainerToFront($("#pagecontainers div.button-container:last"));
 							$("#pagecontainers div.button-container:last .editdec").trigger('focus');
 							if (!show_handles)
 								$('.handlecontainer').hide();
@@ -816,7 +816,7 @@ $(function(){
 
 							$("#pagecontainers div.button-container:last").prepend(genHandleHTML("inventory", size + 1));
 
-							bringContainerToFront($("pagecontainers div.button-container:last"));
+							bringContainerToFront($("#pagecontainers div.button-container:last"));
 							$("#pagecontainers div.button-container:last .editdec").trigger('focus');
 							if (!show_handles)
 								$('.handlecontainer').hide();

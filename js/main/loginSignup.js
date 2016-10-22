@@ -10,7 +10,6 @@ $(document).ready()
 	if(!window.location.href.includes(host_create() && !window.location.href.includes(host_location + '/play'))){
 		index_autoLogin()
 	}
-
 }
 
 function project_login(){

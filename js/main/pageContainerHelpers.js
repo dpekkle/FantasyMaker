@@ -1,6 +1,28 @@
 goog.provide('pageContainerHelpers')
 goog.require('project')
 
+function bringContainerToFront(element)
+{
+	console.log("Bring to front: ", element);
+	var max = 50;
+	$('#pagecontainers').children('div').each(function()
+	{
+		var z = $(this).css('zIndex');
+		if (z > max)
+			max = z;
+	});
+	max++;
+
+	if (element == 'decision')
+		return max;
+	else
+	{
+		console.log("Set zIndex to ", max);
+		element.css("zIndex", max);
+	}
+}
+
+
 function genHandleHTML(containertype, id)
 {
 	var html_string = "";

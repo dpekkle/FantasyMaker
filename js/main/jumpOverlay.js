@@ -136,7 +136,7 @@ function generateJumpButtonCallback()
 
 		$("#pagecontainers div.button-container:last").prepend(genHandleHTML("jump", key));
 
-		bringContainerToFront($("pagecontainers div.button-container:last"));
+		bringContainerToFront($("#pagecontainers div.button-container:last"));
 		$("#pagecontainers div.button-container:last .editdec").trigger('focus');
 		if (!show_handles)
 			$('.handlecontainer').hide();

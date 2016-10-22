@@ -1,8 +1,8 @@
 goog.provide('hotkeys')
-goog.require('initCanvas')
-goog.require('states')
-goog.require('generalOverlay')
-goog.require('prompts')
+// goog.require('initCanvas')
+// goog.require('states')
+// goog.require('generalOverlay')
+// goog.require('prompts')
 
 var nodes_to_clone;
 
@@ -105,25 +105,38 @@ $(document).ready(function()
 				}
 				else if(e.which == 13 || e.which == 32) //enter / space
 				{			
-        			event.preventDefault();
+					event.preventDefault();
+					console.log("TRIGGER OPENING MODAL")
 					$('.openoverlay').each(function(index) 
 					{
 						if ($(this).css('display') != "none")
 						{
 							console.log("Enter press on ", $(this))
-							$(this).trigger('click');
+							if (!$('.modal').hasClass('open'))
+								$(this).trigger('click');
 						}
 					});
 				}
 
 			}
 		}
-		// else if ($('#prompt-modal').hasClass('open'))
-		// {
-		// 	if (e.which == 13)
-		// 		myModal.evaluateModal(true)
-		// 	else if (e.which == 27)
-		// 		myModal.evaluateModal(false);
-		// }
+		else if ($('#prompt-modal').hasClass('open'))
+		{
+			if (e.which == 13)
+			{
+				console.log("TRIGGER ENTER SELECT")
+
+				myModal.evaluateModal(true)
+			}
+			else if (e.which == 27)
+				myModal.evaluateModal(false);
+		}
+		else if ($('#define-attribute-modal').hasClass('open'))
+		{
+			if (e.which == 13)
+				defineAttributeModal.evaluateModal(true)
+			else if (e.which == 27)
+				defineAttributeModal.evaluateModal(false);		
+		}
 	});
 });

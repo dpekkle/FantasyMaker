@@ -1,4 +1,6 @@
 goog.provide("prompts")
+goog.require("hotkeys")
+
 
 //  ******************** <API GUIDE> *******************
 
@@ -188,26 +190,3 @@ function myModal()
 var myModal = new myModal();
 myModal.init();
 
-$(document).ready(function() 
-{
-	var ctrl_key_held = false;
-	$('html').on('keydown' , function(e)
-	{
-
-		if ($('#prompt-modal').hasClass('open'))
-		{
-			if (e.which == 13)
-				myModal.evaluateModal(true)
-			else if (e.which == 27)
-				myModal.evaluateModal(false);
-		}
-		else if ($('#define-attribute-modal').hasClass('open'))
-		{
-			if (e.which == 13)
-				defineAttributeModal.evaluateModal(true)
-			else if (e.which == 27)
-				defineAttributeModal.evaluateModal(false);
-			
-		}
-	});
-});
