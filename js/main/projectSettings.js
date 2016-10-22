@@ -191,20 +191,20 @@ function projectSettings_generateProjectCard(project){
     var html =   '<li>'+
                     //'<div class="row">'+
                       '<div class="col s1"><p></p></div>'+
-                      '<div class="card hoverable col s4" style="height: 200px;">' +
+                      '<div class="card hoverable col s12 m4" style="height: 200px;">' +
                         //  '<div class="card-image waves-effect waves-block waves-light">'+
                           //  '<img class="activator" src="http://www.planetware.com/photos-large/CH/switzerland-matterhorn.jpg">'+
                           //'</div>'+
                           '<div class="card-content">'+
-                            '<span class="card-title activator grey-text text-darken-4 truncate" style="position: relative;">'+project.title+'<i class="material-icons right">more_vert</i></span>'+
-                            '<div class="row"><p>Title: ' +project.title+ '</p></div>'+
-                            '<div class="row"><p>Author: '+project.author+'</p></div>'+
-                            '<div class="row" >' +
+                            '<span class="card-title activator grey-text text-darken-4 truncate" style="position: relative; width: 72%; display:inline-block">'+project.title+'</span><i class="card-title activator material-icons right">more_vert</i>'+
+                            // '<div class="row"><p class="truncate">Title: ' +project.title+ '</p></div>'+
+                            '<div class="row"><p class="truncate">Author: '+project.author+'</p></div>'+
+                            '<div class="row">' +
                               '<a href="#" class="btn col s8 offset-s2" onclick=projectSettings_prepThenNavToMain('+ "'" + project.projName + "'" + ')>Load</a>'+
                             '</div>'+
                           '</div>'+
                           '<div class="card-reveal" >'+
-                            '<span class="card-title grey-text text-darken-4">'+project.title+'<i class="material-icons right">close</i></span>'+
+                            '<span class="card-title grey-text text-darken-4 truncate" style="width: 72%; display: inline-block;">'+project.title+'</span>'+ '<i class="card-title material-icons right">close</i>' +
                             '<p>Date Created: ' + project.dateCreated + '</p>'+
                             '<p>Last Modified: ' + project.lastModified + '</p>'+
                             pubHTML+

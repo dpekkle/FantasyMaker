@@ -199,15 +199,52 @@ var tutorial_objects = [
 	},
 	{
 		message: "You can position them however you want by dragging the handle on top of them.",
+	},
+	{
+		
+		message: "Try adding a text box, just click the button",
+		css: function(){
+			$('[onclick="addTextContainer()"]').addClass('tutorial-button-highlight');
+		},
 		condition: function(){
-			return true;
+			if ($('.text-container').size() !== 0)
+				return true;
+			else
+				return false;
 		}
 	},
 	{
-		message: "To learn more about the page designer visit the wiki.",
+		message: "You can edit the contents of a text box by clicking the box and typing",
+		css: function(){
+			$('[onclick="addTextContainer()"]').removeClass('tutorial-button-highlight');
+		},
+		condition: function(){
+			if (tutorial_timer > 8)
+				return true;
+			else
+				return false;
+		}
 	},
 	{
-		message: "Now close the window by pressing escape or the X icon.",
+		message: "To edit the style try click on it's setting icon",
+		css: function(){
+			$('[onclick="addTextContainer()"]').removeClass('tutorial-button-highlight');
+		},
+		condition: function(){
+			if (tutorial_timer > 8)
+				return true;
+			else
+				return false;
+		}
+	},
+	{
+		message: "You can also edit the entire page's style by clicking on the blue settings icon",
+		css: function(){
+			$('[onclick="addTextContainer()"]').removeClass('tutorial-button-highlight');
+		},
+	},
+	{
+		message: "When you're done you can exit by pressing escape or the X icon.",
 		css: function(){
 			$('.fa-times').addClass('tutorial-button-highlight')
 		},
@@ -219,9 +256,33 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "",
+		message: "Now lets try running your project, click on the Play button",
 		css: function(){
 			$('.fa-times').removeClass('tutorial-button-highlight')
+			$('.playgamebutton ').addClass('tutorial-button-highlight')
+		},
+		condition: function(){
+			if ($('#Play').css('display') == "none")
+				return true;
+			else
+				return false;
+		}
+	},
+	{
+		message: "",
+		css: function(){
+			$('.playgamebutton').removeClass('tutorial-button-highlight')
+		},
+		condition: function(){
+			if ($('#Play').css('display') == "none")
+				return true;
+			else
+				return false;
+		}
+	},
+	{
+		message: "",
+		css: function(){
 			finishTutorial();
 			continueTutorial();
 		}
@@ -289,6 +350,7 @@ function runTutorial()
 				tutorial_timer += 0.5;
 			if ( toast_id > tutorial_objects.length - 1)
 			{
+				hideToast(toast_id);
 				console.log("Clear the interval")
 				clearInterval(window.refreshIntervalId);
 			}
@@ -333,11 +395,11 @@ function finishTutorial()
 
 function continueTutorial()
 {
-	myModal.prompt("Congratulations!", "You are now ready to start exploring more advanced options. Would you like learn more?",[],
+	myModal.prompt("Congratulations!", "You are now ready to start exploring more advanced options.",[],
 		function(){
 			cy.remove(cy.elements());
 			cy.add(tutorial_graph);
-			createToast("Okay great, here's a project we created for you. Click on the Play Game button to try it.")
+			createToast("The wiki has just been loaded. Click on the Play Game button to try it.")
 			$('.playgamebutton').addClass('tutorial-button-highlight')
 		});
 }

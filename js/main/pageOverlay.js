@@ -22,11 +22,13 @@ function toggleHandles()
 	{
 		$('.handlecontainer').show();
 		$('.handlemode').html("Handles: Shown")
+		$('.pagemenu').show()
 	}
 	else
 	{
 		$('.handlecontainer').hide();
 		$('.handlemode').html("Handles: Hidden")
+		$('.pagemenu').hide()
 	}
 }
 
