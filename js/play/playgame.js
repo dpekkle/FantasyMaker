@@ -208,17 +208,20 @@ function stylePage()
 	function PlayerInventory(){
 		
 		this.init = function(){
-			$("body").append('<div id="player-inventory-modal" class="modal" style="height: 90%"> <div style="height: 90%" class="modal-content"> <h4>Your Inventory</h4> <div class="row max-height scroll-y"> <ul id="player-items-list" class="collapsible"  data-collapsible="expandable"></ul> </div></div></div>');
+			$("body").append('<div id="player-inventory-modal" class="modal" style="height: 90%"> <div style="height: 90%" class="modal-content"> <h4>Your Inventory</h4> <div class="row max-height scroll-y" id="item-list-container" > <ul id="player-items-list" class="collapsible"  data-collapsible="expandable"></ul> </div></div></div>');
 		};
 
 
 		
 		this.appendItems = function() {
 
+			var itemCount = 0;
 			for(var itemId in project_project['gameInventory']){
 				var itemObj = project_project['gameInventory'][itemId];
+
 				$('#player-items-list').empty();
 				if(itemObj.playCount > 0){
+					itemCount++;
 					$('#player-items-list').append(''
 						+ '<li>'
 						+ '<div class="collapsible-header"><span class="' + itemId + '-name">' + itemObj.name + '</span></div>'
@@ -239,7 +242,15 @@ function stylePage()
 
 						displayModifiers.append('<div class="chip">' + gameAttributes_find(modifierObj.attributePath).name + '+' + modifierObj.modifierValue + '</div>');
 					}
+
 				}
+
+
+			}
+
+			if(itemCount == 0)
+			{	console.log("no items in inventory");
+				$('#item-list-container').append('<h5> You Have No Items Yet</h5>');
 			}
 
 			$('#player-items-list').collapsible({
