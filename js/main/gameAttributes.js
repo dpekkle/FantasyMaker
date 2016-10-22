@@ -236,7 +236,7 @@ function gameAttribute_createModule_updateContextPane(){
         }else{ //otherwise append value html
             valueHtml =   '<div id="'+ attribute.id +'-value-card" class="value-card-panel col l3 m6 s12 card-panel hoverable truncate">'
             +       '<i class="material-icons small">equalizer</i><span style="font-size: 19px; font-weight: bold">'+ attribute.name +'</span><hr/>'
-            +           '<span style="font-size: 14px">Value: <span id="'+attribute.id+'-value" class="truncate" style="font-size: 19px; font-weight: bold">'+ attribute.value +'</span></span><br/>'
+            +           '<span style="font-size: 14px" class="truncate">Value: <span id="'+attribute.id+'-value" style="font-size: 19px; font-weight: bold">'+ attribute.value +'</span></span><br/>'
             +           '<span style="font-size: 14px">Range: <span id="'+attribute.id+'-min-value" style="font-size: 19px; font-weight: bold">'+ attribute.minValue +'</span>&nbspto&nbsp<span id="'+attribute.id+'-max-value" style="font-size: 19px; font-weight: bold">'+ attribute.maxValue +'</span></span><br/>'
             +           '<hr/>'
             +           '<a class="btn-floating red right hoverable" onclick="gameAttributes_createModule_deleteAttribute(\''+ attribute.path +'\')"><i class="material-icons small">delete</i></a>'

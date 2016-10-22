@@ -3,6 +3,7 @@ goog.require('initCanvas')
 goog.require('users')
 goog.require('navigation')
 goog.require('host')
+goog.require('tutorial')
 //goog.require('pageTemplates')
 //goog.require('project')
 
@@ -97,6 +98,7 @@ function http_load(projName){
 				Materialize.toast("Project '" + project_project.title + "' Loaded", 3000, 'rounded')
 				resizeCanvas();
 				defaultState();
+				checkInTutorial();
 			}
 
 		},

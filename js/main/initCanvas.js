@@ -16,17 +16,17 @@ states = {
 var cytoscape_headless;
 var cytoscape_container;
 
-if (window.location.href === host_play())
-{
-	//in play module
-	cytoscape_headless = true;
-	cytoscape_container = null;
-}
-else
+if (window.location.href !== host_play())
 {
 	//in create module
 	cytoscape_headless = false;
 	cytoscape_container = document.getElementById('cy');
+}
+else
+{
+	//in play module
+	cytoscape_headless = true;
+	cytoscape_container = null;
 }
 
 var cy = cytoscape({

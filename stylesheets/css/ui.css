@@ -374,3 +374,9 @@ display:none;
 #player-sheet-modal{
 	width: 35%;
 }
+
+.tutorial-button-highlight{
+    border-color: red;
+    border-width: 3px;
+    border-style: solid;
+}
