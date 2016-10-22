@@ -9,7 +9,7 @@ var tutorial_graph = null;
 //A message to output, and a function to progress further.
 var tutorial_objects = [
 	{
-		message: "First click Page Node and select 'Default'", 
+		message: "First click Page Node and select 'Default'",
 		css: function(){
 		    $('.pagemode').addClass('tutorial-button-highlight');
 		},
@@ -25,7 +25,7 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Now tap on the screen on the left to create a page", 
+		message: "Now tap on the screen on the left to create a page",
 		css: function(){
 		    $('.pagemode').removeClass('tutorial-button-highlight');
 		    $('#cy').addClass('tutorial-button-highlight');
@@ -42,13 +42,13 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "That box you just created is a new page!", 
+		message: "That box you just created is a new page!",
 		css: function(){
 		    $('#cy').removeClass('tutorial-button-highlight');
 		},
 	},
 	{
-		message: "Try adding some more pages", 
+		message: "Try adding some more pages",
 		css: function(){
 		},
 		condition: function(){
@@ -64,7 +64,7 @@ var tutorial_objects = [
 	},
 	{
 		message: "The green page marks the starting page.",
-	},	
+	},
 	{
 		message: "You can drag and drop these page nodes around, or tap to select them.",
 		condition: function(){
@@ -77,14 +77,14 @@ var tutorial_objects = [
 				return false;
 			}
 		}
-	},	
+	},
 	{
 		message: "Now lets try connecting some pages.",
 		css: function(){
 			$('.connectionmode').addClass('tutorial-button-highlight')
 		},
 
-	},	
+	},
 	{
 		message: "Click the edge button.",
 		css: function(){
@@ -100,7 +100,7 @@ var tutorial_objects = [
 				return false;
 			}
 		}
-	},	
+	},
 	{
 		message: "Now tap one of the pages you added.",
 		condition: function(){
@@ -168,7 +168,7 @@ var tutorial_objects = [
 	{
 		message: "Select a page with an edge leaving it",
 		css: function(){
-		
+
 		},
 		condition: function(){
 			if (cy.$(':selected').outgoers().edges().size() > 0)
@@ -294,7 +294,7 @@ var tutorial_objects = [
 
 function checkInTutorial()
 {
-	if (project_project.projectName == "RTLtiSnbMQcFRXskpAGv")
+	if (project_project.projectName == "yoqpzHbHLaxCX__PcdHp")
 	{
 		if (window.location.href !== host_playModule())
 		{
@@ -375,7 +375,7 @@ function runTutorial()
 					console.log("Lets progress the toast")
 					progress = false;
 					hideToast(toast_id);
-					toast_id++;			
+					toast_id++;
 					createToast(tutorial_objects[toast_id].message, toast_id);
 					if (tutorial_objects[toast_id].css !== undefined)
 						tutorial_objects[toast_id].css();
