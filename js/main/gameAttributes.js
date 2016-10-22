@@ -605,7 +605,6 @@ function gameAttributes_attemptFind(s_path){
           return false;
 
         attObj = attObj[path[i]];
-
     }
 
     return attObj;

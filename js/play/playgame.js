@@ -201,13 +201,77 @@ function stylePage()
 		})
 	});
 
+
+
+	var playerInventory = new PlayerInventory();
+	playerInventory.init();
+	function PlayerInventory(){
+		
+		this.init = function(){
+			$("body").append('<div id="player-inventory-modal" class="modal" style="height: 90%"> <div style="height: 90%" class="modal-content"> <h4>Your Inventory</h4> <div class="row max-height scroll-y"> <ul id="player-items-list" class="collapsible"  data-collapsible="expandable"></ul> </div></div></div>');
+		};
+
+
+		
+		this.appendItems = function() {
+
+			for(var itemId in project_project['gameInventory']){
+				var itemObj = project_project['gameInventory'][itemId];
+				$('#player-items-list').empty();
+				if(itemObj.playCount > 0){
+					$('#player-items-list').append(''
+						+ '<li>'
+						+ '<div class="collapsible-header"><span class="' + itemId + '-name">' + itemObj.name + '</span></div>'
+						+ '<div class="collapsible-body">'
+						+ '<div class="row pos-relative ">'
+						+ '<div class="col m6"><h6><i class="material-icons small">subject</i>Description: </h6><hr/><p class="' + itemId + '-description">' + itemObj.description + '</p></div>'
+						+ '<div class="col m6"><h6><i class="material-icons small">stars</i>Modifiers: </h6><hr/> <div class="' + itemId + '-modifiers-list"></div> </div> </div><hr/>'
+						+ '<div class="row" style="margin-bottom: 5px">'
+						+ '<div class="col m4"> Item Count: <span style="font-weight: bold">'+itemObj.playCount+'</span></div>'
+						+ '</div>'
+						+ '</div>'
+						+ '</li>'
+					);
+					var displayModifiers = $('.' + itemId + '-modifiers-list');
+					var modifierObj = {};
+					for (var modID in project_project.gameInventory[itemId].modifiers) {
+						modifierObj = project_project.gameInventory[itemId].modifiers[modID];
+
+						displayModifiers.append('<div class="chip">' + gameAttributes_find(modifierObj.attributePath).name + '+' + modifierObj.modifierValue + '</div>');
+					}
+				}
+			}
+
+			$('#player-items-list').collapsible({
+				accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+			});
+
+		};
+
+		this.openInventory = function(){
+			
+			$('#player-inventory-modal').openModal({
+				dismissible: true,
+				ready: function(){
+				},
+				complete: function(){
+					$('#player-items-list').empty();
+				}
+			});
+		}
+		
+	}
+
 	//give inventory on click behaviour
 	$('.playpage').find("div[class^='inventory']").each(function(index)
 	{
 		$(this).click(function()
 		{
 			console.log("Open inventory");
-			openInventorySheet();
+			playerInventory.appendItems();
+			playerInventory.openInventory();
+			
+			
 		})
 	});
 	//give character on click behaviour
@@ -216,7 +280,7 @@ function stylePage()
 		$(this).click(function()
 		{
 			console.log("Open Character Sheet");
-			openCharacterSheet();
+
 		})
 	});
 	//give jump buttons on click behaviour
