@@ -44,8 +44,8 @@ module.exports = function(app){
 
 							var tutProject = {"data": "NOT FOUND"}
 							tutorial.retreiveTutorial(tutProject,function(){
-								console.log('TUTORIAL')
-								console.log(tutProject)
+								//console.log('TUTORIAL')
+								//console.log(tutProject)
 								if(tutProject.data !== "NOT FOUND"){
 									//project was found
 									//add tutorial project to users database

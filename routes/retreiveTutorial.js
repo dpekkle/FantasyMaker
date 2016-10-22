@@ -65,8 +65,8 @@ module.exports.retreiveTutorial = function(projectToReturn, outer_callback){
               }
             }
 
-            console.log('TUTNAME')
-            console.log(tutName)
+          //  console.log('TUTNAME')
+            //console.log(tutName)
             if( !tutName.hasOwnProperty('projName') ){
               console.log('tutorial project not found')
               projectToReturn = {}
@@ -90,7 +90,7 @@ module.exports.retreiveTutorial = function(projectToReturn, outer_callback){
                       //source is create.html
                       console.log('Tutorial Project retreived')
                       delete results[0]._id
-                      console.log(results[0])
+                      //console.log(results[0])
                       projectToReturn.data = results[0]
                       outer_callback()
                       //return

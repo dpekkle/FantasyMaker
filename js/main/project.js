@@ -78,6 +78,12 @@ function project_createNewProject(){
 				},
 				function(results){
 
+					if(results[0] == "")
+					{
+						myModal.warning("Project title cannot be empty");
+						return false
+					}
+
 					var randProjID = project_generateID()
 					project_project = initEmptyProject(users_getUsername(),randProjID)
 					project_project.title = results[0]
@@ -113,57 +119,11 @@ function project_createNewProject(){
 						}
 					})
 
-					/*
-					var regex = new RegExp("^[a-zA-Z0-9_-]+$");
-					if(results[0] == "")
-					{
-						myModal.warning("Project ID cannot be empty");
-					}
-				 	else if(regex.test(results[0]) === false){
-						myModal.warning("Project ID can only contain letters, numbers, underscores or hyphens")
-					}
-					else
-					{
-						var ret1 = {}
-						$.when(http_getUsersProjects(users_getUsername(),ret1)).done(function(){
-							if(ret1.hasOwnProperty('projects')){
-								for(var i = 0; i<ret1.projects.length; i++){
-									if(results[0].trim() === ret1.projects[i].projName){
-										myModal.warning('You already have a project with the ID ' + ret1.projects[i].projName + '. Please choose something else.')
-										return
-									}
-								}
-							}
-
-
-							var randProjID = project_generateID()
-							project_project = initEmptyProject(users_getUsername(),randProjID)
-							project_project.title = results[0]
-							cy.elements().remove()
-							var ret2 = {
-								"data" : []
-							}
-							$.when(http_save(project_project,ret2)).done(function(){
-								if(ret2.data === true){
-									Materialize.toast("Project '" + project_project.title + "' created!", 3000, 'rounded')
-									$('#prompt-modal').closeModal();
-									$('#UI_projName').text('Project: ' + project_project.title)
-									nav_toMain()
-									http_getUsersProjects(users_getUsername(),projectSettings_userProjects)
-
-								}
-								else{
-									Materialize.toast("Failed to create project. Please log in again.", 3000, 'rounded')
-								}
-							})
-						})
-						*/
-					//}
 		});
 
-	
-	
-	
+
+
+
 }
 
 
