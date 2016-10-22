@@ -161,6 +161,8 @@ function gameAttributes_createModule_displayFolder(attributePath){
         gameAttribute_createModule_updateBreadcrumbs();
         gameAttribute_createModule_updateContextPane();
         $('.attributesButton').show();
+
+
     }
 }
 
@@ -220,12 +222,12 @@ function gameAttribute_createModule_updateContextPane(){
     for(var i=0; i<currentAttributeObj.childrenArray.length; i++){
         attribute = gameAttributes_find(currentAttributeObj.path + '_' + currentAttributeObj.childrenArray[i]);
         if(!attribute.is_leaf) { //only append to folder pane if it is indeed a folder
-            folderHtml = '<div class="folder card-panel hoverable" onclick="gameAttributes_createModule_displayFolder(\'' + attribute.path + '\')"><h6 class="folder-title ">' + attribute.name + '</h6></div>';
+            folderHtml = '<div class="folder card-panel hoverable" onclick="gameAttributes_createModule_displayFolder(\'' + attribute.path + '\')"><h6 class="folder-title left">' + attribute.name + '</h6></div>';
             folderList.append(folderHtml);
         }else{ //otherwise append value html
-            valueHtml =   '<div id="'+ attribute.id +'-value-card" class="value-card-panel col l3 m6 s12 card-panel hoverable">'
+            valueHtml =   '<div id="'+ attribute.id +'-value-card" class="value-card-panel col l3 m6 s12 card-panel hoverable truncate">'
             +       '<i class="material-icons small">equalizer</i><span style="font-size: 19px; font-weight: bold">'+ attribute.name +'</span><hr/>'
-            +           '<span style="font-size: 14px">Value: <span id="'+attribute.id+'-value" style="font-size: 19px; font-weight: bold">'+ attribute.value +'</span></span><br/>'
+            +           '<span style="font-size: 14px">Value: <span id="'+attribute.id+'-value" class="truncate" style="font-size: 19px; font-weight: bold">'+ attribute.value +'</span></span><br/>'
             +           '<span style="font-size: 14px">Range: <span id="'+attribute.id+'-min-value" style="font-size: 19px; font-weight: bold">'+ attribute.minValue +'</span>&nbspto&nbsp<span id="'+attribute.id+'-max-value" style="font-size: 19px; font-weight: bold">'+ attribute.maxValue +'</span></span><br/>'
             +           '<hr/>'
             +           '<a class="btn-floating red right hoverable" onclick="gameAttributes_createModule_deleteAttribute(\''+ attribute.path +'\')"><i class="material-icons small">delete</i></a>'
@@ -592,6 +594,23 @@ function DefineAttributeModal() {
 
 
 /* AUXILIARY METHODS */
+
+//Will attempt to navigate to path, will return false if path is not valid
+function gameAttributes_attemptFind(s_path){
+    path = s_path.split("_");
+    var attObj = project_project["gameAttributes"];
+
+    for(var i=0; i<path.length; i++){
+        if(attObj[path[i]] == undefined)
+          return false;
+
+        attObj = attObj[path[i]];
+
+    }
+
+    return attObj;
+}
+
  //navigate to attribute from provided path
  function gameAttributes_find(s_path){
  path = s_path.split("_");
@@ -612,4 +631,4 @@ function generateID()
     return text;
 }
 
-/* END AUXILLARY METHODS */
+/* END AUXILIARY METHODS */

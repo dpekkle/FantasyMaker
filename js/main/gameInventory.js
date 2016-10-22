@@ -146,6 +146,24 @@ function InventoryItem(itemObj) {
     }
 
 
+
+//Enforces Referential Integrity between attributes & inventory item modifiers
+    function gameInventory_checkForRemovedAttributes(){
+        var modifierObj;
+        for (var itemId in project_project.gameInventory) {
+            modifierObj = project_project.gameInventory[itemId].modifiers;
+
+
+            for(var modifier in modifierObj){
+                if(gameAttributes_attemptFind(modifierObj[modifier].attributePath) == false|| gameAttributes_attemptFind(modifierObj[modifier].attributePath) == undefined){
+                    modifierObj[modifier] = null;
+                    delete modifierObj[modifier];
+                }
+
+            }
+        }
+    }
+
     function DefineItemModal() {
         this.confirm = false;
         this.isNewItem = false;

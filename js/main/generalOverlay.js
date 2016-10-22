@@ -92,6 +92,7 @@ function openAttributesOverlay()
 			},
 			complete: function () {
 				//gameAttributes_saveAttributes();
+				gameInventory_checkForRemovedAttributes();
 			}
 
 	});
