@@ -81,6 +81,20 @@ function project_createNewProject(){
 					var randProjID = project_generateID()
 					project_project = initEmptyProject(users_getUsername(),randProjID)
 					project_project.title = results[0]
+
+
+					//Add Player Character Folder
+					var playerID = 'PLAYER';
+					gameAttributes_addAttributeFolder(false, 'Player', playerID);
+					project_project['gameAttributes'][playerID]['NO_DELETE'] = true;
+
+					//Add Enemies Folder
+					var enemiesID = 'ENEMIES';
+					gameAttributes_addAttributeFolder(false, 'Enemies', enemiesID);
+					project_project['gameAttributes'][enemiesID]['NO_DELETE'] = true;
+
+
+
 					cy.elements().remove()
 					var ret2 = {
 						"data" : []
@@ -146,16 +160,12 @@ function project_createNewProject(){
 						*/
 					//}
 		});
+
+	
+	
+	
 }
 
-//Add top level attribute directly under gameAttributes
-function project_addTopGameAttributeFolder(name){
-	var attID = generateID();
-	project_project["gameAttributes"][attID] = new GameAttribute(null, null, name, attID, false);
-	var newAttributeHTML = '<li class="' + attID  + '-list-element margin pointer"><a onclick="gameAttributes_display('+ '\'' + attID + '\'' + ')">' + name + '</a><ul id="' + attID + '-inner_list"></ul></li>';
-	$('#attributes-list').append(newAttributeHTML);
-	console.log("new top level attribute added: " + project_project["gameAttributes"][attID].path);
-}
 
 function project_saveProject()
 {

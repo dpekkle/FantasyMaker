@@ -1,7 +1,7 @@
 goog.provide('gameAttributes');
 goog.require('project');
 
-function GameAttribute(newAttributeObject, parent_path, parent_level, name, attID, is_leaf, value, minValue, maxValue){
+function GameAttribute(newAttributeObject){
     this.name = newAttributeObject.name;
     this.is_leaf = newAttributeObject.is_leaf;
     this.value = newAttributeObject.value;
@@ -20,6 +20,7 @@ function GameAttribute(newAttributeObject, parent_path, parent_level, name, attI
         this.level = 0;
     }
     this.childrenArray = [];
+    this.NO_DELETE = false; //usually allow user to delete folder
 }
 var currentAttributeObj = null;
 
@@ -160,7 +161,15 @@ function gameAttributes_createModule_displayFolder(attributePath){
         currentAttributeObj = gameAttributes_find(attributePath);
         gameAttribute_createModule_updateBreadcrumbs();
         gameAttribute_createModule_updateContextPane();
-        $('.attributesButton').show();
+
+        if(currentAttributeObj.NO_DELETE)
+        {
+            $('.attributesButton').show();
+            $('.hide-on-prevent-delete').hide()
+
+        }else{
+            $('.attributesButton').show();
+        }
 
 
     }
@@ -244,6 +253,9 @@ function gameAttribute_createModule_updateContextPane(){
 
         }
     }
+
+    
+
 }
 
 

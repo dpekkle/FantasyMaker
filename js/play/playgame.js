@@ -273,6 +273,12 @@ function stylePage()
 		
 	}
 
+
+
+
+
+
+
 	//give inventory on click behaviour
 	$('.playpage').find("div[class^='inventory']").each(function(index)
 	{
@@ -285,12 +291,81 @@ function stylePage()
 			
 		})
 	});
+
+	var playerSheet = new PlayerSheet();
+	playerSheet.init();
+	function PlayerSheet() {
+
+		this.init = function () {
+			$("body").append('<div id="player-sheet-modal" class="modal" style="height: 90%"> <div style="height: 90%" class="modal-content"> <h4>Your Attributes</h4> <div class="row max-height scroll-y" id="atttributes-list-container" > <ul id="player-attributes-list" class="collapsible"  data-collapsible="expandable"></ul> </div></div></div>');
+
+			$('#player-attributes-list').collapsible({
+				accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+			});
+
+
+		};
+
+
+		this.recursiveAppendAttributes = function(attributeObj){
+
+			if(attributeObj.is_leaf) {
+				$('#player-attributes-list').append(''
+					+ '<li>'
+					+ '<div class="collapsible-header" style="position: relative"><span>' + attributeObj.name + ' : </span>  <span style="font-weight: bold; font-size:18px; position: absolute; right: 15px;">'+attributeObj.value+'</span></div>'
+					+ '<div class="collapsible-body">'
+					+ '<div class="row pos-relative ">'
+					+ '<div class="col m6 offset-m3"><h6><i class="material-icons small">subject</i>Description: </h6><hr/><p class="' + attributeObj.description + '-description">' + attributeObj.description + '</p></div>'
+					+ '</div>'
+					+ '</li>'
+
+				);
+
+			}else {
+
+				for (var attID in attributeObj.childrenArray) {
+					var next = gameAttributes_find(attributeObj.path + '_' + attributeObj.childrenArray[attID]);
+					this.recursiveAppendAttributes(next);
+				}
+			}
+
+		};
+
+
+		this.appendItems = function () {
+
+			var attObj = gameAttributes_find('PLAYER');
+
+			for(var attID in attObj.childrenArray)
+				this.recursiveAppendAttributes(gameAttributes_find(attObj.path + '_' +attObj.childrenArray[attID]))
+
+		};
+
+
+		this.openPlayerSheet = function(){
+			$('#player-attributes-list').empty();
+			this.appendItems();
+
+			$('#player-sheet-modal').openModal({
+				dismissible: true,
+				ready: function(){
+				},
+				complete: function(){
+					$('#player-attributes-list').empty();
+				}
+			});
+
+		}
+
+	}
 	//give character on click behaviour
 	$('.playpage').find("div[class^='character']").each(function(index)
 	{
 		$(this).click(function()
 		{
 			console.log("Open Character Sheet");
+			playerSheet.openPlayerSheet();
+
 
 		})
 	});

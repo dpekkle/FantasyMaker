@@ -370,3 +370,7 @@ display:none;
   align-items: center;
   height: 60px;
 }
+
+#player-sheet-modal{
+	width: 35%;
+}
