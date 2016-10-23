@@ -119,4 +119,9 @@ function chooseJump(mode)
 		current_state = states.NEWJUMP;
 		console.log("Set state to:", current_state);
 	}
+	else if (mode == "End")
+	{
+		current_state = states.NEWJUMPEND;
+		console.log("Set state to:", current_state);
+	}
 }

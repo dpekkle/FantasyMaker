@@ -325,6 +325,7 @@ cy.on('tap', function(event)
 			cy.add(
 			{
 				data: { 
+					name: "Jump End",
 					trigger: "none",
 				},
 				classes: "jumpend",

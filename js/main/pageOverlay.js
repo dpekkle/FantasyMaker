@@ -441,7 +441,12 @@ function populatePageOverlay(selected)
 		}
 		if (!found)
 		{
+			//give the decision container a name to use as default text
 			var target_name = cy.getElementById(outgoingEdges.eq(i).data('target')).data('name');
+			if (name == undefined)
+			{
+				target_name = "Something";
+			}
 			addDecisionContainer(selected, i, target_name, outgoingEdges[i].data('name'));
 		}
 	}
