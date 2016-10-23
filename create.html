@@ -245,7 +245,7 @@
 			<div class="row max-height" >
 				<!-- Attributes Tree View -->
 				<div class="col m4 max-height pos-relative">
-					<div class="max-height" style="overflow-y: auto">
+					<div class="max-height card-panel z-depth-1" style="overflow-y: auto">
 					<ul id="attributes-treeView" class="treeView">
 						<li>Attributes<ul id="all-attributes-inner-list"></ul></li>
 					</ul>
@@ -256,7 +256,7 @@
 
 				<!-- Context Pane -->
 				<div class="col m8 max-height">
-					<div class="card-panel" style="height: 100%;">
+					<div class="card-panel z-depth-1" style="height: 100%;">
 						<div class="row">
 							<nav>
 								<div class="nav-wrapper">
@@ -269,28 +269,29 @@
 						</div>
 
                         <div class="row">
-                        <div class="col m1"><a class="z-depth-2 btn-floating red attributesButton tooltipped" data-tooltip="Add a folder within the current folder" onclick="gameAttributes_createModule_addAttributeFolder(currentAttributeObj.path);" style="margin-bottom: 10px;"><i class="material-icons small">add</i></a></div>
-                        <div class="col m11">
-                        <h5>Folders:</h5> </div></div>
-                        <hr/>
-                            <div id="folder-container" class="max-height" style="height:150px; overflow:auto;">
-
-
-						    </div>
-
-							<div>
-                                <div class="row">
-                                <div class="col m1">
-                                    <a class=" z-depth-2 btn-floating red attributesButton tooltipped" data-tooltip="Add a value within the current folder" onclick="gameAttributes_createModule_addAttributeValue();"><i class="material-icons small">add</i></a>
-                                </div>
-                                    <div class="col m11">
-                                    <h5>Values: </h5>
-                                        </div></div>
-                                    <hr/>
-						    <div  id="values-container" class="values-list-container row" style=" height: 200px; overflow: auto" >
-
-						    </div>
+                          <div class="col m11">
+                            <h5>Folders:</h5>
+                            <hr/>
+                          </div>
+                          <a style="float:right;" class="z-depth-2 btn-floating red attributesButton tooltipped" data-tooltip="Add a folder within the current folder" onclick="gameAttributes_createModule_addAttributeFolder(currentAttributeObj.path);" style="margin-bottom: 0px;"><i class="material-icons small">add</i></a>
                         </div>
+                      <div id="folder-container" class="max-height" style="height:150px; overflow:auto;">
+
+
+						          </div>
+
+						          <div>
+                        <div class="row">
+                          <div class="col m11">
+                            <h5>Values: </h5>
+                            <hr/>
+                         </div>
+                          <a style="float:right;" class=" z-depth-2 btn-floating red attributesButton tooltipped" data-tooltip="Add a value within the current folder" onclick="gameAttributes_createModule_addAttributeValue();"><i class="material-icons small">add</i></a>
+                       </div>
+        						    <div  id="values-container" class="values-list-container row" style=" height: 200px; overflow: auto" >
+
+        						    </div>
+                      </div>
 					</div>
 				</div>
 			</div>
@@ -346,7 +347,7 @@
             </thead>
             <tbody>
               <tr>
-                <td >Title</td>
+                <td>Title</td>
                 <td id="currentProject_title" class="currentProject_title"></td>
                 <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyTitle()"><i class="small material-icons">mode_edit</i></a></td>
               </tr>
@@ -477,7 +478,7 @@
 										<div class="row">
                                             <div class="col s12 l12"> <button class="waves-effect connectionmode btn tooltipped" data-tooltip="Paths connect nodes together and can contain game logic that is evaluated when the Player follows that path" onclick="changeState(this)">Path</button></div>
 											<div class="col s12 l6"> <button class="waves-effect controlmode btn controlBtn tooltipped" data-tooltip="Control where players go based on their attributes and inventory items" onclick=changeState(this)>Control Node</button></div>
-                                                <div class="col s12 l6"> <button class="waves-effect jumpmode dropdown-button btn jumpBtn tooltipped" data-tooltip="Want a node that the player can access from anywhere? Use jump nodes. They can also trigger at anytime based on attribute values and 'End' Jump Nodes send the player back to where they last 'jumped' from." href='#' onclick="changeState(this)" data-activates='jumpmodes'>Jump Node</button></div>
+                                                <div class="col s12 l6"> <button class="waves-effect jumpmode dropdown-button btn jumpBtn tooltipped" data-tooltip="Want to jump to a certain spot at any point? Use a jump node. They can trigger at anytime based on attribute conditions or a button press and 'End' Jump Nodes send the player back to where they last 'jumped' from." href='#' onclick="changeState(this)" data-activates='jumpmodes'>Jump Node</button></div>
                                              <ul id='jumpmodes' class='dropdown-content'>
                                                 <li><a onclick='chooseJump("Start")'>Start</a></li>
                                                  <li><a onclick='chooseJump("End")'>End</a></li>
