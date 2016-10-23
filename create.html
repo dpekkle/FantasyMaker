@@ -30,6 +30,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/attributes-inventory.css" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/css/playpage.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/css/prompt.css"/>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
 
@@ -423,6 +424,7 @@
 						</div>
 						<div class="col s3 l3 z-depth-3" id="sidebar"> <!-- Sidebar -->
 							<!-- CHANGES START -->
+              <br>
 							<h5>Selected Node:</h5> <hr/>
 							<div class="row selected-node-button-container">
                                 <div class="col l6 s12"><button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button></div>
@@ -441,16 +443,16 @@
 									<div class="collapsible-body">
 										<div class="row">
 										<div class="col l6 s12"><button class='pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Add A Page </button></div>
-										<ul id='pagetemplates' class='dropdown-content' >
-										</ul>
+  										<ul id='pagetemplates' class='dropdown-content' >
+  										</ul>
 
-                                            <div class="col l6 s12"><button class="prebuilt dropdown-button btn" href='#' onclick="changeState(this);" data-activates='prebuilts'>Groups</button></div>
-                                            <ul id='prebuilts' class='dropdown-content'>
-                                                <li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
-                                                <li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
-                                            </ul>
+                      <div class="col l6 s12"><button class="prebuilt dropdown-button btn" href='#' onclick="changeState(this);" data-activates='prebuilts'>Groups</button></div>
+                      <ul id='prebuilts' class='dropdown-content'>
+                          <li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
+                          <li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
+                      </ul>
 
-                                            <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Page Audio</a></div>
+                      <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Page Audio</a></div>
 										</div>
 									</div>
 								</li>
@@ -459,9 +461,9 @@
 									<div class="collapsible-header"><i class="material-icons">swap_calls</i><span class="hide-on-tiny-only" style="font-weight: bold">Paths & Game Logic</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-                                            <div class="col m12 l6"> <button class="connectionmode btn" onclick="changeState(this)">Path</button></div>
-											<div class="col m12 l6"> <button class="controlmode btn controlBtn" onclick=changeState(this)>Control Node</button></div>
-                                                <div class="col m12 l6"> <button class="jumpmode dropdown-button btn jumpBtn" href='#' onclick="changeState(this)" data-activates='jumpmodes'>Jump Node</button></div>
+                                            <div class="col s12 l6"> <button class="connectionmode btn" onclick="changeState(this)">Path</button></div>
+											<div class="col s12 l6"> <button class="controlmode btn controlBtn" onclick=changeState(this)>Control Node</button></div>
+                                                <div class="col s12 l6"> <button class="jumpmode dropdown-button btn jumpBtn" href='#' onclick="changeState(this)" data-activates='jumpmodes'>Jump Node</button></div>
                                              <ul id='jumpmodes' class='dropdown-content'>
                                                 <li><a onclick='chooseJump("Start")'>Start</a></li>
                                                  <li><a onclick='chooseJump("End")'>End</a></li>

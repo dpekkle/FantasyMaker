@@ -29,7 +29,6 @@ nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i{
 
 #sidebar{
 	height: 90vh;
-	padding-right: 0px;
 	overflow-y: auto;
 }
 
