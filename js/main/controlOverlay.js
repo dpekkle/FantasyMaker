@@ -18,7 +18,7 @@ function populateControlOverlay(node){
 	for(var i = 0; i<node.json().data.priorityList.length; i++){
 		var curr = cy.edges("[id='" + node.json().data.priorityList[i]+ "']").json()
 		var edgeHtml =	'<li id=connectedEdge_' + curr.data.id + ' >' +
-											'<div id="header_'+ curr.data.id +'" draggable="true" ondragend=handleDragEnd(event) ondragstart=handleDrag(event,'+ "'" + curr.data.name + "'" +') ondragenter=handleDragEnter(event) class="collapsible-header highlight-list">Edge '+ curr.data.name +
+											'<div id="header_'+ curr.data.id +'" draggable="true" ondragend=handleDragEnd(event) ondragstart=handleDrag(event,'+ "'" + curr.data.name + "'" +') ondragenter=handleDragEnter(event) class="collapsible-header highlight-list">Path '+ curr.data.name +
 												'<i id="defaultIcon_' + curr.data.id + '" class="small material-icons"></i>' +
 											'</div>' +
 											'<div class="collapsible-body">' +
@@ -37,7 +37,7 @@ function populateControlOverlay(node){
 													'</li>' +
 												'</ul>' +
 												'<div style="text-align: right">' +
-													'<button type="button" class="btn btn-default" onClick=setDefaultFailEdge(' + "'" + curr.data.id + "'" +') style="width: 50%;">Set As Default Fail Edge</button>' +
+													'<button type="button" class="btn btn-default" onClick=setDefaultFailEdge(' + "'" + curr.data.id + "'" +') style="width: 50%;">Set As Default Path</button>' +
 												'</div>'
 											'</div>' +
 										'</li>'
