@@ -52,7 +52,7 @@ function nav_showProjects(){
 
       //Make Project List Responsive
       $('#project-list-container').removeClass('l12');
-      $('#project-list-container').addClass('l9');
+      $('#project-list-container').addClass('l8');
 
     }
     else{

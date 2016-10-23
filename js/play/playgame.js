@@ -481,7 +481,7 @@ function resizePlayPage()
 
 
 	var y = $(window).height();		//want total height of the page
-	var buffer = $('.nav-wrapper').outerHeight() + $('.progressbutton:visible').outerHeight() + $('.gobackbutton:visible').outerHeight() + 1;
+	var buffer = $('.nav-wrapper').outerHeight() + $('.progressbutton:visible').outerHeight() + $('.gobackbutton:visible').outerHeight() + 15;
 
 	$('#playwindow').css('height', y-buffer);
 

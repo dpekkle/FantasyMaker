@@ -53,7 +53,7 @@ function projectSettings_prepThenNavToMain(projName){
   console.log (project_project.project_templates);
   //Make Project List Smaller Now that project setting is there
   $('#project-list-container').removeClass('l12');
-  $('#project-list-container').addClass('l9');
+  $('#project-list-container').addClass('l8');
   $.when(http_load(projName)).done(function(){
     console.log("$when scope")
     console.log (project_project.project_templates);
