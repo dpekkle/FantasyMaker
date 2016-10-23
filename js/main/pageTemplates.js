@@ -14,7 +14,6 @@ function fillPageTemplatesSelect()
 	$('#pagetemplates').html('');
 	$.each(project_project.project_templates, function(key, value) 
 	{
-		console.log("Add pageTemplate html for: ", project_project.project_templates[key].name);
 		$('#pagetemplates').append(project_project.project_templates[key].html);
 	});
 }

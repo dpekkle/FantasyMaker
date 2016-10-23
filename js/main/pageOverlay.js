@@ -21,13 +21,13 @@ function toggleHandles()
 	if (show_handles)
 	{
 		$('.handlecontainer').show();
-		$('.handlemode').html("Handles: Shown")
+		$('.handlemode').html("Handles: Enabled")
 		$('.pagemenu').show()
 	}
 	else
 	{
 		$('.handlecontainer').hide();
-		$('.handlemode').html("Handles: Hidden")
+		$('.handlemode').html("Handles: Disabled")
 		$('.pagemenu').hide()
 	}
 }
