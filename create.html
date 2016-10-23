@@ -50,13 +50,13 @@
 			<ul class="right hide-on-med-and-down">
 				<li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
 				<li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
-				<li><a href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
+				<li><a id="UI_projName" href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
 				<li><a class="profile_button dropdown-button hide" href="#!" data-activates="profileDropdown1"><i class="material-icons right">arrow_drop_down</i></a></li>
 			</ul>
 			<ul class="side-nav" id="mobile-demo">
 				<li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
 				<li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
-				<li><a href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
+				<li><a id="UI_projName" href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
 				<li><a href="#" class="settings_button hide" >Settings</a></li>
 				<li><a class="profile_button dropdown-button hide" href="#!" data-activates="profileDropdown2"><i class="material-icons right">arrow_drop_down</i></a></li>
 			</ul>
@@ -181,7 +181,7 @@
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
 			<div class="row input-field">
 				<div class="col s2">
-					<h4 class= "truncate" id="edge_name">Edge: </h4>
+					<h4 class= "truncate" id="edge_name">Path: </h4>
 				</div>
 				<div class="col s8">
 					<h4 class="truncate" id="edge_details"></h4>
@@ -415,56 +415,98 @@
 							<!-- Grid "workspace" container -->
 						</div>
 						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
-							<h5 id="UI_projName"></h5>
+							<!-- CHANGES START -->
+							<h5>Selected Node:</h5> <hr/>
+							<div class="row selected-node-button-container">
+								<button class="col l6 m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button>
+								<button class="col l6 m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="connection-modal">Edit Path</button>
+								<button class="col l6 m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="control-modal">Edit Control</button>
+								<button class="col l6 m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="jump-modal">Edit Jump</button>
+								<button class="col l6 m12 btn editname editbutton" style = "display:none;" onclick="nameNode(cy.$(':selected')[0])">Name Node</button>
+								<button class="col l6 m12 deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
+								<button class="col l6 m12 btn setstart editbutton" style = "display:none;" onclick="setStart()">Set Start Node</button>
+								<button class="col l6 m12 btn removeparent editbutton" style = "display:none;" onclick="removeParent()">Remove From Group</button>
+							</div>
+							<ul class="collapsible" data-collapsible="Expandable">
+								<li>
+									<div class="collapsible-header"><i class="material-icons">note_add</i><span style="font-weight: bold">Pages</span></div>
+									<div class="collapsible-body">
+										<div class="row">
+										<button class='col l6 s12 pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Add A Page </button>
+										<ul id='pagetemplates' class='dropdown-content' >
+										</ul>
+
+										<button class="col l6 m12 jumpmode dropdown-button btn" href='#' onclick=changeState(this) data-activates='jumpmodes'>Jump Node</button>
+											<ul id='jumpmodes' class='dropdown-content'>
+												<li><a onclick='chooseJump("Start")'>Start</a></li>
+												<li><a onclick='chooseJump("End")'>End</a></li>
+											</ul>
+
+										<button class="col l6 m12 prebuilt dropdown-button btn" href='#' onclick=changeState(this) data-activates='prebuilts'>Groups</button>
+										<ul id='prebuilts' class='dropdown-content'>
+											<li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
+											<li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
+										</ul>
+											<a class="col l6 m12 waves-effect waves-light btn" onclick=openAudioOverlay()>Page Audio</a>
+										</div>
+									</div>
+
+								</li>
+								<li>
+									<div class="collapsible-header"><i class="material-icons">swap_calls</i><span style="font-weight: bold">Connections & Game Logic</span></div>
+									<div class="collapsible-body">
+										<div class="row">
+											<button class="col m12 l6 connectionmode btn" onclick=changeState(this)>Path</button>
+											<button class="col m12 l6 controlmode btn" onclick=changeState(this)>Control Node</button>
+											</div>
+										</div>
+								</li>
+								<li>
+									<div class="collapsible-header"><i class="material-icons">list</i><span style="font-weight: bold">Game Attributes & Items</span></div>
+									<div class="collapsible-body">
+										<div class="row">
+											<a class="col m12 l6 waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
+											<a class="col m12 l6 waves-effect waves-light btn" onclick="openInventoryDefinitionOverlay()">Items</a>
+
+											</div>
+										</div>
+								</li>
+								<li>
+									<div class="collapsible-header"><i class="material-icons">aspect_ratio</i><span style="font-weight: bold">Graph Settings</span></div>
+									<div class="collapsible-body">
+										<div class="row">
+											<button class="col m12 l6 connectivity btn" onclick="runTests()">Test Graph</button>
+											<button class='col m12 l6 dropdown-button btn' href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button> <br/>
+											<ul id='stylegraph' class='dropdown-content'>
+												<li><a onclick="layout_driver('Tree');">Tree</a></li>
+												<li><a onclick="layout_driver('Grid');">Grid</a></li>
+												<li><a onclick="layout_driver('Spread');">Spread</a></li>
+												<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
+												<li><a>-----------</a></li>
+												<li><a onclick="layout_driver('Undo');">Undo</a></li>
+												<li><a onclick="layout_driver('Clear');">Clear Undo</a></li>
+												<li><a onclick="layout_driver('Lock');">Lock Graph</a></li>
+											</ul>
+											</div>
+										</div>
+								</li>
+
+							</ul>
+							<!-- CHANGES END -->
+
 							<hr/>
-							<button class='pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Page Node</button> <br/>
-							<ul id='pagetemplates' class='dropdown-content' >
-							</ul>
-							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
-							<button class="jumpmode dropdown-button btn" href='#' onclick=changeState(this) data-activates='jumpmodes'>Jump Node</button><br/>
-							<ul id='jumpmodes' class='dropdown-content'>
-								<li><a onclick='chooseJump("Start")'>Start</a></li>
-								<li><a onclick='chooseJump("End")'>End</a></li>
-							</ul>
-							<button class="connectionmode btn" onclick=changeState(this)>Edge</button><br/>
-							<button class="prebuilt dropdown-button btn" href='#' onclick=changeState(this) data-activates='prebuilts'>Groups</button><br/>
-							<ul id='prebuilts' class='dropdown-content'>
-								<li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
-								<li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
-							</ul>
-							<hr/>
-							<a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
-							<a class="waves-effect waves-light btn" onclick="openInventoryDefinitionOverlay()">Inventory</a>
+
+
 							<br/>
-							<a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a>
-							<br/>
 							<hr/>
-							<button class="connectivity btn" onclick="runTests()">Test Graph</button> <br/>
-							<button class='dropdown-button btn' href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button> <br/>
-							<ul id='stylegraph' class='dropdown-content'>
-								<li><a onclick="layout_driver('Tree');">Tree</a></li>
-								<li><a onclick="layout_driver('Grid');">Grid</a></li>
-								<li><a onclick="layout_driver('Spread');">Spread</a></li>
-								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
-								<li><a>-----------</a></li>
-								<li><a onclick="layout_driver('Undo');">Undo</a></li>
-								<li><a onclick="layout_driver('Clear');">Clear Undo</a></li>
-								<li><a onclick="layout_driver('Lock');">Lock Graph</a></li>
-							</ul>
+
 							<hr/>
 							<button class="savebutton btn" onclick="saveProject()">Save</button><br/>
 							<button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button><br/>
 
 
 							<hr/>
-							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
-							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button>
-							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="connection-modal">Edit Edge</button>
-							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="control-modal">Edit Control</button>
-							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="jump-modal">Edit Jump</button>
-							<button class="btn editname editbutton" style = "display:none;" onclick="nameNode(cy.$(':selected')[0])">Name Node</button>
-							<button class="btn setstart editbutton" style = "display:none;" onclick="setStart()">Set Start Node</button>
-							<button class="btn removeparent editbutton" style = "display:none;" onclick="removeParent()">Remove From Group</button>
+
 
 
 							<br/>
