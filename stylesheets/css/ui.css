@@ -32,6 +32,7 @@ nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i{
 #sidebar{
 	height: 90vh;
 	padding-right: 0px;
+	overflow-y: auto;
 }
 
 body {
@@ -379,4 +380,34 @@ display:none;
     border-color: red;
     border-width: 3px;
     border-style: solid;
+}
+
+#sidebar .btn{
+	margin-bottom: 11px;
+}
+
+#sidebar .collapsible-body{
+	padding-top: 15px;
+
+}
+
+.selected-node-button-container{
+	min-height: 94px;
+}
+
+.jumpBtn{
+	background-color: #1e88e5;
+}
+.controlBtn{
+	background-color:#fb8c00;
+}
+
+@media only screen and (max-width: 1050px) {
+	.selected-node-button-container{
+		min-height: 188px; !important;
+	}
+	.hide-on-tiny-only, .hide-on-tiny-and-down {
+		display: none !important;
+
+	}
 }

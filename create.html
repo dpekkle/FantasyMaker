@@ -44,7 +44,7 @@
 	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
 	</ul>
 	<nav>
-		<div class="nav-wrapper">
+		<div class="nav-wrapper z-depth-2">
 			<a href="index.html" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
       		<a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons" style="padding-right: 10px;">menu</i></a>
 			<ul class="right hide-on-med-and-down">
@@ -414,69 +414,72 @@
 						<div class="col s9 l9" id="cy">
 							<!-- Grid "workspace" container -->
 						</div>
-						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
+						<div class="col s3 l3 z-depth-3" id="sidebar"> <!-- Sidebar -->
 							<!-- CHANGES START -->
 							<h5>Selected Node:</h5> <hr/>
 							<div class="row selected-node-button-container">
-								<button class="col l6 m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button>
-								<button class="col l6 m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="connection-modal">Edit Path</button>
-								<button class="col l6 m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="control-modal">Edit Control</button>
-								<button class="col l6 m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="jump-modal">Edit Jump</button>
-								<button class="col l6 m12 btn editname editbutton" style = "display:none;" onclick="nameNode(cy.$(':selected')[0])">Name Node</button>
-								<button class="col l6 m12 deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
-								<button class="col l6 m12 btn setstart editbutton" style = "display:none;" onclick="setStart()">Set Start Node</button>
-								<button class="col l6 m12 btn removeparent editbutton" style = "display:none;" onclick="removeParent()">Remove From Group</button>
+                                <div class="col l6 s12"><button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button></div>
+                                <div class="col l6 s12"><button class="m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="connection-modal">Edit Path</button></div>
+                                <div class="col l6 s12"><button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="control-modal">Edit Control</button></div>
+                                <div class="col l6 s12"><button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="jump-modal">Edit Jump</button></div>
+                                <div class="col l6 s12"><button class="btn editname editbutton" style = "display:none;" onclick="nameNode(cy.$(':selected')[0])">Name Node</button></div>
+                                <div class="col l6 s12"><button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button></div>
+                                <div class="col l6 s12"><button class="btn setstart editbutton" style = "display:none;" onclick="setStart()">Set Start Node</button></div>
+                                <div class="col l6 s12"><button class="btn removeparent editbutton" style = "display:none;" onclick="removeParent()">Remove From Group</button></div>
 							</div>
-							<ul class="collapsible" data-collapsible="Expandable">
+                            <h5>Add Elements To Graph:</h5> <hr/>
+							<ul class="collapsible z-depth-1" data-collapsible="Expandable">
 								<li>
-									<div class="collapsible-header"><i class="material-icons">note_add</i><span style="font-weight: bold">Pages</span></div>
+									<div class="collapsible-header"><i class="material-icons">note_add</i><span class="hide-on-tiny-only" style="font-weight: bold">Pages</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-										<button class='col l6 s12 pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Add A Page </button>
+										<div class="col l6 s12"><button class='pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Add A Page </button></div>
 										<ul id='pagetemplates' class='dropdown-content' >
 										</ul>
 
-										<button class="col l6 m12 jumpmode dropdown-button btn" href='#' onclick=changeState(this) data-activates='jumpmodes'>Jump Node</button>
-											<ul id='jumpmodes' class='dropdown-content'>
-												<li><a onclick='chooseJump("Start")'>Start</a></li>
-												<li><a onclick='chooseJump("End")'>End</a></li>
-											</ul>
+                                            <div class="col l6 s12"><button class="prebuilt dropdown-button btn" href='#' onclick="changeState(this);" data-activates='prebuilts'>Groups</button></div>
+                                            <ul id='prebuilts' class='dropdown-content'>
+                                                <li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
+                                                <li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
+                                            </ul>
 
-										<button class="col l6 m12 prebuilt dropdown-button btn" href='#' onclick=changeState(this) data-activates='prebuilts'>Groups</button>
-										<ul id='prebuilts' class='dropdown-content'>
-											<li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
-											<li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
-										</ul>
-											<a class="col l6 m12 waves-effect waves-light btn" onclick=openAudioOverlay()>Page Audio</a>
+                                            <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Page Audio</a></div>
 										</div>
 									</div>
 
 								</li>
 								<li>
-									<div class="collapsible-header"><i class="material-icons">swap_calls</i><span style="font-weight: bold">Connections & Game Logic</span></div>
+									<div class="collapsible-header"><i class="material-icons">swap_calls</i><span class="hide-on-tiny-only" style="font-weight: bold">Connections & Game Logic</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-											<button class="col m12 l6 connectionmode btn" onclick=changeState(this)>Path</button>
-											<button class="col m12 l6 controlmode btn" onclick=changeState(this)>Control Node</button>
+                                            <div class="col l6 s12"><button class="connectionmode btn " onclick=changeState(this)>Path</button></div>
+                                            <div class="col l6 s12"><button class="controlmode btn jumpBtn" onclick=changeState(this)>Control Node</button></div>
+                                            <div class="col l6 s12"><button class="jumpmode dropdown-button btn controlBtn" href='#' onclick="changeState(this);" data-activates='jumpmodes'>Jump Node</button></div>
+                                            <ul id='jumpmodes' class='dropdown-content'>
+                                                <li><a onclick='chooseJump("Start")'>Start</a></li>
+                                                <li><a onclick='chooseJump("End")'>End</a></li>
+                                            </ul>
+                                        </div>
 											</div>
-										</div>
-								</li>
+
+
+                                </li>
 								<li>
-									<div class="collapsible-header"><i class="material-icons">list</i><span style="font-weight: bold">Game Attributes & Items</span></div>
+									<div class="collapsible-header"><i  class="material-icons">list</i><span class="hide-on-tiny-only"  style="font-weight: bold">Game Attributes & Items</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-											<a class="col m12 l6 waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
-											<a class="col m12 l6 waves-effect waves-light btn" onclick="openInventoryDefinitionOverlay()">Items</a>
+                                            <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a></div>
+                                            <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick="openInventoryDefinitionOverlay()">Items</a></div>
 
 											</div>
 										</div>
 								</li>
 								<li>
-									<div class="collapsible-header"><i class="material-icons">aspect_ratio</i><span style="font-weight: bold">Graph Settings</span></div>
+									<div class="collapsible-header"><i class="material-icons">aspect_ratio</i><span class="hide-on-tiny-only"  style="font-weight: bold">Graph Settings</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-											<button class="col m12 l6 connectivity btn" onclick="runTests()">Test Graph</button>
-											<button class='col m12 l6 dropdown-button btn' href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button> <br/>
+                                            <div class="col l6 s12"><button class=" connectivity btn" onclick="runTests()">Test Graph</button></div>
+                                                <div class="col l6 s12"><button class='dropdown-button btn' href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button></div>
 											<ul id='stylegraph' class='dropdown-content'>
 												<li><a onclick="layout_driver('Tree');">Tree</a></li>
 												<li><a onclick="layout_driver('Grid');">Grid</a></li>
@@ -491,18 +494,22 @@
 										</div>
 								</li>
 
-							</ul>
+
+                            <li>
+                            <div class="collapsible-header"><i class="material-icons">save</i><span class="hide-on-tiny-only"  style="font-weight: bold">Save & Play</span></div>
+                            <div class="collapsible-body">
+                                <div class="row">
+                                    <div class="col m12 l6"> <button class="savebutton btn" onclick="saveProject()">Save</button></div>
+                                    <div class="col m12 l6"><button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
 							<!-- CHANGES END -->
 
-							<hr/>
 
 
-							<br/>
-							<hr/>
 
-							<hr/>
-							<button class="savebutton btn" onclick="saveProject()">Save</button><br/>
-							<button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button><br/>
 
 
 							<hr/>
