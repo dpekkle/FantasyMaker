@@ -396,10 +396,12 @@ display:none;
 }
 
 .jumpBtn{
-	background-color: #1e88e5;
+	background-color:#fb8c00;
+
 }
 .controlBtn{
-	background-color:#fb8c00;
+
+	background-color: #1e88e5;
 }
 
 @media only screen and (max-width: 1050px) {

@@ -234,7 +234,7 @@ function gameAttribute_createModule_updateContextPane(){
             folderHtml = '<div class="folder card-panel hoverable" onclick="gameAttributes_createModule_displayFolder(\'' + attribute.path + '\')"><h6 class="folder-title left">' + attribute.name + '</h6></div>';
             folderList.append(folderHtml);
         }else{ //otherwise append value html
-            valueHtml =   '<div id="'+ attribute.id +'-value-card" class="value-card-panel col l3 m6 s12 card-panel hoverable truncate">'
+            valueHtml =   '<div id="'+ attribute.id +'-value-card" class="value-card-panel col l3 m12 s12 card-panel hoverable truncate">'
             +       '<i class="material-icons small">equalizer</i><span style="font-size: 19px; font-weight: bold">'+ attribute.name +'</span><hr/>'
             +           '<span style="font-size: 14px" class="truncate">Value: <span id="'+attribute.id+'-value" style="font-size: 19px; font-weight: bold">'+ attribute.value +'</span></span><br/>'
             +           '<span style="font-size: 14px">Range: <span id="'+attribute.id+'-min-value" style="font-size: 19px; font-weight: bold">'+ attribute.minValue +'</span>&nbspto&nbsp<span id="'+attribute.id+'-max-value" style="font-size: 19px; font-weight: bold">'+ attribute.maxValue +'</span></span><br/>'
@@ -429,6 +429,21 @@ function DefineAttributeModal() {
             this.detailInput.val(this.attributeObj.description);
             this.detailInput.trigger('autoresize');
             this.initValueInput.val(this.attributeObj.initValue);
+
+            if(this.attributeObj.minValue!= undefined){
+                this.minValueInput.val(this.attributeObj.minValue);
+                if (!this.minValueToggle.prop('checked')){this.minValueToggle.click();}
+            }
+
+
+            if(this.attributeObj.maxValue != undefined){
+                this.maxValueInput.val(this.attributeObj.minValue);
+                if (!this.maxValueToggle.prop('checked')){this.maxValueToggle.click();}
+            }
+
+
+
+
         }
 
         $('#define-attribute-modal').openModal({

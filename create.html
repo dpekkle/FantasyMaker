@@ -251,7 +251,7 @@
 					</ul>
 
 					</div>
-					<a class="btn-floating red right tooltipped" data-tooltip="Add a folder at the highest level" style="position: absolute; bottom: 10px; right: 17px;" onclick="gameAttributes_createModule_addAttributeFolder(false);"><i class="material-icons small">add</i></a>
+					<a class="z-depth-2 btn-floating red right tooltipped" data-tooltip="Add a folder at the highest level" style="position: absolute; bottom: 10px; right: 17px;" onclick="gameAttributes_createModule_addAttributeFolder(false);"><i class="material-icons small">add</i></a>
 				</div>
 
 				<!-- Context Pane -->
@@ -267,18 +267,30 @@
 								</div>
 							</nav>
 						</div>
-						<div class="row" style="height: 85%;" >
-							<div id="folder-container" class="max-height" style="height:150px; overflow:auto;">
 
-						</div>
-						<a class="btn-floating red right  attributesButton tooltipped" data-tooltip="Add a folder within the current folder" onclick="gameAttributes_createModule_addAttributeFolder(currentAttributeObj.path);" style="margin-bottom: 10px;"><i class="material-icons small">add</i></a><br/><br/>
-						<hr/>
-							<h5>Values: </h5>
-						<div  id="values-container" class="values-list-container row" style="height: 50%; overflow-y: auto" >
+                        <div class="row">
+                        <div class="col m1"><a class="z-depth-2 btn-floating red attributesButton tooltipped" data-tooltip="Add a folder within the current folder" onclick="gameAttributes_createModule_addAttributeFolder(currentAttributeObj.path);" style="margin-bottom: 10px;"><i class="material-icons small">add</i></a></div>
+                        <div class="col m11">
+                        <h5>Folders:</h5> </div></div>
+                        <hr/>
+                            <div id="folder-container" class="max-height" style="height:150px; overflow:auto;">
 
-						</div>
-							<a class="btn-floating red right attributesButton tooltipped" data-tooltip="Add a value within the current folder" onclick="gameAttributes_createModule_addAttributeValue();"><i class="material-icons small">add</i></a><br/><br/>
-						</div>
+
+						    </div>
+
+							<div>
+                                <div class="row">
+                                <div class="col m1">
+                                    <a class=" z-depth-2 btn-floating red attributesButton tooltipped" data-tooltip="Add a value within the current folder" onclick="gameAttributes_createModule_addAttributeValue();"><i class="material-icons small">add</i></a>
+                                </div>
+                                    <div class="col m11">
+                                    <h5>Values: </h5>
+                                        </div></div>
+                                    <hr/>
+						    <div  id="values-container" class="values-list-container row" style=" height: 200px; overflow: auto" >
+
+						    </div>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -296,7 +308,7 @@
 				</ul>
 
 				</div>
-			<a class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameInventory_createModule_defineItem()"><i class="material-icons">add</i></a>
+			<a class="z-depth-2 btn-floating btn-medium waves-effect waves-light red fab" onclick="gameInventory_createModule_defineItem()"><i class="material-icons">add</i></a>
 			</div>
 		</div>
 
@@ -402,7 +414,7 @@
 
                     <div class="row ">
                             <h4 id="projects_title">Load Project
-                                <a onclick="project_createNewProject()" class="btn-floating btn-large waves-effect waves-light red right"><i class="large material-icons" style="transform: translateY(-7%);">add</i></a>
+                                <a onclick="project_createNewProject()" class="z-depth-2 btn-floating btn-large waves-effect waves-light red right"><i class="large material-icons" style="transform: translateY(-7%);">add</i></a>
                             </h4>
                         </div>
                     <div class="row">
@@ -430,16 +442,21 @@
 						</div>
 						<div class="col l3 m3 s4 z-depth-3" id="sidebar"> <!-- Sidebar wrapper -->
                             <br/>
+                            <div class="row">
+                                <div class="col m12 l6"> <button class="waves-effect savebutton btn" onclick="saveProject()"><i class="material-icons left">save</i>Save</button></div>
+                                <div class="col m12 l6"><button class="waves-effect playgamebutton btn" onclick="runPlayGameTests()"><i class="material-icons left">exit_to_app</i>Play Game</button></div>
+                            </div>
+
 							<h5>Selected Node:</h5> <hr/>
 							<div class="row selected-node-button-container">
-                                <div class="col l6 s12"><button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button></div>
-                                <div class="col l6 s12"><button class="m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="connection-modal">Edit Path</button></div>
-                                <div class="col l6 s12"><button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="control-modal">Edit Control</button></div>
-                                <div class="col l6 s12"><button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="jump-modal">Edit Jump</button></div>
-                                <div class="col l6 s12"><button class="btn editname editbutton" style = "display:none;" onclick="nameNode(cy.$(':selected')[0])">Name Node</button></div>
-                                <div class="col l6 s12"><button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button></div>
-                                <div class="col l6 s12"><button class="btn setstart editbutton" style = "display:none;" onclick="setStart()">Set Start Node</button></div>
-                                <div class="col l6 s12"><button class="btn removeparent editbutton" style = "display:none;" onclick="removeParent()">Remove From Group</button></div>
+                                <div class="col l6 s12"><button class="waves-effect btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button></div>
+                                <div class="col l6 s12"><button class="waves-effect m12 btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="connection-modal">Edit Path</button></div>
+                                <div class="col l6 s12"><button class="waves-effect btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="control-modal">Edit Control</button></div>
+                                <div class="col l6 s12"><button class="waves-effect btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="jump-modal">Edit Jump</button></div>
+                                <div class="col l6 s12"><button class="waves-effect btn editname editbutton" style = "display:none;" onclick="nameNode(cy.$(':selected')[0])">Name Node</button></div>
+                                <div class="col l6 s12"><button class="waves-effect deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button></div>
+                                <div class="col l6 s12"><button class="waves-effect btn setstart editbutton" style = "display:none;" onclick="setStart()">Set Start Node</button></div>
+                                <div class="col l6 s12"><button class="waves-effect btn removeparent editbutton" style = "display:none;" onclick="removeParent()">Remove From Group</button></div>
 							</div>
                             <h5>Add Elements To Graph:</h5> <hr/>
 							<ul class="collapsible z-depth-1" data-collapsible="Expandable">
@@ -447,17 +464,17 @@
 									<div id="Pagecollapse" class="collapsible-header"><i class="material-icons">note_add</i><span class="hide-on-tiny-only" style="font-weight: bold">Pages</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-										<div class="col l6 s12"><button class='pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Add A Page </button></div>
+										<div class="col l12 s12"><button class='pagemode dropdown-button btn tooltipped' data-tooltip="Pages hold the content for each node, including text, images, buttons to other pages, etc."  href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Add A Page </button></div>
   										<ul id='pagetemplates' class='dropdown-content' >
   										</ul>
 
-                      <div class="col l6 s12"><button class="prebuilt dropdown-button btn" href='#' onclick="changeState(this);" data-activates='prebuilts'>Group</button></div>
+                      <div class="col l6 s12"><button class="prebuilt dropdown-button btn tooltipped" data-tooltip="Save and load pre-built structures onto the graph" href='#' onclick="changeState(this);" data-activates='prebuilts'>Group</button></div>
                       <ul id='prebuilts' class='dropdown-content'>
                           <li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
                           <li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
                       </ul>
 
-                      <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a></div>
+                      <div class="col l6 s12"><a class="waves-effect waves-light btn tooltipped" data-tooltip="Audio events can be triggered from within a page node, load audio assets first by clicking here" onclick=openAudioOverlay()>Audio</a></div>
 										</div>
 									</div>
 								</li>
@@ -466,9 +483,9 @@
 									<div id="Pathcollapse" class="collapsible-header"><i class="material-icons">swap_calls</i><span class="hide-on-tiny-only" style="font-weight: bold">Paths</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-                                            <div class="col s12 l6"> <button class="connectionmode btn" onclick="changeState(this)">Path</button></div>
-											<div class="col s12 l6"> <button class="controlmode btn controlBtn" onclick=changeState(this)>Control Node</button></div>
-                                                <div class="col s12 l6"> <button class="jumpmode dropdown-button btn jumpBtn" href='#' onclick="changeState(this)" data-activates='jumpmodes'>Jump Node</button></div>
+                                            <div class="col s12 l12"> <button class="waves-effect connectionmode btn tooltipped" data-tooltip="Paths connect nodes together and can contain game logic that is evaluated when the Player follows that path" onclick="changeState(this)">Path</button></div>
+											<div class="col s12 l6"> <button class="waves-effect controlmode btn controlBtn tooltipped" data-tooltip="Control where players go based on their attributes and inventory items" onclick=changeState(this)>Control Node</button></div>
+                                                <div class="col s12 l6"> <button class="waves-effect jumpmode dropdown-button btn jumpBtn tooltipped" data-tooltip="Want a node that the player can access from anywhere? Use jump nodes. They can also trigger at anytime based on attribute values and 'End' Jump Nodes send the player back to where they last 'jumped' from." href='#' onclick="changeState(this)" data-activates='jumpmodes'>Jump Node</button></div>
                                              <ul id='jumpmodes' class='dropdown-content'>
                                                 <li><a onclick='chooseJump("Start")'>Start</a></li>
                                                  <li><a onclick='chooseJump("End")'>End</a></li>
@@ -480,8 +497,8 @@
 									<div class="collapsible-header"><i  class="material-icons">list</i><span class="hide-on-tiny-only"  style="font-weight: bold">Game Attributes</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-                                            <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a></div>
-                                            <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick="openInventoryDefinitionOverlay()">Items</a></div>
+                                            <div class="col l6 s12"><a class="waves-effect waves-light btn tooltipped" data-tooltip="Define and organise player attributes and stats, such as health, player skill levels, etc. " onclick="openAttributesOverlay()" >Attributes</a></div>
+                                            <div class="col l6 s12"><a class="waves-effect waves-light btn tooltipped" data-tooltip="Define items that player can have during the game, and the amount in their inventory at the start of the game." onclick="openInventoryDefinitionOverlay()">Items</a></div>
 
 											</div>
 										</div>
@@ -490,8 +507,8 @@
 									<div class="collapsible-header"><i class="material-icons">aspect_ratio</i><span class="hide-on-tiny-only"  style="font-weight: bold">Graph Settings</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-                                            <div class="col l6 s12"><button class=" connectivity btn" onclick="runTests()">Test Graph</button></div>
-                                                <div class="col l6 s12"><button class='dropdown-button btn' href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button></div>
+                                            <div class="col l6 s12"><button class=" connectivity btn tooltipped" data-tooltip="Makes sure everything is nice and connected!" onclick="runTests()">Test Graph</button></div>
+                                                <div class="col l6 s12"><button class='dropdown-button btn tooltipped' data-tooltip="Messy graph? Use a preset style to organise everything." href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button></div>
 											<ul id='stylegraph' class='dropdown-content'>
 												<li><a onclick="layout_driver('Tree');">Tree</a></li>
 												<li><a onclick="layout_driver('Grid');">Grid</a></li>
@@ -507,15 +524,8 @@
 								</li>
 
 
-                            <li>
-                            <div class="collapsible-header"><i class="material-icons">save</i><span class="hide-on-tiny-only"  style="font-weight: bold">Save & Play</span></div>
-                            <div class="collapsible-body">
-                                <div class="row">
-                                    <div class="col m12 l6"> <button class="savebutton btn" onclick="saveProject()">Save</button></div>
-                                    <div class="col m12 l6"><button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button></div>
-                                    </div>
-                                </div>
-                            </li>
+
+
                         </ul>
 						</div>
 					</div>
