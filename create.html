@@ -417,12 +417,12 @@
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
 					<div id="cyTab">
-						<div class="col s9 l9">
+						<div class="col l9 m9 s8"> <!-- canvas wrapper -->
               <div id="cy">
               <!-- Grid "workspace" container -->                
               </div>
 						</div>
-						<div class="col s3 l3 z-depth-3" id="sidebar"> <!-- Sidebar -->
+						<div class="col l3 m3 s4 z-depth-3" id="sidebar"> <!-- Sidebar wrapper -->
 							<!-- CHANGES START -->
               <br>
 							<h5>Selected Node:</h5> <hr/>
@@ -439,26 +439,26 @@
                             <h5>Add Elements To Graph:</h5> <hr/>
 							<ul class="collapsible z-depth-1" data-collapsible="Expandable">
 								<li>
-									<div class="collapsible-header"><i class="material-icons">note_add</i><span class="hide-on-tiny-only" style="font-weight: bold">Pages</span></div>
+									<div id="Pagecollapse" class="collapsible-header"><i class="material-icons">note_add</i><span class="hide-on-tiny-only" style="font-weight: bold">Pages</span></div>
 									<div class="collapsible-body">
 										<div class="row">
 										<div class="col l6 s12"><button class='pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Add A Page </button></div>
   										<ul id='pagetemplates' class='dropdown-content' >
   										</ul>
 
-                      <div class="col l6 s12"><button class="prebuilt dropdown-button btn" href='#' onclick="changeState(this);" data-activates='prebuilts'>Groups</button></div>
+                      <div class="col l6 s12"><button class="prebuilt dropdown-button btn" href='#' onclick="changeState(this);" data-activates='prebuilts'>Group</button></div>
                       <ul id='prebuilts' class='dropdown-content'>
                           <li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
                           <li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
                       </ul>
 
-                      <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Page Audio</a></div>
+                      <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a></div>
 										</div>
 									</div>
 								</li>
 								<li>
 
-									<div class="collapsible-header"><i class="material-icons">swap_calls</i><span class="hide-on-tiny-only" style="font-weight: bold">Paths & Game Logic</span></div>
+									<div id="Pathcollapse" class="collapsible-header"><i class="material-icons">swap_calls</i><span class="hide-on-tiny-only" style="font-weight: bold">Paths</span></div>
 									<div class="collapsible-body">
 										<div class="row">
                                             <div class="col s12 l6"> <button class="connectionmode btn" onclick="changeState(this)">Path</button></div>
@@ -472,7 +472,7 @@
                                         </div>
                                 </li>
 								<li>
-									<div class="collapsible-header"><i  class="material-icons">list</i><span class="hide-on-tiny-only"  style="font-weight: bold">Game Attributes & Items</span></div>
+									<div class="collapsible-header"><i  class="material-icons">list</i><span class="hide-on-tiny-only"  style="font-weight: bold">Game Attributes</span></div>
 									<div class="collapsible-body">
 										<div class="row">
                                             <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a></div>
@@ -516,7 +516,7 @@
 						</div>
 					</div>
 					<div id="Play">
-						<button class="gobackbutton btn" onclick="createModule_showProject()">Return To Project</button>
+						<button class="gobackbutton btn" onclick="createModule_showProject()">Finish</button>
 						<button class="progressbutton btn" onclick=progressStory(0)>Start</button>
 						<div id="playwindow">
 							<div id="loader"></div>

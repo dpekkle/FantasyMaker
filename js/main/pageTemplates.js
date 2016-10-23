@@ -58,6 +58,7 @@ function chooseNodeTemplate(sel)
 	current_state = states.NEWPAGE;
 
 	selected_page_template = project_project.project_templates[sel];
-	$('.pagemode').html("Page Node (" + sel + ")")
+	//$('.pagemode').html("Add A Page");
+	Materialize.toast("Select template: " + sel, 5000);
 	console.log("Select template: " + sel)
 }

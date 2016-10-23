@@ -9,15 +9,24 @@ var tutorial_graph = null;
 //A message to output, and a function to progress further.
 var tutorial_objects = [
 	{
-		message: "First click Page Node and select 'Default'",
+		message: "Let's start off by creating a page",
+	},
+	{
+		message: "To do this you'll have to use the Tool Bar",
 		css: function(){
-		    $('.pagemode').addClass('tutorial-button-highlight');
+		    $('#sidebar').addClass('tutorial-button-highlight');
+		},
+
+	},
+	{
+		message: "First open up the 'Pages' panel",
+		css: function(){
+		    $('#sidebar').removeClass('tutorial-button-highlight');
+		    $('#Pagecollapse').addClass('tutorial-button-highlight');
 		},
 		condition: function(){
-			console.log("First function")
-			if (current_state == states.NEWPAGE)
+			if ($("#Pagecollapse").hasClass('active'))
 			{
-				console.log("First function done")
 				return true;
 			}
 			else
@@ -25,10 +34,25 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Now tap on the screen on the left to create a Page",
+		message: "Now click Page Node and select 'Default'",
+		css: function(){
+		    $('#Pagecollapse').removeClass('tutorial-button-highlight');
+		    $('.pagemode').addClass('tutorial-button-highlight');
+		},
+		condition: function(){
+			if (current_state == states.NEWPAGE)
+			{
+				return true;
+			}
+			else
+				return false;
+		}
+	},
+	{
+		message: "Now tap on the screen on the left to create a page",
 		css: function(){
 		    $('.pagemode').removeClass('tutorial-button-highlight');
-		    $('#cy').addClass('tutorial-button-highlight');
+		    //$('#cy').addClass('tutorial-button-highlight');
 		},
 		condition: function(){
 			if (cy.elements().size() !== 0)
@@ -42,9 +66,9 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "That box you just created is a new Page!",
+		message: "You just made your first page!",
 		css: function(){
-		    $('#cy').removeClass('tutorial-button-highlight');
+		   // $('#cy').removeClass('tutorial-button-highlight');
 		},
 	},
 	{
@@ -63,10 +87,10 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "The green Page marks the starting Page.",
+		message: "The green page indicates the first page.",
 	},
 	{
-		message: "You can drag and drop these Page nodes around, or tap to select them.",
+		message: "You can drag and drop these Pages around, or tap to select them.",
 		condition: function(){
 			if (tutorial_timer > 8)
 			{
@@ -81,14 +105,30 @@ var tutorial_objects = [
 	{
 		message: "Now lets try connecting some Pages.",
 		css: function(){
-			$('.connectionmode').addClass('tutorial-button-highlight')
 		},
 
 	},
 	{
+		message: "Open up the 'Paths' button.",
+		css: function(){
+			$('#Pathcollapse').addClass('tutorial-button-highlight')
+		},
+		condition: function(){
+			if ($('#Pathcollapse').hasClass('active'))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	},
+	{
 		message: "Click the Path button.",
 		css: function(){
-			$('.connectionmode').show();
+			$('#Pathcollapse').removeClass('tutorial-button-highlight')
+			$('.connectionmode').addClass('tutorial-button-highlight')
 		},
 		condition: function(){
 			if (current_state == states.CONNECTING)
@@ -115,7 +155,7 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "The blue border indicates the 'source' of the Path",
+		message: "The blue border indicates the 'Source' node",
 	},
 	{
 		message: "Now tap a different Page node.",
@@ -160,13 +200,13 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Now lets see what Paths look like in your Page",
+		message: "Now lets see how a player sees a Path",
 		css: function(){
 			$('.connectionmode').removeClass('tutorial-button-highlight')
 		},
 	},
 	{
-		message: "Select any 'source' Page with a Path by tapping it.",
+		message: "Select a 'Source' Page (one with a Path leaving it).",
 		css: function(){
 
 		},
@@ -192,16 +232,21 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Here you can design the appearance of the Page, you can see the Paths that you just created",
+		message: "Here you can design the appearance of the Page",
 		css: function(){
 			$('.editbutton[data-target="page-modal"').removeClass('tutorial-button-highlight')
 		},
 	},
 	{
-		message: "You can position them however you want by dragging the handle on top of them.",
+		message: "On the left is the Page that your player will see. On the right is your Tool Bar",
 	},
 	{
-		
+		message: "You should be able to see the Path that you just created",
+	},
+	{
+		message: "Position it whereever you want by dragging the handle on top of it.",
+	},
+	{
 		message: "Try adding a text box, just click the button",
 		css: function(){
 			$('[onclick="addTextContainer()"]').addClass('tutorial-button-highlight');
@@ -219,19 +264,30 @@ var tutorial_objects = [
 			$('[onclick="addTextContainer()"]').removeClass('tutorial-button-highlight');
 		},
 		condition: function(){
-			if (tutorial_timer > 8)
+			if (tutorial_timer > 7)
 				return true;
 			else
 				return false;
 		}
 	},
 	{
-		message: "To edit the style try click on it's setting icon",
+		message: "If the text box covers up your path button make sure to move it",
+		css: function(){
+		},
+		condition: function(){
+			if (tutorial_timer > 7)
+				return true;
+			else
+				return false;
+		}
+	},
+	{
+		message: "To edit the style of a text box or button click on it's setting icon",
 		css: function(){
 			$('[onclick="addTextContainer()"]').removeClass('tutorial-button-highlight');
 		},
 		condition: function(){
-			if (tutorial_timer > 8)
+			if (tutorial_timer > 7)
 				return true;
 			else
 				return false;
@@ -256,24 +312,43 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Now lets try running your project, click on the Play button",
+		message: "Now lets try running your project.",
 		css: function(){
 			$('.fa-times').removeClass('tutorial-button-highlight')
 			$('.playgamebutton ').addClass('tutorial-button-highlight')
 		},
+	},
+	{
+		message: "Click on the Play button",
+		css: function(){
+		},
 		condition: function(){
-			if ($('#Play').css('display') == "none")
+			if ($('#Play').css('display') !== "none")
 				return true;
 			else
 				return false;
 		}
 	},
 	{
-		message: "",
+		message: "Press Start to continue",
 		css: function(){
 			$('.playgamebutton').removeClass('tutorial-button-highlight')
 		},
 		condition: function(){
+			if (currentNode !== null)
+				return true;
+			else
+				return false;
+		}
+	},
+	{
+		message: "You are now playing the game. Notice how the 'handles' have disappeared.",
+		css: function(){
+		},
+	},
+	{
+		message: "You can return to your project at any time by clicking 'Finish'",
+		condition: function(){
 			if ($('#Play').css('display') == "none")
 				return true;
 			else
@@ -281,21 +356,21 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "",
+		message: "Done Tutorial.",
 		css: function(){
 			finishTutorial();
 			continueTutorial();
 		}
 	},
-
-
-
 ]
 
 function checkInTutorial()
 {
-	if (project_project.projectName == "yoqpzHbHLaxCX__PcdHp")
+	finishTutorial();
+
+	if (project_project.projectName == "yoqpzHbHLaxCX__PcdHp" || project_project.title == "FantasyMaker Tutorial")
 	{
+		console.log("IN TUTORIAL PROJECT")
 		if (window.location.href !== host_playModule())
 		{
 			console.log(window.location.href)
@@ -311,7 +386,10 @@ function checkInTutorial()
 			return false;
 	}
 	else
+	{
+		console.log("NOT IN TUTORIAL")
 		return false;
+	}
 };
 
 function prepareTutorial()
@@ -327,10 +405,6 @@ function prepareTutorial()
 	console.log("Cloning tutorial graph ", tutorial_graph);
 
 	//hide elements
-	$('#sidebar .btn').hide();
-	$('#sidebar hr').hide();
-	$('#sidebar .pagemode').show();
-
 	runTutorial();
 }
 
@@ -348,9 +422,9 @@ function runTutorial()
 			//check we didnt go to the project window
 			if ($('#projects').css('display') == "none")
 				tutorial_timer += 0.5;
-			if ( toast_id > tutorial_objects.length - 1)
+			if ( tutorial_objects[toast_id] === undefined)
 			{
-				hideToast(toast_id);
+				hideToast(toast_id - 1);
 				console.log("Clear the interval")
 				clearInterval(window.refreshIntervalId);
 			}
@@ -358,7 +432,7 @@ function runTutorial()
 			{
 				if (tutorial_objects[toast_id].condition === undefined)
 				{
-					if (tutorial_timer > 4)
+					if (tutorial_timer > 5)
 					{
 						console.log("tutorial timer ready: ", tutorial_timer)
 						progress = true;
@@ -388,9 +462,9 @@ function runTutorial()
 function finishTutorial()
 {
 	//show all the buttons we hid
-	$('#sidebar .btn').show();
-	$('#sidebar hr').show();
-
+	$('.tutorial_toast').fadeOut();
+	toast_id = 10000;
+	$('.tutorial-button-highlight').removeClass('tutorial-button-highlight')
 }
 
 function continueTutorial()
@@ -408,7 +482,7 @@ function continueTutorial()
 //helper functions for toasts and waiting
 function createToast(message, id)
 {
-	Materialize.toast(message, 200000, "toast" + id);
+	Materialize.toast(message, 200000, "toast" + id + " tutorial_toast");
 }
 
 function hideToast(id)

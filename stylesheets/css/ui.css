@@ -55,13 +55,17 @@ nav{
 
 
 .gobackbutton{
+	width: 200px;
+	margin-top:10px;
 	background-color: red;
 }
 .gobackbutton:hover{
 	background-color: red;
 }
 .progressbutton{
+	width: 200px;
 	margin-top:10px;
+	float: right;
 }
 .textarea{
 	width: auto;
@@ -375,6 +379,7 @@ display:none;
     border-color: red;
     border-width: 3px;
     border-style: solid;
+    margin-bottom: 3px;
 }
 
 #sidebar .btn{
