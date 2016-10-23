@@ -411,8 +411,10 @@
 		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
 			<div class = "col s12 l12">
 					<div id="cyTab">
-						<div class="col s9 l9" id="cy">
-							<!-- Grid "workspace" container -->
+						<div class="col s9 l9">
+              <div id="cy">
+              <!-- Grid "workspace" container -->                
+              </div>
 						</div>
 						<div class="col s3 l3 z-depth-3" id="sidebar"> <!-- Sidebar -->
 							<!-- CHANGES START -->
@@ -446,23 +448,21 @@
                                             <div class="col l6 s12"><a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Page Audio</a></div>
 										</div>
 									</div>
-
 								</li>
 								<li>
-									<div class="collapsible-header"><i class="material-icons">swap_calls</i><span class="hide-on-tiny-only" style="font-weight: bold">Connections & Game Logic</span></div>
+
+									<div class="collapsible-header"><i class="material-icons">swap_calls</i><span style="font-weight: bold">Paths & Game Logic</span></div>
 									<div class="collapsible-body">
 										<div class="row">
-                                            <div class="col l6 s12"><button class="connectionmode btn " onclick=changeState(this)>Path</button></div>
-                                            <div class="col l6 s12"><button class="controlmode btn jumpBtn" onclick=changeState(this)>Control Node</button></div>
-                                            <div class="col l6 s12"><button class="jumpmode dropdown-button btn controlBtn" href='#' onclick="changeState(this);" data-activates='jumpmodes'>Jump Node</button></div>
-                                            <ul id='jumpmodes' class='dropdown-content'>
+                                            <div class="col m12 l6"> <button class="connectionmode btn" onclick="changeState(this)">Path</button></div>
+											<div class="col m12 l6"> <button class="controlmode btn controlBtn" onclick=changeState(this)>Control Node</button></div>
+                                                <div class="col m12 l6"> <button class="jumpmode dropdown-button btn jumpBtn" href='#' onclick="changeState(this)" data-activates='jumpmodes'>Jump Node</button></div>
+                                             <ul id='jumpmodes' class='dropdown-content'>
                                                 <li><a onclick='chooseJump("Start")'>Start</a></li>
-                                                <li><a onclick='chooseJump("End")'>End</a></li>
-                                            </ul>
-                                        </div>
+                                                 <li><a onclick='chooseJump("End")'>End</a></li>
+                                             </ul>
 											</div>
-
-
+                                        </div>
                                 </li>
 								<li>
 									<div class="collapsible-header"><i  class="material-icons">list</i><span class="hide-on-tiny-only"  style="font-weight: bold">Game Attributes & Items</span></div>
@@ -506,18 +506,6 @@
                             </li>
                         </ul>
 							<!-- CHANGES END -->
-
-
-
-
-
-
-							<hr/>
-
-
-
-							<br/>
-							<br/>
 						</div>
 					</div>
 					<div id="Play">
