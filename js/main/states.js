@@ -55,23 +55,23 @@ function changeState(caller)
 	}
 	else if ($(caller).hasClass('pagemode') && current_state != states.NEWPAGE)
 	{
-		exitStates(); //we only want clicking the list element to actually change the state
+		defaultState(); //we only want clicking the list element to actually change the state
 	}
 	else if ($(caller).hasClass('controlmode') && current_state != states.NEWCONTROL)
 	{
 		current_state = states.NEWCONTROL;
 	}	
-	else if ($(caller).hasClass('jumpmode')  && current_state != states.NEWJUMP != states.NEWJUMP)
-	{
-		current_state = states.NEWJUMP;
-	}	
 	else if ($(caller).hasClass('jumpmode')  && current_state != states.NEWJUMP && current_state != states.NEWJUMPEND)
 	{
-		exitStates();
+		console.log("Jump pressed")
+		defaultState();
+		console.log(current_state)
 	}	
-	else if ($(caller).hasClass('prebuilt')  && current_state != states.NEWFIGHT && current_state != states.NEWSTORE && current_state != states.NEWEMPTY)
+	else if ($(caller).hasClass('prebuilt')  && current_state != states.NEWFIGHT  && current_state != states.NEWEMPTY)
 	{
-		exitStates();
+		console.log("Prebuilt pressed")
+		defaultState();
+		console.log(current_state)
 	}	
 	else if ($(caller).hasClass('deletebutton'))
 	{
@@ -91,29 +91,32 @@ function changeState(caller)
 
 function choosePrebuilt(prebuilt)
 {	
+	console.log("Choose prebuilt mode:", prebuilt)
 	$('.prebuilt').addClass('activebutton');
 
 	if (prebuilt == "Empty")
 	{
+		console.log("New fight: ", states.NEWEMPTY)
 		current_state = states.NEWEMPTY;
+		console.log("Set state to:", current_state);
 	}
 	else if (prebuilt == "Fight")
 	{
+		console.log("New fight: ", states.NEWFIGHT)
 		current_state = states.NEWFIGHT;
+		console.log("Set state to:", current_state);
 	}
 }
 
 function chooseJump(mode)
 {	
+	console.log("Choose jump mode:", mode)
+
 	$('.jumpmode').addClass('activebutton');
 
 	if (mode == "Start")
 	{
 		current_state = states.NEWJUMP;
-	}
-
-	else if (mode == "End")
-	{
-		current_state = states.NEWJUMPEND;
+		console.log("Set state to:", current_state);
 	}
 }
