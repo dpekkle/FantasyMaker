@@ -633,4 +633,6 @@ function resizePageContainerDiv()
 	scale = Math.min(w/inner_w, h/inner_h);
 
 	$('#pagecontainers').css({'transform': 'scale(' + scale + ')'});
+
+	$('.toolbar').height($('.screenwrapper').outerHeight());
 }
