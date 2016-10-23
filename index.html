@@ -1,157 +1,153 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="description" content="Fantasymaker : ">
 
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/favicon/manifest.json">
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" style="color:#5bbad5;">
+  <link rel="shortcut icon" href="/favicon/favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Fantasymaker : ">
-
-	<!-- Favicons -->
-	<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-	<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
-	<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
-	<link rel="manifest" href="/favicon/manifest.json">
-	<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" style="color:#5bbad5;">
-	<link rel="shortcut icon" href="/favicon/favicon.ico">
-	  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<meta name="msapplication-config" content="/favicon/browserconfig.xml">
-	<meta name="theme-color" content="#ffffff">
-
-
+  <!-- Stylesheets -->
   <link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
- 	<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/frontpage.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/frontpage.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
-    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-    <title>FantasyMaker</title>
+  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+  <title>FantasyMaker</title>
 
-  </head>
-
-  <body>
-
-    <ul id="profileDropdown1" class="dropdown-content">
-  	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
-  	</ul>
-  	<ul id="profileDropdown2" class="dropdown-content">
-  	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
-  	</ul>
-  	<nav>
-  		<div class="nav-wrapper">
-  			<a href="index.html" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
-        		<a href="" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons" style="padding-right: 10px;">menu</i></a>
-  			<ul class="right hide-on-med-and-down">
-  				<li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
-  				<li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
-  				<li><a href="create.html" class="project_button ">Project</a></li>
-  				<li><a class="profile_button dropdown-button " href="#!" data-activates="profileDropdown1"></a></li>
-  			</ul>
-  			<ul class="side-nav" id="mobile-demo">s
-  				<li><a href="" class="login_button" onclick=project_login()>Login</a></li>
-  				<li><a href="" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
-  				<li><a href="create.html" class="project_button " onclick=>Project</a></li>
-  				<li><a href="" class="settings_button hide" >Settings</a></li>
-  				<li><a class="profile_button dropdown-button " href="" data-activates="profileDropdown2"></a></li>
-  			</ul>
-  		</div>
-  	</nav>
-
- 	<div class="jumbotron">
-      <div class="container">
-				<div class="main">
-        <h1>Introducing <span class="accent">FantasyMaker</span></h1>
-        <h2>Making interactive storytelling easier</h2>
-          <a class="btn valign" href="#" onclick=createLinkClicked()>Create</a>
-          <a class="btn valign" href="browse.html" style="display: inline-block;">Browse</a>
-
-				</div>
-			</div>
+</head>
+<body>
+  <ul id="profileDropdown1" class="dropdown-content">
+    <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
+  </ul>
+  <ul id="profileDropdown2" class="dropdown-content">
+    <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
+  </ul>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="index.html" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
+      <a href="" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons" style="padding-right: 10px;">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href='/documents.html'>Docs</a>
+        <li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
+        <li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
+        <li><a href="create.html" class="project_button ">Project</a></li>
+        <li><a class="profile_button dropdown-button " href="#!" data-activates="profileDropdown1"></a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">s
+        <li><a href='/documents.html'>Docs</a>
+        <li><a href="" class="login_button" onclick=project_login()>Login</a></li>
+        <li><a href="" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
+        <li><a href="create.html" class="project_button " onclick=>Project</a></li>
+        <li><a href="" class="settings_button hide" >Settings</a></li>
+        <li><a class="profile_button dropdown-button " href="" data-activates="profileDropdown2"></a></li>
+      </ul>
     </div>
+  </nav>
 
-		<div class="row row-centered" id="about">
-			<div class="col l8 offset-l2 m12 s12">
-				<div class="col l4 m8 offset-m2 s11 about_card">
-					<img src="images/icon_create.PNG"/>
-					<h2>Create</h2>
-					<p> Easily create and edit simple and complex choose-your-own-adventure style stories
-						without writing a single line of code!</p>
-					<a href="features.html#Create" class="btn">Learn More</a>
-				</div>
-				<div class="col l4 m8 offset-m2 s11 about_card"  id="middle" >
-					<img src="images/icon_play.PNG"/>
-					<h2>Play</h2>
-					<p>Play games and stories that you have created, or try out a friend's story,
-					all from within the browser</p>
-					<a href="features.html#Play" class="btn">Learn More</a>
-				</div>
+  <div class="jumbotron">
+    <div class="container">
+      <div class="main">
+      <h1>Introducing <span class="accent">FantasyMaker</span></h1>
+      <h2>Making interactive storytelling easier</h2>
+        <a class="btn valign" href="#" onclick=createLinkClicked()>Create</a>
+        <a class="btn valign" href="browse.html" style="display: inline-block;">Browse</a>
+      </div>
+    </div>
+  </div>
 
-				<div class="col l4 m8 offset-m2 s11 about_card">
-					<img src="images/icon_share.PNG"/>
-					<h2>Share</h2>
-					<p>Share your game, play games made by friends,
-					and rate games through the FantasyMaker community hub.</p>
-					<a href="features.html#Share" class="btn">Learn More</a>
-				</div>
-			</div>
-		</div>
+  <div class="row row-centered" id="about">
+    <div class="col l8 offset-l2 m12 s12">
+      <div class="col l4 m8 offset-m2 s11 about_card">
+        <img src="images/icon_create.PNG"/>
+        <h2>Create</h2>
+        <p> Easily create and edit simple and complex choose-your-own-adventure style stories
+            without writing a single line of code!</p>
+        <a href="features.html#Create" class="btn">Learn More</a>
+      </div>
+      <div class="col l4 m8 offset-m2 s11 about_card"  id="middle" >
+        <img src="images/icon_play.PNG"/>
+        <h2>Play</h2>
+        <p>Play games and stories that you have created, or try out a friend's story,
+        all from within the browser</p>
+        <a href="features.html#Play" class="btn">Learn More</a>
+      </div>
+      <div class="col l4 m8 offset-m2 s11 about_card">
+        <img src="images/icon_share.PNG"/>
+        <h2>Share</h2>
+        <p>Share your game, play games made by friends,
+        and rate games through the FantasyMaker community hub.</p>
+        <a href="features.html#Share" class="btn">Learn More</a>
+      </div>
+    </div>
+  </div>
 
-		<div id="team">
-			<div class="row">
-				<div class="col m4 offset-m1">
-					<br/>
-					<h1>Meet the Team</h1>
-				</div>
-				<div class="col m2 offset-m2">
-				</div>
-				<div class="col m2 push-m3 s6 offset-s3">
-					<a href="blog.html" id="blog-btn"class="btn">Team Blog</a>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col l4 offset-l1 m8 offset-m2 s10 offset-s1 team_card">
-				<div class="col l4 l4">
-					<img width = "133" height = "133" class="hide-on-med-and-down center" src="images/generic_avatar.jpg"/>
-				</div>
-				<div class="col l6 l6">
-					<h2>Danielle  </h2>
-					<p>Team Leader <br/> Frontend Developer <br/> Designer  <br> <a href="https://github.com/dpekkle/">Github</a></p>
-				</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col l4 offset-l4 m8 offset-m2 s10 offset-s1 team_card">
-				<div class="col l4 l4">
-					<img width = "133" height = "133" class="hide-on-med-and-down" src="images/generic_avatar.jpg"/>
-				</div>
-				<div class="col m6 s6">
-					<h2>Darryl</h2><br/>
-					<p>Backend Developer <br/>
-					Frontend Developer</p>
-				</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col l4 offset-l6 m8 offset-m2 s10 offset-s1 team_card">
-				<div class="col l4 l4">
-					<img width = "133" height = "133" class="hide-on-med-and-down" src="https://avatars1.githubusercontent.com/u/10441993?v=3&s=460"/>
-				</div>
-				<div class="col l6 l6">
-					<h2>Russell</h2><br/>
-					<p>Frontend Developer <br/> Designer
-                    <br/> <a href="https://github.com/russellhowell/">Github</a> </p>
-				</div>
-				</div>
-			</div>
-		</div>
+  <div id="team">
+      <div class="row">
+          <div class="col m4 offset-m1">
+            <br/>
+            <h1>Meet the Team</h1>
+          </div>
+          <div class="col m2 offset-m2">
+          </div>
+          <div class="col m2 push-m3 s6 offset-s3">
+            <a href="documents.html" id="blog-btn"class="btn">Documents</a>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col l4 offset-l1 m8 offset-m2 s10 offset-s1 team_card">
+          <div class="col l4 l4">
+            <img width = "133" height = "133" class="hide-on-med-and-down center" src="images/generic_avatar.jpg"/>
+          </div>
+          <div class="col l6 l6">
+            <h2>Danielle  </h2>
+            <p>Team Leader <br/> Frontend Developer <br/> Designer  <br> <a href="https://github.com/dpekkle/">Github</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col l4 offset-l4 m8 offset-m2 s10 offset-s1 team_card">
+          <div class="col l4 l4">
+              <img width = "133" height = "133" class="hide-on-med-and-down" src="images/generic_avatar.jpg"/>
+          </div>
+          <div class="col m6 s6">
+            <h2>Darryl</h2><br/>
+            <p>Backend Developer <br/>
+            Frontend Developer</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col l4 offset-l6 m8 offset-m2 s10 offset-s1 team_card">
+          <div class="col l4 l4">
+            <img width = "133" height = "133" class="hide-on-med-and-down" src="https://avatars1.githubusercontent.com/u/10441993?v=3&s=460"/>
+          </div>
+          <div class="col l6 l6">
+            <h2>Russell</h2><br/>
+            <p>Frontend Developer <br/> Designer
+            <br/> <a href="https://github.com/russellhowell/">Github</a> </p>
+          </div>
+        </div>
+      </div>
+  </div>
 
-	<footer id="footer" class="page-footer z-depth-2">
-		<div class="container">
-        <span class="accent-color">
-            Built by Dev 17
-        </span>
-		</div>
-	</footer>
-  </body>
-  <script src="js/lib/jquery-2.2.2.min.js"></script>
-  	<script defer src="js/lib/materialize.min.js"></script>
-  <script defer src="js/index.min.js"></script>
+  <footer id="footer" class="page-footer z-depth-2">
+    <div class="container">
+    <span class="accent-color">
+        Built by Dev 17
+    </span>
+    </div>
+  </footer>
+</body>
+<script src="js/lib/jquery-2.2.2.min.js"></script>
+<script defer src="js/lib/materialize.min.js"></script>
+<script defer src="js/index.min.js"></script>
 </html>

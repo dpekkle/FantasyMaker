@@ -1,510 +1,495 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <meta charset="utf-8" name="description" content="Fantasymaker : ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<head>
-		<meta charset="utf-8" name="description" content="Fantasymaker : ">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/favicon/manifest.json">
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="/favicon/favicon.ico">
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
 
-		<!-- Favicons -->
-		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-		<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
-		<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
-		<link rel="manifest" href="/favicon/manifest.json">
-		<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
-		<link rel="shortcut icon" href="/favicon/favicon.ico">
-		<meta name="msapplication-config" content="/favicon/browserconfig.xml">
-		<meta name="theme-color" content="#ffffff">
+  <!-- <script src="js/lib/dialog-polyfill.js"></script>
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/dialog-polyfill.css">
+  -->
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/loader.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/spectrum.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/jquery.contextMenu.min.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/contextMenu.css"/>
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/page-overlay.css"/>
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.min.css"/>
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/attributes-inventory.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/css/playpage.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <title>FantasyMaker</title>
+</head>
+<body>
+  <ul id="profileDropdown1" class="dropdown-content">
+    <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
+  </ul>
+  <ul id="profileDropdown2" class="dropdown-content">
+    <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
+  </ul>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="index.html" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
+          <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons" style="padding-right: 10px;">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
+        <li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
+        <li><a href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
+        <li><a class="profile_button dropdown-button hide" href="#!" data-activates="profileDropdown1"><i class="material-icons right">arrow_drop_down</i></a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
+        <li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
+        <li><a href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
+        <li><a href="#" class="settings_button hide" >Settings</a></li>
+        <li><a class="profile_button dropdown-button hide" href="#!" data-activates="profileDropdown2"><i class="material-icons right">arrow_drop_down</i></a></li>
+      </ul>
+    </div>
+  </nav>
 
-		<!-- <script src="js/lib/dialog-polyfill.js"></script>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/dialog-polyfill.css">
-		-->
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/loader.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/spectrum.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/jquery.contextMenu.min.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/contextMenu.css"/>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/page-overlay.css"/>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/cytoscape.js-panzoom.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/interact.css"/>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/font-awesome.min.css"/>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/attributes-inventory.css" />
-		<link rel="stylesheet" type="text/css" href="stylesheets/css/playpage.css" />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <!-- Jump Node Overlay -->
+  <div id="jump-modal" class="modal modal-fixed-footer" style="overflow-y: hidden">
+    <div class="modal-content">
+      <i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
+      <h4>Jump Node</h4>
+      <form id="choosejumprepeat" action="#">
+        <h5>Repeatedly Jump</h5>
+        <div>
+          <input name="group2" type="radio" id="test3" value="once"/>
+          <label for="test3" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="You will only visit this jump node once.">Only once</label>
+        </div>
+        <div>
+          <input name="group2" type="radio" id="test4" value="repeatedly" checked/>
+          <label for="test4" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="Will not jump to itself while inside it's jump region.">Repeatedly</label>
+        </div>
+        </form>
+        <hr>
+        <h5>Triggering Event</h5>
+        <form id="choosejumptrigger" action="#">
+          <div>
+          <input name="group1" type="radio" id="test1" value="button"/>
+          <label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a specified button is pressed go to this jump node.">Button Press</label>
+        </div>
+        <div>
+          <input name="group1" type="radio" id="test2" value="attribute"/>
+          <label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined conditions are met go to this jump node.">Attribute Condition</label>
+        </div>
+      </form>
+      <hr>
+      <ul class="collapsible popout" data-collapsible="expandable">
+        <li class = "attribute" style = "display:none">
+          <div class="collapsible-header active">Conditions</div>
+          <div class="collapsible-body">
+            <ul id = "jumpConditionList" class="list-unstyled" ></ul>
+          </div>
+        </li>
+      </ul>
+      <div class = "button" style = "display:none">
+        <h5>Linked Button</h5>
+        <button class='choose-button dropdown-button btn' href='#' data-activates='jumpbuttons' onclick="fillJumpButtonSelect();">Choose Button</button> <br/>
+        <ul id='jumpbuttons' class='dropdown-content'>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer" >
+      <div class = "attribute" style = "display:none">
+        <button type="button" class="btn btn-default" onClick="addJumpCondition()" style="width: 30%; float: right;">Add Condition</button>
+      </div>
+      <div class = "button" style = "display:none">
+        <button type="button" class="btn btn-default tooltipped" data-position="top" data-delay="1000" data-tooltip = "Create a new button that can then be tied to this jump node. You can then add this button to any page you want." onClick="createNewJumpButton()" style="width: 30%; float: right;">New Button</button>
+      </div>
+    </div>
+  </div>
 
+  <!-- Page Edits Overlay (Materialize) -->
+  <div id="page-modal" class="modal">
+    <div class="modal-content" style="padding-top: 40px" >
+      <div class = "screenwrapper">
+        <div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
+        </div>
+      </div>
+      <div class = "toolbar" id="edit-page-toolbar">
+        <i class = "fa fa-times fa-2x modal-close" style="float:right; transform-origin: top right;" ></i>
 
-		<title>Fantasymaker</title>
-	</head>
+        <h5 id="pagename">Design Page: </h5>
+        <hr/>
+        <button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "A container to hold any text, dialogue, etc..." onclick=addTextContainer()>Text Box</button><br>
+        <button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Images " onclick=addImageContainer()>Image</button> <br/>
+        <button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Movies (gif,gifv,mov,webm,mp4)" onclick=addVideoContainer()>Video</button> <br/>
+        <button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Output</button><br/>
+        <button class = "special-buttons btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Add buttons with special behaviour">Buttons</button><br/>
+        <hr/>
+        <button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
+        <button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
+        <hr/>
+        <button class = "gridmode btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Enable/disable a grid for your containers to snap to" onclick=toggleGridMode()>Toggle Grid</button> <br/>
+        <button class = "handlemode btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Lets you preview how your page will look without the above handles" onclick=toggleHandles()>Toggle Handles</button> <br/>
 
-	<body>
-	<ul id="profileDropdown1" class="dropdown-content">
-	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
-	</ul>
-	<ul id="profileDropdown2" class="dropdown-content">
-	  <li><a href="#!" onclick=project_logOut()>Log Out</a></li>
-	</ul>
-	<nav>
-		<div class="nav-wrapper">
-			<a href="index.html" class="brand-logo">&nbsp; &nbsp; FantasyMaker</a>
-      		<a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons" style="padding-right: 10px;">menu</i></a>
-			<ul class="right hide-on-med-and-down">
-				<li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
-				<li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
-				<li><a href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
-				<li><a class="profile_button dropdown-button hide" href="#!" data-activates="profileDropdown1"><i class="material-icons right">arrow_drop_down</i></a></li>
-			</ul>
-			<ul class="side-nav" id="mobile-demo">
-				<li><a href="#" class="login_button" onclick=project_login()>Login</a></li>
-				<li><a href="#" class="signup_button" onclick=project_signUp()>Sign Up</a></li>
-				<li><a href="#" class="project_button hide" onclick=projectSettings_prepThenNavToProjects(project_project)>Project</a></li>
-				<li><a href="#" class="settings_button hide" >Settings</a></li>
-				<li><a class="profile_button dropdown-button hide" href="#!" data-activates="profileDropdown2"><i class="material-icons right">arrow_drop_down</i></a></li>
-			</ul>
-		</div>
-	</nav>
+        <button class = "pagetemplate btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Copy and save all the containers and styles within the page node, letting you make copies" onclick=createPageTemplate()>Save Page Template</button> <br/>
+        <hr/>
+        <div style="margin-top: 10px;">
+          <i id = "addevent" class = "fa fa-plus fa-2x dropdown-button"style="float: right;"></i>
+          <i id = "removeevent" class = "fa fa-minus fa-2x"style="float: right; margin-right: 5px;" onclick=deleteEvent()></i>
+          <h6>Events</h6>
+        </div>
+        <!-- Events pane -->
+        <div id = "eventspane">
+        </div>
+      </div>
+    </div>
+  </div>
 
-	<!-- Jump Node Overlay -->
-	<div id="jump-modal" class="modal modal-fixed-footer" style="overflow-y: hidden">
-		<div class="modal-content">
-			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
-			<h4>Jump Node</h4>
-		  	<form id="choosejumprepeat" action="#">
-				<h5>Repeatedly Jump</h5>
-				<div>
-					<input name="group2" type="radio" id="test3" value="once"/>
-					<label for="test3" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="You will only visit this jump node once.">Only once</label>
-				</div>
-				<div>
-					<input name="group2" type="radio" id="test4" value="repeatedly" checked/>
-					<label for="test4" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="Will not jump to itself while inside it's jump region.">Repeatedly</label>
-				</div>
-		    </form>
-		    <hr>
-		    <h5>Triggering Event</h5>
-		  	<form id="choosejumptrigger" action="#">
-		  		<div>
-					<input name="group1" type="radio" id="test1" value="button"/>
-					<label for="test1" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When a specified button is pressed go to this jump node.">Button Press</label>
-				</div>
-				<div>
-					<input name="group1" type="radio" id="test2" value="attribute"/>
-					<label for="test2" class="tooltipped" data-position="right" data-delay="1000" data-tooltip="When the defined conditions are met go to this jump node.">Attribute Condition</label>
-				</div>
-			</form>
-		    <hr>
-			<ul class="collapsible popout" data-collapsible="expandable">
-				<li class = "attribute" style = "display:none">
-					<div class="collapsible-header active">Conditions</div>
-					<div class="collapsible-body">
-						<ul id = "jumpConditionList" class="list-unstyled" ></ul>
-					</div>
-				</li>
-			</ul>
-			<div class = "button" style = "display:none">
-			    <h5>Linked Button</h5>
-				<button class='choose-button dropdown-button btn' href='#' data-activates='jumpbuttons' onclick="fillJumpButtonSelect();">Choose Button</button> <br/>
-				<ul id='jumpbuttons' class='dropdown-content'>
-				</ul>
-			</div>
-		</div>
-		<div class="modal-footer" >
-			<div class = "attribute" style = "display:none">
-				<button type="button" class="btn btn-default" onClick="addJumpCondition()" style="width: 30%; float: right;">Add Condition</button>
-			</div>
-			<div class = "button" style = "display:none">
-				<button type="button" class="btn btn-default tooltipped" data-position="top" data-delay="1000" data-tooltip = "Create a new button that can then be tied to this jump node. You can then add this button to any page you want." onClick="createNewJumpButton()" style="width: 30%; float: right;">New Button</button>
-			</div>
-		</div>
-	</div>
-
-	<!-- Page Edits Overlay (Materialize) -->
-	<div id="page-modal" class="modal">
-		<div class="modal-content" style="padding-top: 40px" >
-			<div class = "screenwrapper">
-				<div id="pagecontainers" class = "drag-container" style="width: 800px; height: 700px;">
-				</div>
-			</div>
-			<div class = "toolbar" id="edit-page-toolbar">
-				<i class = "fa fa-times fa-2x modal-close" style="float:right; transform-origin: top right;" ></i>
-
-				<h5 id="pagename">Design Page: </h5>
-				<hr/>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "A container to hold any text, dialogue, etc..." onclick=addTextContainer()>Text Box</button><br>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Images " onclick=addImageContainer()>Image</button> <br/>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Movies (gif,gifv,mov,webm,mp4)" onclick=addVideoContainer()>Video</button> <br/>
-				<button class = "btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Will display the output of associated control nodes as they are processed" oncLick=addOutputContainer()>Output</button><br/>
-				<button class = "special-buttons btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Add buttons with special behaviour">Buttons</button><br/>
-				<hr/>
-				<button id = "ColourPicker1" class = "btn">Primary Colour</button> <br/>
-				<button id = "ColourPicker2" class = "btn">Secondary Colour</button> <br/>
-				<hr/>
-				<button class = "gridmode btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Enable/disable a grid for your containers to snap to" onclick=toggleGridMode()>Toggle Grid</button> <br/>
-				<button class = "handlemode btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Lets you preview how your page will look without the above handles" onclick=toggleHandles()>Toggle Handles</button> <br/>
-
-				<button class = "pagetemplate btn tooltipped" data-position="left" data-delay="1000" data-tooltip = "Copy and save all the containers and styles within the page node, letting you make copies" onclick=createPageTemplate()>Save Page Template</button> <br/>
-				<hr/>
-				<div style="margin-top: 10px;">
-					<i id = "addevent" class = "fa fa-plus fa-2x dropdown-button"style="float: right;"></i>
-					<i id = "removeevent" class = "fa fa-minus fa-2x"style="float: right; margin-right: 5px;" onclick=deleteEvent()></i>
-					<h6>Events</h6>
-				</div>
-				<!-- Events pane -->
-				<div id = "eventspane">
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<!-- Control Edit Overlay (Materialize) -->
-	<div id="control-modal" class="modal modal-fixed-footer card" >
-		<div class="modal-content">
-			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
-			<div class=""style="overflow-y: auto;" >
-				<h4 id="controlnode_name">Control Node: </h4>
-				<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
-			</div>
-		</div>
-		<div class="card-reveal">
-			<span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-			<p>Here is some more information about this product that is only revealed once clicked on.</p>
-		</div>
-		<div class="modal-footer">
-			<span class="activator btn-floating waves-effect waves-light gray"><i class="material-icons">live_help</i></span>
-		</div>
-	</div>
+  <!-- Control Edit Overlay (Materialize) -->
+  <div id="control-modal" class="modal modal-fixed-footer card" >
+    <div class="modal-content">
+      <i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
+      <div class=""style="overflow-y: auto;" >
+        <h4 id="controlnode_name">Control Node: </h4>
+        <ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
+      </div>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+      <p>Here is some more information about this product that is only revealed once clicked on.</p>
+    </div>
+    <div class="modal-footer">
+      <span class="activator btn-floating waves-effect waves-light gray"><i class="material-icons">live_help</i></span>
+    </div>
+  </div>
 
 
-	<!-- Connection Edit Overlay (Materialize) -->
-	<div id="connection-modal" class="modal modal-fixed-footer card">
-		<div class="modal-content">
-			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
-			<div class="row input-field">
-				<div class="col s2">
-					<h4 class= "truncate" id="edge_name">Edge: </h4>
-				</div>
-				<div class="col s8">
-					<h4 class="truncate" id="edge_details"></h4>
-				</div>
-			</div>
+  <!-- Connection Edit Overlay (Materialize) -->
+  <div id="connection-modal" class="modal modal-fixed-footer card">
+    <div class="modal-content">
+      <i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
+      <div class="row input-field">
+        <div class="col s2">
+          <h4 class= "truncate" id="edge_name">Edge: </h4>
+        </div>
+        <div class="col s8">
+          <h4 class="truncate" id="edge_details"></h4>
+        </div>
+      </div>
 
-			<ul class="collapsible popout" data-collapsible="expandable">
-				<li>
-					<div class="collapsible-header active">Conditions</div>
-					<div class="collapsible-body"> <ul id = "conditionsList" class="list-unstyled" ></ul></div>
-				</li>
-				<li>
-					<div class="collapsible-header active">Outcomes</div>
-					<div class="collapsible-body"><ul id = "outcomesList" class="list-unstyled" ></ul></div>
-				</li>
-			</ul>
-		</div>
-		<div class="card-reveal">
-			<span class="card-title grey-text text-darken-4">Help<i class="material-icons right">close</i></span>
-			<div class="row">
-				<div class="col s5 offset-s1"><p>Here is some more information about this product that is only revealed once clicked on.</p></div>
-				<div class="col s4 offset-s1">
-					<div class="video-container">
-						<iframe width="560" height="315" src="https://www.youtube.com/embed/VPaNyoaUDDk" frameborder="0" allowfullscreen></iframe>
-		      </div>
-				</div>
-			</div>
+      <ul class="collapsible popout" data-collapsible="expandable">
+        <li>
+          <div class="collapsible-header active">Conditions</div>
+          <div class="collapsible-body"> <ul id = "conditionsList" class="list-unstyled" ></ul></div>
+        </li>
+        <li>
+          <div class="collapsible-header active">Outcomes</div>
+          <div class="collapsible-body"><ul id = "outcomesList" class="list-unstyled" ></ul></div>
+        </li>
+      </ul>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Help<i class="material-icons right">close</i></span>
+      <div class="row">
+        <div class="col s5 offset-s1"><p>Here is some more information about this product that is only revealed once clicked on.</p></div>
+        <div class="col s4 offset-s1">
+          <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/VPaNyoaUDDk" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
 
-		</div>
-		<div class="modal-footer">
-			<span class="activator btn-floating waves-effect waves-light gray"><i class="material-icons">live_help</i></span>
-			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewOutcome('outcomesList') style="width: 30%; margin-right: 1%;">Add Outcome</button>
-			<button type="button" class="btn btn-default" onClick=edgeOverlay_addNewCondition('conditionsList') style="width: 30%; margin-right: 1%;">Add Condition</button>
+    </div>
+    <div class="modal-footer">
+      <span class="activator btn-floating waves-effect waves-light gray"><i class="material-icons">live_help</i></span>
+      <button type="button" class="btn btn-default" onClick=edgeOverlay_addNewOutcome('outcomesList') style="width: 30%; margin-right: 1%;">Add Outcome</button>
+      <button type="button" class="btn btn-default" onClick=edgeOverlay_addNewCondition('conditionsList') style="width: 30%; margin-right: 1%;">Add Condition</button>
 
-		</div>
-	</div>
+    </div>
+  </div>
 
-	<div id="audio-modal" class=" modal">
-		<h4>Audio</h4>
-		<div class="modal-content">
-			<ul id="audiolist" style="padding-top: 10px;" class="collapsible popout" data-collapsible="accordion">
+  <div id="audio-modal" class=" modal">
+    <h4>Audio</h4>
+    <div class="modal-content">
+      <ul id="audiolist" style="padding-top: 10px;" class="collapsible popout" data-collapsible="accordion">
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" onClick=project_project.audio.addAssetButton(); style="width: 30%; margin-right: 1%;">Add</button>
+      <button type="button" class="btn btn-default" onClick=project_project.audio.removeAsset(); style="width: 30%; margin-right: 1%;">Remove</button>
+    </div>
+  </div>
 
-			</ul>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" onClick=project_project.audio.addAssetButton(); style="width: 30%; margin-right: 1%;">Add</button>
-			<button type="button" class="btn btn-default" onClick=project_project.audio.removeAsset(); style="width: 30%; margin-right: 1%;">Remove</button>
-		</div>
-	</div>
+  <!-- Attributes Modal -->
+  <div id="attributes-modal" class=" modal">
+    <div class="modal-content">
+      <div class="row max-height" >
+        <!-- Attributes Tree View -->
+        <div class="col m4 max-height pos-relative">
+          <div class="max-height" style="overflow-y: auto">
+            <ul id="attributes-treeView" class="treeView">
+              <li>Attributes<ul id="all-attributes-inner-list"></ul></li>
+            </ul>
+          </div>
+          <a class="btn-floating red right tooltipped" data-tooltip="Add a folder at the highest level" style="position: absolute; bottom: 10px; right: 17px;" onclick="gameAttributes_createModule_addAttributeFolder(false);"><i class="material-icons small">add</i></a>
+        </div>
+        <!-- Context Pane -->
+        <div class="col m8 max-height">
+          <div class="card-panel" style="height: 100%;">
+            <div class="row">
+              <nav>
+                <div class="nav-wrapper">
+                  <div class="col m9 s9" id="folder-breadcrumbs-container" >
+                  </div>
+                  <a class="col m1 s1 attributesButton tooltipped hide-on-prevent-delete" onclick="gameAttributes_createModule_openEditFolderModal()" style="cursor:pointer;" data-tooltip="Change Current Folder's Name"><i class="material-icons small">mode_edit</i></a>
+                  <a class="col m1 s1 attributesButton tooltipped hide-on-prevent-delete" onclick="gameAttributes_createModule_deleteFolder()" style="cursor:pointer;" data-tooltip="Delete Current Folder"><i class="material-icons small">delete</i></a>
+                </div>
+              </nav>
+            </div>
+            <div class="row" style="height: 85%;" >
+              <div id="folder-container" class="max-height" style="height:150px; overflow:auto;">
 
-	<!-- Attributes Modal -->
-	<div id="attributes-modal" class=" modal">
-		<div class="modal-content">
-			<div class="row max-height" >
-				<!-- Attributes Tree View -->
-				<div class="col m4 max-height pos-relative">
-					<div class="max-height" style="overflow-y: auto">
-					<ul id="attributes-treeView" class="treeView">
-						<li>Attributes<ul id="all-attributes-inner-list"></ul></li>
-					</ul>
+              </div>
+            </div>
+            <a class="btn-floating red right  attributesButton tooltipped" data-tooltip="Add a folder within the current folder" onclick="gameAttributes_createModule_addAttributeFolder(currentAttributeObj.path);" style="margin-bottom: 10px;"><i class="material-icons small">add</i></a><br/><br/>
+            <hr/>
+            <h5>Values: </h5>
+            <div  id="values-container" class="values-list-container row" style="height: 50%; overflow-y: auto" >
+            </div>
+            <a class="btn-floating red right attributesButton tooltipped" data-tooltip="Add a value within the current folder" onclick="gameAttributes_createModule_addAttributeValue();"><i class="material-icons small">add</i></a><br/><br/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Inventory Modal -->
+  <div id="inventory-definition-modal" class=" modal">
+    <div class="modal-content">
+      <div class="row max-height scroll-y">
+        <h2>Inventory Items</h2>
+        <p>Define items available in your game</p>
 
-					</div>
-					<a class="btn-floating red right tooltipped" data-tooltip="Add a folder at the highest level" style="position: absolute; bottom: 10px; right: 17px;" onclick="gameAttributes_createModule_addAttributeFolder(false);"><i class="material-icons small">add</i></a>
-				</div>
+        <ul class="collapsible inventory-item-list" data-collapsible="accordion">
+        </ul>
 
-				<!-- Context Pane -->
-				<div class="col m8 max-height">
-					<div class="card-panel" style="height: 100%;">
-						<div class="row">
-							<nav>
-								<div class="nav-wrapper">
-									<div class="col m9 s9" id="folder-breadcrumbs-container" >
-									</div>
-									<a class="col m1 s1 attributesButton tooltipped hide-on-prevent-delete" onclick="gameAttributes_createModule_openEditFolderModal()" style="cursor:pointer;" data-tooltip="Change Current Folder's Name"><i class="material-icons small">mode_edit</i></a>
-									<a class="col m1 s1 attributesButton tooltipped hide-on-prevent-delete" onclick="gameAttributes_createModule_deleteFolder()" style="cursor:pointer;" data-tooltip="Delete Current Folder"><i class="material-icons small">delete</i></a>
-								</div>
-							</nav>
-						</div>
-						<div class="row" style="height: 85%;" >
-							<div id="folder-container" class="max-height" style="height:150px; overflow:auto;">
+      </div>
+      <a class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameInventory_createModule_defineItem()"><i class="material-icons">add</i></a>
+    </div>
 
-						</div>
-						<a class="btn-floating red right  attributesButton tooltipped" data-tooltip="Add a folder within the current folder" onclick="gameAttributes_createModule_addAttributeFolder(currentAttributeObj.path);" style="margin-bottom: 10px;"><i class="material-icons small">add</i></a><br/><br/>
-						<hr/>
-							<h5>Values: </h5>
-						<div  id="values-container" class="values-list-container row" style="height: 50%; overflow-y: auto" >
+    <!-- login screen -->
+    <div id="requestLogin" class="login-container hide">
+      <img class="login-img" src="/images/banner_image.jpg">
+      <div class = "login-rounded-panel">
+        <div class="login-header" >
+          <h1 class="center-align">
+            <span class="login-text-white">Welcome to Fantasy</span><span class="login-text-green">Maker</span>
+            <span class="login-text-white">Creator!</span>
+          </h1>
+          <div class="login-options">
+            <a href="#"><div onclick="project_signUp()"><h2 class="login-signup login-text-green center-align">Sign Up</h2></div></a>
+            <h2 class="login-or login-text-white center-align">Or</h2>
+            <a href="#"><div onclick="project_login()"><h2 class="login-login login-text-green center-align">Log In</h2></div></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- project screen -->
+  <div id="projects" class="">
+    <div id="currentProject" class="hide" style="padding: 20px;">
+      <table class="highlight bordered">
+        <h2 id="currentProject_header"></h2>
+        <button class="btn" onclick="nav_toMain()">Resume Current Project</button>
+          <thead>
+            <tr>
+                <th data-field=""></th>
+            </tr>
+          </thead>
 
-						</div>
-							<a class="btn-floating red right attributesButton tooltipped" data-tooltip="Add a value within the current folder" onclick="gameAttributes_createModule_addAttributeValue();"><i class="material-icons small">add</i></a><br/><br/>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+          <tbody>
+            <tr>
+              <td >Title</td>
+              <td id="currentProject_title"></td>
+              <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyTitle()"><i class="small material-icons">mode_edit</i></a></td>
+            </tr>
+            <tr>
+              <td>Author</td>
+              <td id="currentProject_author"></td>
+              <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyAuthor()"><i class="small material-icons">mode_edit</i></a></td>
+            </tr>
+            <tr>
+              <td>Description</td>
+              <td id="currentProject_desc"></td>
+              <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyDesc()"><i class="small material-icons">mode_edit</i></a></td>
+            </tr>
+            <tr>
+              <td>Published</td>
+              <td>
+                <a id="currentProject_gameLink" href="" target="_blank" ></a>
+                <a id="currentProject_noGameLink" style="color: black;">No</a>
+                  <div class="right">
+                    <div class="switch">
+                      <label><input type="checkbox" id="pubSwitch"><span class="lever"></span></label>
+                    </div>
+                  </div>
+              </td>
+              <td><a id="publishButton" class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyPublished()" ><i class="small material-icons">mode_edit</i></a></td>
 
-	<!-- Inventory Modal -->
-	<div id="inventory-definition-modal" class=" modal">
-		<div class="modal-content">
-			<div class="row max-height scroll-y">
-				<h2>Inventory Items</h2>
-				<p>Define items available in your game</p>
+            </tr>
+            <tr>
+              <td>Browser Image</td>
+              <td id="currentProject_imageLink"></td>
+              <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyImage()"><i class="small material-icons">mode_edit</i></a></td>
+            </tr>
+            <tr>
+              <td>Play Module Background Image</td>
+              <td id="currentProject_backgroundImageLink"></td>
+              <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyBackgroundImage()"><i class="small material-icons">mode_edit</i></a></td>
+            </tr>
+            <tr>
+              <td>Game Resolution</td>
+              <td id="currentProject_resolution"></td>
+              <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyResolution()"><i class="small material-icons">mode_edit</i></a></td>
+            </tr>
+            <tr>
+              <td>Date Created</td>
+              <td id="currentProject_dateCreated"></td>
+              <td><a class="btn-floating btn-small waves-effect waves-light teal disabled"  ><i class="small material-icons">mode_edit</i></a></td>
+            </tr>
+            <tr>
+              <td>Last Modified</td>
+              <td id="currentProject_lastModified"></td>
+              <td><a class="btn-floating btn-small waves-effect waves-light teal disabled" id=""><i class="small material-icons">mode_edit</i></a></td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="row ">
+        <div class="col s1"><p></p></div>
+        <div class="col s10">
+          <h2 id="projects_title">Load Project          
+            <a onclick="project_createNewProject()" class="btn-floating btn-large waves-effect waves-light red right"><i class="large material-icons" style="transform: translateY(-7%);">add</i></a>
+          </h2>
+        </div>
+        <div class="col s1">
+        </div>
+      </div>
+        <div class="row">
+          <ul id="projectsList1"></ul>
+        </div>
+        <div class="row">
+          <ul id="projectsList2"></ul>
+        </div>
+        <ul class="pagination center-align">
+          <li id="projectsPaginationLeft" class="disabled" onclick="projectSettings_switchPage(projectSettings_activePage - 1,this)"><a ><i class="material-icons">chevron_left</i></a></li>
+          <li id="projectsPaginationRight" class="waves-effect" onclick="projectSettings_switchPage(projectSettings_activePage + 1,this)"><a><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+    </div>
+  </div>
 
-				<ul class="collapsible inventory-item-list" data-collapsible="accordion">
-				</ul>
-
-				</div>
-			<a class="btn-floating btn-medium waves-effect waves-light red fab" onclick="gameInventory_createModule_defineItem()"><i class="material-icons">add</i></a>
-			</div>
-		</div>
-
-		<!-- login screen -->
-		<div id="requestLogin" class="login-container hide">
-			<img class="login-img" src="/images/banner_image.jpg">
-			<div class = "login-rounded-panel">
-	    	<div class="login-header" >
-					<h1 class="center-align">
-						<span class="login-text-white">Welcome to Fantasy</span><span class="login-text-green">Maker</span>
-						<span class="login-text-white">Creator!</span>
-					</h1>
-					<div class="login-options">
-						<a href="#"><div onclick="project_signUp()"><h2 class="login-signup login-text-green center-align">Sign Up</h2></div></a>
-						<h2 class="login-or login-text-white center-align">Or</h2>
-						<a href="#"><div onclick="project_login()"><h2 class="login-login login-text-green center-align">Log In</h2></div></a>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- project screen -->
-	<div id="projects" class="">
-		<div id="currentProject" class="hide" style="padding: 20px;">
-			<table class="highlight bordered">
-				<h2 id="currentProject_header"></h2>
-				<button class="btn" onclick="nav_toMain()">Resume Current Project</button>
-	        <thead>
-	          <tr>
-	              <th data-field=""></th>
-	          </tr>
-	        </thead>
-
-	        <tbody>
-	          <tr>
-	            <td >Title</td>
-	            <td id="currentProject_title"></td>
-	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyTitle()"><i class="small material-icons">mode_edit</i></a></td>
-	          </tr>
-	          <tr>
-	            <td>Author</td>
-	            <td id="currentProject_author"></td>
-	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyAuthor()"><i class="small material-icons">mode_edit</i></a></td>
-	          </tr>
-	          <tr>
-	            <td>Description</td>
-	            <td id="currentProject_desc"></td>
-	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyDesc()"><i class="small material-icons">mode_edit</i></a></td>
-	          </tr>
-						<tr>
-	            <td>Published</td>
-	            <td>
-								<a id="currentProject_gameLink" href="" target="_blank" ></a>
-								<a id="currentProject_noGameLink" style="color: black;">No</a>
-									<div class="right">
-									  <div class="switch">
-									    <label><input type="checkbox" id="pubSwitch"><span class="lever"></span></label>
-									  </div>
-									</div>
-							</td>
-							<td><a id="publishButton" class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyPublished()" ><i class="small material-icons">mode_edit</i></a></td>
-
-	          </tr>
-						<tr>
-	            <td>Browser Image</td>
-	            <td id="currentProject_imageLink"></td>
-	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyImage()"><i class="small material-icons">mode_edit</i></a></td>
-	          </tr>
-						<tr>
-	            <td>Play Module Background Image</td>
-	            <td id="currentProject_backgroundImageLink"></td>
-	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyBackgroundImage()"><i class="small material-icons">mode_edit</i></a></td>
-	          </tr>
-						<tr>
-	            <td>Game Resolution</td>
-	            <td id="currentProject_resolution"></td>
-	            <td><a class="btn-floating btn-small waves-effect waves-light teal" onclick="project_modifyResolution()"><i class="small material-icons">mode_edit</i></a></td>
-	          </tr>
-						<tr>
-	            <td>Date Created</td>
-	            <td id="currentProject_dateCreated"></td>
-	            <td><a class="btn-floating btn-small waves-effect waves-light teal disabled"  ><i class="small material-icons">mode_edit</i></a></td>
-	          </tr>
-						<tr>
-	            <td>Last Modified</td>
-	            <td id="currentProject_lastModified"></td>
-	            <td><a class="btn-floating btn-small waves-effect waves-light teal disabled" id=""><i class="small material-icons">mode_edit</i></a></td>
-	          </tr>
-	        </tbody>
-	      </table>
-		</div>
-		<div class="divider"></div>
-		<div>
-			<div class="row ">
-				<div class="col s1"><p></p></div>
-				<div class="col s10">
-					<h2 id="projects_title">Load Project					
-						<a onclick="project_createNewProject()" class="btn-floating btn-large waves-effect waves-light red right"><i class="large material-icons" style="transform: translateY(-7%);">add</i></a>
-					</h2>
-				</div>
-				<div class="col s1">
-				</div>
-			</div>
-				<div class="row">
-					<ul id="projectsList1"></ul>
-				</div>
-				<div class="row">
-					<ul id="projectsList2"></ul>
-				</div>
-				<ul class="pagination center-align">
-					<li id="projectsPaginationLeft" class="disabled" onclick="projectSettings_switchPage(projectSettings_activePage - 1,this)"><a ><i class="material-icons">chevron_left</i></a></li>
-			    <li id="projectsPaginationRight" class="waves-effect" onclick="projectSettings_switchPage(projectSettings_activePage + 1,this)"><a><i class="material-icons">chevron_right</i></a></li>
-				</ul>
-		</div>
-	</div>
-
-	<!-- Main Content -->
-	<div id="mainContent" class="container-fluid hide">
-		<div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
-			<div class = "col s12 l12">
-					<div id="cyTab">
-						<div class="col s9 l9" id="cy">
-							<!-- Grid "workspace" container -->
-						</div>
-						<div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
-							<h5 id="UI_projName"></h5>
-							<hr/>
-							<button class='pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Page Node</button> <br/>
-							<ul id='pagetemplates' class='dropdown-content' >
-							</ul>
-							<button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
-							<button class="jumpmode dropdown-button btn" href='#' onclick=changeState(this) data-activates='jumpmodes'>Jump Node</button><br/>
-							<ul id='jumpmodes' class='dropdown-content'>
-								<li><a onclick='chooseJump("Start")'>Start</a></li>
-								<li><a onclick='chooseJump("End")'>End</a></li>
-							</ul>
-							<button class="connectionmode btn" onclick=changeState(this)>Edge</button><br/>
-							<button class="prebuilt dropdown-button btn" href='#' onclick=changeState(this) data-activates='prebuilts'>Groups</button><br/>
-							<ul id='prebuilts' class='dropdown-content'>
-								<li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
-								<li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
-							</ul>
-							<hr/>
-							<a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
-							<a class="waves-effect waves-light btn" onclick="openInventoryDefinitionOverlay()">Inventory</a>
-							<br/>
-							<a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a>
-							<br/>
-							<hr/>
-							<button class="connectivity btn" onclick="runTests()">Test Graph</button> <br/>
-							<button class='dropdown-button btn' href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button> <br/>
-							<ul id='stylegraph' class='dropdown-content'>
-								<li><a onclick="layout_driver('Tree');">Tree</a></li>
-								<li><a onclick="layout_driver('Grid');">Grid</a></li>
-								<li><a onclick="layout_driver('Spread');">Spread</a></li>
-								<li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
-								<li><a>-----------</a></li>
-								<li><a onclick="layout_driver('Undo');">Undo</a></li>
-								<li><a onclick="layout_driver('Clear');">Clear Undo</a></li>
-								<li><a onclick="layout_driver('Lock');">Lock Graph</a></li>
-							</ul>
-							<hr/>
-							<button class="savebutton btn" onclick="saveProject()">Save</button><br/>
-							<button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button><br/>
+  <!-- Main Content -->
+  <div id="mainContent" class="container-fluid hide">
+    <div class="row" style="margin-bottom:0px"> <!-- Default is 20px, was causing page to scrollbar -->
+      <div class = "col s12 l12">
+        <div id="cyTab">
+          <div class="col s9 l9" id="cy">
+            <!-- Grid "workspace" container -->
+          </div>
+          <div class="col s3 l3" id="sidebar"> <!-- Sidebar -->
+            <h5 id="UI_projName"></h5>
+            <hr/>
+            <button class='pagemode dropdown-button btn' href='#' onclick="changeState(this); fillPageTemplatesSelect();" data-activates='pagetemplates'>Page Node</button> <br/>
+            <ul id='pagetemplates' class='dropdown-content' >
+            </ul>
+            <button class="controlmode btn" onclick=changeState(this)>Control Node</button><br/>
+            <button class="jumpmode dropdown-button btn" href='#' onclick=changeState(this) data-activates='jumpmodes'>Jump Node</button><br/>
+            <ul id='jumpmodes' class='dropdown-content'>
+              <li><a onclick='chooseJump("Start")'>Start</a></li>
+              <li><a onclick='chooseJump("End")'>End</a></li>
+            </ul>
+            <button class="connectionmode btn" onclick=changeState(this)>Edge</button><br/>
+            <button class="prebuilt dropdown-button btn" href='#' onclick=changeState(this) data-activates='prebuilts'>Groups</button><br/>
+            <ul id='prebuilts' class='dropdown-content'>
+              <li><a onclick='choosePrebuilt("Empty")'>Empty</a></li>
+              <li><a onclick='choosePrebuilt("Fight")'>Fight</a></li>
+            </ul>
+            <hr/>
+            <a class="waves-effect waves-light btn" onclick="openAttributesOverlay()" >Attributes</a>
+            <a class="waves-effect waves-light btn" onclick="openInventoryDefinitionOverlay()">Inventory</a>
+            <br/>
+            <a class="waves-effect waves-light btn" onclick=openAudioOverlay()>Audio</a>
+            <br/>
+            <hr/>
+            <button class="connectivity btn" onclick="runTests()">Test Graph</button> <br/>
+            <button class='dropdown-button btn' href='#' data-activates='stylegraph' onclick="layout_save()">Style Graph</button> <br/>
+            <ul id='stylegraph' class='dropdown-content'>
+              <li><a onclick="layout_driver('Tree');">Tree</a></li>
+              <li><a onclick="layout_driver('Grid');">Grid</a></li>
+              <li><a onclick="layout_driver('Spread');">Spread</a></li>
+              <li><a onclick="layout_driver('Smart Spread');">Smart Spread</a></li>
+              <li><a>-----------</a></li>
+              <li><a onclick="layout_driver('Undo');">Undo</a></li>
+              <li><a onclick="layout_driver('Clear');">Clear Undo</a></li>
+              <li><a onclick="layout_driver('Lock');">Lock Graph</a></li>
+            </ul>
+            <hr/>
+            <button class="savebutton btn" onclick="saveProject()">Save</button><br/>
+            <button class="playgamebutton btn" onclick="runPlayGameTests()">Play Game</button><br/>
 
 
-							<hr/>
-							<button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
-							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button>
-							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="connection-modal">Edit Edge</button>
-							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="control-modal">Edit Control</button>
-							<button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="jump-modal">Edit Jump</button>
-							<button class="btn editname editbutton" style = "display:none;" onclick="nameNode(cy.$(':selected')[0])">Name Node</button>
-							<button class="btn setstart editbutton" style = "display:none;" onclick="setStart()">Set Start Node</button>
-							<button class="btn removeparent editbutton" style = "display:none;" onclick="removeParent()">Remove From Group</button>
+            <hr/>
+            <button class="deletebutton btn selectionbutton" style = "display:none;" onclick=changeState(this)>Delete</button><br/>
+            <button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button>
+            <button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="connection-modal">Edit Edge</button>
+            <button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="control-modal">Edit Control</button>
+            <button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="jump-modal">Edit Jump</button>
+            <button class="btn editname editbutton" style = "display:none;" onclick="nameNode(cy.$(':selected')[0])">Name Node</button>
+            <button class="btn setstart editbutton" style = "display:none;" onclick="setStart()">Set Start Node</button>
+            <button class="btn removeparent editbutton" style = "display:none;" onclick="removeParent()">Remove From Group</button>
 
 
-							<br/>
-							<br/>
-						</div>
-					</div>
-					<div id="Play">
-						<button class="gobackbutton btn" onclick="createModule_showProject()">Return To Project</button>
-						<button class="progressbutton btn" onclick=progressStory(0)>Start</button>
-						<div id="playwindow">
-							<div id="loader"></div>
-							<div id = "audioplayerlist">
-								<!-- fills with audio elements for each sound to play -->
-							</div>
-							<div id = "videoplayer"></div>
-							<div class = "playpage">
-							</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-	</div>
-</div>
-
-	</body>
-	<script src="js/lib/queue.js"></script>
-	<script src="js/lib/jquery-2.2.2.min.js"></script>
-	<script defer src="js/lib/cytoscape3x.min.js"></script>
-	<script defer src="js/lib/cytoscape-panzoom.js"></script>
-	<script defer src="js/lib/cytoscape-cose-bilkent.js"></script>
-	<script defer src="js/lib/materialize.min.js"></script>
-	<script defer src="js/lib/stable-interact.min.js"></script>
-	<script defer src="js/lib/jquery.contextMenu.min.js"></script>
-	<script defer src="js/lib/jquery.ui.position.min.js"></script>
-	<script defer src="js/lib/spectrum.js"></script>
-	<script defer src="js/lib/CollapsibleLists.compressed.js"></script>
-	<!--<script defer src="js/lib/jquery.cookie.js"></script>-->
-	<script src="http://www.youtube.com/player_api"></script>
-
-	<script defer src="js/main/dev.min.js"></script>
+            <br/>
+            <br/>
+          </div>
+        </div>
+        <div id="Play">
+          <button class="gobackbutton btn" onclick="createModule_showProject()">Return To Project</button>
+          <button class="progressbutton btn" onclick=progressStory(0)>Start</button>
+          <div id="playwindow">
+            <div id="loader">
+            </div>
+            <div id = "audioplayerlist">
+              <!-- fills with audio elements for each sound to play -->
+            </div>
+            <div id = "videoplayer">
+            </div>
+            <div class = "playpage">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+  <script src="js/lib/queue.js"></script>
+  <script src="js/lib/jquery-2.2.2.min.js"></script>
+  <script defer src="js/lib/cytoscape3x.min.js"></script>
+  <script defer src="js/lib/cytoscape-panzoom.js"></script>
+  <script defer src="js/lib/cytoscape-cose-bilkent.js"></script>
+  <script defer src="js/lib/materialize.min.js"></script>
+  <script defer src="js/lib/stable-interact.min.js"></script>
+  <script defer src="js/lib/jquery.contextMenu.min.js"></script>
+  <script defer src="js/lib/jquery.ui.position.min.js"></script>
+  <script defer src="js/lib/spectrum.js"></script>
+  <script defer src="js/lib/CollapsibleLists.compressed.js"></script>
+  <script src="http://www.youtube.com/player_api"></script>
+  <script defer src="js/main/dev.min.js"></script>
 </html>
