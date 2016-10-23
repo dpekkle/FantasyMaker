@@ -145,6 +145,7 @@ var cy = cytoscape({
 		{
 			selector: '.jumpend',
 			style:{
+				'label': "",
 				'width': 35,
 				'height': 35,
 				'shape': 'polygon', // inverted triangle
