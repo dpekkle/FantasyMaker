@@ -368,7 +368,7 @@ function checkInTutorial()
 {
 	finishTutorial();
 
-	if (project_project.projectName == "yoqpzHbHLaxCX__PcdHp" || project_project.title == "FantasyMaker Tutorial")
+	if (project_project.projectName == "yoqpzHbHLaxCX__PcdHp" || project_project.title == "Tutorial")
 	{
 		console.log("IN TUTORIAL PROJECT")
 		if (window.location.href !== host_playModule())

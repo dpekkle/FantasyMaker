@@ -59,7 +59,7 @@ module.exports.retreiveTutorial = function(projectToReturn, outer_callback){
               data: "Tutorial project not found"
             }
             for(var i = 0; i<all.projects.length; i++){
-              if(all.projects[i].title === 'FantasyMaker Tutorial'){
+              if(all.projects[i].title === 'Tutorial'){
                 tutName = all.projects[i]
                 i = all.projects.length
               }
