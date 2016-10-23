@@ -9,6 +9,7 @@ var currentSelectedNode = null //used for setting defaultFailEdge
 function populateControlOverlay(node){
 
 	$('#controlnode_name').text('Control Node: ' + node.json().data.name)
+	$('#control-empty-text').show();
 
 	currentDraggedItem = resetCurentDraggedItem()
 	currentHoverOver = null
@@ -16,6 +17,9 @@ function populateControlOverlay(node){
 	//onmouseover=highlightElement('+ "'" + 'header_'+ curr.data.id + "'" +') onmouseout=resetFromHighlight()
 	//load edges from control node priorityList
 	for(var i = 0; i<node.json().data.priorityList.length; i++){
+
+		$('#control-empty-text').hide();
+
 		var curr = cy.edges("[id='" + node.json().data.priorityList[i]+ "']").json()
 		var edgeHtml =	'<li id=connectedEdge_' + curr.data.id + ' >' +
 											'<div id="header_'+ curr.data.id +'" draggable="true" ondragend=handleDragEnd(event) ondragstart=handleDrag(event,'+ "'" + curr.data.name + "'" +') ondragenter=handleDragEnter(event) class="collapsible-header highlight-list">Path '+ curr.data.name +
@@ -36,9 +40,9 @@ function populateControlOverlay(node){
 														'</div>' +
 													'</li>' +
 												'</ul>' +
-												'<div style="text-align: right">' +
-													'<button type="button" class="btn btn-default" onClick=setDefaultFailEdge(' + "'" + curr.data.id + "'" +') style="width: 50%;">Set As Default Path</button>' +
-												'</div>'
+												'<div class="row" style="text-align: right">' +
+													'<div class="col s6 push-s6 m4 push-m8 l3 push-l9"><button type="button" class="btn btn-default" onClick=setDefaultFailEdge(' + "'" + curr.data.id + "'" +')>Set As Default Path</button></div>' +
+												'</div>' +
 											'</div>' +
 										'</li>'
 

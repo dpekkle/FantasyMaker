@@ -168,7 +168,8 @@
 			<i class = "fa fa-times fa-2x modal-close" style="float:right;" ></i>
 			<div class=""style="overflow-y: auto;" >
 				<h4 id="controlnode_name">Control Node: </h4>
-				<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover=handleDragEnter(event) class="collapsible popout" data-collapsible="accordion"></ul>
+				<ul id="connectedEdgesList" style="padding-top: 10px;" ondragover="handleDragEnter(event)" class="collapsible" data-collapsible="accordion"></ul>
+                <h5 id="control-empty-text">This node will show the conditions and outcomes of stemming paths</h5>
 			</div>
 		</div>
 		<div class="card-reveal">
@@ -194,13 +195,13 @@
 				</div>
 			</div>
 
-			<ul class="collapsible popout" data-collapsible="expandable">
-				<li>
-					<div class="collapsible-header active">Conditions</div>
+			<ul class="collapsible" data-collapsible="expandable">
+				<li class="active">
+					<div id="conditions-li-header" class="collapsible-header active">Conditions</div>
 					<div class="collapsible-body"> <ul id = "conditionsList" class="list-unstyled" ></ul></div>
 				</li>
-				<li>
-					<div class="collapsible-header active">Outcomes</div>
+				<li class="active">
+					<div id="outcomes-li-header" class="collapsible-header active">Outcomes</div>
 					<div class="collapsible-body"><ul id = "outcomesList" class="list-unstyled" ></ul></div>
 				</li>
 			</ul>
@@ -423,8 +424,7 @@
               </div>
 						</div>
 						<div class="col l3 m3 s4 z-depth-3" id="sidebar"> <!-- Sidebar wrapper -->
-							<!-- CHANGES START -->
-              <br>
+                            <br/>
 							<h5>Selected Node:</h5> <hr/>
 							<div class="row selected-node-button-container">
                                 <div class="col l6 s12"><button class="btn modal-trigger editbutton openoverlay" style = "display:none;" data-target="page-modal">Edit Page</button></div>
@@ -512,7 +512,6 @@
                                 </div>
                             </li>
                         </ul>
-							<!-- CHANGES END -->
 						</div>
 					</div>
 					<div id="Play">

@@ -10,7 +10,7 @@ function populateEdgeOverlay(edge){
 
 	var srcName = cy.nodes("[id='" + edge.data.source +"']").json().data.name;
 	var destName = cy.nodes("[id='" + edge.data.target +"']").json().data.name;
-	$('#edge_name').text('Edge: ' + edge.data.name)
+	$('#edge_name').text('Path: ' + edge.data.name)
 	$('#edge_details').text('(Page ' + srcName + '   to    Page ' + destName + ')')
 
 	//$('#edge_name').attr('data-tooltip','Origin of edge: page '+srcName+'<br> Target of edge: page'+destName+'<br>')
@@ -213,6 +213,10 @@ function edgeOverlay_addNewCondition(listID){
 		initAttributeButton(id + '_attButton_s1_1')
 		initAttributeButton(id + '_attButton_s1_2')
 		edgeOverlay_newConditionCount++;
+
+		//Open Collapsibles
+		if(!$('#conditions-li-header').hasClass('active'))
+				$('#conditions-li-header').click();
 }
 
 function edgeOverlay_addNewOutcome(listID){
@@ -224,6 +228,10 @@ function edgeOverlay_addNewOutcome(listID){
 	initAttributeButton(id + '_attButton_1')
 	initAttributeButton(id + '_attButton_2')
 	edgeOverlay_newOutcomeCount++;
+
+	//Open Collapsibles
+	if(!$('#outcomes-li-header').hasClass('active'))
+		$('#outcomes-li-header').click();
 }
 
 function edgeOverlay_addExistingCondition(listID, cond){
