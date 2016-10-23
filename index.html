@@ -12,7 +12,7 @@
 	<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32">
 	<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16">
 	<link rel="manifest" href="/favicon/manifest.json">
-	<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" style="color:#5bbad5;">
 	<link rel="shortcut icon" href="/favicon/favicon.ico">
 	<meta name="msapplication-config" content="/favicon/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
@@ -21,9 +21,8 @@
   <link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
  	<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/frontpage.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/css/ui.css" media="screen" />
-    <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <title>FantasyMaker</title>
-
 
   </head>
 
@@ -54,29 +53,6 @@
   			</ul>
   		</div>
   	</nav>
-    <!--
-	<nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="index.html">Fantasy Maker</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#team">Team</a></li>
-			<li><a href="blog.html">Dev Blog</a> </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" onclick=createLinkClicked()>Create</a></li>
-            <li><a href="browse.html">Browse</a></li>
-            <li><a href="#" onclick=project_login()>Log In</a></li>
-            <li><a href="#" onclick=project_signUp()>Sign Up</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  -->
 
  	<div class="jumbotron">
       <div class="container">
@@ -91,15 +67,15 @@
     </div>
 
 		<div class="row row-centered" id="about">
-			<div class="col-md-8 col-md-offset-2 col-xs-12">
-				<div class="col-md-4 card about_card">
+			<div class="col l8 offset-l2 m12 s12">
+				<div class="col l4 m8 offset-m2 s11 about_card">
 					<img src="images/icon_create.PNG"/>
 					<h2>Create</h2>
 					<p> Easily create and edit simple and complex choose-your-own-adventure style stories
 						without writing a single line of code!</p>
 					<a href="features.html#Create" class="btn">Learn More</a>
 				</div>
-				<div class="col-md-4 card about_card"  id="middle-card" >
+				<div class="col l4 m8 offset-m2 s11 about_card"  id="middle" >
 					<img src="images/icon_play.PNG"/>
 					<h2>Play</h2>
 					<p>Play games and stories that you have created, or try out a friend's story,
@@ -107,7 +83,7 @@
 					<a href="features.html#Play" class="btn">Learn More</a>
 				</div>
 
-				<div class="col-md-4 card about_card">
+				<div class="col l4 m8 offset-m2 s11 about_card">
 					<img src="images/icon_share.PNG"/>
 					<h2>Share</h2>
 					<p>Share your game, play games made by friends,
@@ -117,60 +93,62 @@
 			</div>
 		</div>
 
-		<div class="container" id="team">
+		<div id="team">
 			<div class="row">
-				<div class="col-md-4 col-md-offset-1">
-					</br>
+				<div class="col m4 offset-m1">
+					<br/>
 					<h1>Meet the Team</h1>
 				</div>
-				<div class="col-md-2 col-md-offset-2">
-					<!-- <a href="#" class="btn">Contact Us</a> -->
+				<div class="col m2 offset-m2">
 				</div>
-				<div class="col-md-2">
-					<a href="blog.html" class="btn">Team Blog</a>
+				<div class="col m2 push-m3 s6 offset-s3">
+					<a href="blog.html" id="blog-btn"class="btn">Team Blog</a>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4 col-md-offset-2 card team_card">
-				<div class="col-md-4 col-xs-4">
-					<img width = "133" height = "133" src="images/generic_avatar.jpg"/>
+				<div class="col l4 offset-l1 m8 offset-m2 s10 offset-s1 team_card">
+				<div class="col l4 l4">
+					<img width = "133" height = "133" class="hide-on-med-and-down center" src="images/generic_avatar.jpg"/>
 				</div>
-				<div class="col-md-6 col-xs-6">
+				<div class="col l6 l6">
 					<h2>Danielle  </h2>
-					<p>Team Leader </br> Frontend Developer </br> Designer  <br> <a href="https://github.com/dpekkle/">Github</a></p>
+					<p>Team Leader <br/> Frontend Developer <br/> Designer  <br> <a href="https://github.com/dpekkle/">Github</a></p>
 				</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4 col-md-offset-4 card team_card">
-				<div class="col-md-4 col-xs-4">
-					<img width = "133" height = "133" src="images/generic_avatar.jpg"/>
+				<div class="col l4 offset-l4 m8 offset-m2 s10 offset-s1 team_card">
+				<div class="col l4 l4">
+					<img width = "133" height = "133" class="hide-on-med-and-down" src="images/generic_avatar.jpg"/>
 				</div>
-				<div class="col-md-6 col-xs-6">
-					<h2>Darryl</h2></br>
-					<p>Backend Developer </br>
+				<div class="col m6 s6">
+					<h2>Darryl</h2><br/>
+					<p>Backend Developer <br/>
 					Frontend Developer</p>
 				</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4 col-md-offset-6 card team_card">
-				<div class="col-md-4 col-xs-4">
-					<img width = "133" height = "133" src="https://avatars1.githubusercontent.com/u/10441993?v=3&s=460"/>
+				<div class="col l4 offset-l6 m8 offset-m2 s10 offset-s1 team_card">
+				<div class="col l4 l4">
+					<img width = "133" height = "133" class="hide-on-med-and-down" src="https://avatars1.githubusercontent.com/u/10441993?v=3&s=460"/>
 				</div>
-				<div class="col-md-6 col-xs-6">
-					<h2>Russell</h2></br>
-					<p>Frontend Developer </br> Designer
+				<div class="col l6 l6">
+					<h2>Russell</h2><br/>
+					<p>Frontend Developer <br/> Designer
                     <br/> <a href="https://github.com/russellhowell/">Github</a> </p>
 				</div>
 				</div>
 			</div>
 		</div>
-		<div class="row" id="footer">
-			<div class="col-md-8 col-md-offset-2">
-				<p> CSIT 321 - Group 17</p>
-			</div>
+
+	<footer id="footer" class="page-footer z-depth-2">
+		<div class="container">
+        <span class="accent-color">
+            Built by Dev 17
+        </span>
 		</div>
+	</footer>
   </body>
   <script src="js/lib/jquery-2.2.2.min.js"></script>
   	<script defer src="js/lib/materialize.min.js"></script>

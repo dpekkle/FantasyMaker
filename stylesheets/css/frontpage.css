@@ -112,6 +112,7 @@ h1, h2, p{
 	display: block;
 	height: 600px;
 	background-color: #1E2328;
+	margin-bottom: 0px;
 }
 
 
@@ -168,16 +169,17 @@ a {
 	color: #00FEBC;
 }
 
-.card .btn{
+.about_card .btn{
 	border: 2px solid #00FEBC;
-	width: 200px;
+	min-height: 50px;
+	max-width: 200px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 
 #team{
-	height: 850px;
+	height: 1000px;
 	width: 100%;
 	background: url('../../images/code_on_screen.jpg');
 	background-size: cover;
@@ -194,9 +196,29 @@ a {
     margin-right:-4px;
 }
 
+#footer{
+	margin-top: 0px;
+	background-color: #1E2328;
+	padding-bottom: 10px;
+}
+.btn{
+	background-color: #1c1c1c;
+	min-height: 50px;
+}
 
+.accent-color{
+	color: #00FEBC;
+}
 
-@media (max-width: 1000px){
+#blog-btn{
+	min-height: 65px;
+}
+
+.team_card img{
+	padding: 10px;
+}
+
+@media (max-width: 1080px){
     #about{
         height: auto;
         padding-bottom: 100px;
