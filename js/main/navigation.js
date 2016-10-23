@@ -49,6 +49,11 @@ function nav_showProjects(){
         $('#currentProject').removeClass('hide')
       }
       $('#currentProject').show()
+
+      //Make Project List Responsive
+      $('#project-list-container').removeClass('l12');
+      $('#project-list-container').addClass('l9');
+
     }
     else{
       console.log('noProject')

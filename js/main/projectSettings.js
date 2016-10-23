@@ -12,7 +12,7 @@ var projectSettings_userProjects = {
 
 function projectSettings_prepThenNavToProjects(project_project){
 
-  $('#currentProject_header').text('Current Project: ' + project_project.title)
+  $('#currentProject_header').text(project_project.title)
   $('#currentProject_title').text(project_project.title)
   $('#currentProject_author').text(project_project.author)
   $('#currentProject_desc').text(project_project.description)
@@ -51,6 +51,9 @@ function projectSettings_prepThenNavToProjects(project_project){
 function projectSettings_prepThenNavToMain(projName){
   console.log("projectSettings_prepThenNavToMain scope")
   console.log (project_project.project_templates);
+  //Make Project List Smaller Now that project setting is there
+  $('#project-list-container').removeClass('l12');
+  $('#project-list-container').addClass('l9');
   $.when(http_load(projName)).done(function(){
     console.log("$when scope")
     console.log (project_project.project_templates);
@@ -191,20 +194,17 @@ function projectSettings_generateProjectCard(project){
     var html =   '<li>'+
                     //'<div class="row">'+
                       '<div class="col s1"><p></p></div>'+
-                      '<div class="card hoverable col s12 m4" style="height: 200px;">' +
-                        //  '<div class="card-image waves-effect waves-block waves-light">'+
-                          //  '<img class="activator" src="http://www.planetware.com/photos-large/CH/switzerland-matterhorn.jpg">'+
-                          //'</div>'+
-                          '<div class="card-content">'+
-                            '<span class="card-title activator grey-text text-darken-4 truncate" style="position: relative; width: 72%; display:inline-block">'+project.title+'</span><i class="card-title activator material-icons right">more_vert</i>'+
+                      '<div class="card hoverable col s12 m4" style="height: 250px;">' +
+                          '<div class="card-content" style="position: relative; height: 250px;">'+
+                            '<span class="card-title activator grey-text text-darken-4 truncate ' + project.projName + '-title" style="position: relative; width: 72%; display:inline-block">'+project.title+'</span><i class="card-title activator material-icons right">more_vert</i>'+
                             // '<div class="row"><p class="truncate">Title: ' +project.title+ '</p></div>'+
                             '<div class="row"><p class="truncate">Author: '+project.author+'</p></div>'+
                             '<div class="row">' +
-                              '<a href="#" class="btn col s8 offset-s2" onclick=projectSettings_prepThenNavToMain('+ "'" + project.projName + "'" + ')>Load</a>'+
+                              '<a href="#" class="btn col s8 offset-s2" style="position: absolute; bottom: 100px;" onclick=projectSettings_prepThenNavToMain('+ "'" + project.projName + "'" + ')>Load</a>'+
                             '</div>'+
                           '</div>'+
                           '<div class="card-reveal" >'+
-                            '<span class="card-title grey-text text-darken-4 truncate" style="width: 72%; display: inline-block;">'+project.title+'</span>'+ '<i class="card-title material-icons right">close</i>' +
+                            '<span class="card-title grey-text text-darken-4 truncate ' + project.projName + '-title" style="width: 72%; display: inline-block;">'+project.title+'</span>'+ '<i class="card-title material-icons right">close</i>' +
                             '<p>Date Created: ' + project.dateCreated + '</p>'+
                             '<p>Last Modified: ' + project.lastModified + '</p>'+
                             pubHTML+
@@ -276,6 +276,9 @@ function projectSettings_deleteProject(username,projToDelete,currProj,display){
         //case someone deletes current project
         if(projToDelete === currProj){
           $('#currentProject').hide()
+          //Make Project List Bigger Now that project setting isn't there
+          $('#project-list-container').removeClass('l9');
+          $('#project-list-container').addClass('l12');
         }
         $.when(http_deleteProject(username,projToDelete)).done(function(){
           projectSettings_userProjects = {

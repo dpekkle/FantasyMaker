@@ -112,7 +112,7 @@ function project_createNewProject(){
 							$('#UI_projName').text('Project: ' + project_project.title)
 							nav_toMain()
 							http_getUsersProjects(users_getUsername(),projectSettings_userProjects)
-
+							
 						}
 						else{
 							Materialize.toast("Failed to create project. Please log in again.", 3000, 'rounded')
@@ -180,7 +180,8 @@ function project_modifyTitle(){
 	myModal.prompt("Modify Project Title", "Change the title of your project. This will appear as the name of your project in the game browser.", [{name: "Title", default: project_project.title, type: "text"}],
 			function(results){
 				project_project.title = results[0]
-				$('#currentProject_title').text(project_project.title)
+				$('.' + project_project.projectName + '-title').text(project_project.title);
+				$('.currentProject_title').text(project_project.title)
 				project_saveProject()
 			},
 			function(results){
