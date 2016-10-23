@@ -13,7 +13,7 @@ $(document).ready()
 }
 
 function project_login(){
-
+	console.log('sign in')
 		myModal.prompt("Log In", "Log in and continue creating!", [{name: "Username", default: "", type: "text"},{name: "Password", default: "", type: "password"}],
 				function(results){
 				},
