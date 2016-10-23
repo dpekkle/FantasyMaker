@@ -190,7 +190,7 @@ function resizeCanvas()
 
 	//$('#cy').css('width', x*9/12 - 17);	//match the col-md-9 size, 9/12 of the row width, -30 for col padding
 	$('#cy').css('height', y-buffer); //tabs at top are 42;
-	//$('#sidebar').css('height', y-buffer);
+	$('#sidebar').css('height', y-buffer);
 
 	console.log("We resized, width: " +	x + " height: " + y);
 	cy.resize();
