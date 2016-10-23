@@ -56,8 +56,6 @@ nav{
 	display: none; /*this is being overridden by some materialise class, so have to explicitly call it in the style in create.html */
 }
 
-.toolbar{
-}
 
 .gobackbutton{
 	background-color: red;

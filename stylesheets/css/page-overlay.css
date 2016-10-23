@@ -36,6 +36,9 @@
 	border: 3px solid #BBBBBB;
 	padding: 15px;
 }
+.toolbar{
+	overflow-y: auto;
+}
 
 #pagecontainers{
 	position: relative; /*this actually makes children, i.e. drag containers, position relatively to their parent - even though they are position absolute */
