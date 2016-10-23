@@ -25,7 +25,7 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Now tap on the screen on the left to create a page",
+		message: "Now tap on the screen on the left to create a Page",
 		css: function(){
 		    $('.pagemode').removeClass('tutorial-button-highlight');
 		    $('#cy').addClass('tutorial-button-highlight');
@@ -42,13 +42,13 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "That box you just created is a new page!",
+		message: "That box you just created is a new Page!",
 		css: function(){
 		    $('#cy').removeClass('tutorial-button-highlight');
 		},
 	},
 	{
-		message: "Try adding some more pages",
+		message: "Try adding some more Pages",
 		css: function(){
 		},
 		condition: function(){
@@ -63,10 +63,10 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "The green page marks the starting page.",
+		message: "The green Page marks the starting Page.",
 	},
 	{
-		message: "You can drag and drop these page nodes around, or tap to select them.",
+		message: "You can drag and drop these Page nodes around, or tap to select them.",
 		condition: function(){
 			if (tutorial_timer > 8)
 			{
@@ -79,14 +79,14 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Now lets try connecting some pages.",
+		message: "Now lets try connecting some Pages.",
 		css: function(){
 			$('.connectionmode').addClass('tutorial-button-highlight')
 		},
 
 	},
 	{
-		message: "Click the edge button.",
+		message: "Click the Path button.",
 		css: function(){
 			$('.connectionmode').show();
 		},
@@ -102,7 +102,7 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Now tap one of the pages you added.",
+		message: "Now tap one of the Pages you added.",
 		condition: function(){
 			if (source_node !== null)
 			{
@@ -115,10 +115,10 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "The blue border indicates the 'source' of the edge",
+		message: "The blue border indicates the 'source' of the Path",
 	},
 	{
-		message: "Now tap a different page node.",
+		message: "Now tap a different Page node.",
 		condition: function(){
 			if (cy.edges().size() !== 0)
 			{
@@ -132,10 +132,10 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Nice! You've now connected two pages",
+		message: "Nice! You've now connected two Pages",
 	},
 	{
-		message: "Try making another edge",
+		message: "Try making another Path",
 		condition: function(){
 			if (cy.edges().size() > 1)
 			{
@@ -148,10 +148,10 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "The labels on each edge help you keep track of them",
+		message: "The labels on each Path help you keep track of them",
 	},
 	{
-		message: "Leave edge mode by pressing escape or the edge button again",
+		message: "Leave Path mode by pressing escape or the Path button again",
 		condition: function(){
 			if (current_state !== states.CONNECTING)
 				return true;
@@ -160,13 +160,13 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Now lets see what that edge looks like in the page",
+		message: "Now lets see what Paths look like in your Page",
 		css: function(){
 			$('.connectionmode').removeClass('tutorial-button-highlight')
 		},
 	},
 	{
-		message: "Select a page with an edge leaving it",
+		message: "Select any 'source' Page with a Path by tapping it.",
 		css: function(){
 
 		},
@@ -192,7 +192,7 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "Here you can design the appearance of the page, you can see the edges that you just created",
+		message: "Here you can design the appearance of the Page, you can see the Paths that you just created",
 		css: function(){
 			$('.editbutton[data-target="page-modal"').removeClass('tutorial-button-highlight')
 		},
@@ -238,7 +238,7 @@ var tutorial_objects = [
 		}
 	},
 	{
-		message: "You can also edit the entire page's style by clicking on the blue settings icon",
+		message: "You can also edit the entire Page's style by clicking on the blue settings icon",
 		css: function(){
 			$('[onclick="addTextContainer()"]').removeClass('tutorial-button-highlight');
 		},
