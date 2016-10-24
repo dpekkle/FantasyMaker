@@ -36,10 +36,12 @@ module.exports = function(app){
 					//delete collection
           collection.drop()
 					console.log('collection deleted')
+					db.close()
           res.send('Collection Deleted')
 				}
         else{
 					console.log('failed to delete collection')
+					db.close()
           res.send('Unable to delete collection')
         }
 			});

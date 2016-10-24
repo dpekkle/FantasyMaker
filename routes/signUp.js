@@ -28,6 +28,7 @@ module.exports = function(app){
   			var collection = db.createCollection("user_details",{strict:true},function(err,collection){
           if(err){
             console.log(err)
+						db.close()
             res.send('INVALID')
           }
           else{
@@ -106,6 +107,7 @@ function addToSysUsers(data,callback){
 				if(err){
 					console.log('addToSysUsers() error:')
 					console.log(err)
+					db.close()
 					callback()
 				}
 				else{

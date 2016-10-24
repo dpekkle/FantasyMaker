@@ -82,6 +82,7 @@ module.exports.retreiveTutorial = function(projectToReturn, outer_callback){
                   console.log('get Tutorial Project error: ')
                   console.log(err)
                   projectToReturn = {}
+                  db.close()
                   outer_callback()
                   //return
                 }
@@ -92,12 +93,14 @@ module.exports.retreiveTutorial = function(projectToReturn, outer_callback){
                       delete results[0]._id
                       //console.log(results[0])
                       projectToReturn.data = results[0]
+                      db.close()
                       outer_callback()
                       //return
                   }
                   else{
                       console.log('No project found called ' + projName + ' by Admin')
                       projectToReturn = {}
+                      db.close()
                       outer_callback()
                       //return
                   }

@@ -60,6 +60,7 @@ module.exports = function(app){
       					//update published project in DB
       					collection.update({ "publishedForPlay": true}, nonPublished,function(err,results){
       						console.log("Published project updated");
+									db.close()
       						res.send("Published project updated");
       					});
       				}
@@ -67,6 +68,7 @@ module.exports = function(app){
       					//project does not exist in DB
       					collection.insert(nonPublished,function(){
       						console.log("Project published");
+									db.close()
       						res.send("Project published");
       					});
       				}
@@ -74,6 +76,7 @@ module.exports = function(app){
           }
           else{
             console.log('No project found for duplication called ' + projectName + ' by ' + projectOwner)
+						db.close()
             res.send('INVALID')
           }
         }

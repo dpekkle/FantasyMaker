@@ -24,6 +24,7 @@ module.exports = function(app){
 		  if (err) {
 				console.log('save error: ')
 				console.log(err)
+				db.close()
 				res.send('Unable to connect to the mongoDB server.');
 		  } else {
 			//successful connection
@@ -37,6 +38,7 @@ module.exports = function(app){
 					//update project in DB
 					collection.updateOne({"projectName": project.projectName}, project, function(err,results){
 						console.log("Project saved");
+						db.close()
 						res.send("Project saved");
 					});
 				}
@@ -44,6 +46,7 @@ module.exports = function(app){
 					//project does not exist in DB
 					collection.insert(project,function(){
 						console.log("Project created");
+						db.close()
 						res.send("Project created");
 					});
 				}

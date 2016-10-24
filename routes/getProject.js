@@ -47,12 +47,14 @@ module.exports = function(app){
                 collection.find({"publishedForPlay":true}).toArray(function(err, playResults){
                   if(playResults.length > 0){
                     console.log('getProject retreived')
+                    db.close()
                     res.json(playResults); //return results
                   }
 
                 })
               }
               else{
+                db.close()
                 res.send('NOT_PUBLISHED')
               }
 
@@ -60,12 +62,14 @@ module.exports = function(app){
             else{
               //source is create.html
               console.log('getProject retreived')
+              db.close()
               res.json(createResults); //return results
             }
 
           }
           else{
             console.log('No project found called ' + projName + ' by ' + req.query.projectOwner)
+            db.close()
             res.send('INVALID')
           }
         }

@@ -28,6 +28,7 @@ module.exports = function(app){
 		  if (err) {
 				console.log('login error:')
 				console.log(err)
+				db.close()
 			  res.send('SERVER_ERR');
 		  } else {
   			//successful connection
@@ -35,6 +36,7 @@ module.exports = function(app){
           if(err){
 						console.log('login error(invalid username): ')
             console.log(err)
+						db.close()
             res.send('INVALID_USERNAME')
           }
           else{
@@ -49,6 +51,7 @@ module.exports = function(app){
                   key.secretKey()
                 );
 
+								db.close()
                 res.json({
                   token : token,
                   expires: expires,
@@ -57,6 +60,7 @@ module.exports = function(app){
               }
               else{
 								console.log('INVALID_PASSWORD')
+								db.close()
                 res.send('INVALID_PASSWORD')
               }
 

@@ -53,6 +53,7 @@ module.exports = function(app){
           function(err){
             // All tasks are done now
             console.log(all)
+            db.close()
             res.json(all)
           }
         );
