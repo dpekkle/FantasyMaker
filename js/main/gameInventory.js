@@ -106,7 +106,8 @@ function InventoryItem(itemObj) {
                 valueString = '<span style="font-weight: bold;">+ ' + modifierObj.modifierValue + '</span>';
 
 
-            displayModifiers.append('<div class="chip">' + gameAttributes_find(modifierObj.attributePath).name + valueString + '</div>');
+            if(gameAttributes_find(modifierObj.attributePath) != undefined)
+                displayModifiers.append('<div class="chip">' + gameAttributes_find(modifierObj.attributePath).name + valueString + '</div>');
         }
     }
 
@@ -229,7 +230,10 @@ function InventoryItem(itemObj) {
                 initCountInput.val(itemObj.initCount);
 
                 for (var modID in project_project.gameInventory[itemID].modifiers) {
-                    this.addModifierInput(false, modID, project_project.gameInventory[itemID].modifiers[modID]);
+                    if(project_project.gameInventory[itemID].modifiers[modID].attributePath != "")
+                        this.addModifierInput(false, modID, project_project.gameInventory[itemID].modifiers[modID]);
+                    else
+                        delete project_project.gameInventory[itemID].modifiers[modID];
                 }
 
             }
@@ -393,7 +397,7 @@ function InventoryItem(itemObj) {
 
             for (var c = 0; c < modifiersIdArray.length; c++) {
                 var modId = modifiersIdArray[c];
-                if($('#' + modId + '-modifyAttributeInput' != undefined).attr('path')) {
+                if($('#' + modId + '-modifyAttributeInput').attr('path') != undefined) {
                     var modifyAtt = $('#' + modId + '-modifyAttributeInput').attr('path');
                     var modifyAmount = $('#' + modId + '-modifyAmountInput').val();
 
