@@ -1,7 +1,7 @@
 /*
-	Name:
-	Created By:
-	Purpose:
+	Name: deleteProject
+	Created By: Darryl
+	Purpose: delets a project in the db
 */
 
 var mongodb = require('mongodb');

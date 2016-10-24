@@ -1,7 +1,7 @@
 /*
-	Name:
-	Created By:
-	Purpose:
+	Name: key
+	Created By: Darryl
+	Purpose: setcret key definiion
 */
 
 module.exports.secretKey = function(){

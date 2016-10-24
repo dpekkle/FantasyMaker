@@ -1,7 +1,7 @@
 /*
-	Name:
-	Created By:
-	Purpose:
+	Name: getProject Attributes
+	Created By: Darryl
+	Purpose: to get athe attributes of a project for load projects screen and game module
 */
 
 var mongodb = require('mongodb');

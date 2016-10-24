@@ -1,7 +1,7 @@
 /*
-	Name:
-	Created By:
-	Purpose:
+	Name: playAuth
+	Created By: Darryl
+	Purpose: authenticated a player
 */
 
 var bodyParser = require('body-parser');

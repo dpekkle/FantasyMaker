@@ -1,7 +1,7 @@
 /*
-	Name:
-	Created By:
-	Purpose:
+	Name: jwtAuth
+	Created By: Darryl
+	Purpose: Authenticates tokens
 */
 
 var jwt = require('jwt-simple');

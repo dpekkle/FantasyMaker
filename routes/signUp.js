@@ -1,7 +1,7 @@
 /*
-	Name:
-	Created By:
-	Purpose:
+	Name: signUp
+	Created By: Darryl
+	Purpose: sign up a user
 */
 
 var mongodb = require('mongodb');

@@ -1,7 +1,7 @@
 /*
-	Name:
-	Created By:
-	Purpose:
+	Name: validateToken
+	Created By: Darryl
+	Purpose: validates a token
 */
 
 var bodyParser = require('body-parser');

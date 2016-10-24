@@ -1,7 +1,7 @@
 /*
-	Name:
-	Created By:
-	Purpose:
+	Name: get Users Projects
+	Created By: Darryl
+	Purpose: gets all projects for browser
 */
 
 var mongodb = require('mongodb');

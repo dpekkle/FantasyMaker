@@ -1,7 +1,7 @@
 /*
-	Name:
-	Created By:
-	Purpose:
+	Name: getProject
+	Created By: Daryl
+	Purpose: to get a project for the create module
 */
 
 var mongodb = require('mongodb');
