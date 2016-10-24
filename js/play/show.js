@@ -12,21 +12,26 @@ $(document).ready()
 {
   console.log($.cookie("FM_playUsername"))
 	console.log($.cookie("FM_playProject"))
-  $.when(getProject()).done(function(){
-    prepareForGame()
+  getProject(function(){
+    console.log("get project done, showing")
     $('#loader').hide()
     $('.progressbutton').show();
   })
+
 }
 
-function getProject(){
+function getProject(outer_callback){
   var uname = $.cookie("FM_playUsername")
   var proj = $.cookie("FM_playProject")
   //console.log(uname + ' ' + proj)
-  $.when(authenticate()).done(function(){
-    $.when(load(uname,proj)).done(function(){
-
-      return
+  var ret = {}
+  authenticate(ret,function(){
+    load(uname,proj,function(){
+      console.log("before prepare game")
+      console.log(project_project)
+      prepareForGame()
+      outer_callback()
     })
   })
+
 }

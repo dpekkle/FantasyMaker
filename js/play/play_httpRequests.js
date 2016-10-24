@@ -6,7 +6,7 @@
 
 goog.provide('play_httpRequests')
 
-function load(username,projName){
+function load(username,projName,cb){
   addTokenToHeader()
 	//get graph data from server
 	return $.ajax({
@@ -36,6 +36,16 @@ function load(username,projName){
   			console.log(data)
         project_project = data[0]
 
+        //database does not store methods, so we need to create new audioobj initialising it with the stored values - Danni
+				project_project.audio = loadAudioObject(project_project.audio)
+				loadTemplateMenuObj();
+				$.each(project_project.button_list, function(index, val) {
+					this.callback = generateJumpButtonCallback();
+				});
+
+
+				$('#UI_projName').text('Project: ' + project_project.title)
+
 				//add nodes first
 				for(var i = 0; i<data[0].graph.length; i++){
 					//check if element is an edge
@@ -53,6 +63,34 @@ function load(username,projName){
 					}
 				}
 
+				Materialize.toast("Project '" + project_project.title + "' Loaded", 3000, 'rounded')
+				resizeCanvas();
+				defaultState();
+				checkInTutorial();
+
+        console.log("CY LOADED")
+        console.log(cy.elements().jsons())
+
+        cb()
+				//add nodes first
+        /*
+				for(var i = 0; i<data[0].graph.length; i++){
+					//check if element is an edge
+					if(data[0].graph[i].group !== "edges"){
+						cy.add(data[0].graph[i]);
+					}
+				}
+				//now add the edges
+				for(var i = 0; i<data[0].graph.length; i++){
+					//check if element is an edge
+					if(data[0].graph[i].group == "edges"){
+						var newEdge = cy.add(data[0].graph[i]);
+						//add event listener to edge
+						newEdge.on('tap', function(event){this.select();});
+					}
+				}
+        */
+
 
       }
 		},
@@ -61,7 +99,7 @@ function load(username,projName){
 }
 
 
-function authenticate(ret){
+function authenticate(ret,cb){
   window.localStorage.setItem('play-token','')
   return $.ajax({
 		url: '/playAuth',
@@ -74,6 +112,7 @@ function authenticate(ret){
 			console.log('LOGIN RES:')
 			console.log(data)
 			window.localStorage.setItem('play-token', JSON.stringify(data))
+      cb()
 		},
 		contenttype: "application/json"
 	});

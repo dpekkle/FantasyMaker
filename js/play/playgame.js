@@ -33,6 +33,7 @@ function loadingScreen(more_to_load)
 
 function prepareForGame()
 {
+	console.log("prepare for game called")
 	loadingScreen(project_project.audio.changed);
 
 	event_manager = new eventManager();
