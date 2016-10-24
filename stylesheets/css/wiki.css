@@ -1,0 +1,36 @@
+/* WIKI TEMPLATE STYLING */
+
+body {
+background-color: darkgray;
+
+}
+
+/* TOP RIBBON SECTION STYLING */
+.top-ribbon{
+    height: 40vh;
+    background-image: url('../../images/banner_image.jpg');
+    background-size: cover;
+
+}
+
+.top-ribbon .wiki-nav-row{
+
+}
+
+.top-ribbon h2{
+    padding: 0px;
+    color: white;
+}
+
+
+/* MAIN CONTENT STYLING */
+.main-content{
+    overflow: visible;
+    margin-top: -25vh;
+}
+
+.wiki-content{
+    background-color: #1E2328;
+    min-height: 100vh;
+}
+
