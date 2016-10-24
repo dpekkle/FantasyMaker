@@ -1,3 +1,9 @@
+/*
+	Name: play http requests
+	Created By: Darryl
+	Purpose: defines http requests for play module
+*/
+
 goog.provide('play_httpRequests')
 
 function load(username,projName){

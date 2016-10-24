@@ -1,3 +1,9 @@
+/*
+	Name: edgeOverlay.js
+	Created By: Darryl
+	Purpose: To handle the population and initialization of the edge design overlay
+*/
+
 goog.provide('edgeOverlay')
 goog.require('project')
 goog.require('conditions')
@@ -377,7 +383,7 @@ function removeCondition(id){
 function removeOutcome(id){
 	console.log("Removing outcome " + id);
 	//remove html of element
-	
+
 	$('#' + id).hide(300, function(){
 		$('#' + id).remove();
 	});

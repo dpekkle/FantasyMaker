@@ -1,3 +1,9 @@
+/*
+	Name: project
+	Created By: Darryl
+	Purpose: to define the main structure of a project object
+*/
+
 goog.provide('project');
 goog.require('initCanvas');
 goog.require('states')
@@ -112,7 +118,7 @@ function project_createNewProject(){
 							$('#UI_projName').text('Project: ' + project_project.title)
 							nav_toMain()
 							http_getUsersProjects(users_getUsername(),projectSettings_userProjects)
-							
+
 						}
 						else{
 							Materialize.toast("Failed to create project. Please log in again.", 3000, 'rounded')

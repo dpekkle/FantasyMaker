@@ -1,3 +1,9 @@
+/*
+	Name: ui
+	Created By: Danielle
+	Purpose: defines general ui actions
+*/
+
 goog.provide('ui')
 goog.require('initCanvas')
 goog.require('states')
@@ -31,7 +37,7 @@ function setStart(ele)
 	else
 	{
 		cy.$(':selected')[0].addClass('start');
-		cy.$(':selected')[0].removeClass('leaf');	
+		cy.$(':selected')[0].removeClass('leaf');
 	}
 }
 
@@ -228,7 +234,7 @@ $(window).resize(resizeCanvas);
 
 function createModule_playGame(){
 	cy.$(':selected').unselect();
-	$('#cyTab').hide(); 
+	$('#cyTab').hide();
 	prepareForGame();
 	$('#Play').show();
 }
@@ -237,5 +243,5 @@ function createModule_showProject() {
 	$('#Play').hide();
 	wipeGame();
 	$('#cyTab').show();
-	
+
 }

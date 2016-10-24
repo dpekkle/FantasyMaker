@@ -1,3 +1,9 @@
+/*
+	Name: gameInventory.js
+	Created By: Russell
+  Purpose: To allow the user to create and define game inventory items and set up their representations in the ui
+*/
+
 goog.provide('gameInventory');
 goog.require('project');
 
@@ -142,7 +148,7 @@ function InventoryItem(itemObj) {
             + '</li>';
 
         $('.inventory-item-list').append(itemHtml);
-        
+
     }
 
     function gameInventory_createModule_populateItemsList() {

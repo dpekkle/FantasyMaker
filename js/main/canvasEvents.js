@@ -1,3 +1,9 @@
+/*
+	Name: canvasEvents.js
+	Created By: Danielle
+	Purpose: To handle the initialisation of the cytoscape canvas
+*/
+
 goog.provide('canvasEvents')
 goog.require('initCanvas')
 goog.require('ui')
@@ -86,7 +92,7 @@ cy.on('tap', ':parent:selected', function(event)
 				var y = ele.position().y;
 				var rel = {x: x, y: y};
 				console.log("Save position for: ", ele.id(), " at: ", rel)
-				ele.data('displacement', rel);		
+				ele.data('displacement', rel);
 			}
 		});
 
@@ -135,9 +141,9 @@ function expand(parent)
 			var dy = this.data('displacement').y;
 			console.log(ele.id(), "X: ", + dx, "Y: ", dy);
 			ele.animate({
-					position: 
-				  	{ 
-				  		x: dx, 
+					position:
+				  	{
+				  		x: dx,
 				  		y: dy
 				  	},
 				  	style:
@@ -152,7 +158,7 @@ function expand(parent)
 							ele.addClass('expanded');
 						}
 				  	}
-				}, 
+				},
 				{
 					duration: 500
 				});
@@ -182,9 +188,9 @@ function collapse(parent)
 		{
 			ele.stop(false, true);
 			ele.animate({
-					position: 
-				  	{ 
-				  		x: parent_position.x, 
+					position:
+				  	{
+				  		x: parent_position.x,
 				  		y: parent_position.y
 				  	},
 				  	style:
@@ -200,7 +206,7 @@ function collapse(parent)
 							ele.removeClass('expanded');
 						}
 					}
-				}, 
+				},
 				{
 					duration: 500
 				});
@@ -225,7 +231,7 @@ cy.on('tap', ':selected', function(event)
 cy.on('tap', function(event)
 {
 	var evtTarget = event.cyTarget;
-	
+
 	if (evtTarget === cy)
 	{
 		console.log("touch screen unselect")
@@ -248,17 +254,17 @@ cy.on('tap', function(event)
 			}
 		}
 	}
-	
+
 	if (current_state === states.NEWPAGE)
 	{
 		console.log("Add a node");
 		if (evtTarget === cy) //tap on background
-		{					
+		{
 			console.log("Really Add a node" + cy.add(
 			{
 				data:
-				{ 
-					name: cy.nodes('.page, .control').size() + 1, 
+				{
+					name: cy.nodes('.page, .control').size() + 1,
 					pagestyle: selected_page_template.data.pagestyle,
 					outputcontainer: selected_page_template.data.outputcontainer,
 					debugcontainer: selected_page_template.data.debugcontainer,
@@ -280,17 +286,17 @@ cy.on('tap', function(event)
 			}).data());
 		}
 		if (cy.elements('.page').size() === 1)
-			cy.$('.page').first().addClass('start');	
+			cy.$('.page').first().addClass('start');
 	}
-	
+
 	else if (current_state === states.NEWCONTROL)
 	{
 		if (evtTarget === cy) //tap on background
-		{		
+		{
 			cy.add(
 			{
-				data: { 
-					name: cy.nodes('.page, .control').size() + 1, 
+				data: {
+					name: cy.nodes('.page, .control').size() + 1,
 					priorityList: [],	//list to store order in which edges are assessed during gameplay
 					defaultFailEdge: "none"
 				},
@@ -298,15 +304,15 @@ cy.on('tap', function(event)
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
 			})
-		}		
+		}
 	}
 	else if (current_state === states.NEWJUMP)
 	{
 		if (evtTarget === cy) //tap on background
-		{		
+		{
 			cy.add(
 			{
-				data: { 
+				data: {
 					name: "Jump " + (cy.nodes('.jump').size() + 1),
 					triggerType: null,
 					button: null,
@@ -318,15 +324,15 @@ cy.on('tap', function(event)
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
 			})
-		}		
+		}
 	}
 	else if (current_state === states.NEWJUMPEND)
 	{
 		if (evtTarget === cy) //tap on background
-		{		
+		{
 			cy.add(
 			{
-				data: { 
+				data: {
 					name: "Jump End",
 					trigger: "none",
 				},
@@ -334,23 +340,23 @@ cy.on('tap', function(event)
 				group: "nodes",
 				renderedPosition: event.cyRenderedPosition,
 			})
-		}		
+		}
 	}
 	else if (current_state === states.NEWFIGHT)
 	{
 		if (evtTarget === cy) //tap on background
-		{		
+		{
 			createFight(event);
-		}		
+		}
 	}
 	else if (current_state === states.NEWSTORE)
 	{
 		if (evtTarget === cy) //tap on background
-		{		
+		{
 			cy.add(
 			{
-				data: { 
-					name: "Group", 
+				data: {
+					name: "Group",
 				},
 				classes: "expanded",
 				group: "nodes",
@@ -359,17 +365,17 @@ cy.on('tap', function(event)
 			{
 
 			})
-		}		
+		}
 	}
 	else if (current_state === states.NEWEMPTY)
 	{
 		if (evtTarget === cy) //tap on background
-		{		
+		{
 			empty_collection = cy.add([
 				{
-					data: { 
+					data: {
 						id: "Emptyparent1" + cy.nodes(':parent').size() + 1,
-						name: "Group", 
+						name: "Group",
 					},
 					classes: "expanded",
 					group: "nodes",
@@ -379,7 +385,7 @@ cy.on('tap', function(event)
 					{
 						displacement: {x: 0, y: 0},
 						parent: "Emptyparent1" + cy.nodes(':parent').size() + 1,
-						name: cy.nodes('.page, .control').size() + 1, 
+						name: cy.nodes('.page, .control').size() + 1,
 						pagestyle: selected_page_template.data.pagestyle,
 						outputcontainer: selected_page_template.data.outputcontainer,
 						debugcontainer: selected_page_template.data.debugcontainer,
@@ -399,7 +405,7 @@ cy.on('tap', function(event)
 					renderedPosition: event.cyRenderedPosition,
 				}
 			])
-		}		
+		}
 	}
 })
 
@@ -409,9 +415,9 @@ cy.on('select', function(event)
 	if (event.cyTarget.isNode())
 	{
 		event.cyTarget.outgoers().addClass('parent-selected'); //distinguish edges coming from this node
-		//event.cyTarget.successors().leaves().addClass('leaf'); //distinguish the end points reachable from this node	
+		//event.cyTarget.successors().leaves().addClass('leaf'); //distinguish the end points reachable from this node
 	}
-	
+
 	console.log("Select event fired ", event.cyTarget.data('id'));
 	//disable the additive selection behaviour when holding ctrl, alt, shift when we are in connection mode
 	if (current_state === states.CONNECTING)
@@ -421,7 +427,7 @@ cy.on('select', function(event)
 			defaultState();		//leave connection state
 			showOverlayLinks(event.cyTarget);
 		}
-		
+
 		var oldselect = cy.$(':selected').diff(event.cyTarget);
 		oldselect.left.unselect();
 		console.log("disable ctrl behaviour")
@@ -429,7 +435,7 @@ cy.on('select', function(event)
 		createConnection(event.cyTarget);
 	}
 	showOverlayLinks(event.cyTarget);
-	
+
 	$(".selectionbutton").show();
 })
 
@@ -438,7 +444,7 @@ cy.on('unselect', function(event)
 	if (event.cyTarget.isNode())
 	{
 		event.cyTarget.outgoers().removeClass('parent-selected'); //distinguish edges coming from this node
-		//event.cyTarget.successors().leaves().removeClass('leaf'); //distinguish the end points reachable from this node	
+		//event.cyTarget.successors().leaves().removeClass('leaf'); //distinguish the end points reachable from this node
 	}
 
 	console.log("Unselect event fired ", event.cyTarget.data('id'));
@@ -484,9 +490,9 @@ function createFight(event)
 			}
 		}
 	});
-	
+
 	/*//copy necessary attributes
-	for(var k in fight_attributes) 
+	for(var k in fight_attributes)
 		project_project.gameAttributes[k] = fight_attributes[k];
 */
 	for(var k in fight_attributes)

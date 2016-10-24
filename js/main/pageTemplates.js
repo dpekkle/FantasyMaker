@@ -1,3 +1,9 @@
+/*
+	Name: page Templates
+	Created By: Danielle
+	Purpose: to create and store page templates
+*/
+
 goog.require('project')
 goog.provide('pageTemplates')
 
@@ -12,7 +18,7 @@ function fillPageTemplatesSelect()
 {
 	//load pageTemplates every time you click it
 	$('#pagetemplates').html('');
-	$.each(project_project.project_templates, function(key, value) 
+	$.each(project_project.project_templates, function(key, value)
 	{
 		$('#pagetemplates').append(project_project.project_templates[key].html);
 	});
@@ -45,8 +51,8 @@ function createPageTemplate()
 			{
 				return "A template with that name already exists"
 			}
-			else 
-			{ 
+			else
+			{
 				return true;
 			}
 		}

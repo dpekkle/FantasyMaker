@@ -1,3 +1,9 @@
+/*
+	Name: main
+	Created By:  Danielle
+	Purpose: to handle init of create module
+*/
+
 goog.require('initCanvas')
 goog.require('canvasEvents')
 goog.require('ui')

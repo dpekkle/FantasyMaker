@@ -1,3 +1,9 @@
+/*
+	Name:
+	Created By:
+	Purpose:
+*/
+
 var bodyParser = require('body-parser');
 var serverPath = 'mongodb://localhost/';
 var jwtauth = require('./jwtAuth.js')

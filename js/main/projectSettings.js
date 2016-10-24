@@ -1,3 +1,9 @@
+/*
+	Name: projectSettings
+	Created By: Darryl
+	Purpose: to handle the display of project settings
+*/
+
 goog.provide('projectSettings')
 goog.require('httpRequests')
 goog.require("prompts")

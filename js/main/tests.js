@@ -1,3 +1,9 @@
+/*
+	Name: tests
+	Created By: Danielle
+	Purpose: to define tests for checking the project valididty
+*/
+
 goog.provide('tests')
 
 

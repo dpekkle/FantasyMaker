@@ -1,3 +1,9 @@
+/*
+	Name: loginSignup
+	Created By: Darryl
+	Purpose: to handle displaying of login/signup modals
+*/
+
 goog.provide('loginSignup')
 goog.require('prompts')
 goog.require('http_loginSignup')

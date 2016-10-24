@@ -1,3 +1,9 @@
+/*
+	Name: users
+	Created By: Darryl
+	Purpose: defines general actions with user tokens
+*/
+
 goog.provide('users')
 
 function users_generateNewUser(){

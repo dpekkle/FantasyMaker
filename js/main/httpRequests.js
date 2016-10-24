@@ -1,3 +1,9 @@
+/*
+	Name: httpRequests
+	Created By: Darryl
+	Purpose: To handle the general http requests of the create module
+*/
+
 goog.provide('httpRequests')
 goog.require('initCanvas')
 goog.require('users')

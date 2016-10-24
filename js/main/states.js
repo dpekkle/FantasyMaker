@@ -1,3 +1,9 @@
+/*
+	Name: states
+	Created By: Danielle
+	Purpose: to hanle the different states when creating with cytoscape
+*/
+
 goog.provide('states')
 
 //little state enum for the current state the UI is in
@@ -28,11 +34,11 @@ function exitStates()
 		cy.boxSelectionEnabled( true );
 		if (source_node !== null)
 		{
-			source_node.removeClass("source_node"); //remove the style associated with source nodes	
-			source_node = null;		
+			source_node.removeClass("source_node"); //remove the style associated with source nodes
+			source_node = null;
 		}
-	}	
-	$("#sidebar .btn").removeClass('activebutton')	
+	}
+	$("#sidebar .btn").removeClass('activebutton')
 	$('.pagemode').html("Page Node");
 	cy.$(':parent').selectify();
 
@@ -43,14 +49,14 @@ function changeState(caller)
 {
 	exitStates();
 	$(caller).addClass('activebutton');
-	
+
 	if ($(caller).hasClass('connectionmode') && current_state != states.CONNECTING)
 	{
 		current_state = states.CONNECTING;
 		console.log("changestate unselect");
 		cy.$(':selected').unselect();
 		cy.$(':parent').unselectify();
-		cy.boxSelectionEnabled( false ); //dont want to select multiple nodes when connecting	
+		cy.boxSelectionEnabled( false ); //dont want to select multiple nodes when connecting
 		source_node = null;
 	}
 	else if ($(caller).hasClass('pagemode') && current_state != states.NEWPAGE)
@@ -60,37 +66,37 @@ function changeState(caller)
 	else if ($(caller).hasClass('controlmode') && current_state != states.NEWCONTROL)
 	{
 		current_state = states.NEWCONTROL;
-	}	
+	}
 	else if ($(caller).hasClass('jumpmode')  && current_state != states.NEWJUMP && current_state != states.NEWJUMPEND)
 	{
 		console.log("Jump pressed")
 		defaultState();
 		console.log(current_state)
-	}	
+	}
 	else if ($(caller).hasClass('prebuilt')  && current_state != states.NEWFIGHT  && current_state != states.NEWEMPTY)
 	{
 		console.log("Prebuilt pressed")
 		defaultState();
 		console.log(current_state)
-	}	
+	}
 	else if ($(caller).hasClass('deletebutton'))
 	{
 		// even though there isn't a "deleting state" deletion should trigger a reversion to default state,
 		// things get weird if you delete a node then try to form an edge using it
 		removeElement();
-		current_state = states.DEFAULT;	
+		current_state = states.DEFAULT;
 		//delete is not a state, so button doesn't need to stay active
 		$(caller).removeClass('activebutton');
 	}
 	else
 	{
-		current_state = states.DEFAULT;	
+		current_state = states.DEFAULT;
 		$(caller).removeClass('activebutton');
 	}
 }
 
 function choosePrebuilt(prebuilt)
-{	
+{
 	console.log("Choose prebuilt mode:", prebuilt)
 	$('.prebuilt').addClass('activebutton');
 
@@ -109,7 +115,7 @@ function choosePrebuilt(prebuilt)
 }
 
 function chooseJump(mode)
-{	
+{
 	console.log("Choose jump mode:", mode)
 
 	$('.jumpmode').addClass('activebutton');

@@ -1,3 +1,9 @@
+/*
+	Name: generalOverlay.js
+	Created By: Danielle
+	Purpose: To handle the gneral actions of opening and closing overlays
+*/
+
 goog.require('events')
 goog.provide('generalOverlay')
 
@@ -109,7 +115,7 @@ function openInventoryDefinitionOverlay()
 			},
 			complete: function(){
 				$('.inventory-item-list').empty();
-				
+
 			}
 		}
 	)
@@ -202,7 +208,7 @@ function showOverlayLinks(element) //"edit page" button etc..
 		}
 		else if (element.hasClass('jump'))
 		{
-			//show 
+			//show
 			$('button[data-target="jump-modal"]').show();
 		}
 	}

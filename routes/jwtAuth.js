@@ -1,3 +1,9 @@
+/*
+	Name:
+	Created By:
+	Purpose:
+*/
+
 var jwt = require('jwt-simple');
 var bodyParser = require('body-parser');
 var moment = require('moment')

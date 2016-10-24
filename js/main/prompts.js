@@ -1,3 +1,9 @@
+/*
+	Name: prompts
+	Created By: Danielle
+	Purpose: a generic modal for use in the system
+*/
+
 goog.provide("prompts")
 goog.require("hotkeys")
 
@@ -23,7 +29,7 @@ goog.require("hotkeys")
 //		);
 
 // *** the third parameter (list of objects) of myModal.prompt can handle multiple fields
-// *** the third parameter can be passed false to facilitate a basic confirm for dismiss input 
+// *** the third parameter can be passed false to facilitate a basic confirm for dismiss input
 
 //  ******************** </API GUIDE> *******************
 
@@ -141,24 +147,24 @@ function myModal()
 			if (fields[i].type == "number")
 			{
 				html_string += ('<div class="input-field">')
-				html_string += ('<label for="' + i + '"> '+ fields[i].name + '</label>' 
+				html_string += ('<label for="' + i + '"> '+ fields[i].name + '</label>'
 					+ '<input id= "' + i + '"type="' + fields[i].type + '" value = "' + parseFloat(fields[i].default) + '" min ="' + fields[i].min + '" max ="' + fields[i].max + '">')
 				html_string += ('</div>')
 			}
 			else
 			{
 				html_string += ('<div class="input-field">')
-				html_string += ('<label for="' + i + '"> '+ fields[i].name + '</label>' 
+				html_string += ('<label for="' + i + '"> '+ fields[i].name + '</label>'
 					+ '<input id= "' + i + '"type="' + fields[i].type + '" value = "' + fields[i].default + '">');
 				html_string += ('</div>')
 			}
 		}
 		}
-		
+
 		tar.append(html_string);
 
 
-		$('#prompt-modal .modal-content input').eq(0).prop('autofocus', true)	
+		$('#prompt-modal .modal-content input').eq(0).prop('autofocus', true)
 
 		$('#prompt-modal').openModal(
 		{
@@ -189,4 +195,3 @@ function myModal()
 
 var myModal = new myModal();
 myModal.init();
-

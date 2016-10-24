@@ -1,3 +1,9 @@
+/*
+	Name: logger
+	Created By: Darryl
+	Purpose: to handle logginf of control/edge output
+*/
+
 goog.provide('logger')
 
 function Logger(){

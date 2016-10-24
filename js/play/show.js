@@ -1,3 +1,9 @@
+/*
+	Name: show
+	Created By: Darryl
+	Purpose: to show the playgae=me interface in play module
+*/
+
 goog.provide('show')
 goog.require('play_httpRequests')
 
@@ -19,7 +25,7 @@ function getProject(){
   //console.log(uname + ' ' + proj)
   $.when(authenticate()).done(function(){
     $.when(load(uname,proj)).done(function(){
-    
+
       return
     })
   })

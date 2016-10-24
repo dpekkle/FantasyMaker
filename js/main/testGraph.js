@@ -1,3 +1,9 @@
+/*
+	Name: testGraph
+	Created By: Danielle
+	Purpose: to test the graph for invalid states
+*/
+
 goog.provide('testgraph')
 goog.require('initCanvas')
 
@@ -10,13 +16,13 @@ function runPlayGameTests()
 {
 	var test_results = checkValidGraph();
 	if (test_results == '')
-		createModule_playGame()	
+		createModule_playGame()
 	else
 	{
 		test_results.push("Continue Anyway?")
 		myModal.prompt("Graph Tests Failed", test_results, [],
 			function(results){
-				createModule_playGame()	
+				createModule_playGame()
 			}
 		);
 	}
@@ -37,7 +43,7 @@ function runTests()
 function checkValidGraph()
 {
 	var alertString = [];
-	
+
 	if (cy.$('*').length < 1)
 		alertString.push("The graph is empty");
 
@@ -46,12 +52,12 @@ function checkValidGraph()
 	{
 		alertString.push("Starting class must be a page node\n");
 	}
-	
+
 	if (!testConnectivity())
 	{
 		alertString.push("Graph is NOT connected\n");
 	}
-	
+
 	if (!testJumpNodes())
 	{
 		alertString.push("Jump End nodes can be reached without arriving from a jump start!\n")
@@ -63,15 +69,15 @@ function checkValidGraph()
 function testConnectivity()
 {
 	var connected = false;
-	
+
 	var root_nodes = cy.$('.start, .jump'); //get the "start" node and all .jump start nodes
 	var all_nodes = cy.$('.page, .control, .jumpend');
-	
+
 	console.log("Root nodes: " + root_nodes)
-	
+
 	var connected_nodes = cy.collection(); //empty collection
 	connected_nodes = connected_nodes.add(root_nodes)	//add the root node
-	
+
 	var dfs = all_nodes.union(cy.$('edge')).dfs(
 	{
 		roots: root_nodes,
@@ -82,11 +88,11 @@ function testConnectivity()
 		},
 		directed: true,
 	});
-	
+
 	console.log("Total nodes:" + all_nodes.size() + " Connected_nodes: " + connected_nodes.size())
-	
+
 	var disconnected_nodes = all_nodes.diff(connected_nodes).left;
-	
+
 	//check that these "disconnected" nodes dont have jump roots
 
 	console.log("Disconnected:", disconnected_nodes.size())
@@ -95,13 +101,13 @@ function testConnectivity()
 
 	disconnected_nodes.addClass('disconnected');
 	//disconnected_nodes.delay(3000, disconnected_nodes.removeClass('disconnected'));
-	
+
 	//alternative in case delay "breaks" again (removenode was not firing for some reason occasionally)
 	setTimeout(function()
-	{ 
+	{
 		disconnected_nodes.removeClass('disconnected');
 	}, 3000);
-	
+
 	return (disconnected_nodes.size() == 0);
 }
 
@@ -126,6 +132,6 @@ function testJumpNodes()
 			}
 		}
 	});
-	
+
 	return pass;
 }

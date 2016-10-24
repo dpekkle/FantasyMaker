@@ -1,3 +1,9 @@
+/*
+	Name: layouts
+	Created By: Danielle
+	Purpose: handles layouts for page overlay
+*/
+
 goog.provide('layouts')
 goog.require('initCanvas')
 goog.require('pageOverlay') //for updating page overlay
@@ -132,7 +138,7 @@ var breadth_first_layout = {
 function style_end_nodes()
 {
 	cy.elements('.leaf').removeClass('leaf');
-	cy.$('node').successors().leaves('.page').addClass('leaf'); //end points of graph	
+	cy.$('node').successors().leaves('.page').addClass('leaf'); //end points of graph
 }
 
 function cleanup_node_labels(element)
@@ -151,7 +157,7 @@ function cleanup_node_labels(element)
 		if (!isNaN(name))
 		{
 			ele.style('label', i+1);
-			ele.data('name', i+1);   
+			ele.data('name', i+1);
 		}
 		else
 		{
@@ -167,10 +173,10 @@ function cleanup_node_labels(element)
 }
 
 function cleanup_edge_labels(element)
-{	
+{
 	//get parent node
 	var parent = element.source();
-	
+
 	if (parent.hasClass('page'))
 	{
 		//find decision container of edge we are deleting, if it even exists (maybe we didnt open since adding it)
@@ -184,19 +190,19 @@ function cleanup_edge_labels(element)
 			}
 		}
 	}
-	
+
 	// delete edge
 	cy.remove(element);
 
 
 	//cleanup the displayed name for each edge from parent of this edge
 	var edge_list = parent.edgesTo('*');
-	
+
 	updatePageStyle(parent);//make sure decision containers in the page have been created
 
 	for (var i = 0; i < edge_list.size(); i++)
 	{
-		//update edges in cytoscape		
+		//update edges in cytoscape
 
 		var edge_label = String.fromCharCode('A'.charCodeAt() + i);
 		edge_list[i].style('label', edge_label);
@@ -207,7 +213,7 @@ function cleanup_edge_labels(element)
 			parent.data('decisioncontainers')[i].name = edge_label;
 		}
 	}
-	
+
 }
 
 var layout_restore = null;
@@ -222,10 +228,10 @@ function layout_driver(sel)
 {
 	if (sel == "none")
 		return;
-	
-	var type = sel;	
+
+	var type = sel;
 	var options = null;
-	
+
 	if (type == "Tree")
 		options = breadth_first_layout;
 	else if (type == "Grid")
@@ -251,7 +257,7 @@ function layout_driver(sel)
 		else
 			cy.elements().unlock();
 	}
-	
+
 	if (options !== null)
 		change_layout(options);
 	else
@@ -259,13 +265,13 @@ function layout_driver(sel)
 }
 
 function change_layout(options)
-{	
+{
 	//set a root for tree
 	if (options.name == 'breadthfirst')
 	{
 		console.log("Set root");
 		options.roots = cy.$('.start');
 	}
-	
-	cy.layout( options );	
+
+	cy.layout( options );
 };

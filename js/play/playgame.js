@@ -1,3 +1,9 @@
+/*
+	Name: playGame
+	Created By: Danielle
+	Purpose: to enable playthrough of a game
+*/
+
 goog.provide('playGame')
 goog.require('initCanvas') //for cytoscape functions like outgoers
 goog.require('generalOverlay') //for escapehtml
@@ -85,7 +91,7 @@ function wipeGame()
 		ele.data('origin', null);
 	});
 	jump_context_stack = [];
-	
+
 	//reset all audio
 	for (var i = 0; i < project_project.audio.getAsset().length; i++)
 	{
@@ -206,13 +212,13 @@ function stylePage()
 	var playerInventory = new PlayerInventory();
 	playerInventory.init();
 	function PlayerInventory(){
-		
+
 		this.init = function(){
 			$("body").append('<div id="player-inventory-modal" class="modal" style="height: 90%"> <div style="height: 90%" class="modal-content"> <h4>Your Inventory</h4> <div class="row max-height scroll-y" id="item-list-container" > <ul id="player-items-list" class="collapsible"  data-collapsible="expandable"></ul> </div></div></div>');
 		};
 
 
-		
+
 		this.appendItems = function() {
 
 			var itemCount = 0;
@@ -260,7 +266,7 @@ function stylePage()
 		};
 
 		this.openInventory = function(){
-			
+
 			$('#player-inventory-modal').openModal({
 				dismissible: true,
 				ready: function(){
@@ -270,7 +276,7 @@ function stylePage()
 				}
 			});
 		}
-		
+
 	}
 
 
@@ -287,8 +293,8 @@ function stylePage()
 			console.log("Open inventory");
 			playerInventory.appendItems();
 			playerInventory.openInventory();
-			
-			
+
+
 		})
 	});
 
@@ -391,7 +397,7 @@ function stylePage()
 				//returns the target (e.g. a page) of the jump node
 				currentNode = runJumpNode(jump_node);
 				console.log("We jumped!");
-				parseNode();		
+				parseNode();
 			}
 		})
 	});
@@ -454,7 +460,7 @@ function progressStory(i)
 			currentNode = runJumpNode(jump_node);
 			console.log("We jumped!");
 		}
-			
+
 		parseNode();
 	}
 	else
