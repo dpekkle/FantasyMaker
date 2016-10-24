@@ -1,3 +1,9 @@
+/*
+	Name: pageOverlay
+	Created By: Danielle
+	Purpose: to populate and init the page design overlay
+*/
+
 goog.provide('pageOverlay')
 goog.require('generalOverlay')
 goog.require('pageContainerHelpers')

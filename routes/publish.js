@@ -1,3 +1,9 @@
+/*
+	Name: publish
+	Created By: Darryl
+	Purpose: publish a game
+*/
+
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');

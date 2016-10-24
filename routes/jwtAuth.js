@@ -1,3 +1,9 @@
+/*
+	Name: jwtAuth
+	Created By: Darryl
+	Purpose: Authenticates tokens
+*/
+
 var jwt = require('jwt-simple');
 var bodyParser = require('body-parser');
 var moment = require('moment')

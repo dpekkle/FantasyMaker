@@ -1,3 +1,9 @@
+/*
+	Name: initCanvas.js
+	Created By: Danielle
+	Purpose: to handle initialising of the cytoscape canvas
+*/
+
 goog.provide('initCanvas')
 goog.require('host')
 goog.require('states')
@@ -49,7 +55,7 @@ var cy = cytoscape({
 				'label': 'data(name)',
 				'text-background-color' : 'white',
 				'text-background-opacity' : 1,
-				
+
 				'text-border-opacity' : 1,
 				'text-border-color' : '#90caf9',
 				'text-border-width' : 2,
@@ -121,8 +127,8 @@ var cy = cytoscape({
 				'shape': 'roundrectangle',
 				'background-color': '#aaaaaa',
 
-			}		
-		},		
+			}
+		},
 		{
 			selector: '.jump',
 			style:{
@@ -140,7 +146,7 @@ var cy = cytoscape({
 		        'text-border-color': 'black',
 		        'text-border-width': '2px',
 
-			}		
+			}
 		},
 		{
 			selector: '.jumpend',
@@ -152,7 +158,7 @@ var cy = cytoscape({
 				'shape-polygon-points': [0, 1, -1, -0.5, 1, -0.5],
 				'background-color': '#FFBB89',
 
-			}		
+			}
 		},
 		{
 			selector: '.control',
@@ -160,7 +166,7 @@ var cy = cytoscape({
 				'shape': 'ellipse',
 				'background-color': '#7E9ED8',
 			}
-			
+
 		},
 		{
 			selector: '.source_node',
@@ -207,11 +213,11 @@ var cy = cytoscape({
 				'background-color': '#eacd9d',
 			}
 		},
-		
+
 		// edge classes
 		{
 			selector: '.jumpedge',
-			style: {	
+			style: {
 
 				'label': '',
 				'text-background-opacity' : 0,
@@ -220,12 +226,12 @@ var cy = cytoscape({
 				'line-color': '#FFBB89',
 				'target-arrow-color': '#FFBB89',
 				'text-border-color' : '#FFBB89',
-			}			
+			}
 		},
 		{
 			selector: '.pageedge',
 			style: {
-			}			
+			}
 		},
 		{
 			selector: '.success-edge',
@@ -234,7 +240,7 @@ var cy = cytoscape({
 				'target-arrow-color': '#a1d490',
 				'text-border-color' : '#a1d490',
 
-			}			
+			}
 		},
 		{
 			selector: '.fail-edge',
@@ -244,18 +250,18 @@ var cy = cytoscape({
 				'text-border-color' : '#c390d4',
 
 				}
-			
-		},	
+
+		},
 		{
 			selector: '.parent-selected',
 			style: {
 				'line-style': 'dashed',
 			}
-		},	
-		
-		//style for selected elements		
+		},
+
+		//style for selected elements
 		{
-			selector: ':selected', 
+			selector: ':selected',
 			style: {
 				'text-border-color' : 'black',
 				'border-width':5,
@@ -270,7 +276,7 @@ var cy = cytoscape({
 	boxSelectionEnabled: true,
 	selectionType: 'single', //allows only one element to be selected at a time
 	minZoom: 0.2,
-	maxZoom: 5, 
+	maxZoom: 5,
 });
 
 cy.panzoom();

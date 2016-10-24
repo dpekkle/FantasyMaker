@@ -1,3 +1,9 @@
+/*
+	Name: jumpOverlay
+	Created By: Danielle
+	Purpose: To handle populating and init of the jump design overlay
+*/
+
 goog.provide('jumpOverlay')
 goog.require('genericComparisonRow')
 goog.require('pageContainerHelpers')
@@ -7,9 +13,9 @@ function populateJumpOverlay(element)
 {
 	var type = element.data('triggerType');
 	loadJumpConditions();
-	loadJumpButton();	
+	loadJumpButton();
 
-	$('#choosejumprepeat input[value="'+ cy.$(':selected')[0].data('repeat') +'"]').prop("checked", true);		
+	$('#choosejumprepeat input[value="'+ cy.$(':selected')[0].data('repeat') +'"]').prop("checked", true);
 	$('#choosejumptrigger :checked').prop('checked', '');
 	setJumpNodeType(type);
 }
@@ -112,7 +118,7 @@ function loadJumpButton()
 function fillJumpButtonSelect()
 {
 	$('#jumpbuttons').html('');
-	$.each(project_project.button_list, function(key, value) 
+	$.each(project_project.button_list, function(key, value)
 	{
 		console.log("Add Jump button html for: ", project_project.button_list[key].name);
 		$('#jumpbuttons').append(project_project.button_list[key].html);
@@ -175,8 +181,8 @@ function createNewJumpButton()
 			{
 				return "A button with that name already exists"
 			}
-			else 
-			{ 
+			else
+			{
 				return true;
 			}
 		}
@@ -214,4 +220,3 @@ $.contextMenu({
 		}
 	}
 });
-

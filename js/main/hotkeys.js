@@ -1,3 +1,9 @@
+/*
+	Name: hotKeys.js
+	Created By: Danielle
+	Purpose: To map quick acccess keys
+*/
+
 goog.provide('hotkeys')
 // goog.require('initCanvas')
 // goog.require('states')
@@ -6,7 +12,7 @@ goog.provide('hotkeys')
 
 var nodes_to_clone;
 
-$(document).ready(function() 
+$(document).ready(function()
 {
 	var ctrl_key_held = false;
 	$('html').on('keyup' , function(e)
@@ -33,7 +39,7 @@ $(document).ready(function()
 					{
 						console.log("Copy");
 						nodes_to_clone = cy.$(':selected').nodes().jsons();
-						console.log(nodes_to_clone);	
+						console.log(nodes_to_clone);
 					}
 				}
 			}
@@ -90,7 +96,7 @@ $(document).ready(function()
 						$('.prebuilt').trigger('click');
 					}
 				}
-				else //choose a template for adding page node 
+				else //choose a template for adding page node
 				{
 					$('.dropdown-content.active li a').eq(e.which-49).trigger('click');
 				}
@@ -104,10 +110,10 @@ $(document).ready(function()
 					$('.deletebutton')[0].click();
 				}
 				else if(e.which == 13 || e.which == 32) //enter / space
-				{			
+				{
 					event.preventDefault();
 					console.log("TRIGGER OPENING MODAL")
-					$('.openoverlay').each(function(index) 
+					$('.openoverlay').each(function(index)
 					{
 						if ($(this).css('display') != "none")
 						{
@@ -136,7 +142,7 @@ $(document).ready(function()
 			if (e.which == 13)
 				defineAttributeModal.evaluateModal(true)
 			else if (e.which == 27)
-				defineAttributeModal.evaluateModal(false);		
+				defineAttributeModal.evaluateModal(false);
 		}
 	});
 });

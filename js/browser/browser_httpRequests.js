@@ -1,3 +1,9 @@
+/*
+	Name: Browser_httpRequests.js
+	Created By: Darryl
+	Purpose: To handle http requests for the browser module
+*/
+
 goog.provide('browser_httpRequests')
 goog.require('users')
 goog.require('host')

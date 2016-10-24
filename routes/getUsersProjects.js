@@ -1,3 +1,9 @@
+/*
+	Name: get Users Projects
+	Created By: Darryl
+	Purpose: gets all projects for browser
+*/
+
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');

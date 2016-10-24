@@ -1,3 +1,9 @@
+/*
+	Name: validateToken
+	Created By: Darryl
+	Purpose: validates a token
+*/
+
 var bodyParser = require('body-parser');
 var serverPath = 'mongodb://localhost/';
 var jwtauth = require('./jwtAuth.js')

@@ -1,3 +1,9 @@
+/*
+	Name: dragDrop.js
+	Created By: Danielle
+	Purpose: To handle the dragging and dropping of elements in the page design overlay
+*/
+
 goog.provide('dragDrop')
 
 grid_snapping_mode = false;
@@ -5,7 +11,7 @@ grid_snapping_mode = false;
 //create a grid pattern
 var grid_targets = interact.createSnapGrid({
 	x: 10, //grid spacing between x points
-	y: 10, 
+	y: 10,
 	range: 10, //range from grid point from which to snap
 	offset: {x:-2, y:2}
 });
@@ -17,14 +23,14 @@ function initSnapOptions()
 		return {
 			targets: [grid_targets],
 			relativePoints: [{x:1, y:1}], //upper left corner binds to grid
-			endOnly: false	
+			endOnly: false
 		};
 	}
 	else
 		return {
 			targets: [],
 			relativePoints: [{x:1, y:1}], //upper left corner binds to grid
-			endOnly: false	
+			endOnly: false
 		};
 }
 
@@ -80,10 +86,10 @@ function toggleGridMode()
 		$('.gridmode').html("Grid: Enabled");
 	else
 		$('.gridmode').html("Grid: Disabled");
-	
+
 	$('.gridmode').toggleClass('activebutton');
 	snap_options = initSnapOptions();
-	setInteractions();	
+	setInteractions();
 }
 
 function resizeMoveListener(event)
@@ -146,8 +152,8 @@ function checkBounds(offset, dimension, limit)
 	}
 	return dimension;
 }
-  
-function dragMoveListener (event) 
+
+function dragMoveListener (event)
 {
 	var container = $('#pagecontainers')[0];
 	var scaleX = container.getBoundingClientRect().width / container.offsetWidth;
@@ -167,4 +173,3 @@ function dragMoveListener (event)
 }
 
 window.dragMoveListener = dragMoveListener;
-

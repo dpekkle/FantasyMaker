@@ -1,3 +1,9 @@
+/*
+	Name: playJump
+	Created By: Danielle
+	Purpose: to allow jump node functionality in gamme
+*/
+
 goog.provide('playJump')
 goog.require('playConditions')
 
@@ -14,7 +20,7 @@ function initJumpNodes()
 function checkConditionalJumps()
 {
 	var jump_node = false;
-	
+
 	jump_context_collection = cy.collection(jump_context_stack)
 	//don't consider nodes already on stack
 	conditional_jump_nodes.difference(jump_context_collection).forEach(function(ele)
@@ -23,7 +29,7 @@ function checkConditionalJumps()
 		{
 			//condition is met
 			jump_node = ele;
-			return false //breakloop 
+			return false //breakloop
 		}
 	});
 
@@ -102,4 +108,3 @@ function runJumpEnd(current_node)
 		return origin;
 	}
 }
-

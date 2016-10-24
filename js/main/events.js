@@ -1,3 +1,9 @@
+/*
+	Name: events.js
+	Created By: Danielle
+	Purpose: To define and create the event manager
+*/
+
 goog.provide('events')
 
 var selected_event = null;
@@ -19,7 +25,7 @@ function eventManager()
 	this.loadPageEvents = function(events_list)
 	{
 		this.event_queue = []; //clear event queue if a player skips through early
-		
+
 		for (var i = 0; i < events_list.length; i++)
 		{
 			console.log(events_list[i].id, events_list[i].eventtype)
@@ -74,7 +80,7 @@ function eventManager()
 				}
 				console.log("Modify Volume: ", event.setting)
 				audio_asset.setVolume(event.setting);
-			}	
+			}
 			//fadeout stop alternative?
 			else if (event.action == "Stop")
 			{

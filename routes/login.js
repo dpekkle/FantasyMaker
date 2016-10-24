@@ -1,3 +1,9 @@
+/*
+	Name: login
+	Created By: Darryl
+	Purpose: login a user
+*/
+
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');

@@ -1,3 +1,10 @@
+/*
+	Name: Audio.js
+	Created By: Danielle
+	Purpose: To handle audio that has been added by the user and play it in game
+*/
+
+
 goog.require('events')
 goog.provide('audio')
 
@@ -59,16 +66,16 @@ function audioAsset(name, id, link, type)
 		{
 			var start_volume = this.player.getVolume();
 			var end_volume = 0;
-			
+
 			var step = 0;
 			var max_steps = 50;
 
-			var interval = setInterval(function() 
-			{ 
+			var interval = setInterval(function()
+			{
 				//console.log("Fading out... ", volume);
 
 				if (step < max_steps && start_volume !== 0)
-				{				
+				{
 					step++;
 
 					var curve = 1 - Math.pow(1 - Math.pow((1 - step/max_steps), 2), 1.5);
@@ -77,14 +84,14 @@ function audioAsset(name, id, link, type)
 					//set volume to curve
 					this.player.setVolume(start_volume*curve)
 				}
-				else 
+				else
 				{
 					clearInterval(interval);
 		   			this.player.stopVideo();
 					this.player.setVolume(start_volume)
 				}
 			}.bind(this, start_volume, step, max_steps), //set the interval 'this' scope for this.player
-			100); 
+			100);
 		}
 	}
 
@@ -94,19 +101,19 @@ function audioAsset(name, id, link, type)
 		{
 			var start_volume = 0;
 			var end_volume = this.player.getVolume();
-			
+
 			var step = 0;
 			var max_steps = 50;
 
 			this.player.playVideo();
 			this.player.setVolume(start_volume);
 
-			var interval = setInterval(function() 
-			{ 
+			var interval = setInterval(function()
+			{
 				//console.log("Fading out... ", volume);
 
 				if (step < max_steps)
-				{				
+				{
 					step++;
 
 					var curve = Math.pow(1 - Math.pow((1 - step/max_steps), 2), 1.5);
@@ -115,12 +122,12 @@ function audioAsset(name, id, link, type)
 					//set volume to curve
 					this.player.setVolume(end_volume*curve)
 				}
-				else 
+				else
 				{
 					clearInterval(interval);
 				}
 			}.bind(this, end_volume, step, max_steps), //set the interval 'this' scope for this.player
-			100); 
+			100);
 		}
 	}
 
@@ -139,9 +146,9 @@ function audioAsset(name, id, link, type)
 			'onStateChange': onPlayerStateChange,
 			'onError': onPlayerError,
 		  }
-		});			
+		});
 		// video
-		function onPlayerReady(event) 
+		function onPlayerReady(event)
 		{
 			console.log("Player ready", project_project.audio.loaded++);
 			if (project_project.audio.loaded == project_project.audio.assets.length)
@@ -151,8 +158,8 @@ function audioAsset(name, id, link, type)
 		}
 
 		// when video ends
-		function onPlayerStateChange(event) 
-		{ 
+		function onPlayerStateChange(event)
+		{
 			if(event.data === -1)
 			{
 				console.log('youtube video not started');
@@ -160,21 +167,21 @@ function audioAsset(name, id, link, type)
 			if(event.data === 5)
 			{
 				console.log('youtube video queued');
-			}       
+			}
 			if(event.data === 1)
 			{
 				console.log('now playing');
-			}       
+			}
 		    if(event.data === 0) //video ended
 		    {
 		    	console.log("Video ended")
 		    }
 		}
 
-		function onPlayerError(event) 
+		function onPlayerError(event)
 		{
 			alert("Youtube audio playback encountered error: ", event.data, ". Embedding of this link: " + videoId + " may be disabled by the owner.")
-			this.player.destroy(); 
+			this.player.destroy();
 	    	console.log("Destroying player");
 		}
 	}
@@ -184,11 +191,11 @@ function audioAsset(name, id, link, type)
 		//add it to the page container's list of events
 		$('#eventspane').append("<div id = '" + this.id + "' class='audioevent eventscontainer'><span class = 'eventname flex-center-vertically'>" + this.name + "</span>"
 								+ "<span class = 'eventtype flex-center-vertically'><select>"
-								+ "<option value='Play'>Play</option><option value='Fade In'>Fade In</option><option value='Stop'>Stop</option><option value='Fade Out'>Fade Out</option><option value='Volume'>Volume</option></select><input class='setting' type='number' min = 0 max = 100 value = 100></span>" 
+								+ "<option value='Play'>Play</option><option value='Fade In'>Fade In</option><option value='Stop'>Stop</option><option value='Fade Out'>Fade Out</option><option value='Volume'>Volume</option></select><input class='setting' type='number' min = 0 max = 100 value = 100></span>"
 								+ "<span class = 'eventtrigger'><input type='number' min = 0 value = 0></span></div>");
-			
+
 		this.eventListBehaviour();
-		$('.eventscontainer').last().find('select').material_select();	
+		$('.eventscontainer').last().find('select').material_select();
 	}
 
 	this.eventListBehaviour = function()
@@ -241,7 +248,7 @@ function audioObj()
 			{
 				var entry = this.assets[i];
 				htmlstring += "<li id='" + entry.id + "''>Name: " + entry.name + "<br>Link: " + entry.link + "</li>"
-			}		
+			}
 		}
 		return htmlstring;
 	}
@@ -266,7 +273,7 @@ function audioObj()
 	this.getAsset = function(id)
 	{
 		//get an asset by the value of it's id (not necessarily the same as it's index)
-		if (id !== undefined) 
+		if (id !== undefined)
 		{
 			var id_int = parseInt(id);
 			if (id_int >= 0)
@@ -284,7 +291,7 @@ function audioObj()
 		this.changed = true;
 		if (this.selected_audio != null)
 		{
-			var ele = this.getAsset(this.selected_audio)	
+			var ele = this.getAsset(this.selected_audio)
 			this.assets.splice(this.assets.indexOf(ele), 1);
 			$('#audiolist').find('#' + this.selected_audio).remove();
 		}
@@ -308,7 +315,7 @@ function audioObj()
 				if (results[0] == "" || results[0] == null){return "Name can't be empty";}
 				else if (results[1] == "" || results[1] == null){return "URL can't be empty";}
 				else if (audio_obj.addAsset(results[0], results[1]))
-				{ 
+				{
 					return true;
 				}
 				else
@@ -348,7 +355,7 @@ function audioObj()
 		{
 			return "youtube";
 		}
-		else 
+		else
 			return "error";
 	}
 	this.addAudioEvent = function(id)
@@ -364,7 +371,7 @@ function loadAudioObject(loadobj)
 	object.selected_audio = loadobj.selected_audio;
 	object.unique_id = 0; //used for unique ids, different to array length
 	object.loaded = loadobj.loaded;
-	
+
 	if (loadobj.assets.length == 0)
 	{
 		object.changed = false;

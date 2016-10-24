@@ -1,3 +1,9 @@
+/*
+	Name: genericComparisonRow.js
+	Created By: Darryl
+	Purpose: A simple generic comparison row that is used in several parts of the system for different purposes
+*/
+
 goog.provide('genericComparisonRow')
 goog.require('conditionsContextMenu')
 

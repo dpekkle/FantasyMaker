@@ -1,3 +1,9 @@
+/*
+	Name: gameBrowser.js
+	Created By: Russell
+	Purpose: To handle populating th game browser user interface.
+*/
+
 goog.provide('gameBrowser');
 goog.require('browser_httpRequests');
 

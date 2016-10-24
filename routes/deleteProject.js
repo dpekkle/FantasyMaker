@@ -1,3 +1,9 @@
+/*
+	Name: deleteProject
+	Created By: Darryl
+	Purpose: delets a project in the db
+*/
+
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');

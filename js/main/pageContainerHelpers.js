@@ -1,3 +1,9 @@
+/*
+	Name: page container helpers
+	Created By: Danielle
+	Purpose: to create page container helpers for page containers
+*/
+
 goog.provide('pageContainerHelpers')
 goog.require('project')
 
@@ -106,7 +112,7 @@ function genHandleHTML(containertype, id)
 		html_string += '</div>';
 		html_string += ('<a class="inventorymenu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');		
+					+   '</a>');
 	}
 	else if (containertype == "character")
 	{
@@ -117,7 +123,7 @@ function genHandleHTML(containertype, id)
 		html_string += '</div>';
 		html_string += ('<a class="charactermenu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');		
+					+   '</a>');
 	}
 	else if (containertype == "jump")
 	{
@@ -128,7 +134,7 @@ function genHandleHTML(containertype, id)
 		html_string += '</div>';
 		html_string += ('<a class="jumpmenu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');		
+					+   '</a>');
 	}
 	else if (containertype == "jumpback")
 	{
@@ -139,7 +145,7 @@ function genHandleHTML(containertype, id)
 		html_string += '</div>';
 		html_string += ('<a class="jumpbackmenu btn-floating waves-effect waves-light red righticon">'
 					+ 	 	'<i class="material-icons">settings</i>'
-					+   '</a>');		
+					+   '</a>');
 	}
 	else
 	{

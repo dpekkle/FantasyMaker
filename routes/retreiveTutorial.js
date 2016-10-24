@@ -1,3 +1,9 @@
+/*
+	Name: retrieva tutorial
+	Created By: Darryl
+	Purpose: sets tutorial project for a new user
+*/
+
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 //var bodyParser = require('body-parser');

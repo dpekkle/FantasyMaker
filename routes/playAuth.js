@@ -1,3 +1,9 @@
+/*
+	Name: playAuth
+	Created By: Darryl
+	Purpose: authenticated a player
+*/
+
 var bodyParser = require('body-parser');
 var jwt = require('jwt-simple');
 var moment = require('moment')

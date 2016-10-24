@@ -1,3 +1,9 @@
+/*
+	Name: conditionsContextMenu.js
+	Created By: Darryl
+	Purpose: To handle the dynamic behaviour of conditons and outcomes in relation to the UI they are represented on. 
+*/
+
 goog.provide('conditionsContextMenu')
 goog.require('project')
 

@@ -1,3 +1,9 @@
+/*
+	Name: controlOverlay.js
+	Created By: Darryl
+	Purpose: To handle the population and initialization of the control node design overlay
+*/
+
 goog.provide('controlOverlay')
 goog.require('edgeOverlay')
 goog.require('project')

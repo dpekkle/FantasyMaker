@@ -1,3 +1,9 @@
+/*
+	Name: getAllUsersProjects
+	Created By: Darryl
+	Purpose: gets all users projects for the game browser
+*/
+
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');

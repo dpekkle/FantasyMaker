@@ -1,3 +1,9 @@
+/*
+	Name: contextMenu.js
+	Created By: Danielle
+	Purpose: To generate context menus in the page designer overlay
+*/
+
 goog.provide('contextMenu')
 goog.require('pageContainerHelpers')
 goog.require('generalOverlay')
@@ -829,4 +835,3 @@ $(function(){
 		}
 	});
 });
-

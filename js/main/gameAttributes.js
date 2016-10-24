@@ -1,3 +1,9 @@
+/*
+	Name: gameAttributes.js
+	Created By: Russell
+	Purpose: To allow the user to create and define game attributes and set up their representations in the ui
+*/
+
 goog.provide('gameAttributes');
 goog.require('project');
 
@@ -254,7 +260,7 @@ function gameAttribute_createModule_updateContextPane(){
         }
     }
 
-    
+
 
 }
 

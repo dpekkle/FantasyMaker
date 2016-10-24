@@ -1,3 +1,9 @@
+/*
+	Name: signUp
+	Created By: Darryl
+	Purpose: sign up a user
+*/
+
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');

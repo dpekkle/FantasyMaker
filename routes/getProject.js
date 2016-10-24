@@ -1,3 +1,9 @@
+/*
+	Name: getProject
+	Created By: Daryl
+	Purpose: to get a project for the create module
+*/
+
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');

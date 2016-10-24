@@ -1,3 +1,9 @@
+/*
+	Name: playConditions
+	Created By: Darryl
+	Purpose: defines game play logic
+*/
+
 goog.provide('playConditions')
 
 

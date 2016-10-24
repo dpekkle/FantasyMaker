@@ -1,3 +1,9 @@
+/*
+	Name:play
+	Created By: Darryl
+	Purpose: allow user to play a game
+*/
+
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var bodyParser = require('body-parser');

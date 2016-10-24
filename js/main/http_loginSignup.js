@@ -1,3 +1,9 @@
+/*
+	Name: http_loginSignup
+	Created By: Darryl
+	Purpose:To handle the HTTP requests of login and sign up
+*/
+
 goog.provide('http_loginSignup')
 goog.require('navigation')
 

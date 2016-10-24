@@ -1,3 +1,9 @@
+/*
+	Name:navigation
+	Created By: Darryl
+	Purpose: to handle navigation of the user around the system
+*/
+
 goog.provide('navigation')
 goog.require('users')
 

@@ -1,3 +1,9 @@
+/*
+	Name: tutorial
+	Created By: Danielle
+	Purpose: defines the tutorial project
+*/
+
 goog.provide('tutorial')
 goog.require('host')
 goog.require('states')
@@ -368,7 +374,7 @@ function checkInTutorial()
 {
 	finishTutorial();
 
-	if (project_project.projectName == "yoqpzHbHLaxCX__PcdHp" || project_project.title == "Tutorial")
+	if (project_project.projectName == "uxJUaryqnAmPtGMtkbHe" || project_project.title == "Tutorial")
 	{
 		console.log("IN TUTORIAL PROJECT")
 		if (window.location.href !== host_playModule())

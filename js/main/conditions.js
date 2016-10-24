@@ -1,3 +1,9 @@
+/*
+	Name: conditions.js
+	Created By: Darryl
+	Purpose: to handle the create on condition and outcome JSON objects
+*/
+
 goog.provide("conditions");
 
 console.log("Enter conditions.js");
