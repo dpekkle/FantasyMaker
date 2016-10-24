@@ -31,6 +31,36 @@ function loadingScreen(more_to_load)
 	}
 }
 
+function prepareForPlayGame()
+{
+	console.log("prepare for game called")
+	loadingScreen(project_project.audio.changed);
+
+	initJumpNodes();
+
+	//clear page
+	$('.playpage').html('');
+
+	//consider case where someone creates pages without opening the page style overlay, in which case no style is assigned
+	//will probably be an empty page i.e. no html
+
+	//preload all the audio assets
+	//clear assets
+	$('#playwindow #audioplayerlist').html('');
+
+
+	var audio_assets = project_project.audio.getAsset();
+	for (var i = 0; i < audio_assets.length; i++)
+	{
+		audio_assets[i].loadAudio();
+	}
+
+	event_manager = new eventManager();
+	currentNode = null;
+	outgoingEdges = null;
+
+}
+
 function prepareForGame()
 {
 	console.log("prepare for game called")

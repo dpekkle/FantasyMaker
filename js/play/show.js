@@ -29,7 +29,7 @@ function getProject(outer_callback){
     load(uname,proj,function(){
       console.log("before prepare game")
       console.log(project_project)
-      prepareForGame()
+      prepareForPlayGame()
       outer_callback()
     })
   })
