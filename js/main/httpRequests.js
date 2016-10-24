@@ -112,7 +112,7 @@ function http_load(projName){
 	});
 }
 
-function http_setupCy(){
+function http_setupCy(proj,data){
 	//database does not store methods, so we need to create new audioobj initialising it with the stored values - Danni
 	//project_project.audio = loadAudioObject(project_project.audio)
 	//loadTemplateMenuObj();
@@ -121,6 +121,7 @@ function http_setupCy(){
 	//$('#UI_projName').text('Project: ' + project_project.projectName)
 
 	//for all elements in data
+	/*
 	for(var i = 0; i<project_project.graph.length; i++){
 		//check if element is an edge
 		if(project_project.graph[i].group == "edges"){
@@ -134,6 +135,39 @@ function http_setupCy(){
 			cy.add(project_project.graph[i]);
 		}
 	}
+	*/
+
+	//database does not store methods, so we need to create new audioobj initialising it with the stored values - Danni
+	proj.audio = loadAudioObject(proj.audio)
+	loadTemplateMenuObj();
+	$.each(proj.button_list, function(index, val) {
+		this.callback = generateJumpButtonCallback();
+	});
+
+
+	$('#UI_projName').text('Project: ' + proj.title)
+
+	//add nodes first
+	for(var i = 0; i<data[0].graph.length; i++){
+		//check if element is an edge
+		if(data[0].graph[i].group !== "edges"){
+			cy.add(data[0].graph[i]);
+		}
+	}
+	//now add the edges
+	for(var i = 0; i<data[0].graph.length; i++){
+		//check if element is an edge
+		if(data[0].graph[i].group == "edges"){
+			var newEdge = cy.add(data[0].graph[i]);
+			//add event listener to edge
+			newEdge.on('tap', function(event){this.select();});
+		}
+	}
+
+	Materialize.toast("Project '" + proj.title + "' Loaded", 3000, 'rounded')
+	resizeCanvas();
+	defaultState();
+	checkInTutorial();
 }
 
 function http_getUsersProjects(username,ret){

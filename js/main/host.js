@@ -6,8 +6,8 @@
 
 goog.provide('host')
 
-//var host_location = 'http://localhost:3000/'
-var host_location = 'http://fantasymakergame.com/'
+var host_location = 'http://localhost:3000/'
+//var host_location = 'http://fantasymakergame.com/'
 
 function host_create(){
   return host_location + 'create.html'

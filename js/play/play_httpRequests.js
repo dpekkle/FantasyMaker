@@ -35,7 +35,25 @@ function load(username,projName){
         delete data[0]._id; //remove mongos _id attribute
   			console.log(data)
         project_project = data[0]
-          http_setupCy()
+
+				//add nodes first
+				for(var i = 0; i<data[0].graph.length; i++){
+					//check if element is an edge
+					if(data[0].graph[i].group !== "edges"){
+						cy.add(data[0].graph[i]);
+					}
+				}
+				//now add the edges
+				for(var i = 0; i<data[0].graph.length; i++){
+					//check if element is an edge
+					if(data[0].graph[i].group == "edges"){
+						var newEdge = cy.add(data[0].graph[i]);
+						//add event listener to edge
+						newEdge.on('tap', function(event){this.select();});
+					}
+				}
+
+
       }
 		},
 		contenttype: "application/json"
