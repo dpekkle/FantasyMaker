@@ -19,7 +19,9 @@ $(document).ready()
 }
 
 function project_login(){
-	console.log('sign in')
+		//modify login modal
+		$('#prompt-modal .modal-footer').append('<a id="demobutton" href="#!" class=" modal-action waves-effect waves-green btn-flat" onclick="project_loadDemo()">Demo</a>');
+		console.log('sign in')
 		myModal.prompt("Log In", "Log in and continue creating!", [{name: "Username", default: "", type: "text"},{name: "Password", default: "", type: "password"}],
 				function(results){
 				},
@@ -46,6 +48,26 @@ function project_login(){
 						}
 					})
 		});
+}
+
+function project_loadDemo(){
+	var res = {
+		"data" : {}
+	}
+
+	$.when(http_login("Demo", "Demo", res)).done(function(){
+		if(res.data !== 'INVALID_USERNAME' && res.data !== 'INVALID_PASSWORD' && res.data !== 'SERVER_ERR'){
+			project_successfulLogin(res)
+			Materialize.toast("Welcome back " + users_getUsername() + "!", 3000, 'rounded')
+		}
+		else{
+			myModal.warning("Login details were invalid. Please try again.");
+		}
+	})	
+
+	$('#prompt-modal').closeModal();
+	$('#demobutton').remove();
+
 }
 
 function project_successfulLogin(res){
