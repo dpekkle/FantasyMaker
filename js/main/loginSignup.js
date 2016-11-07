@@ -13,7 +13,8 @@ var loginSignupState = false //not logged in
 
 $(document).ready()
 {
-	if(!window.location.href.includes(host_create() && !window.location.href.includes(host_location + '/play'))){
+	console.log(window.location.href)
+	if(window.location.href.includes(host_create())){
 		index_autoLogin()
 	}
 }
@@ -63,7 +64,7 @@ function project_loadDemo(){
 		else{
 			myModal.warning("Login details were invalid. Please try again.");
 		}
-	})	
+	})
 
 	$('#prompt-modal').closeModal();
 	$('#demobutton').remove();
