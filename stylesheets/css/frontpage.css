@@ -1,0 +1,239 @@
+
+h1, h2, p{
+	color: white;
+	font-family: 'Raleway'
+}
+.body{
+	background-color: #AAA9A9;
+}
+
+.navbar{
+	background-color: #1E2328;
+	border-bottom: 0px;
+	color: white;
+}
+
+
+.navbar-default .navbar-nav>li>a{
+	color: white;
+}
+
+.navbar-default .navbar-nav>li>a:hover{
+	color: #00FEBC;
+}
+
+
+.navbar-default .navbar-brand{
+	color: #00FEBC;
+
+}
+.main{
+	display: block;
+	clear: both;
+}
+
+.jumbotron{
+	background: url('../../images/banner_image.jpg');
+	display: block;
+	height: 500px;
+	background-size: cover;
+	margin-bottom: 0px;
+
+}
+
+.jumbotron .main{
+	padding: 20px 20px 20px 20px;
+	position: relative;
+    top: 100px;
+	background-color: rgba(0,0,0,0.7);
+	 border-radius: 15px;
+	 text-align: center;
+}
+
+
+.main .btn{
+	width: 200px;
+	height: 50px;
+	background-color: #1c1c1c;
+	border: 2px solid #00FEBC;
+	width: 200px;
+
+}
+
+.btn {
+	display: inline-block;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: white;
+	transition: background-color 0.5s;
+	padding-top: 15px;
+
+	vertical-align: middle;
+  line-height: normal;
+
+}
+.btn:hover{
+	background-color: #00FEBC;
+	color: white;
+}
+
+#team .btn{
+	border: 4px solid #00FEBC;
+	font-size: 1.25em;
+	margin-top: 30px;
+}
+
+.main h1{
+	font-size: 5.5em;
+	color: white;
+	text-shadow:
+	    -1px -1px 0 #000,
+	     1px -1px 0 #000,
+	    -1px  1px 0 #000,
+	     1px  1px 0 #000;
+}
+
+.main h1 span{
+	color: #00FEBC;
+}
+
+.main h2{
+	font-size: 2.5em;
+	color: white;
+	text-shadow:
+	    -1px -1px 0 #000,
+	     1px -1px 0 #000,
+	    -1px  1px 0 #000,
+	     1px  1px 0 #000;
+	font-weight: 600;
+}
+
+#about{
+	display: block;
+	height: 600px;
+	background-color: #1E2328;
+	margin-bottom: 0px;
+}
+
+
+#footer{
+	padding-top: 20px;
+	display: block;
+	height: 75px;
+	background-color: #1E2328;
+}
+
+
+.about_card{
+	padding-top: 25px;
+	align-content: center;
+	text-align: center;
+	height: 500px;
+	transition: background-color 0.5s;
+}
+
+.about_card img{
+	width: 220px;
+	height: 220px;
+}
+
+.team_card{
+	margin-top: 20px;
+	padding-top: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
+	height: 225px;
+	background-color: rgba(0,0,0,0.8);
+	border-radius: 20px;
+
+}
+
+.card p{
+	top: 20px;
+	height: 150px;
+	font-size: 1.33em;
+	font-weight: 300;
+}
+.card h2{
+	top: 20px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+.card h3{
+	color: #FFF;
+}
+
+a {
+	text-decoration:  none;
+	color: #00FEBC;
+}
+
+.about_card .btn{
+	border: 2px solid #00FEBC;
+	min-height: 50px;
+	max-width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+#team{
+	height: 1000px;
+	width: 100%;
+	background: url('../../images/code_on_screen.jpg');
+	background-size: cover;
+}
+
+.row-centered{
+	text-align: center;
+}
+
+.col-centered{
+	display:inline-block;
+    float:none;
+    text-align:left;
+    margin-right:-4px;
+}
+
+#footer{
+	margin-top: 0px;
+	background-color: #1E2328;
+	padding-bottom: 10px;
+}
+.btn{
+	background-color: #1c1c1c;
+	min-height: 50px;
+}
+
+.accent-color{
+	color: #00FEBC;
+}
+
+#blog-btn{
+	min-height: 65px;
+}
+
+.team_card img{
+	padding: 10px;
+}
+
+@media (max-width: 1080px){
+    #about{
+        height: auto;
+        padding-bottom: 100px;
+    }
+
+    #team{
+        height: 1200px;
+    }
+
+    #navbar{
+        height: 75px;
+    }
+
+    .card{
+        padding-right: 50px;
+        padding-left: 50px;
+    }
+}

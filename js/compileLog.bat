@@ -1,0 +1,1 @@
+compile.bat > compileLog.txt 2>&1

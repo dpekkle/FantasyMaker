@@ -1,0 +1,129 @@
+nav{
+    background-color: #1E2328;
+    border-bottom: 0px;
+    color: white;
+}
+
+h1, h2, p{
+    color: white;
+    font-family: 'Raleway'
+}
+
+nav .nav-mobile>li>a{
+    color: white;
+}
+
+nav .nav-mobile>ul>li>a:hover{
+    color: #00FEBC;
+}
+.heading {
+    background: url('../../images/banner_image.jpg');
+    display: block;
+    height: 350px;
+    background-size: cover;
+    margin-bottom: 0px;
+}
+
+#header-logo{
+    height: 250px;
+    margin-top: 50px;
+}
+
+h1{
+    margin-top: 150px;
+}
+
+body {
+
+    background-image: radial-gradient(
+            circle at top right,
+            #959595,
+            rgba(0, 0, 0, 0.85) 63%
+    );
+
+}
+#main-content{
+    display: none;
+    min-height: 600px;
+}
+
+.loading-content{
+    margin-bottom: 25%;
+}
+
+
+
+.horizontal-rule{
+    background-color: white;
+    height: 2px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.card-image{
+    height: 240px;
+}
+
+.card{
+    background-color: #1E2328;
+}
+
+.card .card-image .card-title{
+    padding: 0;
+}
+.card-title>p{
+    padding: 5px;
+    margin: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.33);
+
+}
+
+#footer{
+    background-color: #1E2328;
+    padding-bottom: 10px;
+}
+
+.accent-color{
+    color: #00FEBC;
+}
+
+
+/* SEARCH BAR STYLING */
+
+/* label color */
+.input-field label {
+    color: #FFFFFF;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: #00FEBC;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #00FEBC;
+    box-shadow: 0 1px 0 0 #00FEBC;
+}
+/* valid color */
+.input-field input[type=text].valid {
+    border-bottom: 1px solid #FFFFFF;
+    box-shadow: 0 1px 0 0 #FFF;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #00FEBC;
+}
+
+.input-field .prefix{
+    color: #FFFFFF;
+}
+
+.input-field input[type=text]{
+    color: #FFF;
+}
+
+.btn:hover{
+    background-color: #00FEBC;
+}
+
+/* END SEARCH BAR STYLING */

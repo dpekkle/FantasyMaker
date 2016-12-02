@@ -1,0 +1,46 @@
+
+div {
+    margin: 0px;
+}
+
+/*.drag-container {
+		height: 100%;
+		width: 100%;
+		display: block;
+}*/
+
+#form-container {
+    position: relative; 
+    border: 1px solid #0000ff; 
+    height: 198px;
+}
+
+.drag-element{
+	position: relative;
+	z-index: 50; /*Room on either side to increment/decrement	containers*/
+}
+
+.drag-element.can-drop {
+    border: 1px solid #00ff00;
+}
+
+
+.drag-element.dropped{
+    border: 1px solid #000000;
+}
+
+.resize-child{
+	overflow: hidden;
+}
+
+.text-area{
+	width: auto;
+	height: auto;
+	display: block;
+	border-style: dashed;
+	border-color: white;
+	border-width: thin;
+	background-color: transparent;
+	
+}
+	

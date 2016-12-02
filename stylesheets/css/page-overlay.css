@@ -1,0 +1,213 @@
+#page-modal{
+  /* arbitrary styling */
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+
+	height: 90% !important;
+	width: 90% !important;
+	top: 5% !important;
+	max-height: 100%;
+}
+#page-modal .modal-content{
+   display: -webkit-flex;
+   display: flex;
+   -webkit-flex-direction: row /* works with row or column */
+   flex-direction: row;
+}
+
+#edit-page-toolbar{
+	flex: 1 0 200px;
+/*	width: 200px;
+*/	
+	padding-left: 20px;
+	padding-right: 20px;
+/*	height: 600px;
+*/	min-width: 280px;
+	max-width: 560px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.screenwrapper{
+	width: 70%;
+	height: 100%;
+    overflow: hidden;
+	border: 3px solid #BBBBBB;
+	padding: 15px;
+}
+.toolbar{
+	overflow-y: auto;
+}
+
+#pagecontainers{
+	position: relative; /*this actually makes children, i.e. drag containers, position relatively to their parent - even though they are position absolute */
+	transform: scale(1,1);
+	transform: translateZ(0);
+	transform-origin: top left;
+	-webkit-transform: scale(1,1);
+	-webkit-transform: translateZ(0);
+	-webkit-transform-origin: top left;
+	-ms-transform: scale(1,1);
+	-ms-transform: translateZ(0);
+	-ms-transform-origin: top left;
+	/* http://stackoverflow.com/questions/477834/div-with-scroll-and-content-with-absolute-positions */
+}
+
+.eventspanetitle{
+	max-height: 50px;
+}
+.flex-center-vertically {
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.eventname{
+	width: 40% !important;
+	border: 2px solid gray !important;
+	border-left: 0 !important;
+	border-top: 0 !important;
+	overflow-x: hidden;
+}
+.eventtype{
+	width: 30%;
+	border: 2px solid gray;
+	border-top: 0;
+	border-left: 0;
+
+}
+.setting{
+	display: none;
+}
+
+.eventtype .select-wrapper input{
+	height: 100% !important;
+}
+.eventtrigger{
+	width: 30%;
+	border: 2px solid gray;
+	border-right: 0;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+}
+
+#eventspane {
+	width: 100%;
+	height: 150px;
+	border: 2px solid gray;
+	overflow-y: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+#eventspane .eventtype .select-wrapper{
+	height: 100%;
+}
+
+#eventspane .eventtrigger input{
+	height: 100%;
+}
+
+.eventscontainer{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.highlighted{
+	background-color: #EEEEEE;
+}
+
+#eventspane::after {
+  content: '';
+  width: 100%;
+  height: 20%;
+}
+/*
+#eventspane::nth-child(3n + 1) {
+  order: 1;
+}
+*/
+
+#audiolist{
+	overflow-y: auto;
+	max-height: 40vh;
+}
+
+#audiolist li{
+	margin-top: 5px;
+}
+
+.handlecontainer{
+	display: flex;
+
+	width:100%;
+
+	margin-top:-39px; /* make the handle above it's parent div, necessary to prevent handle being considered part of it for dragging restrictions*/
+/*	overflow:auto; official hack! http://www.w3schools.com/css/tryit.asp?filename=trycss_layout_clearfix
+*/	background-color: #CCCCCC;
+	box-sizing: border-box;
+	border-width: 2px 2px 0px 2px;
+	border-color: #BBBBBB ;
+	border-style: solid;
+	text-align: center;
+
+}
+
+.handle{ /*for containers */
+	line-height: 37px;
+	flex: 1 0 0;
+}
+
+.lefticon{
+	flex: 0 0 37px;
+	float: left;
+}
+
+.righticon{
+	flex: 0 0 37px;
+	float: right;
+}
+
+.editdiv{ /* text container */
+	display:block;
+	border-width: 2px;
+	border-color: #BBBBBB;
+	border-style: solid;
+	background-color: #FFFFFF; /*transparent by default*/
+	width: 300px; 
+	height: 200px;
+
+	position: relative; 
+	overflow-x: hidden; 
+	overflow-y: auto;
+	
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.editdec:hover{
+	background-color: #EEEEEE;
+}
+
+.editdec{
+	display:block;
+	border-width: 2px;
+	border-color: #BBBBBB;
+	border-style: solid;
+	background-color: #DDDDDD;
+
+	width: 200px;
+	height: 50px;
+	overflow-x: hidden; 
+	overflow-y: auto;	
+
+	word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}

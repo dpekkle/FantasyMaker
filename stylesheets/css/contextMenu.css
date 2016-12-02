@@ -1,0 +1,20 @@
+.color span ul {
+    margin: 0; 
+    padding: 0;
+    list-style: none;
+    display: block;
+    float: none;
+}
+.color span ul li {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #CCC;
+    overflow: hidden;
+    margin-left: 5px;
+}
+.color span ul li.black { background: black; }
+.color span ul li.gray { background: gray; }
+.color span ul li.white { background: white; }
+.color span ul li.primary { margin-left: 10px; }
+.color span ul li.secondary {}

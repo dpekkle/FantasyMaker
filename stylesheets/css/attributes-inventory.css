@@ -1,0 +1,154 @@
+#attributes-modal{
+    overflow-y: hidden;
+}
+
+.pane{
+    height: 90%;
+}
+
+.pane .card-content{
+    overflow-y: scroll;
+    height: 80%
+}
+
+.pane .card{
+    height:85%;
+}
+
+.pane .card-action{
+    height: 20%;
+    padding: 3%;
+}
+
+.card-action .float-bottom{
+    bottom:0;
+    position: absolute;
+    margin-bottom: 5px;
+}
+
+.attributes-list{
+    height: 90%;
+    overflow-y: scroll;
+}
+
+.pointer:hover{
+    cursor: pointer;
+
+}
+
+.attribute-content{
+}
+
+.attribute_float-bottom{
+    bottom:0;
+}
+
+#attributes-modal{
+    top: 5% !important;
+    min-height: 90%;
+}
+
+.folder {
+    height: 115px;
+    width: 100px;
+    background: url("../../images/icon_folder.png");
+    background-size: contain;
+    position: relative;
+    margin-right: 7.5px;
+    display:inline-block;
+    cursor: pointer;
+}
+
+.folder .folder-title{
+    margin-top: 10px;
+    padding-bottom: 5px;
+    text-align: center;
+    font-weight:bold;
+    position: absolute;
+    bottom: 0px;
+    font-size: 12px;
+    width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+#values-container{
+    overflow-y: scroll;
+}
+
+.value-card-panel{
+    margin: 5px;
+}
+
+.value-card-panel>a{
+    margin: 1px;
+}
+
+
+/* Attributes List Styling */
+.treeView ul li  {
+    font-size: 16px;
+}
+
+.treeView ul{
+    margin:0 0 0 -1.5em;
+    padding:0 0 0 1.5em;
+}
+
+.treeView ul ul{
+    background:url('../../images/list-items/list-item-contents.png') repeat-y left;
+}
+
+.treeView li.lastChild > ul{
+    background-image:none;
+}
+
+.treeView li{
+    margin:0;
+    padding:0;
+    background:url('../../images/list-items/list-item-root.png') no-repeat top left;
+    list-style-position:inside;
+    list-style-image:url('../../images/list-items/button.png');
+    cursor:auto;
+}
+.treeView li.collapsibleListOpen{
+    list-style-image:url('../../images/list-items/button-open.png');
+    cursor:pointer;
+}
+
+.treeView li.collapsibleListClosed{
+    list-style-image:url('../../images/list-items/button-closed.png');
+    cursor:pointer;
+}
+
+.treeView li li{
+    background-image:url('../../images/list-items/list-item.png');
+    padding-left:1.5em;
+}
+
+.treeView li.lastChild{
+    background-image:url('../../images/list-items/list-item-last.png');
+}
+
+.treeView li.collapsibleListOpen{
+    background-image:url('../../images/list-items/list-item-open.png');
+}
+
+.treeView li.collapsibleListOpen.lastChild{
+    background-image:url('../../images/list-items/list-item-last-open.png');
+}
+
+
+/* INVENTORY DEFINITION MODAL CSS */
+
+#inventory-definition-modal{
+    width: 650px;
+    height: 75%;
+}
+
+.scroll-y{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

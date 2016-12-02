@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Fantasymaker : ">
+		<!-- Favicon by http://www.flaticon.com/authors/simpleicon -->
+		<link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+		
+		<link rel="manifest" href="/manifest.json">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+		<meta name="theme-color" content="#ffffff">
+   
+
+		<link rel="stylesheet" type="text/css" href="stylesheets/css/materialize.min.css"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/css/gameBrowser.css">
+		<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<title>FantasyMaker</title>
+  </head>
+  <body>
+<nav>
+  <div class="nav-wrapper">
+      <a href="index.html" class="left brand-logo">&nbsp; &nbsp; FantasyMaker</a>
+      <ul id="nav-mobile" class="right">
+          <li><a href="create.html">Create</a></li>
+      </ul>
+  </div>
+</nav>
+
+  <div class="heading row z-depth-2">
+      <div class="col m2 offset-m1 s12">
+        <img id="header-logo" src='images/icon_play2.PNG'/>
+      </div>
+      <div class="col m3 s12">
+          <h1>Game Browser</h1>
+      </div>
+  </div>
+<div id="main-content">
+  <div class="row row centered">
+      <div class = "row">
+        <div class="col m5 s12">
+            <h2>Recommended Games</h2>
+            <div class="horizontal-rule"></div>
+        </div>
+      </div>
+        <div class="row" id="recommended-games-list">
+
+        </div>
+  </div>
+  <div class="row row-centered">
+      <div class="row">
+        <div class="col m5 s12">
+            <h2>Published Games</h2>
+            <div class="horizontal-rule"></div>
+        </div>
+
+           <div class="ui-widget input-field col m4 offset-m3 s12" style="margin-top: 60px;"> <!-- User Name Search Input -->
+                <i class="material-icons prefix">search</i>
+               <input id="search-bar" type="text" class="autocomplete"/>
+               <label for="search-bar">Filter By Username</label>
+           </div>
+      </div>
+      <div class="row" id="all-games-list">
+
+      </div>
+  </div>
+
+    </div>
+
+    <div class="loading-content  row">
+        <div class="col m6 offset-m3"><h1> Loading Games</h1></div>
+        <br/>
+
+        <div class="col m5 offset-m3">
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer" class="page-footer z-depth-2">
+    <div class="container">
+        <span class="accent-color">
+            Built by Dev 17
+        </span>
+    </div>
+    </footer>
+  </body>
+  <script src="js/lib/jquery-2.2.2.min.js"></script>
+  <script defer src="js/lib/materialize.min.js"></script>
+  <script defer src="js/browser/browser.min.js"></script>
+
+</html>

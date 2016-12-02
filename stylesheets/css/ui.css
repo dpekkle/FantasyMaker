@@ -1,0 +1,415 @@
+
+/*.playpage{
+	margin: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+*/
+#contextMenu {
+  position: absolute;
+  display:none;
+}
+
+
+.material-tooltip .backdrop{
+	background-color: gray;
+	font-size: 8px;
+}
+
+nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i{
+	height:64px;
+	line-height: 63px;
+}
+
+#cy {
+	/* width and height defined by resizeCanvas in ui.js */
+	display: block;
+}
+
+#sidebar{
+	height: 90vh;
+	overflow-y: auto;
+}
+
+body {
+	font-family: helvetica;
+	font-size: 14px;
+}
+nav{
+	background-color: #1E2328;
+}
+
+
+.btn{
+	width: 100%;
+}
+
+.btn.activebutton{
+	background-color: green;
+}
+
+.editbutton{
+	display: none; /*this is being overridden by some materialise class, so have to explicitly call it in the style in create.html */
+}
+
+
+.gobackbutton{
+	width: 200px;
+	margin-top:10px;
+	background-color: red;
+}
+.gobackbutton:hover{
+	background-color: red;
+}
+.progressbutton{
+	width: 200px;
+	margin-top:10px;
+	float: right;
+}
+.textarea{
+	width: auto;
+	height: 23vw;
+	display: block;
+	border-style: dashed;
+	border-color: white;
+	border-width: thin;
+	background-color: transparent;
+}
+
+
+#controlcontainers{
+	width: 100%;
+	height: auto;
+	float: left;
+}
+
+#edit-control-toolbar{
+	border-style: solid;
+	border-width: 2px;
+	border-color: black;
+
+	width: 25%;
+	height:100%;
+	float: right;
+}
+
+#connectiontoolbar{
+
+}
+
+.modal-content{
+	height: 100%;
+}
+
+.max-height {
+	height: 100%;
+}
+
+#att-list-container{
+	width: 100%;
+	padding-right: 10px;
+}
+
+.floating-action-button{
+	padding-top: 30px;
+	float: right;
+	right: 20px;
+}
+
+#attributes-modal{
+	height: 75%;
+	width: 75%;
+}
+
+#attribute-detail-card{
+	height: 80%;
+	width: 100%;
+	float: right;
+	margin-bottom: 10%;
+	margin-top: 10%;
+}
+
+#attribute-detail{
+	display: none;
+}
+
+li.margin { margin-left: 10px; }
+
+#new-value-container, #new-class-container, #new-top-level-container{display:none;}
+
+#attribute-detail-header{
+	margin-bottom: 0px;
+	height: 45px;
+}
+
+.fab{
+	position: absolute !important;
+	bottom:10px;
+	right: 10px;
+}
+
+.value-class-row-style{
+	margin-top: 25px;
+}
+
+.chip{
+	margin: 5px;
+}
+
+.pos-relative{
+	position:relative;
+}
+
+.pos-absolute{
+	position: absolute;
+}
+
+.pos-relative .float-bottom{
+	bottom: 15px;
+	position: absolute;
+}
+
+.pos-relative .float-right{
+	right: 0;
+}
+
+
+.box-border{
+	border: black solid;
+}
+
+.pane{
+	max-height: 90%;
+}
+
+.bottom-border{
+	border-bottom: black solid;
+}
+
+.edit-value-button{
+	position: absolute;
+	bottom: 15px;
+}
+
+.attribute-button{
+
+  box-shadow: 3px 3px 15px #666;
+  border-color: #336B87;
+  background: #336B87;
+  color: #fff;
+
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+
+.comparison-button{
+  box-shadow: 3px 3px 15px #666;
+  border-color: #336B87;
+  background: #336B87;
+  color: #fff;
+
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.condition-settings-button{
+  transform: translateY(+50%);
+}
+
+#connection-modal{
+  /* arbitrary styling */
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+  height:100%;
+  width:90%;
+}
+
+#control-modal{
+  /* arbitrary styling */
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+  height:100%;
+  width:90%;
+}
+
+#project-modal{
+  /* arbitrary styling */
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+  height:100%;
+  width:90%;
+}
+
+#toast-container {
+  top: auto !important;
+  bottom: 10%;
+}
+.login-container{
+	position: relative;
+	max-height: 95vh;
+}
+
+.login-rounded-panel{
+	display: block;
+	position: absolute;
+	border-radius: 25px;
+	background-color: rgba(0,0,0,0.7); /*prevents opacity being applied to text children */
+  	padding: 20px;
+ 	width: 80%;
+	height: 75%;
+	top: 5%;
+	left: 10%;
+	display: flex;
+}
+
+.login-img{
+	width: 100%;
+	max-height: inherit;
+
+
+}
+.login-header{
+	display: block;
+	position: absolute;
+	top: 5%;
+	width: 90%;
+	height: 17%;
+	left: 5%;
+}
+
+.login-options{
+	display: block;
+	position: relative;
+	/*background-color: red;*/
+	top: 30%;
+	width: 100%;
+	height: 100%;
+	left: 0%;
+}
+
+.login-text-white{
+	color: #00febc;
+	-webkit-text-fill-color: white; /* Will override color (regardless of order) */
+	text-shadow:
+	    -1px -1px 0 #000,
+	     1px -1px 0 #000,
+	    -1px  1px 0 #000,
+	     1px  1px 0 #000;
+
+}
+.login-text-green{
+	color: #00febc;
+	-webkit-text-fill-color: #00febc; /* Will override color (regardless of order) */
+	text-shadow:
+	    -1px -1px 0 #000,
+	     1px -1px 0 #000,
+	    -1px  1px 0 #000,
+	     1px  1px 0 #000;
+}
+
+.login-signup{
+	display: block;
+	position: absolute;
+	/*background: blue;*/
+	top: 0%;
+	width: 40%;
+	height: 100%;
+	left: 0%;
+	background-color: #1c1c1c;
+	border: 2px solid #00FEBC;
+
+}
+.login-or{
+	display: block;
+	position: absolute;
+	/*background: green;*/
+	top: 0%;
+	width: 10%;
+	height: 100%;
+	left: 45%;
+}
+
+.login-login {
+
+	display: block;
+	position: absolute;
+	/*background: blue;*/
+	top: 0%;
+	width: 40%;
+	height: 100%;
+	left: 60%;
+	background-color: #1c1c1c;
+	border: 2px solid #00FEBC;
+
+}
+
+#Play{
+display:none;
+}
+
+.choose-button{
+  box-shadow: 3px 3px 15px #666;
+  border-color: #336B87;
+  background: #336B87;
+  color: #fff;
+
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+#player-sheet-modal{
+	width: 35%;
+}
+
+.tutorial-button-highlight{
+    border-color: red;
+    border-width: 3px;
+    border-style: solid;
+    margin-bottom: 3px;
+}
+
+#sidebar .btn{
+	margin-bottom: 11px;
+}
+
+#sidebar .collapsible-body{
+	padding-top: 15px;
+
+}
+
+.selected-node-button-container{
+	min-height: 94px;
+}
+
+.jumpBtn{
+	background-color: #fb8c00;
+
+}
+.controlBtn{
+
+	background-color: #1e88e5;
+}
+
+@media only screen and (max-width: 1050px) {
+	.selected-node-button-container{
+		min-height: 188px; !important;
+	}
+	.hide-on-tiny-only, .hide-on-tiny-and-down {
+		display: none !important;
+
+	}
+}
