@@ -531,13 +531,13 @@ function createFight(event)
 
 //***** BUG FIX LOOP *******
 
-function fixDisappearingBug()
-{
-	if (cy.$('.start').size() !== 0)
-		cy.$('.start').data('fakeattribute', 1);
-}
+// function fixDisappearingBug()
+// {
+// 	if (cy.$('.start').size() !== 0)
+// 		cy.$('.start').data('fakeattribute', 1);
+// }
 
-var fixbug = setInterval(function()
-{
-	fixDisappearingBug();
-}, 200);
+// var fixbug = setInterval(function()
+// {
+// 	fixDisappearingBug();
+// }, 200);
