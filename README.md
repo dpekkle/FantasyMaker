@@ -10,6 +10,6 @@ FantasyMaker is written in HTML, CSS, JavaScript, and node.js, and utilises a nu
 
 # Links
 
-Try it out at [FantasyMakerGame.com](www.fantasymakergame.com)
+Visit the live website at [fantasymakergame.com](http://www.fantasymakergame.com).
 
 Main branch for source code is [viewable here](https://github.com/dpekkle/FantasyMaker/tree/gh-pages).
